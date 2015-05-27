@@ -1,0 +1,128 @@
+
+<#+
+    private string GettorNameFor(string type)
+    {
+        string result = "";
+
+        if (type.Equals("string"))
+        {
+            result = "GetString";
+        } 
+        else if (type.Equals("bool"))
+        {
+            result = "GetBoolean";
+        }
+        else if (type.Equals("int32"))
+        {
+            result = "GetNumber";
+        }
+
+        return result;
+    }
+
+    private string CastPrefixFor(string type)
+    {
+        string result = "";
+
+        if (type.Equals("int32"))
+        {
+            result = "static_cast<int>(";
+        }
+
+        return result;
+    }
+
+    private string CastSuffixFor(string type)
+    {
+        string result = "";
+
+        if (type.Equals("int32"))
+        {
+            result = ")";
+        }
+
+        return result;
+    }
+
+    private string PropNameFor(XmlNode node)
+    {
+        string propName = node.Attributes["name"].Value;
+
+        return char.ToUpper(propName[0]) + propName.Substring(1);
+    }
+
+    private string RTTypeFor(XmlNode node)
+    {
+        string result = "";
+        string type = node.Attributes["type"].Value;
+
+        if (type.Equals("string"))
+        {
+            result = "String^";
+        } 
+        else if (type.Equals("bool"))
+        {
+            result = "bool";
+        }
+        else if (type.Equals("int32"))
+        {
+            result = "int";
+        }
+        else if (type.Equals("fbclass"))
+        {
+            result = node.Attributes["className"].Value + "^";
+        }
+
+        return result;
+    }
+
+    private string FullTypeFor(XmlNode node)
+    {
+        string result = "";
+        string type = node.Attributes["type"].Value;
+
+        if (type.Equals("string"))
+        {
+            result = "Platform::String^";
+        } 
+        else if (type.Equals("bool"))
+        {
+            result = "bool";
+        }
+        else if (type.Equals("int32"))
+        {
+            result = "int";
+        }
+        else if (type.Equals("fbclass"))
+        {
+            result = "Facebook::" + node.Attributes["className"].Value + "^";
+        }
+
+        return result;
+    }
+
+    private string CSTypeFor(XmlNode node)
+    {
+        string result = "";
+        string type = node.Attributes["type"].Value;
+
+        if (type.Equals("string"))
+        {
+            result = "string";
+        } 
+        else if (type.Equals("bool"))
+        {
+            result = "bool";
+        }
+        else if (type.Equals("int32"))
+        {
+            result = "int";
+        }
+        else if (type.Equals("fbclass"))
+        {
+            result = node.Attributes["className"].Value;
+        }
+
+        return result;
+    }
+#>

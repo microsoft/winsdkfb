@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <TextTransformPath>C:\Program Files (x86)\Common Files\Microsoft Shared\TextTemplating\12.0</TextTransformPath>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="TextTransformPath">
+      <Value>$(TextTransformPath)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

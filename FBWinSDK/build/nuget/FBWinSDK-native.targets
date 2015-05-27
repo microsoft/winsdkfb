@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'Windows'">Windows</fbwinsdk-DeviceType>
+    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'WindowsPhoneApp'">Phone</fbwinsdk-DeviceType>
+    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UAP'">UAP</fbwinsdk-DeviceType>
+  </PropertyGroup>
+
+  <Target Name="fbwinsdk-DeviceType-Check" BeforeTargets="ResolveAssemblyReferences">
+      <Error Condition="'$(fbwinsdk-DeviceType)' == ''" Text="Unable to determine if Windows or Windows Phone app" />
+  </Target>
+  
+  <ItemGroup>
+      <Reference Include="Facebook">
+        <HintPath>$(fbwinsdk-BinDir)$(fbwinsdk-DeviceType)\$(fbwinsdk-Platform)\Facebook.winmd</HintPath>
+      </Reference>      
+  </ItemGroup>
+    
+</Project>

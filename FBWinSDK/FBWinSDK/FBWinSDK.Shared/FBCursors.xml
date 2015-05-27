@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<class name="FBCursors">
+    <property name="after" type="string" />
+    <property name="before" type="string" />
+</class>
+

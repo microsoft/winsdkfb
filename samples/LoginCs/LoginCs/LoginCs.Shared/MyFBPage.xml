@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class name="MyFBPage" bindable="yes">
+    <property name="id" type="string" />
+    <property name="category" type="string" />
+    <property name="checkins" type="int32" />
+    <property name="description" type="string" />
+    <property name="likes" type="int32" />
+    <property name="link" type="string" />
+    <property name="name" type="string" />
+</class>

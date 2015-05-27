@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<class name="FBPaging" bindable="no">
+    <property name="cursors" type="fbclass" className="FBCursors"/>
+    <property name="next" type="string" />
+    <property name="previous" type="string" />
+</class>

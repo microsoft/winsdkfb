@@ -1,0 +1,65 @@
+﻿<Page
+    x:Class="LoginCs.UserInfo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:fbsdk="using:Facebook"
+    xmlns:local="using:LoginCs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="FB Login Tester" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="User Info" Margin="0,-6.5,-0.167,26.5" Style="{ThemeResource HeaderTextBlockStyle}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="19,0,0,0">
+            <fbsdk:ProfilePictureControl Grid.Column="0" CropMode="Square" x:Name="SquarePicture" Width="100" Height="100" />
+            <Button x:Name="BackButton" Content="Go Back" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="BackButton_Click"/>
+            <Button x:Name="UserLikesButton" Content="Show Likes..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="UserLikesButton_Click"/>
+        </StackPanel>
+        
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="2" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="ID:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserId" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="First Name:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserFirstName" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="Gender:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserGender" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="Last Name" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserLastName" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="Link:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserLink" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="Locale:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserLocale" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,-0.5,0"/>
+                    <TextBlock Text="Name:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserName" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="Timezone (from GMT):" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserTimezone" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="Updated Time:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserUpdatedTime" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock Text="Verified:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="UserVerified" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

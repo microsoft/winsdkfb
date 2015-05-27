@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class name="FBUser" bindable="no">
+    <property name="id" type="string" />
+    <property name="first_name" type="string" />
+    <property name="gender" type="string" />
+    <property name="last_name" type="string" />
+    <property name="link" type="string" />
+    <property name="locale" type="string" />
+    <property name="location" type="fbclass" className="FBPage"/>
+    <property name="name" type="string" />
+    <property name="timezone" type="int32" />
+    <property name="updated_time" type="string" />
+    <property name="verified" type="bool" />
+</class>

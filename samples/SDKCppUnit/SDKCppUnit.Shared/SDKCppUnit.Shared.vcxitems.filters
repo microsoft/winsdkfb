@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CLCompile Include="$(MSBuildThisFileDirectory)App.xaml.cpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)App.xaml.h" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AppToken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TestContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\APIResult.cpp">
+      <Filter>Generated Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TestRunner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\TestPhoto.cpp">
+      <Filter>Generated Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\TestUser.cpp">
+      <Filter>Generated Code\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AppToken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TestContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\APIResult.h">
+      <Filter>Generated Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TestRunner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SDKCppUnitStrings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\TestPhoto.h">
+      <Filter>Generated Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\TestUser.h">
+      <Filter>Generated Code\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object Templates">
+      <UniqueIdentifier>{5e625c40-a65d-4234-968c-38c02cbc26d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Templates\Base Files">
+      <UniqueIdentifier>{10fbfa0c-1d28-4f70-8ce8-c648f95cbc4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Templates\Class Definitions">
+      <UniqueIdentifier>{e9c4b33f-94c6-4987-8c5d-2de608bc872f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Templates\Header Files">
+      <UniqueIdentifier>{81f7f89f-e598-4843-9537-b945bc442a79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object Templates\Source Files">
+      <UniqueIdentifier>{9453135d-2b81-4a38-8162-bc1b80b32a55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Code">
+      <UniqueIdentifier>{341aba0a-0890-4eef-b89c-7119ad1842f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Code\Header Files">
+      <UniqueIdentifier>{f2f40f84-f7c3-4a83-927e-235d14304087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Code\Source Files">
+      <UniqueIdentifier>{240884c3-48e1-4464-bed8-c931ca673607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4ec60bca-5afe-4626-a36d-9b8dcdd77fba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{60a8848c-0da4-430c-a02d-0ffc5f81132c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)SDKCppUnitObjectHeader.ttinclude">
+      <Filter>Object Templates\Base Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)SDKCppUnitObjectImplementation.ttinclude">
+      <Filter>Object Templates\Base Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Utility.ttinclude">
+      <Filter>Object Templates\Base Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)TestUser.h.tt">
+      <Filter>Object Templates\Header Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)TestUser.cpp.tt">
+      <Filter>Object Templates\Source Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)APIResult.cpp.tt">
+      <Filter>Object Templates\Source Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)APIResult.h.tt">
+      <Filter>Object Templates\Header Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)TestPhoto.h.tt">
+      <Filter>Object Templates\Header Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)TestPhoto.cpp.tt">
+      <Filter>Object Templates\Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(MSBuildThisFileDirectory)TestUser.xml">
+      <Filter>Object Templates\Class Definitions</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)APIResult.xml">
+      <Filter>Object Templates\Class Definitions</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)TestPhoto.xml">
+      <Filter>Object Templates\Class Definitions</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

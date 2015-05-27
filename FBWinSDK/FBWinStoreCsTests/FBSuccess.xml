@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class name="FBSuccess" bindable="yes" namespace="FBWinStoreCsTests">
+    <property name="success" type="bool" />
+</class>

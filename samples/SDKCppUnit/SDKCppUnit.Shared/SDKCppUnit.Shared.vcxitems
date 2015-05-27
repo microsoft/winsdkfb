@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>c94e6f87-2232-45b5-9070-c57420d4aaca</SharedGUID>
+    <ItemsProjectGuid>{19e70697-aa80-43af-b1e4-c49c5b402d48}</ItemsProjectGuid>
+    <ItemsRootNamespace>SDKCppUnit</ItemsRootNamespace>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <ClCompile Include="$(MSBuildThisFileDirectory)App.xaml.cpp">
+      <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AppToken.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\APIResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\TestPhoto.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\TestUser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TestContext.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TestRunner.cpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)App.xaml.h">
+      <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
+    </ClInclude>
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AppToken.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\APIResult.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\TestPhoto.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\TestUser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SDKCppUnitStrings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TestContext.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TestRunner.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)APIResult.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)APIResult.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)TestPhoto.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)TestPhoto.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)TestUser.cpp.tt">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)TestUser.h.tt">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)SDKCppUnitObjectHeader.ttinclude" />
+    <None Include="$(MSBuildThisFileDirectory)SDKCppUnitObjectImplementation.ttinclude" />
+    <None Include="$(MSBuildThisFileDirectory)Utility.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(MSBuildThisFileDirectory)APIResult.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)TestPhoto.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)TestUser.xml" />
+  </ItemGroup>
+</Project>

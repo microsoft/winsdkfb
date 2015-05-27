@@ -1,0 +1,4 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<# string classDefFile = "..\\FBWinSDK.Shared\\FacebookPageCategory.xml"; #>
+<#@ include file="FBGraphObjectImplementation.ttinclude" #>
+
