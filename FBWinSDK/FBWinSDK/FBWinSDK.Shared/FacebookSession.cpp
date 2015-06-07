@@ -542,6 +542,68 @@ Windows::Foundation::IAsyncAction^ FBSession::ShowRequestsDialog(
     return task;
 }
 
+task<FBResult^> FBSession::ShowLoginDialog(
+    )
+{
+    FacebookDialog^ loginControl = ref new FacebookDialog();
+    Platform::String^ errorMessage = nullptr;
+    std::function<void()>&& action = nullptr;
+
+    auto callback = ref new Windows::UI::Core::DispatchedHandler(
+        [loginControl, &errorMessage, action, this]()
+    {
+        Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
+
+        Popup^ popup = ref new Popup();
+        popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
+        popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
+
+
+        try
+        {
+            Grid^ myGrid = ref new Grid();
+
+            // TODO: (sanjeevd) hard coded, remove and fix these
+            myGrid->Margin = Windows::UI::Xaml::Thickness(0, 0, 0, 0);
+            myGrid->Height = wnd1->Bounds.Height;
+            myGrid->Width = wnd1->Bounds.Width;
+
+            loginControl->Width = myGrid->Width;
+
+            myGrid->Children->Append(loginControl);
+            popup->Child = myGrid;
+            popup->IsOpen = true;
+
+            loginControl->ShowLoginDialog(popup);
+        }
+        catch (Exception^ ex)
+        {
+            // TODO: (sanjeevd) remove the line below. Currently leaving for sake of debugging
+            int x = 10;
+        }
+    });
+
+    Windows::UI::Core::CoreWindow^ wnd = 
+        Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow;
+
+    IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        callback);
+
+    // create a task that will wait for the login control to finish doing what it was doing
+    return create_task([this, &callback, loginControl]()
+    {
+        // wait for the browser to fire that the login is done
+        if (login_evt)
+        {
+            WaitForSingleObjectEx(login_evt, INFINITE, FALSE);
+        }
+
+        //TODO: finish implementation, i.e. extract token and return a real value.
+        return (FBResult^)nullptr;
+    });
+}
+
 task<FBResult^> FBSession::GetAppPermissions(
     )
 {
@@ -1111,32 +1173,42 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     )
 {
+    return create_async([=]() -> FBResult^
+    {
+        FBResult^ result = nullptr;
+
+        task<FBResult^> loginTask = TryLoginViaWebView();
+        result = loginTask.get();
+        if (!result)
+        {
+            loginTask = TryLoginViaWebAuthBroker();
+            result = loginTask.get();
+        }
+
+        return result;
+    });
+}
+
+task<FBResult^> FBSession::TryLoginViaWebView(
+    )
+{
     FBSession^ sess = FBSession::ActiveSession;
 
     IAsyncOperation<FBResult^>^ result = nullptr;
 
-    return create_async([=]() -> task<FBResult^>
-    {
-        return CheckForExistingToken()
+    return CheckForExistingToken()
         .then([this](FBResult^ oauthResult) -> task<FBResult^>
+    {
+        task<FBResult^> graphTask;
+        if (oauthResult && oauthResult->Succeeded)
         {
-            task<FBResult^> graphTask;
-            if (oauthResult && oauthResult->Succeeded)
+            Facebook::FBAccessTokenData^ tokenData = 
+                static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
+            if (!tokenData->IsExpired())
             {
-                Facebook::FBAccessTokenData^ tokenData = static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
-                if (!tokenData->IsExpired())
-                {
-                    m_AccessTokenData = tokenData;
-                    m_loggedIn = true;
-                    graphTask = GetUserInfo(m_AccessTokenData);
-                }
-                else
-                {
-                    graphTask = create_task([]() -> FBResult^
-                    {
-                        return nullptr;
-                    });
-                }
+                m_AccessTokenData = tokenData;
+                m_loggedIn = true;
+                graphTask = GetUserInfo(m_AccessTokenData);
             }
             else
             {
@@ -1145,21 +1217,80 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
                     return nullptr;
                 });
             }
-
-            return graphTask;
-        })
-        .then([this](FBResult^ graphResult)
+        }
+        else
         {
-            if (graphResult && graphResult->Succeeded)
+            graphTask = create_task([]() -> FBResult^
             {
-                m_user = static_cast<FBUser^>(graphResult->Object);
-                return GetAppPermissions();
+                return nullptr;
+            });
+        }
+
+        return graphTask;
+    })
+    .then([this](FBResult^ graphResult)
+    {
+        if (graphResult && graphResult->Succeeded)
+        {
+            m_user = static_cast<FBUser^>(graphResult->Object);
+            return GetAppPermissions();
+        }
+        else
+        {
+            return ShowLoginDialog();
+        }
+    });
+}
+
+task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+
+    IAsyncOperation<FBResult^>^ result = nullptr;
+
+    return CheckForExistingToken()
+    .then([this](FBResult^ oauthResult) -> task<FBResult^>
+    {
+        task<FBResult^> graphTask;
+        if (oauthResult && oauthResult->Succeeded)
+        {
+            Facebook::FBAccessTokenData^ tokenData = static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
+            if (!tokenData->IsExpired())
+            {
+                m_AccessTokenData = tokenData;
+                m_loggedIn = true;
+                graphTask = GetUserInfo(m_AccessTokenData);
             }
             else
             {
-                return RunOAuthOnUiThread();
+                graphTask = create_task([]() -> FBResult^
+                {
+                    return nullptr;
+                });
             }
-        });
+        }
+        else
+        {
+            graphTask = create_task([]() -> FBResult^
+            {
+                return nullptr;
+            });
+        }
+
+        return graphTask;
+    })
+    .then([this](FBResult^ graphResult)
+    {
+        if (graphResult && graphResult->Succeeded)
+        {
+            m_user = static_cast<FBUser^>(graphResult->Object);
+            return GetAppPermissions();
+        }
+        else
+        {
+            return RunOAuthOnUiThread();
+        }
     });
 }
 

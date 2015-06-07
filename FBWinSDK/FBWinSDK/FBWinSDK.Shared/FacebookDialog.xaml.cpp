@@ -65,14 +65,27 @@ namespace Facebook
 
     extern HANDLE login_evt;
 
+    void FacebookDialog::ShowLoginDialog(
+        Popup^ Popup
+        )
+    {
+        Uri^ loginDialogUrl = BuildLoginDialogUrl();
+        navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
+            ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+                this, &FacebookDialog::dialogWebView_NavStarting);
+
+        dialogWebBrowser->Navigate(loginDialogUrl);
+        _popup = Popup;
+    }
+
     void FacebookDialog::ShowFeedDialog(
         Popup^ Popup 
         )
     {
         Uri^ feedDialogUrl = BuildFeedDialogUrl();
-        navigatedEventHandlerRegistrationToken = dialogWebBrowser->NavigationCompleted += 
-            ref new TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>(
-                this, &FacebookDialog::dialogWebView_NavCompleted);
+        navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting += 
+            ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+                this, &FacebookDialog::dialogWebView_NavStarting);
         
         dialogWebBrowser->Navigate(feedDialogUrl);
         _popup = Popup;
@@ -83,9 +96,9 @@ namespace Facebook
         )
     {
         Uri^ requestDialogUrl = BuildRequestsDialogUrl();
-        navigatedEventHandlerRegistrationToken = dialogWebBrowser->NavigationCompleted += 
-            ref new TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>(
-                this, &FacebookDialog::dialogWebView_NavCompleted);
+        navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
+            ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+                this, &FacebookDialog::dialogWebView_NavStarting);
 
         dialogWebBrowser->Navigate(requestDialogUrl);
         _popup = Popup;
@@ -102,6 +115,20 @@ namespace Facebook
             sess->FBAppId + L"&display=touch";
 
         return result;
+    }
+
+    Uri^ FacebookDialog::BuildLoginDialogUrl(
+        )
+    {
+        FBSession^ sess = FBSession::ActiveSession;
+        String^ dialogUriString =
+            L"https://m.facebook.com/dialog/oauth?client_id=" +
+            sess->FBAppId + L"&redirect_uri=" + 
+            GetRedirectUriString(L"login") + L"&scope="
+            + sess->PermissionsToString() + L"&display=popup" +
+            L"&response_type=token";
+
+        return ref new Uri(dialogUriString);
     }
 
     Uri^ FacebookDialog::BuildFeedDialogUrl(
@@ -131,9 +158,9 @@ namespace Facebook
         return ref new Uri(dialogUriString);
     }
 
-    void FacebookDialog::dialogWebView_NavCompleted(
+    void FacebookDialog::dialogWebView_NavStarting(
         WebView^ sender, 
-        WebViewNavigationCompletedEventArgs^ e
+        WebViewNavigationStartingEventArgs^ e
         )
     {
         if (e->Uri->Query->Length() == 0)
@@ -153,7 +180,7 @@ namespace Facebook
 			}
 
             // deregister the event handler
-            dialogWebBrowser->NavigationCompleted -= navigatedEventHandlerRegistrationToken;
+            dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
         }
     }
 

@@ -34,6 +34,10 @@ namespace Facebook
         FacebookDialog(
             );
 
+        void FacebookDialog::ShowLoginDialog(
+            Windows::UI::Xaml::Controls::Primitives::Popup^ popup
+            );
+
         void FacebookDialog::ShowFeedDialog(
             Windows::UI::Xaml::Controls::Primitives::Popup^ popup
             );
@@ -53,6 +57,9 @@ namespace Facebook
             Platform::String^ DialogName
             );
 
+        Windows::Foundation::Uri^ BuildLoginDialogUrl(
+            );
+
         Windows::Foundation::Uri^ BuildFeedDialogUrl(
             );
 
@@ -60,11 +67,11 @@ namespace Facebook
             );
 
         Windows::Foundation::EventRegistrationToken 
-            navigatedEventHandlerRegistrationToken;
+            navigatingEventHandlerRegistrationToken;
         
-        void FacebookDialog::dialogWebView_NavCompleted(
+        void FacebookDialog::dialogWebView_NavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
-            Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
+            Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
 
         void CloseDialogButton_OnClick(
