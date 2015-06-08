@@ -74,6 +74,9 @@ namespace Facebook
             ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
                 this, &FacebookDialog::dialogWebView_NavStarting);
 
+        String^ msg = loginDialogUrl + L"\n";
+        OutputDebugString(msg->Data());
+
         dialogWebBrowser->Navigate(loginDialogUrl);
         _popup = Popup;
     }
@@ -110,8 +113,12 @@ namespace Facebook
     {
         FBSession^ sess = FBSession::ActiveSession;
 
-        String^ result = L"fb" + sess->FBAppId + "%3A%2F%2F" +
-            FacebookDialogName + "_success&app_id=" +
+        //String^ result = L"fb" + sess->FBAppId + "%3A%2F%2F" +
+        //    FacebookDialogName + "_success&app_id=" +
+        //    sess->FBAppId + L"&display=touch";
+
+        String^ result = L"https%3A%2F%2Fwww.facebook.com%2Fconnect%2F" +
+            FacebookDialogName + "_success.html&app_id=" +
             sess->FBAppId + L"&display=touch";
 
         return result;

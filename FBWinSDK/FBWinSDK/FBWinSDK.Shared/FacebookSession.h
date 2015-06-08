@@ -134,6 +134,9 @@ namespace Facebook
             Windows::Foundation::IAsyncAction^ ShowRequestsDialog(
                 );
 
+            Platform::String^ PermissionsToString(
+                );
+
 #if WINAPI_FAMILY==WINAPI_FAMILY_APP
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
                 );
@@ -203,9 +206,6 @@ namespace Facebook
                 Windows::Foundation::Uri^ ResponseUri
                 );
 
-            Platform::String^ PermissionsToString(
-                );
-
             Windows::Foundation::IAsyncOperation<Windows::Storage::IStorageItem^>^ 
             MyTryGetItemAsync(
                 Windows::Storage::StorageFolder^ folder,
@@ -238,6 +238,15 @@ namespace Facebook
 				);
 
             concurrency::task<FBResult^> RunOAuthOnUiThread(
+                );
+
+            concurrency::task<FBResult^> ShowLoginDialog(
+                );
+
+            concurrency::task<FBResult^> TryLoginViaWebView(
+                );
+
+            concurrency::task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
                 );
 
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP

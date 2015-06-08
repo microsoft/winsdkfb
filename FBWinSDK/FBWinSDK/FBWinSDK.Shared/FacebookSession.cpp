@@ -545,15 +545,15 @@ Windows::Foundation::IAsyncAction^ FBSession::ShowRequestsDialog(
 task<FBResult^> FBSession::ShowLoginDialog(
     )
 {
-    FacebookDialog^ loginControl = ref new FacebookDialog();
     Platform::String^ errorMessage = nullptr;
     std::function<void()>&& action = nullptr;
 
     auto callback = ref new Windows::UI::Core::DispatchedHandler(
-        [loginControl, &errorMessage, action, this]()
+        [&errorMessage, action, this]()
     {
         Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-
+        
+        FacebookDialog^ loginControl = ref new FacebookDialog();
         Popup^ popup = ref new Popup();
         popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
         popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
@@ -591,7 +591,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
         callback);
 
     // create a task that will wait for the login control to finish doing what it was doing
-    return create_task([this, &callback, loginControl]()
+    return create_task([this, &callback]()
     {
         // wait for the browser to fire that the login is done
         if (login_evt)
