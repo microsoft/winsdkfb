@@ -124,6 +124,11 @@ FBAccessTokenData^ FBSession::AccessTokenData::get()
     return m_AccessTokenData;
 }
 
+void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
+{
+    m_AccessTokenData = value;
+}
+
 IVectorView<String^>^ FBSession::Permissions::get()
 {
     return m_permissions->GetView();
@@ -591,16 +596,14 @@ task<FBResult^> FBSession::ShowLoginDialog(
         callback);
 
     // create a task that will wait for the login control to finish doing what it was doing
-    return create_task([this, &callback]()
+    return create_task([this]()
     {
-        // wait for the browser to fire that the login is done
-        if (login_evt)
+        while (!AccessTokenData)
         {
-            WaitForSingleObjectEx(login_evt, INFINITE, FALSE);
+            Sleep(0);
         }
 
-        //TODO: finish implementation, i.e. extract token and return a real value.
-        return (FBResult^)nullptr;
+        return ref new FBResult(AccessTokenData);
     });
 }
 
@@ -1230,15 +1233,31 @@ task<FBResult^> FBSession::TryLoginViaWebView(
     })
     .then([this](FBResult^ graphResult)
     {
+        FBResult^ loginResult = nullptr;
+
         if (graphResult && graphResult->Succeeded)
         {
-            m_user = static_cast<FBUser^>(graphResult->Object);
-            return GetAppPermissions();
+            loginResult = graphResult;
         }
         else
         {
-            return ShowLoginDialog();
+            loginResult = ShowLoginDialog().get();
         }
+
+        if (loginResult && loginResult->Succeeded)
+        {
+            m_loggedIn = true;
+        }
+
+        return loginResult;
+    })
+    .then([this](FBResult^ graphResult) -> task<FBResult^>
+    {
+        return TryGetUserInfoAfterLogin(graphResult);
+    })
+    .then([this](FBResult^ userInfoResult) -> task<FBResult^>
+    {
+        return TryGetAppPermissionsAfterLogin(userInfoResult);
     });
 }
 

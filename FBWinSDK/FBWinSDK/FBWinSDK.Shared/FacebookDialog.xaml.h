@@ -79,6 +79,10 @@ namespace Facebook
             Windows::UI::Xaml::RoutedEventArgs^ e
             );
 
+        bool IsLoginSuccessRedirect(
+            Windows::Foundation::Uri^ Response
+            );
+
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
         Windows::Foundation::Uri^ _oauthResponse;
     };

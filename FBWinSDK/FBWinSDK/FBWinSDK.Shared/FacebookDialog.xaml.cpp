@@ -165,12 +165,25 @@ namespace Facebook
         return ref new Uri(dialogUriString);
     }
 
+    bool FacebookDialog::IsLoginSuccessRedirect(
+        Uri^ Response
+        )
+    {
+        return (String::CompareOrdinal(Response->Path, L"/connect/login_success.html") == 0);
+    }
+
     void FacebookDialog::dialogWebView_NavStarting(
         WebView^ sender, 
         WebViewNavigationStartingEventArgs^ e
         )
     {
-        if (e->Uri->Query->Length() == 0)
+        String^ msg = e->Uri->Path + L"\n";
+        OutputDebugString(msg->Data());
+
+        msg = e->Uri->DisplayUri + L"\n";
+        OutputDebugString(msg->Data());
+
+        if (IsLoginSuccessRedirect(e->Uri))
         {
             //TODO: Figure out why we're never actually navigating to the 
             //redirect Uri.  What I get now instead is, first an event for
@@ -179,6 +192,9 @@ namespace Facebook
             dialogWebBrowser->Stop();
             
             _popup->IsOpen = false;
+
+            FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
+            FBSession::ActiveSession->AccessTokenData = tokenData;
 
             // signal that we are done! The dialog is over
 			if (login_evt)

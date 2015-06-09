@@ -77,6 +77,7 @@ namespace Facebook
             property Facebook::FBAccessTokenData^ AccessTokenData
             {
                 Facebook::FBAccessTokenData^ get();
+                void set(FBAccessTokenData^ value);
             }
 
             //! Returns the list of permissions
