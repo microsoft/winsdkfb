@@ -26,6 +26,7 @@ if not exist Generated\FBPageCategory.cpp TextTransform.exe -out Generated\FBPag
 if not exist Generated\FBPaging.cpp TextTransform.exe -out Generated\FBPaging.cpp FBPaging.cpp.tt
 if not exist Generated\FBPermission.cpp TextTransform.exe -out Generated\FBPermission.cpp FBPermission.cpp.tt
 if not exist Generated\FBUser.cpp TextTransform.exe -out Generated\FBUser.cpp FBUser.cpp.tt
+if not exist Generated\FBObject.cpp TextTransform.exe -out Generated\FBObject.cpp FBObject.cpp.tt
 
 if not exist Generated\FBCursors.h TextTransform.exe -out Generated\FBCursors.h FBCursors.h.tt
 if not exist Generated\FBGroup.h TextTransform.exe -out Generated\FBGroup.h FBGroup.h.tt
@@ -34,6 +35,7 @@ if not exist Generated\FBPageCategory.h TextTransform.exe -out Generated\FBPageC
 if not exist Generated\FBPaging.h TextTransform.exe -out Generated\FBPaging.h FBPaging.h.tt
 if not exist Generated\FBPermission.h TextTransform.exe -out Generated\FBPermission.h FBPermission.h.tt
 if not exist Generated\FBUser.h TextTransform.exe -out Generated\FBUser.h FBUser.h.tt
+if not exist Generated\FBObject.h TextTransform.exe -out Generated\FBObject.h FBObject.h.tt
 
 goto End
 
