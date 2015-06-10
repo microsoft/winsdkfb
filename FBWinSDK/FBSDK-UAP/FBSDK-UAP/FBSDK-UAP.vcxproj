@@ -325,6 +325,7 @@ popd
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FBSingleValue.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBCursors.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBGroup.h" />
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBObject.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPage.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPageCategory.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPaging.h" />
@@ -464,6 +465,7 @@ popd
     </Xml>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBObject.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
     </Xml>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPaging.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

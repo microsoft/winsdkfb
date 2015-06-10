@@ -22,6 +22,7 @@
 #include "pch.h"
 #include "FacebookDialog.xaml.h"
 #include "FacebookSession.h"
+#include "FacebookFeedRequest.h"
 
 using namespace Platform;
 using namespace Windows::ApplicationModel::Core;
@@ -37,6 +38,7 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
 using namespace Facebook;
+using namespace Facebook::Graph;
 
 #if (defined(_MSC_VER) && (_MSC_VER >= 1800)) 
 using namespace concurrency;
@@ -281,14 +283,24 @@ namespace Facebook
 
             _popup->IsOpen = false;
 
-            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                L"\"Operation Canceled\", \"type\": "
-                L"\"OAuthException\", \"code\": 4201, "
-                L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                L"}}";
+            DebugSpew(L"Feed response is " + e->Uri->DisplayUri);
 
-            FBError^ err = FBError::FromJson(ErrorObjectJson);
-            _dialogResponse = ref new FBResult(err);
+            FBFeedRequest^ request = FBFeedRequest::FromFeedDialogResponse(e->Uri);
+            if (request)
+            {
+                _dialogResponse = ref new FBResult(request);
+            }
+            else
+            {
+                String^ ErrorObjectJson = L"{\"error\": {\"message\": "
+                    L"\"Operation Canceled\", \"type\": "
+                    L"\"OAuthException\", \"code\": 4201, "
+                    L"\"error_user_msg\": \"User canceled the Dialog flow\""
+                    L"}}";
+
+                FBError^ err = FBError::FromJson(ErrorObjectJson);
+                _dialogResponse = ref new FBResult(err);
+            }
 
             // deregister the event handler
             dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
@@ -308,6 +320,8 @@ namespace Facebook
             dialogWebBrowser->Stop();
 
             _popup->IsOpen = false;
+
+            DebugSpew(L"Request response is " + e->Uri->DisplayUri);
 
             String^ ErrorObjectJson = L"{\"error\": {\"message\": "
                 L"\"Operation Canceled\", \"type\": "

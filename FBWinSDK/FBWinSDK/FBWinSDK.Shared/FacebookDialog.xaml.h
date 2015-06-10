@@ -23,6 +23,7 @@
 
 #include "FacebookDialog.g.h"
 #include "FacebookResult.h"
+#include "FBObject.h"
 
 namespace Facebook
 {
@@ -49,7 +50,7 @@ namespace Facebook
             );
 
     private:
-
+        
         Platform::String^ GetRedirectUriString(
             Platform::String^ DialogName
             );
