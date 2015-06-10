@@ -440,7 +440,7 @@ Windows::Foundation::IAsyncAction^ FBSession::ShowFeedDialog(
     Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
-    auto callback = ref new Windows::UI::Core::DispatchedHandler(
+    auto callback = ref new DispatchedHandler(
         [requestsControl, &errorMessage, action, this]()
     {
         Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
@@ -561,10 +561,10 @@ task<FBResult^> FBSession::ShowLoginDialog(
     Platform::String^ errorMessage = nullptr;
     std::function<void()>&& action = nullptr;
 
-    auto callback = ref new Windows::UI::Core::DispatchedHandler(
+    auto callback = ref new DispatchedHandler(
         [&errorMessage, action, this]()
     {
-        Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
+        CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
         
         FacebookDialog^ loginControl = ref new FacebookDialog();
         Popup^ popup = ref new Popup();
@@ -593,8 +593,6 @@ task<FBResult^> FBSession::ShowLoginDialog(
         }
         catch (Exception^ ex)
         {
-            // TODO: (sanjeevd) remove the line below. Currently leaving for sake of debugging
-            int x = 10;
         }
     });
 
@@ -608,6 +606,10 @@ task<FBResult^> FBSession::ShowLoginDialog(
     // create a task that will wait for the login control to finish doing what it was doing
     return create_task([this]()
     {
+        // TODO: Is there a better way to do this?  I was using an event, but
+        // the concurrency event object was deprecated in the Win10 SDK tools.
+        // Switched to plane old Windows event, but that didn't work at all,
+        // so polling for now.
         while (!AccessTokenData)
         {
             Sleep(0);
@@ -1210,39 +1212,26 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 {
     FBSession^ sess = FBSession::ActiveSession;
 
-    IAsyncOperation<FBResult^>^ result = nullptr;
-
     return CheckForExistingToken()
         .then([this](FBResult^ oauthResult) -> task<FBResult^>
     {
-        DebugSpew(L"Found existing token");
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
 
-        task<FBResult^> graphTask;
         if (oauthResult && oauthResult->Succeeded)
         {
             Facebook::FBAccessTokenData^ tokenData = 
                 static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
-                DebugSpew(L"Got token data from existing token");
-                m_AccessTokenData = tokenData;
-            }
-            else
-            {
-                DebugSpew(L"Expired token, returning NULL result");
-                graphTask = create_task([]() -> FBResult^
+                AccessTokenData = tokenData;
+                graphTask = create_task([=]() -> FBResult^
                 {
-                    return nullptr;
+                    return ref new FBResult(AccessTokenData);
                 });
             }
-        }
-        else
-        {
-            DebugSpew(L"No existing token found, returning NULL result");
-            graphTask = create_task([]() -> FBResult^
-            {
-                return nullptr;
-            });
         }
 
         return graphTask;
@@ -1253,7 +1242,6 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 
         if (graphResult && graphResult->Succeeded)
         {
-            DebugSpew("Returning existing token result from login");
             loginResult = graphResult;
         }
         else
@@ -1275,28 +1263,23 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
     return CheckForExistingToken()
     .then([this](FBResult^ oauthResult) -> task<FBResult^>
     {
-        task<FBResult^> graphTask;
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
         if (oauthResult && oauthResult->Succeeded)
         {
-            Facebook::FBAccessTokenData^ tokenData = static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
+            Facebook::FBAccessTokenData^ tokenData = 
+                static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
-                m_AccessTokenData = tokenData;
-            }
-            else
-            {
-                graphTask = create_task([]() -> FBResult^
+                AccessTokenData = tokenData;
+                graphTask = create_task([=]() -> FBResult^
                 {
-                    return nullptr;
+                    return ref new FBResult(AccessTokenData);
                 });
             }
-        }
-        else
-        {
-            graphTask = create_task([]() -> FBResult^
-            {
-                return nullptr;
-            });
         }
 
         return graphTask;

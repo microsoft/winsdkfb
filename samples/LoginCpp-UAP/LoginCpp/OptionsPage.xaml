@@ -27,12 +27,8 @@
         </StackPanel>
 
         <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Button x:Name="UserInfoButton" Content="User Info..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="362" Margin="0,-10,0,0"  Click="userInfo_OnClicked"/>
-
-        </Grid>
-        <Grid Grid.Row="1" x:Name="SonOfContentRoot" Margin="19,9.5,19,0">
-            <Button x:Name="DialogsButton" Content="Dialogs" HorizontalAlignment="Left" VerticalAlignment="Top" Width="362" Margin="0,-10,0,0" Click="dialogs_OnClicked"/>
-
+            <Button Content="User Info" HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="362" Margin="0,-10,0,0" Click="userInfo_OnClicked"/>
+            <Button Content="Dialogs" HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="362" Margin="0,74,0,0" Click="dialogs_OnClicked"/>
         </Grid>
     </Grid>
 </Page>

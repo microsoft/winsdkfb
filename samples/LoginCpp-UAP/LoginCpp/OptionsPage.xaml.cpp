@@ -5,6 +5,8 @@
 
 #include "pch.h"
 #include "OptionsPage.xaml.h"
+#include "UserInfo.xaml.h"
+#include "Dialogs.xaml.h"
 
 using namespace LoginCpp;
 
@@ -30,6 +32,9 @@ void OptionsPage::userInfo_OnClicked(
     Platform::Object^ sender, 
     Windows::UI::Xaml::RoutedEventArgs^ e)
 {
+    LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+    Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+    f->Navigate(UserInfo::typeid);
 }
 
 void OptionsPage::dialogs_OnClicked(
@@ -37,4 +42,7 @@ void OptionsPage::dialogs_OnClicked(
     Windows::UI::Xaml::RoutedEventArgs^ e
     )
 {
+    LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+    Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+    f->Navigate(Dialogs::typeid);
 }
