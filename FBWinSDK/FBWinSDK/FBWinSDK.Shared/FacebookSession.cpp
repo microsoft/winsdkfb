@@ -54,6 +54,14 @@ using namespace Windows::UI::Xaml::Controls::Primitives;
 
 #define INT64_STRING_BUFSIZE 65
 
+void DebugSpew(
+    String^ msg
+    )
+{
+    String^ output = msg + L"\n";
+    OutputDebugString(output->Data());
+}
+
 namespace Facebook
 {
     HANDLE login_evt = NULL;
@@ -578,6 +586,8 @@ task<FBResult^> FBSession::ShowLoginDialog(
             myGrid->Children->Append(loginControl);
             popup->Child = myGrid;
             popup->IsOpen = true;
+
+            DebugSpew(L"Showing login dialog");
 
             loginControl->ShowLoginDialog(popup);
         }
@@ -1134,15 +1144,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 		.then([this](WebAuthenticationResult^ authResult) -> task<FBResult^>
 		{
 			return ProcessAuthResult(authResult);
-		})
-		.then([this](FBResult^ graphResult) -> task<FBResult^>
-		{
-			return TryGetUserInfoAfterLogin(graphResult);
-		})
-		.then([this](FBResult^ loginResult) -> task<FBResult^>
-		{
-			return TryGetAppPermissionsAfterLogin(loginResult);
-		});
+        });
 	})));
 
 	return create_task([=](void)
@@ -1176,19 +1178,30 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     )
 {
-    return create_async([=]() -> FBResult^
+    return create_async([=]()
     {
-        FBResult^ result = nullptr;
-
-        task<FBResult^> loginTask = TryLoginViaWebView();
-        result = loginTask.get();
-        if (!result)
+        return create_task([=]() -> FBResult^
         {
-            loginTask = TryLoginViaWebAuthBroker();
-            result = loginTask.get();
-        }
+            FBResult^ result = nullptr;
 
-        return result;
+            task<FBResult^> authTask = TryLoginViaWebView();
+            result = authTask.get();
+            if (!result)
+            {
+                authTask = TryLoginViaWebAuthBroker();
+                result = authTask.get();
+            }
+
+            return result;
+        })
+        .then([this](FBResult^ graphResult) -> task<FBResult^>
+        {
+            return TryGetUserInfoAfterLogin(graphResult);
+        })
+        .then([this](FBResult^ userInfoResult) -> task<FBResult^>
+        {
+            return TryGetAppPermissionsAfterLogin(userInfoResult);
+        });
     });
 }
 
@@ -1202,6 +1215,8 @@ task<FBResult^> FBSession::TryLoginViaWebView(
     return CheckForExistingToken()
         .then([this](FBResult^ oauthResult) -> task<FBResult^>
     {
+        DebugSpew(L"Found existing token");
+
         task<FBResult^> graphTask;
         if (oauthResult && oauthResult->Succeeded)
         {
@@ -1209,12 +1224,12 @@ task<FBResult^> FBSession::TryLoginViaWebView(
                 static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
+                DebugSpew(L"Got token data from existing token");
                 m_AccessTokenData = tokenData;
-                m_loggedIn = true;
-                graphTask = GetUserInfo(m_AccessTokenData);
             }
             else
             {
+                DebugSpew(L"Expired token, returning NULL result");
                 graphTask = create_task([]() -> FBResult^
                 {
                     return nullptr;
@@ -1223,6 +1238,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
         }
         else
         {
+            DebugSpew(L"No existing token found, returning NULL result");
             graphTask = create_task([]() -> FBResult^
             {
                 return nullptr;
@@ -1237,6 +1253,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 
         if (graphResult && graphResult->Succeeded)
         {
+            DebugSpew("Returning existing token result from login");
             loginResult = graphResult;
         }
         else
@@ -1244,20 +1261,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
             loginResult = ShowLoginDialog().get();
         }
 
-        if (loginResult && loginResult->Succeeded)
-        {
-            m_loggedIn = true;
-        }
-
         return loginResult;
-    })
-    .then([this](FBResult^ graphResult) -> task<FBResult^>
-    {
-        return TryGetUserInfoAfterLogin(graphResult);
-    })
-    .then([this](FBResult^ userInfoResult) -> task<FBResult^>
-    {
-        return TryGetAppPermissionsAfterLogin(userInfoResult);
     });
 }
 
@@ -1278,8 +1282,6 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
             if (!tokenData->IsExpired())
             {
                 m_AccessTokenData = tokenData;
-                m_loggedIn = true;
-                graphTask = GetUserInfo(m_AccessTokenData);
             }
             else
             {
@@ -1301,15 +1303,21 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
     })
     .then([this](FBResult^ graphResult)
     {
+        task<FBResult^> loginResult;
+
         if (graphResult && graphResult->Succeeded)
         {
-            m_user = static_cast<FBUser^>(graphResult->Object);
-            return GetAppPermissions();
+            loginResult = create_task([=]()
+            {
+                return graphResult;
+            });
         }
         else
         {
-            return RunOAuthOnUiThread();
+            loginResult = RunOAuthOnUiThread();
         }
+
+        return loginResult;
     });
 }
 

@@ -22,6 +22,7 @@
 #include "pch.h"
 #include "MainPage.xaml.h"
 #include "UserInfo.xaml.h"
+#include "OptionsPage.xaml.h"
 
 using namespace concurrency;
 using namespace Facebook;
@@ -111,7 +112,7 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
 						{
 							LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
 							Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
-							f->Navigate(UserInfo::typeid);
+							f->Navigate(OptionsPage::typeid);
 						}));
 					}
 				}
