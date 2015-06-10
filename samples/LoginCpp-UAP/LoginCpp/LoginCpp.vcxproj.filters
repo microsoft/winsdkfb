@@ -34,6 +34,7 @@
     <ClCompile Include="FBPageBindable.cpp" />
     <ClCompile Include="UserInfo.xaml.cpp" />
     <ClCompile Include="UserLikes.xaml.cpp" />
+    <ClCompile Include="OptionsPage.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="FBPageBindable.h" />
     <ClInclude Include="UserInfo.xaml.h" />
     <ClInclude Include="UserLikes.xaml.h" />
+    <ClInclude Include="OptionsPage.xaml.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\WideLogo.scale-100.png">
@@ -62,6 +64,8 @@
     <Page Include="MainPage.xaml" />
     <Page Include="UserInfo.xaml" />
     <Page Include="UserLikes.xaml" />
+    <Page Include="OptionsPage.xaml" />
+    <Page Include="Dialogs.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Resources.resw" />
