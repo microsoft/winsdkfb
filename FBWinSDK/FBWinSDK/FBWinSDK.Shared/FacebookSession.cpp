@@ -54,14 +54,6 @@ using namespace Windows::UI::Xaml::Controls::Primitives;
 
 #define INT64_STRING_BUFSIZE 65
 
-void DebugSpew(
-    String^ msg
-    )
-{
-    String^ output = msg + L"\n";
-    OutputDebugString(output->Data());
-}
-
 namespace Facebook
 {
     HANDLE login_evt = NULL;
@@ -81,6 +73,8 @@ FBSession::FBSession() :
 	{
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
 	}
+
+    m_dialog = ref new FacebookDialog();
 }
 
 Facebook::FBSession::~FBSession()
@@ -433,124 +427,94 @@ void FBSession::TryDeleteTokenData(
     });
 }
 
-Windows::Foundation::IAsyncAction^ FBSession::ShowFeedDialog(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
     )
 {
-    FacebookDialog^ requestsControl = ref new FacebookDialog();
     Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
     auto callback = ref new DispatchedHandler(
-        [requestsControl, &errorMessage, action, this]()
+        [&errorMessage, action, this]()
     {
-        Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        
-        Popup^ popup = ref new Popup();
-        popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
-        popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
-
-
         try
         {
-            Grid^ myGrid = ref new Grid();
-
-            // TODO: (sanjeevd) hard coded, remove and fix these
-            myGrid->Margin =  Windows::UI::Xaml::Thickness(0,0,0,0);
-            myGrid->Height = wnd1->Bounds.Height;
-            myGrid->Width = wnd1->Bounds.Width;
-           
-            requestsControl->Width = myGrid->Width;
-
-            myGrid->Children->Append(requestsControl);
-            popup->Child = myGrid;
-            popup->IsOpen = true;
-
-            requestsControl->ShowFeedDialog(popup);
+            m_dialog->ShowFeedDialog();
         }
         catch(Exception^ ex)
         {
-            // TODO: (sanjeevd) remove the line below. Currently leaving for sake of debugging
-            int x = 10;
         }
     });
 
-    Windows::UI::Core::CoreWindow^ wnd = Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow;
+    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
 
     IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
         Windows::UI::Core::CoreDispatcherPriority::Normal,
         callback);
 
     // create a task that will wait for the login control to finish doing what it was doing
-    IAsyncAction^ task = concurrency::create_async(
-        [this, &callback, requestsControl]() 
+    IAsyncOperation<FBResult^>^ task = concurrency::create_async(
+        [this, &callback]()
     {
-        // wait for the browser to fire that the login is done
-		if (login_evt)
-		{
-			WaitForSingleObjectEx(login_evt, INFINITE, FALSE);
-		}
-	});
+        FBResult^ dialogResponse = nullptr;
+
+        // TODO: Is there a better way to do this?  I was using an event, but
+        // the concurrency event object was deprecated in the Win10 SDK tools.
+        // Switched to plane old Windows event, but that didn't work at all,
+        // so polling for now.
+        do
+        {
+            dialogResponse = m_dialog->DialogResponse;
+            Sleep(0);
+        } while (!dialogResponse);
+
+        return dialogResponse;
+    });
 
     return task;
 }
 
-Windows::Foundation::IAsyncAction^ FBSession::ShowRequestsDialog(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
     )
 {
-    FacebookDialog^ requestsControl = ref new FacebookDialog();
     Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
     auto callback = ref new Windows::UI::Core::DispatchedHandler(
-        [requestsControl, &errorMessage, action, this]()
+        [&errorMessage, action, this]()
     {
-        Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        
-        Popup^ popup = ref new Popup();
-        popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
-        popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
-
-
         try
         {
-            Grid^ myGrid = ref new Grid();
-
-            // TODO: (sanjeevd) hard coded, remove and fix these
-            myGrid->Margin =  Windows::UI::Xaml::Thickness(0,0,0,0);
-            myGrid->Height = wnd1->Bounds.Height;
-            myGrid->Width = wnd1->Bounds.Width;
-           
-            requestsControl->Width = myGrid->Width;
-
-            myGrid->Children->Append(requestsControl);
-            popup->Child = myGrid;
-            popup->IsOpen = true;
-
-            requestsControl->ShowRequestsDialog(popup);
+            m_dialog->ShowRequestsDialog();
         }
         catch(Exception^ ex)
         {
-            // TODO: (sanjeevd) remove the line below. Currently leaving for sake of debugging
-            int x = 10;
         }
     });
 
-    Windows::UI::Core::CoreWindow^ wnd = Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow;
+    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
 
     IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
         Windows::UI::Core::CoreDispatcherPriority::Normal,
         callback);
 
     // create a task that will wait for the login control to finish doing what it was doing
-    IAsyncAction^ task = concurrency::create_async(
-        [this, &callback, requestsControl]() 
+    IAsyncOperation<FBResult^>^ task = concurrency::create_async(
+        [this, &callback]() 
     {
-        // wait for the browser to fire that the login is done
-		if (login_evt)
-		{
-			WaitForSingleObjectEx(login_evt, INFINITE, FALSE);
-		}
-	});
+        FBResult^ dialogResponse = nullptr;
+
+        // TODO: Is there a better way to do this?  I was using an event, but
+        // the concurrency event object was deprecated in the Win10 SDK tools.
+        // Switched to plane old Windows event, but that didn't work at all,
+        // so polling for now.
+        do
+        {
+            dialogResponse = m_dialog->DialogResponse;
+            Sleep(0);
+        } while (!dialogResponse);
+
+        return dialogResponse;
+    });
 
     return task;
 }
@@ -564,32 +528,10 @@ task<FBResult^> FBSession::ShowLoginDialog(
     auto callback = ref new DispatchedHandler(
         [&errorMessage, action, this]()
     {
-        CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        
-        FacebookDialog^ loginControl = ref new FacebookDialog();
-        Popup^ popup = ref new Popup();
-        popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
-        popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
-
 
         try
         {
-            Grid^ myGrid = ref new Grid();
-
-            // TODO: (sanjeevd) hard coded, remove and fix these
-            myGrid->Margin = Windows::UI::Xaml::Thickness(0, 0, 0, 0);
-            myGrid->Height = wnd1->Bounds.Height;
-            myGrid->Width = wnd1->Bounds.Width;
-
-            loginControl->Width = myGrid->Width;
-
-            myGrid->Children->Append(loginControl);
-            popup->Child = myGrid;
-            popup->IsOpen = true;
-
-            DebugSpew(L"Showing login dialog");
-
-            loginControl->ShowLoginDialog(popup);
+            m_dialog->ShowLoginDialog();
         }
         catch (Exception^ ex)
         {
@@ -604,18 +546,27 @@ task<FBResult^> FBSession::ShowLoginDialog(
         callback);
 
     // create a task that will wait for the login control to finish doing what it was doing
-    return create_task([this]()
+    return create_task([=]()
     {
+        FBResult^ dialogResponse = nullptr;
+
         // TODO: Is there a better way to do this?  I was using an event, but
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (!AccessTokenData)
+        do
         {
+            dialogResponse = m_dialog->DialogResponse;
             Sleep(0);
+        } while (!dialogResponse);
+
+        if (dialogResponse->Succeeded)
+        {
+            AccessTokenData = 
+                static_cast<FBAccessTokenData^>(dialogResponse->Object);
         }
 
-        return ref new FBResult(AccessTokenData);
+        return dialogResponse;
     });
 }
 

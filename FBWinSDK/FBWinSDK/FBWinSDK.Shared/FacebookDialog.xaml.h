@@ -22,7 +22,7 @@
 #pragma once
 
 #include "FacebookDialog.g.h"
-//#include "FBWinAccessTokenData.h"
+#include "FacebookResult.h"
 
 namespace Facebook
 {
@@ -34,22 +34,19 @@ namespace Facebook
         FacebookDialog(
             );
 
+        property Facebook::FBResult^ DialogResponse
+        {
+            Facebook::FBResult^ get();
+        }
+
         void FacebookDialog::ShowLoginDialog(
-            Windows::UI::Xaml::Controls::Primitives::Popup^ popup
             );
 
         void FacebookDialog::ShowFeedDialog(
-            Windows::UI::Xaml::Controls::Primitives::Popup^ popup
             );
 
         void ShowRequestsDialog(
-            Windows::UI::Xaml::Controls::Primitives::Popup^ popup
             );
-
-        property Windows::Foundation::Uri^ OAuthResponse
-        {
-            Windows::Foundation::Uri^ get();
-        }
 
     private:
 
@@ -69,7 +66,17 @@ namespace Facebook
         Windows::Foundation::EventRegistrationToken 
             navigatingEventHandlerRegistrationToken;
         
-        void FacebookDialog::dialogWebView_NavStarting(
+        void FacebookDialog::dialogWebView_LoginNavStarting(
+            Windows::UI::Xaml::Controls::WebView^ sender,
+            Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
+            );
+
+        void FacebookDialog::dialogWebView_FeedNavStarting(
+            Windows::UI::Xaml::Controls::WebView^ sender,
+            Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
+            );
+
+        void FacebookDialog::dialogWebView_RequestNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
@@ -83,7 +90,8 @@ namespace Facebook
             Windows::Foundation::Uri^ Response
             );
 
+        Windows::UI::Xaml::Controls::Grid^ _grid;
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
-        Windows::Foundation::Uri^ _oauthResponse;
+        Facebook::FBResult^ _dialogResponse;
     };
 }

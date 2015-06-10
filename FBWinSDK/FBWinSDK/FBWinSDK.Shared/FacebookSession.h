@@ -19,6 +19,7 @@
 #include "FacebookAccessTokenData.h"
 #include "FacebookResult.h"
 #include "FBUser.h"
+#include "FacebookDialog.xaml.h"
 
 namespace Facebook
 {
@@ -128,11 +129,11 @@ namespace Facebook
             }
 
             //! Launch 'feed' dialog, to post to user's timeline
-            Windows::Foundation::IAsyncAction^ ShowFeedDialog(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowFeedDialog(
                 );
 
             //! Launch 'request' dialog, to send app
-            Windows::Foundation::IAsyncAction^ ShowRequestsDialog(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowRequestsDialog(
                 );
 
             Platform::String^ PermissionsToString(
@@ -269,5 +270,6 @@ namespace Facebook
             Windows::Foundation::DateTime m_Expires;
             Facebook::Graph::FBUser^ m_user;
 			concurrency::task<Facebook::FBResult^> m_loginTask;
+            Facebook::FacebookDialog^ m_dialog;
     };
 }
