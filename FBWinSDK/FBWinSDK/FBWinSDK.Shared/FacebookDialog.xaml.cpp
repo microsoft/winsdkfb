@@ -23,8 +23,10 @@
 #include "FacebookDialog.xaml.h"
 #include "FacebookSession.h"
 #include "FacebookFeedRequest.h"
+#include "FacebookAppRequest.h"
 
 using namespace Platform;
+using namespace Platform::Collections;
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
@@ -323,14 +325,22 @@ namespace Facebook
 
             DebugSpew(L"Request response is " + e->Uri->DisplayUri);
 
-            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                L"\"Operation Canceled\", \"type\": "
-                L"\"OAuthException\", \"code\": 4201, "
-                L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                L"}}";
+            FBAppRequest^ request = FBAppRequest::FromRequestDialogResponse(e->Uri);
+            if (request)
+            {
+                _dialogResponse = ref new FBResult(request);
+            }
+            else
+            {
+                String^ ErrorObjectJson = L"{\"error\": {\"message\": "
+                    L"\"Operation Canceled\", \"type\": "
+                    L"\"OAuthException\", \"code\": 4201, "
+                    L"\"error_user_msg\": \"User canceled the Dialog flow\""
+                    L"}}";
 
-            FBError^ err = FBError::FromJson(ErrorObjectJson);
-            _dialogResponse = ref new FBResult(err);
+                FBError^ err = FBError::FromJson(ErrorObjectJson);
+                _dialogResponse = ref new FBResult(err);
+            }
 
             // deregister the event handler
             dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
