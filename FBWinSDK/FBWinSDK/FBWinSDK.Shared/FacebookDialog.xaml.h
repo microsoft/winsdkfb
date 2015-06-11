@@ -23,7 +23,6 @@
 
 #include "FacebookDialog.g.h"
 #include "FacebookResult.h"
-#include "FBObject.h"
 
 namespace Facebook
 {

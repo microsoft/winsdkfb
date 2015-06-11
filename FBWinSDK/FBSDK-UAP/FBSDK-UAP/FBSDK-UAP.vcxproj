@@ -325,7 +325,6 @@ popd
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FBSingleValue.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBCursors.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBGroup.h" />
-    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBObject.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPage.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPageCategory.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPaging.h" />
@@ -361,7 +360,6 @@ popd
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FBSingleValue.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBCursors.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBGroup.cpp" />
-    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBObject.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPage.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPageCategory.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPaging.cpp" />
@@ -392,8 +390,6 @@ popd
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBGraphObjectImplementation.ttinclude" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBGroup.cpp.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBGroup.h.tt" />
-    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBObject.cpp.tt" />
-    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBObject.h.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPage.cpp.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPage.h.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPageCategory.cpp.tt" />
@@ -462,10 +458,6 @@ popd
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
-    </Xml>
-    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBObject.xml">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
     </Xml>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPaging.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

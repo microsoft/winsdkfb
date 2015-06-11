@@ -120,9 +120,6 @@
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\ScaleConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBObject.cpp">
-      <Filter>Generated Code\Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookAccessTokenData.h">
@@ -208,9 +205,6 @@
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\ScaleConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBObject.h">
-      <Filter>Generated Code\Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePictureControl.xaml" />
@@ -277,12 +271,6 @@
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBUser.cpp.tt">
       <Filter>Object Templates\Source Files</Filter>
     </None>
-    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBObject.h.tt">
-      <Filter>Object Templates\Header Files</Filter>
-    </None>
-    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBObject.cpp.tt">
-      <Filter>Object Templates\Source Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPage.xml">
@@ -304,9 +292,6 @@
       <Filter>Object Templates\Class Definitions</Filter>
     </Xml>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBUser.xml">
-      <Filter>Object Templates\Class Definitions</Filter>
-    </Xml>
-    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBObject.xml">
       <Filter>Object Templates\Class Definitions</Filter>
     </Xml>
   </ItemGroup>
