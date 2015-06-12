@@ -24,6 +24,7 @@
 #include "FacebookSession.h"
 #include "FacebookFeedRequest.h"
 #include "FacebookAppRequest.h"
+#include "FacebookClient.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -124,10 +125,11 @@ namespace Facebook
     }
 
     void FacebookDialog::ShowFeedDialog(
+        PropertySet^ Parameters
         )
     {
         _dialogResponse = nullptr;
-        Uri^ feedDialogUrl = BuildFeedDialogUrl();
+        Uri^ feedDialogUrl = BuildFeedDialogUrl(Parameters);
         navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting += 
             ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
                 this, &FacebookDialog::dialogWebView_FeedNavStarting);
@@ -142,10 +144,11 @@ namespace Facebook
     }
 
     void FacebookDialog::ShowRequestsDialog(
+        PropertySet^ Parameters
         )
     {
         _dialogResponse = nullptr;
-        Uri^ requestDialogUrl = BuildRequestsDialogUrl();
+        Uri^ requestDialogUrl = BuildRequestsDialogUrl(Parameters);
         navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
             ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
                 this, &FacebookDialog::dialogWebView_RequestNavStarting);
@@ -221,6 +224,7 @@ namespace Facebook
     }
 
     Uri^ FacebookDialog::BuildFeedDialogUrl(
+        PropertySet^ Parameters
         )
     {
         FBSession^ sess = FBSession::ActiveSession;
@@ -230,22 +234,31 @@ namespace Facebook
             sess->AccessTokenData->AccessToken +
             L"&redirect_uri=" + GetRedirectUriString(L"feed") +
             L"&app_id=" + sess->FBAppId; 
+        String^ queryString = FBClient::ParametersToQueryString(Parameters);
+        if (queryString->Length() > 0)
+        {
+            dialogUriString += "&" + queryString;
+        }
 
         return ref new Uri(dialogUriString);
     }
 
     Uri^ FacebookDialog::BuildRequestsDialogUrl(
+        PropertySet^ Parameters
         )
     {
         FBSession^ sess = FBSession::ActiveSession;
-        //TODO: YOUR_MESSAGE_HERE?  Do we need a message parameter here?  It 
-        //doesn't appear to show up anywhere in the requests dialog...
         String^ dialogUriString =
             L"https://" + GetFBServer() + 
             L".facebook.com/v2.1/dialog/apprequests?access_token=" +
             sess->AccessTokenData->AccessToken +
             L"&redirect_uri=" + GetRedirectUriString(L"requests") +
-            L"&app_id=" + sess->FBAppId + L"&message=YOUR_MESSAGE_HERE";
+            L"&app_id=" + sess->FBAppId;
+        String^ queryString = FBClient::ParametersToQueryString(Parameters);
+        if (queryString->Length() > 0)
+        {
+            dialogUriString += "&" + queryString;
+        }
 
         return ref new Uri(dialogUriString);
     }

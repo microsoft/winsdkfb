@@ -43,9 +43,11 @@ namespace Facebook
             );
 
         void FacebookDialog::ShowFeedDialog(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         void ShowRequestsDialog(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
     private:
@@ -64,9 +66,11 @@ namespace Facebook
             );
 
         Windows::Foundation::Uri^ BuildFeedDialogUrl(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         Windows::Foundation::Uri^ BuildRequestsDialogUrl(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         Windows::Foundation::EventRegistrationToken 

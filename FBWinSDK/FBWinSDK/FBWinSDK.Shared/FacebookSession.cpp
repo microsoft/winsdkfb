@@ -434,17 +434,18 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
+    PropertySet^ Parameters
     )
 {
     Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
     auto callback = ref new DispatchedHandler(
-        [&errorMessage, action, this]()
+        [=, &errorMessage]()
     {
         try
         {
-            m_dialog->ShowFeedDialog();
+            m_dialog->ShowFeedDialog(Parameters);
         }
         catch(Exception^ ex)
         {
@@ -480,17 +481,18 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
+    Windows::Foundation::Collections::PropertySet^ Parameters
     )
 {
     Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
     auto callback = ref new Windows::UI::Core::DispatchedHandler(
-        [&errorMessage, action, this]()
+        [=, &errorMessage]()
     {
         try
         {
-            m_dialog->ShowRequestsDialog();
+            m_dialog->ShowRequestsDialog(Parameters);
         }
         catch(Exception^ ex)
         {

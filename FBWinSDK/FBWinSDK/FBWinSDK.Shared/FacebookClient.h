@@ -43,6 +43,10 @@ namespace Facebook
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
+        static Platform::String^ FBClient::ParametersToQueryString(
+            Windows::Foundation::Collections::PropertySet^ Parameters
+            );
+
     private:
         FBClient();
         

@@ -121,7 +121,12 @@ void Dialogs::Feed_Click(
     )
 {
     FBSession^ s = FBSession::ActiveSession;
-    create_task(s->ShowFeedDialog())
+    PropertySet^ params = ref new PropertySet();
+    params->Insert(L"caption", L"I love Brussels Sprouts!");
+    params->Insert(L"link", L"https://en.wikipedia.org/wiki/Brussels_sprout");
+    params->Insert(L"description", L"Om Nom Nom!");
+
+    create_task(s->ShowFeedDialog(params))
         .then([=](FBResult^ DialogResponse)
     {
         OutputDebugString(L"Showed 'Feed' dialog.\n");
@@ -135,7 +140,12 @@ void Dialogs::AppRequests_Click(
     )
 {
     FBSession^ s = FBSession::ActiveSession;
-    create_task(s->ShowRequestsDialog())
+    PropertySet^ params = ref new PropertySet();
+
+    params->Insert(L"title", L"I love Brussels Sprouts!");
+    params->Insert(L"message", L"Om Nom Nom!");
+
+    create_task(s->ShowRequestsDialog(params))
         .then([=](FBResult^ DialogResponse)
     {
         OutputDebugString(L"Showed 'Requests' dialog.\n");

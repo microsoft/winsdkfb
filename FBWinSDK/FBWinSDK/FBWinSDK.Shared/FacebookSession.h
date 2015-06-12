@@ -130,10 +130,12 @@ namespace Facebook
 
             //! Launch 'feed' dialog, to post to user's timeline
             Windows::Foundation::IAsyncOperation<FBResult^>^ ShowFeedDialog(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             //! Launch 'request' dialog, to send app
             Windows::Foundation::IAsyncOperation<FBResult^>^ ShowRequestsDialog(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             Platform::String^ PermissionsToString(
