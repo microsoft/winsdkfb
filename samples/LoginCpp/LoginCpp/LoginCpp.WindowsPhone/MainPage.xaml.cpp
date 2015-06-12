@@ -21,6 +21,7 @@
 
 #include "pch.h"
 #include "MainPage.xaml.h"
+#include "OptionsPage.xaml.h"
 
 using namespace LoginCpp;
 
@@ -50,6 +51,20 @@ using namespace Facebook;
 MainPage::MainPage()
 {
 	InitializeComponent();
+
+    // Assumes the Facebook App ID and Windows Phone Store ID have been saved
+    // in the default resource file.
+    ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
+
+    FBSession^ s = FBSession::ActiveSession;
+
+    String^ appId = rl->GetString(FBAppIDName);
+    String^ winAppId = rl->GetString(FBPhoneAppIDName);
+
+
+    // IDs are both sent to FB app, so it can validate us.
+    s->FBAppId = appId;
+    s->WinAppId = winAppId;
 }
 
 /// <summary>
@@ -85,46 +100,6 @@ void MainPage::OnNavigatedTo(NavigationEventArgs^ e)
     }
 }
 
-void MainPage::StartLogin(
-    FBSession^ Session
-    )
-{
-    // Assumes the Facebook App ID and Windows Phone Store ID have been saved
-    // in the default resource file.
-    ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
-
-    String^ appId = rl->GetString(FBAppIDName);
-    String^ winAppId = rl->GetString(FBPhoneAppIDName);
-
-
-    // IDs are both sent to FB app, so it can validate us.
-    Session->FBAppId = appId;
-    Session->WinAppId = winAppId;
-
-    // These are the default permissions, needed to retrieve user info.
-    Session->AddPermission("public_profile");
-    //    Session->AddPermission("email");
-    Session->AddPermission("user_friends");
-    Session->AddPermission("user_likes");
-    Session->AddPermission("user_groups");
-
-    // Launches a URI to redirect to the FB app, which will log us in
-    // and return the result via our registered protocol.
-    task<FBResult^> cachedLogin = create_task(Session->LoginAndContinue());
-
-    cachedLogin.then([](task<FBResult^> result)
-    {
-        try
-        {
-            FBResult^ unused = result.get();
-        }
-        catch (COMException^ ex)
-        {
-            ;
-        }
-    });
-}
-
 void LoginCpp::MainPage::LoginButton_Click(
     Platform::Object^ sender,
     Windows::UI::Xaml::RoutedEventArgs^ e
@@ -144,6 +119,38 @@ void LoginCpp::MainPage::LoginButton_Click(
     }
     else
     {
-        StartLogin(sess);
+        sess->AddPermission("public_profile");
+        sess->AddPermission("user_friends");
+        sess->AddPermission("user_likes");
+        sess->AddPermission("user_groups");
+        sess->AddPermission("user_location");
+
+        create_task(sess->LoginAsync()).then([=](FBResult^ result)
+        {
+            if (result->Succeeded)
+            {
+                LoginButton->Content = L"Logout";
+
+                // We're redirecting to a page that shows simple user info, so 
+                // have to dispatch back to the UI thread.
+                CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
+
+                if (wind)
+                {
+                    CoreDispatcher^ disp = wind->Dispatcher;
+                    if (disp)
+                    {
+                        disp->RunAsync(
+                            Windows::UI::Core::CoreDispatcherPriority::Normal,
+                            ref new Windows::UI::Core::DispatchedHandler([this]()
+                        {
+                            LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+                            Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+                            f->Navigate(OptionsPage::typeid);
+                        }));
+                    }
+                }
+            }
+        });
     }
 }

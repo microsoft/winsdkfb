@@ -54,6 +54,12 @@ namespace Facebook
             Platform::String^ DialogName
             );
 
+        BOOL FacebookDialog::IsMobilePlatform(
+            );
+
+        Platform::String^ FacebookDialog::GetFBServer(
+            );
+
         Windows::Foundation::Uri^ BuildLoginDialogUrl(
             );
 

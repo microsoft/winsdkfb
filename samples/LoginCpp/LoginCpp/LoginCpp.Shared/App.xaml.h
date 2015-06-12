@@ -35,10 +35,6 @@ namespace LoginCpp
 
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e) override;
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-        virtual void OnActivated(Windows::ApplicationModel::Activation::IActivatedEventArgs^ e) override;
-#endif
-
         Windows::UI::Xaml::Controls::Frame^ CreateRootFrame();
 
 	private:

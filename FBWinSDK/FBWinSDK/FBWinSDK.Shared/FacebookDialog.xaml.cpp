@@ -50,6 +50,10 @@ using namespace pplx;
 
 using namespace std;
 
+#define FACEBOOK_DESKTOP_SERVER_NAME L"www"
+#define FACEBOOK_MOBILE_SERVER_NAME  L"m"
+#define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
+
 void DebugSpew(
     String^ msg
     )
@@ -161,16 +165,43 @@ namespace Facebook
     {
         FBSession^ sess = FBSession::ActiveSession;
 
-        //String^ result = L"fb" + sess->FBAppId + "%3A%2F%2F" +
-        //    FacebookDialogName + "_success&app_id=" +
-        //    sess->FBAppId + L"&display=touch";
-
-        String^ result = L"https%3A%2F%2Fwww.facebook.com%2Fconnect%2F" +
-            "login_success.html&app_id=" +
-            sess->FBAppId;
+        String^ result = L"https://" + GetFBServer() + L".facebook.com" +
+            FACEBOOK_LOGIN_SUCCESS_PATH;
+        
+        result = Uri::EscapeComponent(result);
 
         DebugSpew(L"Redirect URI is " + result);
         return result;
+    }
+
+    BOOL FacebookDialog::IsMobilePlatform(
+        )
+    {
+        BOOL isMobile = FALSE;
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+        //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
+#endif
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+        isMobile = TRUE;
+#endif
+        return isMobile;
+    }
+
+    String^ FacebookDialog::GetFBServer(
+        )
+    {
+        String^ server = nullptr;
+
+        if (IsMobilePlatform())
+        {
+            server = FACEBOOK_MOBILE_SERVER_NAME;
+        }
+        else
+        {
+            server = FACEBOOK_DESKTOP_SERVER_NAME;
+        }
+
+        return server;
     }
 
     Uri^ FacebookDialog::BuildLoginDialogUrl(
@@ -178,18 +209,11 @@ namespace Facebook
     {
         FBSession^ sess = FBSession::ActiveSession;
         String^ dialogUriString =
-            L"https://www.facebook.com/dialog/oauth?client_id=" +
-            sess->FBAppId + L"&redirect_uri=" + 
-            GetRedirectUriString(L"login") + L"&scope="
-            + sess->PermissionsToString() + L"&display=popup" +
-            L"&response_type=token";
-
-        //String^ dialogUriString =
-        //    L"https://m.facebook.com/dialog/oauth?client_id=" +
-        //    sess->FBAppId + L"&redirect_uri=" +
-        //    GetRedirectUriString(L"login") + L"&scope="
-        //    + sess->PermissionsToString() + L"&display=popup" +
-        //    L"&response_type=token";
+            L"https://" + GetFBServer() + 
+            L".facebook.com/dialog/oauth?client_id=" + sess->FBAppId + 
+            L"&redirect_uri=" + GetRedirectUriString(L"login") + L"&app_id=" + 
+            sess->FBAppId + L"&scope=" + sess->PermissionsToString() + 
+            L"&display=popup" + L"&response_type=token";
 
         DebugSpew(L"Request string is " + dialogUriString);
 
@@ -201,14 +225,11 @@ namespace Facebook
     {
         FBSession^ sess = FBSession::ActiveSession;
         String^ dialogUriString =
-            L"https://www.facebook.com/v2.1/dialog/feed?access_token=" +
+            L"https://" + GetFBServer() + 
+            L".facebook.com/v2.1/dialog/feed?access_token=" +
             sess->AccessTokenData->AccessToken +
-            L"&redirect_uri=" + GetRedirectUriString(L"feed"); 
-
-        //String^ dialogUriString =
-        //    L"https://m.facebook.com/v2.1/dialog/feed?access_token=" +
-        //    sess->AccessTokenData->AccessToken +
-        //    L"&redirect_uri=" + GetRedirectUriString(L"feed");
+            L"&redirect_uri=" + GetRedirectUriString(L"feed") +
+            L"&app_id=" + sess->FBAppId; 
 
         return ref new Uri(dialogUriString);
     }
@@ -220,10 +241,11 @@ namespace Facebook
         //TODO: YOUR_MESSAGE_HERE?  Do we need a message parameter here?  It 
         //doesn't appear to show up anywhere in the requests dialog...
         String^ dialogUriString =
-            L"https://www.facebook.com/v2.1/dialog/apprequests?access_token=" +
+            L"https://" + GetFBServer() + 
+            L".facebook.com/v2.1/dialog/apprequests?access_token=" +
             sess->AccessTokenData->AccessToken +
             L"&redirect_uri=" + GetRedirectUriString(L"requests") +
-            L"&message=YOUR_MESSAGE_HERE";
+            L"&app_id=" + sess->FBAppId + L"&message=YOUR_MESSAGE_HERE";
 
         return ref new Uri(dialogUriString);
     }
@@ -232,7 +254,7 @@ namespace Facebook
         Uri^ Response
         )
     {
-        return (String::CompareOrdinal(Response->Path, L"/connect/login_success.html") == 0);
+        return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
     }
 
     void FacebookDialog::dialogWebView_LoginNavStarting(

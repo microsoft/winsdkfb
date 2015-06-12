@@ -123,7 +123,6 @@ void FBLoginButton::OnClick(
     {
         SetSessionPermissions();
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_APP
         create_task(s->LoginAsync())
             .then([=](FBResult^ result)
         {
@@ -136,15 +135,5 @@ void FBLoginButton::OnClick(
                 ;
             }
         });
-#else if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-        create_task(s->LoginAndContinue())
-            .then([=](FBResult^ result)
-        {
-            if ((result) && result->Succeeded)
-            {
-                FBUser^ u = static_cast<FBUser^>(result->Object);
-            }
-        });
-#endif
     }
 }

@@ -32,11 +32,16 @@ FBFeedRequest^ FBFeedRequest::FromFeedDialogResponse(
     )
 {
     FBFeedRequest^ info = nullptr;
-    WwwFormUrlDecoder^ parameters = ref new WwwFormUrlDecoder(Response->Query);
+    WwwFormUrlDecoder^ parameters = nullptr;
+    
+    if (Response->Query)
+    {
+        parameters = ref new WwwFormUrlDecoder(Response->Query);
+    }
 
     String^ postId = nullptr;
 
-    for (unsigned int i = 0; i < parameters->Size; i++)
+    for (unsigned int i = 0; parameters && i < parameters->Size; i++)
     {
         IWwwFormUrlDecoderEntry^ entry = parameters->GetAt(i);
 

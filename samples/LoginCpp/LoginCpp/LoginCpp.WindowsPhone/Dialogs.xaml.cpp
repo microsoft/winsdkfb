@@ -138,7 +138,7 @@ void Dialogs::Feed_Click(
 {
     FBSession^ s = FBSession::ActiveSession;
     create_task(s->ShowFeedDialog())
-        .then([=]()
+        .then([=](FBResult^ Response)
     {
         OutputDebugString(L"Showed 'Feed' dialog.\n");
     });
@@ -152,7 +152,7 @@ void Dialogs::AppRequests_Click(
 {
     FBSession^ s = FBSession::ActiveSession;
     create_task(s->ShowRequestsDialog())
-        .then([=]()
+        .then([=](FBResult^ Response)
     {
         OutputDebugString(L"Showed 'Requests' dialog.\n");
     });
