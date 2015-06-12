@@ -11,6 +11,8 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml" />
+    <Page Include="OptionsPage.xaml" />
+    <Page Include="Dialogs.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainPage.xaml.cpp" />

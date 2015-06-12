@@ -22,9 +22,6 @@
 #include "pch.h"
 #include "MainPage.xaml.h"
 #include "UserInfo.xaml.h"
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-#include "../LoginCpp.WindowsPhone/OptionsPage.xaml.h"
-#endif
 
 using namespace LoginCpp;
 
