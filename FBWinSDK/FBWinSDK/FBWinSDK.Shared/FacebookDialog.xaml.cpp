@@ -87,6 +87,12 @@ FacebookDialog::FacebookDialog()
     _popup->Child = this;
 }
 
+FacebookDialog::~FacebookDialog(
+    )
+{
+    DebugSpew(L"FacebookDialog dtor");
+}
+
 FBResult^ FacebookDialog::DialogResponse::get()
 {
     FBResult^ response = _dialogResponse;
@@ -265,6 +271,7 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
         dialogWebBrowser->Stop();
             
         _popup->IsOpen = false;
+        _popup->Child = nullptr;
 
         FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
         if (tokenData)
@@ -301,6 +308,7 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
         dialogWebBrowser->Stop();
 
         _popup->IsOpen = false;
+        _popup->Child = nullptr;
 
         DebugSpew(L"Feed response is " + e->Uri->DisplayUri);
 
@@ -339,6 +347,7 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
         dialogWebBrowser->Stop();
 
         _popup->IsOpen = false;
+        _popup->Child = nullptr;
 
         DebugSpew(L"Request response is " + e->Uri->DisplayUri);
 
@@ -370,6 +379,16 @@ void FacebookDialog::CloseDialogButton_OnClick(
     )
 {
     _popup->IsOpen = false;
+
+    String^ ErrorObjectJson = L"{\"error\": {\"message\": "
+        L"\"Operation Canceled\", \"type\": "
+        L"\"OAuthException\", \"code\": 4201, "
+        L"\"error_user_msg\": \"User canceled the Dialog flow\""
+        L"}}";
+
+    FBError^ err = FBError::FromJson(ErrorObjectJson);
+    _dialogResponse = ref new FBResult(err);
+    _popup->Child = nullptr;
 }
 
 void FacebookDialog::OnSizeChanged(

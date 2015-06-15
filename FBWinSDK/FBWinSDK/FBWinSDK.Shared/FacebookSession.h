@@ -197,6 +197,9 @@ namespace Facebook
             concurrency::task<FBResult^> RunOAuthOnUiThread(
                 );
 
+            concurrency::task<FBResult^> RunWebViewLoginOnUIThread(
+                );
+
             concurrency::task<FBResult^> ShowLoginDialog(
                 );
 

@@ -73,8 +73,6 @@ FBSession::FBSession() :
 	{
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
 	}
-
-    m_dialog = ref new FacebookDialog();
 }
 
 Facebook::FBSession::~FBSession()
@@ -440,6 +438,8 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
     Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
+    m_dialog = ref new FacebookDialog();
+
     auto callback = ref new DispatchedHandler(
         [=, &errorMessage]()
     {
@@ -460,7 +460,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
 
     // create a task that will wait for the login control to finish doing what it was doing
     IAsyncOperation<FBResult^>^ task = concurrency::create_async(
-        [this, &callback]()
+        [=]()
     {
         FBResult^ dialogResponse = nullptr;
 
@@ -474,6 +474,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
             Sleep(0);
         } while (!dialogResponse);
 
+        m_dialog = nullptr;
         return dialogResponse;
     });
 
@@ -486,6 +487,8 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
 {
     Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
+
+    m_dialog = ref new FacebookDialog();
 
     auto callback = ref new Windows::UI::Core::DispatchedHandler(
         [=, &errorMessage]()
@@ -507,7 +510,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
 
     // create a task that will wait for the login control to finish doing what it was doing
     IAsyncOperation<FBResult^>^ task = concurrency::create_async(
-        [this, &callback]() 
+        [=]() 
     {
         FBResult^ dialogResponse = nullptr;
 
@@ -521,6 +524,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
             Sleep(0);
         } while (!dialogResponse);
 
+        m_dialog = nullptr;
         return dialogResponse;
     });
 
@@ -574,6 +578,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
                 static_cast<FBAccessTokenData^>(dialogResponse->Object);
         }
 
+        m_dialog = nullptr;
         return dialogResponse;
     });
 }
@@ -767,9 +772,50 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 	});
 }
 
+task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
+    )
+{
+    task<void> authTask = create_task(
+        CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+            Windows::UI::Core::CoreDispatcherPriority::Normal,
+            ref new Windows::UI::Core::DispatchedHandler([this]()
+    {
+        m_loginTask = ShowLoginDialog();
+    })));
+
+    return create_task([=](void)
+    {
+        try
+        {
+            authTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        }
+    })
+    .then([this]() -> FBResult^
+    {
+        FBResult^ result = nullptr;
+
+        try
+        {
+            result = m_loginTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        }
+
+        return result;
+    });
+}
+
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     )
 {
+    m_dialog = ref new FacebookDialog();
+
     return create_async([=]()
     {
         return create_task([=]() -> FBResult^
@@ -836,7 +882,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
         }
         else
         {
-            loginResult = ShowLoginDialog().get();
+            loginResult = RunWebViewLoginOnUIThread().get();
         }
 
         return loginResult;

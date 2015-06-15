@@ -34,6 +34,9 @@ namespace Facebook
         FacebookDialog(
             );
 
+        virtual ~FacebookDialog(
+            );
+
         property Facebook::FBResult^ DialogResponse
         {
             Facebook::FBResult^ get();
