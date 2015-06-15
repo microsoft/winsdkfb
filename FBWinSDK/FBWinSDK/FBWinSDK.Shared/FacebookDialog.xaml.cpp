@@ -64,332 +64,320 @@ void DebugSpew(
 }
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-namespace Facebook
+FacebookDialog::FacebookDialog()
 {
-    FacebookDialog::FacebookDialog()
+    InitializeComponent();
+    _popup = nullptr;
+    _dialogResponse = nullptr;
+
+    CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
+
+    _popup = ref new Popup();
+
+    _popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
+    _popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
+
+    Margin = Windows::UI::Xaml::Thickness(0, 0, 0, 0);
+    Height = wnd1->Bounds.Height;
+    Width = wnd1->Bounds.Width;
+
+    wnd1->SizeChanged += ref new TypedEventHandler<CoreWindow ^, WindowSizeChangedEventArgs ^>
+            (this, &FacebookDialog::OnSizeChanged);
+
+    _popup->Child = this;
+}
+
+FBResult^ FacebookDialog::DialogResponse::get()
+{
+    FBResult^ response = _dialogResponse;
+    if (response)
     {
-        InitializeComponent();
-        _popup = nullptr;
+        // Caller (FBSession) only gets the response *once*.  Then we reset
+        // it to null, so it's valid to poll on the value being null again.
         _dialogResponse = nullptr;
-
-        CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-
-        _grid = ref new Grid();
-        _popup = ref new Popup();
-
-        _popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
-        _popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
-
-        // TODO: (sanjeevd) hard coded, remove and fix these
-        _grid->Margin = Windows::UI::Xaml::Thickness(0, 0, 0, 0);
-        _grid->Height = wnd1->Bounds.Height;
-        _grid->Width = wnd1->Bounds.Width;
-
-        Width = _grid->Width;
-
-        _grid->Children->Append(this);
-        _popup->Child = _grid;
     }
 
-    extern HANDLE login_evt;
+    return response;
+}
 
-    FBResult^ FacebookDialog::DialogResponse::get()
-    {
-        FBResult^ response = _dialogResponse;
-        if (response)
-        {
-            // Caller (FBSession) only gets the response *once*.  Then we reset
-            // it to null, so it's valid to poll on the value being null again.
-            _dialogResponse = nullptr;
-        }
+void FacebookDialog::ShowLoginDialog(
+    )
+{
+    _dialogResponse = nullptr;
+    Uri^ loginDialogUrl = BuildLoginDialogUrl();
+    navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
+        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+            this, &FacebookDialog::dialogWebView_LoginNavStarting);
 
-        return response;
-    }
+    _popup->IsOpen = true;
 
-    void FacebookDialog::ShowLoginDialog(
-        )
-    {
-        _dialogResponse = nullptr;
-        Uri^ loginDialogUrl = BuildLoginDialogUrl();
-        navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
-            ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
-                this, &FacebookDialog::dialogWebView_LoginNavStarting);
+    dialogWebBrowser->Navigate(loginDialogUrl);
+}
 
-        CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        _grid->Height = wnd1->Bounds.Height;
-        _grid->Width = wnd1->Bounds.Width;
-        Width = _grid->Width;
-        _popup->IsOpen = true;
+void FacebookDialog::ShowFeedDialog(
+    PropertySet^ Parameters
+    )
+{
+    _dialogResponse = nullptr;
+    Uri^ feedDialogUrl = BuildFeedDialogUrl(Parameters);
+    navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting += 
+        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+            this, &FacebookDialog::dialogWebView_FeedNavStarting);
 
-        dialogWebBrowser->Navigate(loginDialogUrl);
-    }
+    _popup->IsOpen = true;
 
-    void FacebookDialog::ShowFeedDialog(
-        PropertySet^ Parameters
-        )
-    {
-        _dialogResponse = nullptr;
-        Uri^ feedDialogUrl = BuildFeedDialogUrl(Parameters);
-        navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting += 
-            ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
-                this, &FacebookDialog::dialogWebView_FeedNavStarting);
+    dialogWebBrowser->Navigate(feedDialogUrl);
+}
 
-        CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        _grid->Height = wnd1->Bounds.Height;
-        _grid->Width = wnd1->Bounds.Width;
-        Width = _grid->Width;
-        _popup->IsOpen = true;
+void FacebookDialog::ShowRequestsDialog(
+    PropertySet^ Parameters
+    )
+{
+    _dialogResponse = nullptr;
+    Uri^ requestDialogUrl = BuildRequestsDialogUrl(Parameters);
+    navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
+        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+            this, &FacebookDialog::dialogWebView_RequestNavStarting);
 
-        dialogWebBrowser->Navigate(feedDialogUrl);
-    }
+    _popup->IsOpen = true;
 
-    void FacebookDialog::ShowRequestsDialog(
-        PropertySet^ Parameters
-        )
-    {
-        _dialogResponse = nullptr;
-        Uri^ requestDialogUrl = BuildRequestsDialogUrl(Parameters);
-        navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
-            ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
-                this, &FacebookDialog::dialogWebView_RequestNavStarting);
+    dialogWebBrowser->Navigate(requestDialogUrl);
+}
 
-        CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        _grid->Height = wnd1->Bounds.Height;
-        _grid->Width = wnd1->Bounds.Width;
-        Width = _grid->Width;
-        _popup->IsOpen = true;
+String^ FacebookDialog::GetRedirectUriString(
+    String^ FacebookDialogName
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
 
-        dialogWebBrowser->Navigate(requestDialogUrl);
-    }
-
-    String^ FacebookDialog::GetRedirectUriString(
-        String^ FacebookDialogName
-        )
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-
-        String^ result = L"https://" + GetFBServer() + L".facebook.com" +
-            FACEBOOK_LOGIN_SUCCESS_PATH;
+    String^ result = L"https://" + GetFBServer() + L".facebook.com" +
+        FACEBOOK_LOGIN_SUCCESS_PATH;
         
-        result = Uri::EscapeComponent(result);
+    result = Uri::EscapeComponent(result);
 
-        DebugSpew(L"Redirect URI is " + result);
-        return result;
-    }
+    DebugSpew(L"Redirect URI is " + result);
+    return result;
+}
 
-    BOOL FacebookDialog::IsMobilePlatform(
-        )
-    {
-        BOOL isMobile = FALSE;
+BOOL FacebookDialog::IsMobilePlatform(
+    )
+{
+    BOOL isMobile = FALSE;
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
-        //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
+    //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
 #endif
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-        isMobile = TRUE;
+    isMobile = TRUE;
 #endif
-        return isMobile;
+    return isMobile;
+}
+
+String^ FacebookDialog::GetFBServer(
+    )
+{
+    String^ server = nullptr;
+
+    if (IsMobilePlatform())
+    {
+        server = FACEBOOK_MOBILE_SERVER_NAME;
+    }
+    else
+    {
+        server = FACEBOOK_DESKTOP_SERVER_NAME;
     }
 
-    String^ FacebookDialog::GetFBServer(
-        )
-    {
-        String^ server = nullptr;
+    return server;
+}
 
-        if (IsMobilePlatform())
+Uri^ FacebookDialog::BuildLoginDialogUrl(
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+    String^ dialogUriString =
+        L"https://" + GetFBServer() + 
+        L".facebook.com/dialog/oauth?client_id=" + sess->FBAppId + 
+        L"&redirect_uri=" + GetRedirectUriString(L"login") + L"&app_id=" + 
+        sess->FBAppId + L"&scope=" + sess->PermissionsToString() + 
+        L"&display=popup" + L"&response_type=token";
+
+    DebugSpew(L"Request string is " + dialogUriString);
+
+    return ref new Uri(dialogUriString);
+}
+
+Uri^ FacebookDialog::BuildFeedDialogUrl(
+    PropertySet^ Parameters
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+    String^ dialogUriString =
+        L"https://" + GetFBServer() + 
+        L".facebook.com/v2.1/dialog/feed?access_token=" +
+        sess->AccessTokenData->AccessToken +
+        L"&redirect_uri=" + GetRedirectUriString(L"feed") +
+        L"&app_id=" + sess->FBAppId; 
+    String^ queryString = FBClient::ParametersToQueryString(Parameters);
+    if (queryString->Length() > 0)
+    {
+        dialogUriString += "&" + queryString;
+    }
+
+    return ref new Uri(dialogUriString);
+}
+
+Uri^ FacebookDialog::BuildRequestsDialogUrl(
+    PropertySet^ Parameters
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+    String^ dialogUriString =
+        L"https://" + GetFBServer() + 
+        L".facebook.com/v2.1/dialog/apprequests?access_token=" +
+        sess->AccessTokenData->AccessToken +
+        L"&redirect_uri=" + GetRedirectUriString(L"requests") +
+        L"&app_id=" + sess->FBAppId;
+    String^ queryString = FBClient::ParametersToQueryString(Parameters);
+    if (queryString->Length() > 0)
+    {
+        dialogUriString += "&" + queryString;
+    }
+
+    return ref new Uri(dialogUriString);
+}
+
+bool FacebookDialog::IsLoginSuccessRedirect(
+    Uri^ Response
+    )
+{
+    return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
+}
+
+void FacebookDialog::dialogWebView_LoginNavStarting(
+    WebView^ sender, 
+    WebViewNavigationStartingEventArgs^ e
+    )
+{
+    DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
+    DebugSpew(L"Path is " + e->Uri->Path);
+
+    if (IsLoginSuccessRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+            
+        _popup->IsOpen = false;
+
+        FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
+        if (tokenData)
         {
-            server = FACEBOOK_MOBILE_SERVER_NAME;
+            _dialogResponse = ref new FBResult(tokenData);
         }
         else
         {
-            server = FACEBOOK_DESKTOP_SERVER_NAME;
+            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
+                L"\"Operation Canceled\", \"type\": "
+                L"\"OAuthException\", \"code\": 4201, "
+                L"\"error_user_msg\": \"User canceled the Dialog flow\""
+                L"}}";
+
+            FBError^ err = FBError::FromJson(ErrorObjectJson);
+            _dialogResponse = ref new FBResult(err);
         }
 
-        return server;
+        // deregister the event handler
+        dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
     }
+}
 
-    Uri^ FacebookDialog::BuildLoginDialogUrl(
-        )
+void FacebookDialog::dialogWebView_FeedNavStarting(
+    WebView^ sender,
+    WebViewNavigationStartingEventArgs^ e
+    )
+{
+    DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
+    DebugSpew(L"Path is " + e->Uri->Path);
+
+    if (IsLoginSuccessRedirect(e->Uri))
     {
-        FBSession^ sess = FBSession::ActiveSession;
-        String^ dialogUriString =
-            L"https://" + GetFBServer() + 
-            L".facebook.com/dialog/oauth?client_id=" + sess->FBAppId + 
-            L"&redirect_uri=" + GetRedirectUriString(L"login") + L"&app_id=" + 
-            sess->FBAppId + L"&scope=" + sess->PermissionsToString() + 
-            L"&display=popup" + L"&response_type=token";
+        dialogWebBrowser->Stop();
 
-        DebugSpew(L"Request string is " + dialogUriString);
-
-        return ref new Uri(dialogUriString);
-    }
-
-    Uri^ FacebookDialog::BuildFeedDialogUrl(
-        PropertySet^ Parameters
-        )
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-        String^ dialogUriString =
-            L"https://" + GetFBServer() + 
-            L".facebook.com/v2.1/dialog/feed?access_token=" +
-            sess->AccessTokenData->AccessToken +
-            L"&redirect_uri=" + GetRedirectUriString(L"feed") +
-            L"&app_id=" + sess->FBAppId; 
-        String^ queryString = FBClient::ParametersToQueryString(Parameters);
-        if (queryString->Length() > 0)
-        {
-            dialogUriString += "&" + queryString;
-        }
-
-        return ref new Uri(dialogUriString);
-    }
-
-    Uri^ FacebookDialog::BuildRequestsDialogUrl(
-        PropertySet^ Parameters
-        )
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-        String^ dialogUriString =
-            L"https://" + GetFBServer() + 
-            L".facebook.com/v2.1/dialog/apprequests?access_token=" +
-            sess->AccessTokenData->AccessToken +
-            L"&redirect_uri=" + GetRedirectUriString(L"requests") +
-            L"&app_id=" + sess->FBAppId;
-        String^ queryString = FBClient::ParametersToQueryString(Parameters);
-        if (queryString->Length() > 0)
-        {
-            dialogUriString += "&" + queryString;
-        }
-
-        return ref new Uri(dialogUriString);
-    }
-
-    bool FacebookDialog::IsLoginSuccessRedirect(
-        Uri^ Response
-        )
-    {
-        return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
-    }
-
-    void FacebookDialog::dialogWebView_LoginNavStarting(
-        WebView^ sender, 
-        WebViewNavigationStartingEventArgs^ e
-        )
-    {
-        DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
-        DebugSpew(L"Path is " + e->Uri->Path);
-
-        if (IsLoginSuccessRedirect(e->Uri))
-        {
-            dialogWebBrowser->Stop();
-            
-            _popup->IsOpen = false;
-
-            FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
-            if (tokenData)
-            {
-                _dialogResponse = ref new FBResult(tokenData);
-            }
-            else
-            {
-                String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                    L"\"Operation Canceled\", \"type\": "
-                    L"\"OAuthException\", \"code\": 4201, "
-                    L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                    L"}}";
-
-                FBError^ err = FBError::FromJson(ErrorObjectJson);
-                _dialogResponse = ref new FBResult(err);
-            }
-
-            // deregister the event handler
-            dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
-        }
-    }
-
-    void FacebookDialog::dialogWebView_FeedNavStarting(
-        WebView^ sender,
-        WebViewNavigationStartingEventArgs^ e
-        )
-    {
-        DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
-        DebugSpew(L"Path is " + e->Uri->Path);
-
-        if (IsLoginSuccessRedirect(e->Uri))
-        {
-            dialogWebBrowser->Stop();
-
-            _popup->IsOpen = false;
-
-            DebugSpew(L"Feed response is " + e->Uri->DisplayUri);
-
-            FBFeedRequest^ request = FBFeedRequest::FromFeedDialogResponse(e->Uri);
-            if (request)
-            {
-                _dialogResponse = ref new FBResult(request);
-            }
-            else
-            {
-                String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                    L"\"Operation Canceled\", \"type\": "
-                    L"\"OAuthException\", \"code\": 4201, "
-                    L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                    L"}}";
-
-                FBError^ err = FBError::FromJson(ErrorObjectJson);
-                _dialogResponse = ref new FBResult(err);
-            }
-
-            // deregister the event handler
-            dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
-        }
-    }
-
-    void FacebookDialog::dialogWebView_RequestNavStarting(
-        WebView^ sender,
-        WebViewNavigationStartingEventArgs^ e
-        )
-    {
-        DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
-        DebugSpew(L"Path is " + e->Uri->Path);
-
-        if (IsLoginSuccessRedirect(e->Uri))
-        {
-            dialogWebBrowser->Stop();
-
-            _popup->IsOpen = false;
-
-            DebugSpew(L"Request response is " + e->Uri->DisplayUri);
-
-            FBAppRequest^ request = FBAppRequest::FromRequestDialogResponse(e->Uri);
-            if (request)
-            {
-                _dialogResponse = ref new FBResult(request);
-            }
-            else
-            {
-                String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                    L"\"Operation Canceled\", \"type\": "
-                    L"\"OAuthException\", \"code\": 4201, "
-                    L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                    L"}}";
-
-                FBError^ err = FBError::FromJson(ErrorObjectJson);
-                _dialogResponse = ref new FBResult(err);
-            }
-
-            // deregister the event handler
-            dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
-        }
-    }
-
-    void FacebookDialog::CloseDialogButton_OnClick(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-    {
         _popup->IsOpen = false;
 
-        // If the user hits the close button, exit the dialog
-		if (login_evt)
-		{
-			SetEvent(login_evt);
-		}
-	}
+        DebugSpew(L"Feed response is " + e->Uri->DisplayUri);
+
+        FBFeedRequest^ request = FBFeedRequest::FromFeedDialogResponse(e->Uri);
+        if (request)
+        {
+            _dialogResponse = ref new FBResult(request);
+        }
+        else
+        {
+            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
+                L"\"Operation Canceled\", \"type\": "
+                L"\"OAuthException\", \"code\": 4201, "
+                L"\"error_user_msg\": \"User canceled the Dialog flow\""
+                L"}}";
+
+            FBError^ err = FBError::FromJson(ErrorObjectJson);
+            _dialogResponse = ref new FBResult(err);
+        }
+
+        // deregister the event handler
+        dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
+    }
 }
+
+void FacebookDialog::dialogWebView_RequestNavStarting(
+    WebView^ sender,
+    WebViewNavigationStartingEventArgs^ e
+    )
+{
+    DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
+    DebugSpew(L"Path is " + e->Uri->Path);
+
+    if (IsLoginSuccessRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        _popup->IsOpen = false;
+
+        DebugSpew(L"Request response is " + e->Uri->DisplayUri);
+
+        FBAppRequest^ request = FBAppRequest::FromRequestDialogResponse(e->Uri);
+        if (request)
+        {
+            _dialogResponse = ref new FBResult(request);
+        }
+        else
+        {
+            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
+                L"\"Operation Canceled\", \"type\": "
+                L"\"OAuthException\", \"code\": 4201, "
+                L"\"error_user_msg\": \"User canceled the Dialog flow\""
+                L"}}";
+
+            FBError^ err = FBError::FromJson(ErrorObjectJson);
+            _dialogResponse = ref new FBResult(err);
+        }
+
+        // deregister the event handler
+        dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
+    }
+}
+
+void FacebookDialog::CloseDialogButton_OnClick(
+    Object^ sender, 
+    RoutedEventArgs^ e
+    )
+{
+    _popup->IsOpen = false;
+}
+
+void FacebookDialog::OnSizeChanged(
+    CoreWindow ^sender, 
+    WindowSizeChangedEventArgs ^args
+    )
+{
+    Height = sender->Bounds.Height;
+    Width = sender->Bounds.Width;
+}
+

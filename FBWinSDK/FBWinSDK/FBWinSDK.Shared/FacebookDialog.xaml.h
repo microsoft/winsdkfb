@@ -100,6 +100,11 @@ namespace Facebook
             Windows::Foundation::Uri^ Response
             );
 
+        void OnSizeChanged(
+            Windows::UI::Core::CoreWindow ^sender,
+            Windows::UI::Core::WindowSizeChangedEventArgs ^args
+            );
+
         Windows::UI::Xaml::Controls::Grid^ _grid;
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
         Facebook::FBResult^ _dialogResponse;
