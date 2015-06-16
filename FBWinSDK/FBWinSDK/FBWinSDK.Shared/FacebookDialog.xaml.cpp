@@ -106,48 +106,44 @@ FBResult^ FacebookDialog::DialogResponse::get()
     return response;
 }
 
-void FacebookDialog::ShowLoginDialog(
+void FacebookDialog::ShowDialog(
+    DialogUriBuilder^ uriBuilder,
+    PropertySet^ Parameters
     )
 {
     _dialogResponse = nullptr;
-    Uri^ loginDialogUrl = BuildLoginDialogUrl();
+    Uri^ dialogUrl = uriBuilder(Parameters);
+
     navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_LoginNavStarting);
 
     _popup->IsOpen = true;
 
-    dialogWebBrowser->Navigate(loginDialogUrl);
+    dialogWebBrowser->Navigate(dialogUrl);
+}
+
+void FacebookDialog::ShowLoginDialog(
+    )
+{
+    ShowDialog(ref new DialogUriBuilder(this, 
+        &FacebookDialog::BuildLoginDialogUrl), nullptr);
 }
 
 void FacebookDialog::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
-    _dialogResponse = nullptr;
-    Uri^ feedDialogUrl = BuildFeedDialogUrl(Parameters);
-    navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting += 
-        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
-            this, &FacebookDialog::dialogWebView_FeedNavStarting);
-
-    _popup->IsOpen = true;
-
-    dialogWebBrowser->Navigate(feedDialogUrl);
+    ShowDialog(ref new DialogUriBuilder(this, 
+        &FacebookDialog::BuildFeedDialogUrl), Parameters);
 }
 
 void FacebookDialog::ShowRequestsDialog(
     PropertySet^ Parameters
     )
 {
-    _dialogResponse = nullptr;
-    Uri^ requestDialogUrl = BuildRequestsDialogUrl(Parameters);
-    navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
-        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
-            this, &FacebookDialog::dialogWebView_RequestNavStarting);
-
-    _popup->IsOpen = true;
-
-    dialogWebBrowser->Navigate(requestDialogUrl);
+    ShowDialog(ref new DialogUriBuilder(this, 
+        &FacebookDialog::BuildRequestsDialogUrl), Parameters);
 }
 
 String^ FacebookDialog::GetRedirectUriString(
@@ -196,6 +192,7 @@ String^ FacebookDialog::GetFBServer(
 }
 
 Uri^ FacebookDialog::BuildLoginDialogUrl(
+    PropertySet^ Parameters
     )
 {
     FBSession^ sess = FBSession::ActiveSession;

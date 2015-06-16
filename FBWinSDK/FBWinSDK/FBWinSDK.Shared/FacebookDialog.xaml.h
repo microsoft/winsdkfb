@@ -26,6 +26,10 @@
 
 namespace Facebook
 {
+    delegate Windows::Foundation::Uri^ DialogUriBuilder(
+        Windows::Foundation::Collections::PropertySet^ Parameters
+        );
+
 	[Windows::Foundation::Metadata::WebHostHidden]
     public ref class FacebookDialog sealed
     {
@@ -54,7 +58,11 @@ namespace Facebook
             );
 
     private:
-        
+        void FacebookDialog::ShowDialog(
+            DialogUriBuilder^ uriBuilder,
+            Windows::Foundation::Collections::PropertySet^ Parameters
+            );
+
         Platform::String^ GetRedirectUriString(
             Platform::String^ DialogName
             );
@@ -66,6 +74,7 @@ namespace Facebook
             );
 
         Windows::Foundation::Uri^ BuildLoginDialogUrl(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         Windows::Foundation::Uri^ BuildFeedDialogUrl(
