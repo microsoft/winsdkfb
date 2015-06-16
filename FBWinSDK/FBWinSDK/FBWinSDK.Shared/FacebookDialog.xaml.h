@@ -60,6 +60,7 @@ namespace Facebook
     private:
         void FacebookDialog::ShowDialog(
             DialogUriBuilder^ uriBuilder,
+            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandler,
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 

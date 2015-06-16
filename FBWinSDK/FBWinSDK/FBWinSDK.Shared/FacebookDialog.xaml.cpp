@@ -108,6 +108,7 @@ FBResult^ FacebookDialog::DialogResponse::get()
 
 void FacebookDialog::ShowDialog(
     DialogUriBuilder^ uriBuilder,
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ EventHandler,
     PropertySet^ Parameters
     )
 {
@@ -115,8 +116,7 @@ void FacebookDialog::ShowDialog(
     Uri^ dialogUrl = uriBuilder(Parameters);
 
     navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
-        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
-            this, &FacebookDialog::dialogWebView_LoginNavStarting);
+        EventHandler;
 
     _popup->IsOpen = true;
 
@@ -126,24 +126,33 @@ void FacebookDialog::ShowDialog(
 void FacebookDialog::ShowLoginDialog(
     )
 {
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+            this, &FacebookDialog::dialogWebView_LoginNavStarting);
     ShowDialog(ref new DialogUriBuilder(this, 
-        &FacebookDialog::BuildLoginDialogUrl), nullptr);
+        &FacebookDialog::BuildLoginDialogUrl), handler, nullptr);
 }
 
 void FacebookDialog::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
-    ShowDialog(ref new DialogUriBuilder(this, 
-        &FacebookDialog::BuildFeedDialogUrl), Parameters);
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+            this, &FacebookDialog::dialogWebView_FeedNavStarting);
+    ShowDialog(ref new DialogUriBuilder(this,
+        &FacebookDialog::BuildFeedDialogUrl), handler, Parameters);
 }
 
 void FacebookDialog::ShowRequestsDialog(
     PropertySet^ Parameters
     )
 {
-    ShowDialog(ref new DialogUriBuilder(this, 
-        &FacebookDialog::BuildRequestsDialogUrl), Parameters);
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+            this, &FacebookDialog::dialogWebView_RequestNavStarting);
+    ShowDialog(ref new DialogUriBuilder(this,
+        &FacebookDialog::BuildRequestsDialogUrl), handler, Parameters);
 }
 
 String^ FacebookDialog::GetRedirectUriString(
