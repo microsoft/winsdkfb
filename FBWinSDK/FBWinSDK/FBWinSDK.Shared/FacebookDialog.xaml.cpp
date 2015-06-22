@@ -1,4 +1,4 @@
-﻿//******************************************************************************
+﻿    //******************************************************************************
 //
 // Copyright (c) 2015 Microsoft Corporation. All rights reserved.
 //
@@ -55,13 +55,24 @@ using namespace std;
 #define FACEBOOK_MOBILE_SERVER_NAME  L"m"
 #define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
 
-void DebugSpew(
+#define ErrorObjectJson L"{\"error\": {\"message\": " \
+    L"\"Operation Canceled\", \"type\": " \
+    L"\"OAuthException\", \"code\": 4201, " \
+    L"\"error_user_msg\": \"User canceled the Dialog flow\"" \
+    L"}}"
+
+
+#ifdef _DEBUG
+void DebugPrintLine(
     String^ msg
     )
 {
     String^ output = msg + L"\n";
     OutputDebugString(output->Data());
 }
+#else
+#define DebugPrintLine(msg) ((void) 0)
+#endif
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 FacebookDialog::FacebookDialog()
@@ -90,10 +101,10 @@ FacebookDialog::FacebookDialog()
 FacebookDialog::~FacebookDialog(
     )
 {
-    DebugSpew(L"FacebookDialog dtor");
+    DebugPrintLine(L"FacebookDialog dtor");
 }
 
-FBResult^ FacebookDialog::DialogResponse::get()
+FBResult^ FacebookDialog::GetDialogResponse()
 {
     FBResult^ response = _dialogResponse;
     if (response)
@@ -161,12 +172,19 @@ String^ FacebookDialog::GetRedirectUriString(
 {
     FBSession^ sess = FBSession::ActiveSession;
 
+    //
+    // This looks strange, but is correct.  One side or the other of this 
+    // conversation has a problem with all the other types of redirect
+    // protocol/URIs accepted for apps, so we're left with always redirecting
+    // to the login_success page on FB, then canceling the redirect in our
+    // NavigationStarted event handler, for all dialogs.
+    // 
     String^ result = L"https://" + GetFBServer() + L".facebook.com" +
         FACEBOOK_LOGIN_SUCCESS_PATH;
         
     result = Uri::EscapeComponent(result);
 
-    DebugSpew(L"Redirect URI is " + result);
+    DebugPrintLine(L"Redirect URI is " + result);
     return result;
 }
 
@@ -212,7 +230,7 @@ Uri^ FacebookDialog::BuildLoginDialogUrl(
         sess->FBAppId + L"&scope=" + sess->PermissionsToString() + 
         L"&display=popup" + L"&response_type=token";
 
-    DebugSpew(L"Request string is " + dialogUriString);
+    DebugPrintLine(L"Request string is " + dialogUriString);
 
     return ref new Uri(dialogUriString);
 }
@@ -269,14 +287,19 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
     WebViewNavigationStartingEventArgs^ e
     )
 {
-    DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
-    DebugSpew(L"Path is " + e->Uri->Path);
+    DebugPrintLine(L"Navigating to " + e->Uri->DisplayUri);
+    DebugPrintLine(L"Path is " + e->Uri->Path);
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
         dialogWebBrowser->Stop();
             
         _popup->IsOpen = false;
+        //
+        // This breaks the circular dependency between the popup and dialog 
+        // class, and is essential in order for the dialog to be disposed of
+        // properly.
+        //
         _popup->Child = nullptr;
 
         FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
@@ -286,12 +309,6 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
         }
         else
         {
-            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                L"\"Operation Canceled\", \"type\": "
-                L"\"OAuthException\", \"code\": 4201, "
-                L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                L"}}";
-
             FBError^ err = FBError::FromJson(ErrorObjectJson);
             _dialogResponse = ref new FBResult(err);
         }
@@ -306,17 +323,22 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
     WebViewNavigationStartingEventArgs^ e
     )
 {
-    DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
-    DebugSpew(L"Path is " + e->Uri->Path);
+    DebugPrintLine(L"Navigating to " + e->Uri->DisplayUri);
+    DebugPrintLine(L"Path is " + e->Uri->Path);
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
         dialogWebBrowser->Stop();
 
         _popup->IsOpen = false;
+        //
+        // This breaks the circular dependency between the popup and dialog 
+        // class, and is essential in order for the dialog to be disposed of
+        // properly.
+        //
         _popup->Child = nullptr;
 
-        DebugSpew(L"Feed response is " + e->Uri->DisplayUri);
+        DebugPrintLine(L"Feed response is " + e->Uri->DisplayUri);
 
         FBFeedRequest^ request = FBFeedRequest::FromFeedDialogResponse(e->Uri);
         if (request)
@@ -325,12 +347,6 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
         }
         else
         {
-            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                L"\"Operation Canceled\", \"type\": "
-                L"\"OAuthException\", \"code\": 4201, "
-                L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                L"}}";
-
             FBError^ err = FBError::FromJson(ErrorObjectJson);
             _dialogResponse = ref new FBResult(err);
         }
@@ -345,17 +361,22 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
     WebViewNavigationStartingEventArgs^ e
     )
 {
-    DebugSpew(L"Navigating to " + e->Uri->DisplayUri);
-    DebugSpew(L"Path is " + e->Uri->Path);
+    DebugPrintLine(L"Navigating to " + e->Uri->DisplayUri);
+    DebugPrintLine(L"Path is " + e->Uri->Path);
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
         dialogWebBrowser->Stop();
 
         _popup->IsOpen = false;
+        //
+        // This breaks the circular dependency between the popup and dialog 
+        // class, and is essential in order for the dialog to be disposed of
+        // properly.
+        //
         _popup->Child = nullptr;
 
-        DebugSpew(L"Request response is " + e->Uri->DisplayUri);
+        DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
 
         FBAppRequest^ request = FBAppRequest::FromRequestDialogResponse(e->Uri);
         if (request)
@@ -364,12 +385,6 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
         }
         else
         {
-            String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                L"\"Operation Canceled\", \"type\": "
-                L"\"OAuthException\", \"code\": 4201, "
-                L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                L"}}";
-
             FBError^ err = FBError::FromJson(ErrorObjectJson);
             _dialogResponse = ref new FBResult(err);
         }
@@ -385,12 +400,6 @@ void FacebookDialog::CloseDialogButton_OnClick(
     )
 {
     _popup->IsOpen = false;
-
-    String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-        L"\"Operation Canceled\", \"type\": "
-        L"\"OAuthException\", \"code\": 4201, "
-        L"\"error_user_msg\": \"User canceled the Dialog flow\""
-        L"}}";
 
     FBError^ err = FBError::FromJson(ErrorObjectJson);
     _dialogResponse = ref new FBResult(err);

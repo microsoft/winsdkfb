@@ -155,7 +155,7 @@ namespace Facebook
             Platform::String^ GetRedirectUriString(
                 );
 
-            concurrency::task<FBResult^> FBSession::GetUserInfo(
+            concurrency::task<FBResult^> GetUserInfo(
                 Facebook::FBAccessTokenData^ TokenData
                 );
 
@@ -206,10 +206,10 @@ namespace Facebook
             concurrency::task<FBResult^> TryLoginViaWebView(
                 );
 
-            concurrency::task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
+            concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
                 );
 
-            int64 FBSession::SecondsTilTokenExpires(
+            int64 SecondsTilTokenExpires(
                 Windows::Foundation::DateTime Expiration
                 );
 

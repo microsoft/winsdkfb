@@ -470,7 +470,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
         // so polling for now.
         do
         {
-            dialogResponse = m_dialog->DialogResponse;
+            dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
         } while (!dialogResponse);
 
@@ -520,7 +520,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         // so polling for now.
         do
         {
-            dialogResponse = m_dialog->DialogResponse;
+            dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
         } while (!dialogResponse);
 
@@ -568,7 +568,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
         // so polling for now.
         do
         {
-            dialogResponse = m_dialog->DialogResponse;
+            dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
         } while (!dialogResponse);
 

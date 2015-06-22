@@ -41,10 +41,8 @@ namespace Facebook
         virtual ~FacebookDialog(
             );
 
-        property Facebook::FBResult^ DialogResponse
-        {
-            Facebook::FBResult^ get();
-        }
+        Facebook::FBResult^ GetDialogResponse(
+            );
 
         void FacebookDialog::ShowLoginDialog(
             );
