@@ -1,16 +1,17 @@
+.nuget
 *.opensdf
 *.sdf
 *.suo
-ipch
+AppPackages
+bin
 Debug
-Release
+Doxygen
+fbwinsdk.githash.txt
 Generated
 Generated Files
-Doxygen
-AppPackages
-Packages.dgml
+ipch
 packages
-bin
-.nuget
-fbwinsdk.githash.txt
+Packages.dgml
+Release
+sdk-build.log
 
