@@ -356,7 +356,7 @@ void FBSession::TrySaveTokenData(
 {
     if (this->LoggedIn)
     {
-        create_task([this]() -> task<IBuffer^>
+        create_task([=]() -> task<IBuffer^>
         {
             wchar_t buffer[INT64_STRING_BUFSIZE];
             DataProtectionProvider^ provider = ref new DataProtectionProvider(L"LOCAL=user");
@@ -425,7 +425,7 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
                 //forget" operation.  If it fails, we'll pick up bad token data at
                 //next login, fail the login and retry, then attempt to cache new
                 //valid token data.
-                OutputDebugString(L"Deleting cached token file failed!\n");;
+                OutputDebugString(L"Deleting cached token file failed!\n");
             }
         });
     });
@@ -435,13 +435,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
-    Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
     m_dialog = ref new FacebookDialog();
 
     auto callback = ref new DispatchedHandler(
-        [=, &errorMessage]()
+        [=]()
     {
         try
         {
@@ -449,6 +448,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
         }
         catch(Exception^ ex)
         {
+            OutputDebugString(L"Failed to show feed dialog.\n");
         }
     });
 
@@ -485,13 +485,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
     Windows::Foundation::Collections::PropertySet^ Parameters
     )
 {
-    Platform::String^ errorMessage = nullptr;
     std::function<void ()>&& action = nullptr;
 
     m_dialog = ref new FacebookDialog();
 
     auto callback = ref new Windows::UI::Core::DispatchedHandler(
-        [=, &errorMessage]()
+        [=]()
     {
         try
         {
@@ -534,11 +533,10 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
 task<FBResult^> FBSession::ShowLoginDialog(
     )
 {
-    Platform::String^ errorMessage = nullptr;
     std::function<void()>&& action = nullptr;
 
     auto callback = ref new DispatchedHandler(
-        [&errorMessage, action, this]()
+        [=]()
     {
 
         try
@@ -547,6 +545,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
         }
         catch (Exception^ ex)
         {
+            OutputDebugString(L"Failed to show login dialog.\n");
         }
     });
 
