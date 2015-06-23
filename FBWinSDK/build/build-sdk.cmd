@@ -42,24 +42,24 @@ if errorlevel 1 goto errorExit
 rem ---------------------------------------------------------------------------
 rem build for Windows 10 Universal 
 rem ---------------------------------------------------------------------------
-cd FBSDK-UAP
+cd FBSDK-UWP
 
-call :build_one_flavor FBSDK-UAP.sln x86 Debug
+call :build_one_flavor FBSDK-UWP.sln x86 Debug
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UAP.sln x86 Release 
+call :build_one_flavor FBSDK-UWP.sln x86 Release 
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UAP.sln x64 Debug 
+call :build_one_flavor FBSDK-UWP.sln x64 Debug 
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UAP.sln x64 Release 
+call :build_one_flavor FBSDK-UWP.sln x64 Release 
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UAP.sln ARM Debug 
+call :build_one_flavor FBSDK-UWP.sln ARM Debug 
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UAP.sln ARM Release 
+call :build_one_flavor FBSDK-UWP.sln ARM Release 
 if errorlevel 1 goto errorExit
 
 rem ---------------------------------------------------------------------------
