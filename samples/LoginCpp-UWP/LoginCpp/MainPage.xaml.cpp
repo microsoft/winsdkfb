@@ -59,7 +59,7 @@ MainPage::MainPage()
 
 	// Assumes the Facebook App ID and Windows Phone Store ID have been saved
 	// in the default resource file.
-	// TODO: Commenting this out for now - resource loader isn't working for me in UAP app.
+	// TODO: Commenting this out for now - resource loader isn't working for me in UWP app.
 	ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
 
 	String^ appId = rl->GetString(FBAppIDName);
