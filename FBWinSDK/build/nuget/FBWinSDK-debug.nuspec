@@ -76,35 +76,35 @@
       <file src="ARM\Debug\FBWinSDK.WindowsPhone\Controls\FacebookLoginButton.xbf" target="bin\Phone\arm\Facebook\Controls"/>
       <file src="ARM\Debug\FBWinSDK.WindowsPhone\Images\fb_blank_profile_portrait.png" target="bin\Phone\arm\Facebook\Images"/>
 
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\Facebook.dll" target="bin\UAP\x86"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\Facebook.winmd" target="bin\UAP\x86"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\Facebook.pri" target="bin\UAP\x86"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\FacebookDialog.xbf" target="bin\UAP\x86\Facebook"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\FacebookProfilePictureControl.xbf" target="bin\UAP\x86\Facebook"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\Themes\Generic.xbf" target="bin\UAP\x86\Facebook\Themes"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\Themes\Styles.xbf" target="bin\UAP\x86\Facebook\Themes"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\Controls\FacebookLoginButton.xbf" target="bin\UAP\x86\Facebook\Controls"/>
-      <file src="FBSDK-UAP\Debug\FBSDK-UAP\fb_blank_profile_portrait.png" target="bin\UAP\x86\Facebook"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\Facebook.dll" target="bin\UWP\x86"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\Facebook.winmd" target="bin\UWP\x86"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\Facebook.pri" target="bin\UWP\x86"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\FacebookDialog.xbf" target="bin\UWP\x86\Facebook"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\FacebookProfilePictureControl.xbf" target="bin\UWP\x86\Facebook"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\Themes\Generic.xbf" target="bin\UWP\x86\Facebook\Themes"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\Themes\Styles.xbf" target="bin\UWP\x86\Facebook\Themes"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\Controls\FacebookLoginButton.xbf" target="bin\UWP\x86\Facebook\Controls"/>
+      <file src="FBSDK-UWP\Debug\FBSDK-UWP\fb_blank_profile_portrait.png" target="bin\UWP\x86\Facebook"/>
 
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\Facebook.dll" target="bin\UAP\x64"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\Facebook.winmd" target="bin\UAP\x64"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\Facebook.pri" target="bin\UAP\x64"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\FacebookDialog.xbf" target="bin\UAP\x64\Facebook"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\FacebookProfilePictureControl.xbf" target="bin\UAP\x64\Facebook"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\Themes\Generic.xbf" target="bin\UAP\x64\Facebook\Themes"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\Themes\Styles.xbf" target="bin\UAP\x64\Facebook\Themes"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\Controls\FacebookLoginButton.xbf" target="bin\UAP\x64\Facebook\Controls"/>
-      <file src="FBSDK-UAP\x64\Debug\FBSDK-UAP\fb_blank_profile_portrait.png" target="bin\UAP\x64\Facebook"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\Facebook.dll" target="bin\UWP\x64"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\Facebook.winmd" target="bin\UWP\x64"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\Facebook.pri" target="bin\UWP\x64"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\FacebookDialog.xbf" target="bin\UWP\x64\Facebook"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\FacebookProfilePictureControl.xbf" target="bin\UWP\x64\Facebook"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\Themes\Generic.xbf" target="bin\UWP\x64\Facebook\Themes"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\Themes\Styles.xbf" target="bin\UWP\x64\Facebook\Themes"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\Controls\FacebookLoginButton.xbf" target="bin\UWP\x64\Facebook\Controls"/>
+      <file src="FBSDK-UWP\x64\Debug\FBSDK-UWP\fb_blank_profile_portrait.png" target="bin\UWP\x64\Facebook"/>
 
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\Facebook.dll" target="bin\UAP\arm"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\Facebook.winmd" target="bin\UAP\arm"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\Facebook.pri" target="bin\UAP\arm"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\FacebookDialog.xbf" target="bin\UAP\arm\Facebook"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\FacebookProfilePictureControl.xbf" target="bin\UAP\arm\Facebook"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\Themes\Generic.xbf" target="bin\UAP\arm\Facebook\Themes"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\Themes\Styles.xbf" target="bin\UAP\arm\Facebook\Themes"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\Controls\FacebookLoginButton.xbf" target="bin\UAP\arm\Facebook\Controls"/>
-      <file src="FBSDK-UAP\ARM\Debug\FBSDK-UAP\fb_blank_profile_portrait.png" target="bin\UAP\arm\Facebook"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\Facebook.dll" target="bin\UWP\arm"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\Facebook.winmd" target="bin\UWP\arm"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\Facebook.pri" target="bin\UWP\arm"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\FacebookDialog.xbf" target="bin\UWP\arm\Facebook"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\FacebookProfilePictureControl.xbf" target="bin\UWP\arm\Facebook"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\Themes\Generic.xbf" target="bin\UWP\arm\Facebook\Themes"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\Themes\Styles.xbf" target="bin\UWP\arm\Facebook\Themes"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\Controls\FacebookLoginButton.xbf" target="bin\UWP\arm\Facebook\Controls"/>
+      <file src="FBSDK-UWP\ARM\Debug\FBSDK-UWP\fb_blank_profile_portrait.png" target="bin\UWP\arm\Facebook"/>
 
       <file src="build\nuget\FBWinSDK-debug.props" target="build" />
 
