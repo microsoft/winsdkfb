@@ -1,6 +1,6 @@
 # **Windows SDK for Facebook**
 
-The Windows SDK for Facebook is geared towards app developers creating WinRT based apps on both desktop and phone. Easily integrate Facebook Auth, Like and other Facebook Graph functionality using this SDK.
+The Windows SDK for Facebook is geared towards app developers creating modern windows applications on both desktop and phone. Easily integrate Facebook Auth, Like and other Facebook Graph functionality using this SDK.
 
 
 ## **Features**
