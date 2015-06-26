@@ -21,6 +21,7 @@
 #include "FacebookSession.h"
 #include "FacebookAppRequest.h"
 #include "FacebookDialog.xaml.h"
+#include "FacebookError.h"
 #include "FacebookFeedRequest.h"
 #include "FacebookPaginatedArray.h"
 #include "FacebookResult.h"
@@ -53,6 +54,7 @@ using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Controls::Primitives;
 
 #define INT64_STRING_BUFSIZE 65
+extern const wchar_t* ErrorObjectJson;
 
 namespace Facebook
 {
@@ -435,12 +437,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
-    std::function<void ()>&& action = nullptr;
+    BOOL showedDialog = TRUE;
 
     m_dialog = ref new FacebookDialog();
 
     auto callback = ref new DispatchedHandler(
-        [=]()
+        [=, &showedDialog]()
     {
         try
         {
@@ -448,7 +450,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
         }
         catch(Exception^ ex)
         {
-            OutputDebugString(L"Failed to show feed dialog.\n");
+            showedDialog = FALSE;
         }
     });
 
@@ -468,11 +470,17 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        do
+        while (showedDialog && !dialogResponse)
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
-        } while (!dialogResponse);
+        }
+
+        if (!showedDialog)
+        {
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+            dialogResponse = ref new FBResult(err);
+        }
 
         m_dialog = nullptr;
         return dialogResponse;
@@ -485,12 +493,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
     Windows::Foundation::Collections::PropertySet^ Parameters
     )
 {
-    std::function<void ()>&& action = nullptr;
+    BOOL showedDialog = TRUE;
 
     m_dialog = ref new FacebookDialog();
 
-    auto callback = ref new Windows::UI::Core::DispatchedHandler(
-        [=]()
+    auto callback = ref new DispatchedHandler(
+        [=, &showedDialog]()
     {
         try
         {
@@ -498,6 +506,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         }
         catch(Exception^ ex)
         {
+            showedDialog = FALSE;
         }
     });
 
@@ -517,11 +526,17 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        do
+        while (showedDialog && !dialogResponse);
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
-        } while (!dialogResponse);
+        }
+
+        if (!showedDialog)
+        {
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+            dialogResponse = ref new FBResult(err);
+        }
 
         m_dialog = nullptr;
         return dialogResponse;
@@ -533,19 +548,18 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
 task<FBResult^> FBSession::ShowLoginDialog(
     )
 {
-    std::function<void()>&& action = nullptr;
+    BOOL showedDialog = TRUE;
 
     auto callback = ref new DispatchedHandler(
-        [=]()
+        [=, &showedDialog]()
     {
-
         try
         {
             m_dialog->ShowLoginDialog();
         }
         catch (Exception^ ex)
         {
-            OutputDebugString(L"Failed to show login dialog.\n");
+            showedDialog = FALSE;
         }
     });
 
@@ -565,16 +579,24 @@ task<FBResult^> FBSession::ShowLoginDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        do
+        while (showedDialog && !dialogResponse)
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
-        } while (!dialogResponse);
+        } 
 
-        if (dialogResponse->Succeeded)
+        if (showedDialog)
         {
-            AccessTokenData = 
-                static_cast<FBAccessTokenData^>(dialogResponse->Object);
+            if (dialogResponse->Succeeded)
+            {
+                AccessTokenData =
+                    static_cast<FBAccessTokenData^>(dialogResponse->Object);
+            }
+        }
+        else
+        {
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+            dialogResponse = ref new FBResult(err);
         }
 
         m_dialog = nullptr;

@@ -4,6 +4,7 @@
   <PropertyGroup>
     <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'Windows'">Windows</fbwinsdk-DeviceType>
     <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'WindowsPhoneApp'">Phone</fbwinsdk-DeviceType>
+    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UAP'">UWP</fbwinsdk-DeviceType>
     <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UWP'">UWP</fbwinsdk-DeviceType>
   </PropertyGroup>
 

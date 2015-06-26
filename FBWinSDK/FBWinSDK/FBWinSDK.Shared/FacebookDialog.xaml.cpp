@@ -55,11 +55,11 @@ using namespace std;
 #define FACEBOOK_MOBILE_SERVER_NAME  L"m"
 #define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
 
-#define ErrorObjectJson L"{\"error\": {\"message\": " \
-    L"\"Operation Canceled\", \"type\": " \
-    L"\"OAuthException\", \"code\": 4201, " \
-    L"\"error_user_msg\": \"User canceled the Dialog flow\"" \
-    L"}}"
+const wchar_t* ErrorObjectJson = L"{\"error\": {\"message\": " \
+L"\"Operation Canceled\", \"type\": " \
+L"\"OAuthException\", \"code\": 4201, " \
+L"\"error_user_msg\": \"User canceled the Dialog flow\"" \
+L"}}";
 
 
 #ifdef _DEBUG
@@ -309,7 +309,7 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
         }
         else
         {
-            FBError^ err = FBError::FromJson(ErrorObjectJson);
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
 
@@ -347,7 +347,7 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
         }
         else
         {
-            FBError^ err = FBError::FromJson(ErrorObjectJson);
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
 
@@ -385,7 +385,7 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
         }
         else
         {
-            FBError^ err = FBError::FromJson(ErrorObjectJson);
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
 
@@ -401,7 +401,7 @@ void FacebookDialog::CloseDialogButton_OnClick(
 {
     _popup->IsOpen = false;
 
-    FBError^ err = FBError::FromJson(ErrorObjectJson);
+    FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
     _dialogResponse = ref new FBResult(err);
     _popup->Child = nullptr;
 }
