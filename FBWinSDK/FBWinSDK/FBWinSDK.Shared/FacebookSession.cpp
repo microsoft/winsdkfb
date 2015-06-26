@@ -75,6 +75,7 @@ FBSession::FBSession() :
 	{
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
 	}
+    m_showingDialog = FALSE;
 }
 
 Facebook::FBSession::~FBSession()
@@ -437,12 +438,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
-    BOOL showedDialog = TRUE;
-
     m_dialog = ref new FacebookDialog();
 
+    m_showingDialog = TRUE;
+
     auto callback = ref new DispatchedHandler(
-        [=, &showedDialog]()
+        [=]()
     {
         try
         {
@@ -450,7 +451,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
         }
         catch(Exception^ ex)
         {
-            showedDialog = FALSE;
+            m_showingDialog = FALSE;
         }
     });
 
@@ -470,18 +471,19 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (showedDialog && !dialogResponse)
+        while (m_showingDialog && !dialogResponse)
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
         }
 
-        if (!showedDialog)
+        if (!m_showingDialog)
         {
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             dialogResponse = ref new FBResult(err);
         }
 
+        m_showingDialog = FALSE;
         m_dialog = nullptr;
         return dialogResponse;
     });
@@ -493,12 +495,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
     Windows::Foundation::Collections::PropertySet^ Parameters
     )
 {
-    BOOL showedDialog = TRUE;
-
     m_dialog = ref new FacebookDialog();
 
+    m_showingDialog = TRUE;
+
     auto callback = ref new DispatchedHandler(
-        [=, &showedDialog]()
+        [=]()
     {
         try
         {
@@ -506,7 +508,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         }
         catch(Exception^ ex)
         {
-            showedDialog = FALSE;
+            m_showingDialog = FALSE;
         }
     });
 
@@ -526,18 +528,19 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (showedDialog && !dialogResponse);
+        while (m_showingDialog && !dialogResponse);
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
         }
 
-        if (!showedDialog)
+        if (!m_showingDialog)
         {
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             dialogResponse = ref new FBResult(err);
         }
 
+        m_showingDialog = FALSE;
         m_dialog = nullptr;
         return dialogResponse;
     });
@@ -548,10 +551,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
 task<FBResult^> FBSession::ShowLoginDialog(
     )
 {
-    BOOL showedDialog = TRUE;
+    m_dialog = ref new FacebookDialog();
+
+    m_showingDialog = TRUE;
 
     auto callback = ref new DispatchedHandler(
-        [=, &showedDialog]()
+        [=]()
     {
         try
         {
@@ -559,7 +564,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
         }
         catch (Exception^ ex)
         {
-            showedDialog = FALSE;
+            m_showingDialog = FALSE;
         }
     });
 
@@ -579,13 +584,13 @@ task<FBResult^> FBSession::ShowLoginDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (showedDialog && !dialogResponse)
+        while (m_showingDialog && !dialogResponse)
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
         } 
 
-        if (showedDialog)
+        if (m_showingDialog)
         {
             if (dialogResponse->Succeeded)
             {
@@ -599,6 +604,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
             dialogResponse = ref new FBResult(err);
         }
 
+        m_showingDialog = FALSE;
         m_dialog = nullptr;
         return dialogResponse;
     });

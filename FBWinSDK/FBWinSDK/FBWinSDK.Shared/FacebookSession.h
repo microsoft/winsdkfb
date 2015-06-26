@@ -223,5 +223,6 @@ namespace Facebook
             Facebook::Graph::FBUser^ m_user;
 			concurrency::task<Facebook::FBResult^> m_loginTask;
             Facebook::FacebookDialog^ m_dialog;
+            BOOL m_showingDialog;
     };
 }

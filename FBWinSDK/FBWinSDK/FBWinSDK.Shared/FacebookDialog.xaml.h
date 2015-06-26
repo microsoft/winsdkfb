@@ -41,13 +41,19 @@ namespace Facebook
         virtual ~FacebookDialog(
             );
 
+        void InitDialog(
+            );
+
+        void UninitDialog(
+            );
+
         Facebook::FBResult^ GetDialogResponse(
             );
 
-        void FacebookDialog::ShowLoginDialog(
+        void ShowLoginDialog(
             );
 
-        void FacebookDialog::ShowFeedDialog(
+        void ShowFeedDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
@@ -56,7 +62,7 @@ namespace Facebook
             );
 
     private:
-        void FacebookDialog::ShowDialog(
+        void ShowDialog(
             DialogUriBuilder^ uriBuilder,
             Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandler,
             Windows::Foundation::Collections::PropertySet^ Parameters
@@ -66,10 +72,10 @@ namespace Facebook
             Platform::String^ DialogName
             );
 
-        BOOL FacebookDialog::IsMobilePlatform(
+        BOOL IsMobilePlatform(
             );
 
-        Platform::String^ FacebookDialog::GetFBServer(
+        Platform::String^ GetFBServer(
             );
 
         Windows::Foundation::Uri^ BuildLoginDialogUrl(
@@ -84,20 +90,17 @@ namespace Facebook
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        Windows::Foundation::EventRegistrationToken 
-            navigatingEventHandlerRegistrationToken;
-        
-        void FacebookDialog::dialogWebView_LoginNavStarting(
+        void dialogWebView_LoginNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
 
-        void FacebookDialog::dialogWebView_FeedNavStarting(
+        void dialogWebView_FeedNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
 
-        void FacebookDialog::dialogWebView_RequestNavStarting(
+        void dialogWebView_RequestNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
@@ -116,6 +119,10 @@ namespace Facebook
             Windows::UI::Core::WindowSizeChangedEventArgs ^args
             );
 
+        Windows::Foundation::EventRegistrationToken
+            navigatingEventHandlerRegistrationToken;
+        Windows::Foundation::EventRegistrationToken
+            sizeChangedEventRegistrationToken;
         Windows::UI::Xaml::Controls::Grid^ _grid;
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
         Facebook::FBResult^ _dialogResponse;

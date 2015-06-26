@@ -78,6 +78,17 @@ void DebugPrintLine(
 FacebookDialog::FacebookDialog()
 {
     InitializeComponent();
+    InitDialog();
+}
+
+FacebookDialog::~FacebookDialog(
+    )
+{
+    DebugPrintLine(L"FacebookDialog dtor");
+}
+
+void FacebookDialog::InitDialog()
+{
     _popup = nullptr;
     _dialogResponse = nullptr;
 
@@ -92,16 +103,27 @@ FacebookDialog::FacebookDialog()
     Height = wnd1->Bounds.Height;
     Width = wnd1->Bounds.Width;
 
-    wnd1->SizeChanged += ref new TypedEventHandler<CoreWindow ^, WindowSizeChangedEventArgs ^>
+    sizeChangedEventRegistrationToken =  wnd1->SizeChanged += 
+        ref new TypedEventHandler<CoreWindow ^, WindowSizeChangedEventArgs ^>
             (this, &FacebookDialog::OnSizeChanged);
 
     _popup->Child = this;
 }
 
-FacebookDialog::~FacebookDialog(
-    )
+void FacebookDialog::UninitDialog()
 {
-    DebugPrintLine(L"FacebookDialog dtor");
+    dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
+    CoreApplication::MainView->CoreWindow->SizeChanged -= 
+        sizeChangedEventRegistrationToken;
+
+    _popup->IsOpen = false;
+
+    //
+    // This breaks the circular dependency between the popup and dialog 
+    // class, and is essential in order for the dialog to be disposed of
+    // properly.
+    //
+    _popup->Child = nullptr;
 }
 
 FBResult^ FacebookDialog::GetDialogResponse()
@@ -140,7 +162,7 @@ void FacebookDialog::ShowLoginDialog(
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_LoginNavStarting);
-    ShowDialog(ref new DialogUriBuilder(this, 
+    ShowDialog(ref new DialogUriBuilder(this,
         &FacebookDialog::BuildLoginDialogUrl), handler, nullptr);
 }
 
@@ -293,14 +315,8 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
     if (IsLoginSuccessRedirect(e->Uri))
     {
         dialogWebBrowser->Stop();
-            
-        _popup->IsOpen = false;
-        //
-        // This breaks the circular dependency between the popup and dialog 
-        // class, and is essential in order for the dialog to be disposed of
-        // properly.
-        //
-        _popup->Child = nullptr;
+
+        UninitDialog();
 
         FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
         if (tokenData)
@@ -312,9 +328,6 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
-
-        // deregister the event handler
-        dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
     }
 }
 
@@ -330,13 +343,7 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
     {
         dialogWebBrowser->Stop();
 
-        _popup->IsOpen = false;
-        //
-        // This breaks the circular dependency between the popup and dialog 
-        // class, and is essential in order for the dialog to be disposed of
-        // properly.
-        //
-        _popup->Child = nullptr;
+        UninitDialog();
 
         DebugPrintLine(L"Feed response is " + e->Uri->DisplayUri);
 
@@ -350,9 +357,6 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
-
-        // deregister the event handler
-        dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
     }
 }
 
@@ -368,13 +372,7 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
     {
         dialogWebBrowser->Stop();
 
-        _popup->IsOpen = false;
-        //
-        // This breaks the circular dependency between the popup and dialog 
-        // class, and is essential in order for the dialog to be disposed of
-        // properly.
-        //
-        _popup->Child = nullptr;
+        UninitDialog();
 
         DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
 
@@ -388,9 +386,6 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
-
-        // deregister the event handler
-        dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
     }
 }
 
