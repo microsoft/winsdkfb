@@ -428,7 +428,9 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
                 //forget" operation.  If it fails, we'll pick up bad token data at
                 //next login, fail the login and retry, then attempt to cache new
                 //valid token data.
+#ifdef _DEBUG
                 OutputDebugString(L"Deleting cached token file failed!\n");
+#endif
             }
         });
     });
@@ -469,7 +471,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
 
         // TODO: Is there a better way to do this?  I was using an event, but
         // the concurrency event object was deprecated in the Win10 SDK tools.
-        // Switched to plane old Windows event, but that didn't work at all,
+        // Switched to plain old Windows event, but that didn't work at all,
         // so polling for now.
         while (m_showingDialog && !dialogResponse)
         {
