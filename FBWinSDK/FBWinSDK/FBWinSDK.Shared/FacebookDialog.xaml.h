@@ -22,10 +22,14 @@
 #pragma once
 
 #include "FacebookDialog.g.h"
-//#include "FBWinAccessTokenData.h"
+#include "FacebookResult.h"
 
 namespace Facebook
 {
+    delegate Windows::Foundation::Uri^ DialogUriBuilder(
+        Windows::Foundation::Collections::PropertySet^ Parameters
+        );
+
 	[Windows::Foundation::Metadata::WebHostHidden]
     public ref class FacebookDialog sealed
     {
@@ -34,37 +38,71 @@ namespace Facebook
         FacebookDialog(
             );
 
-        void FacebookDialog::ShowFeedDialog(
-            Windows::UI::Xaml::Controls::Primitives::Popup^ popup
+        virtual ~FacebookDialog(
+            );
+
+        void InitDialog(
+            );
+
+        void UninitDialog(
+            );
+
+        Facebook::FBResult^ GetDialogResponse(
+            );
+
+        void ShowLoginDialog(
+            );
+
+        void ShowFeedDialog(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         void ShowRequestsDialog(
-            Windows::UI::Xaml::Controls::Primitives::Popup^ popup
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        property Windows::Foundation::Uri^ OAuthResponse
-        {
-            Windows::Foundation::Uri^ get();
-        }
-
     private:
+        void ShowDialog(
+            DialogUriBuilder^ uriBuilder,
+            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandler,
+            Windows::Foundation::Collections::PropertySet^ Parameters
+            );
 
         Platform::String^ GetRedirectUriString(
             Platform::String^ DialogName
             );
 
+        BOOL IsMobilePlatform(
+            );
+
+        Platform::String^ GetFBServer(
+            );
+
+        Windows::Foundation::Uri^ BuildLoginDialogUrl(
+            Windows::Foundation::Collections::PropertySet^ Parameters
+            );
+
         Windows::Foundation::Uri^ BuildFeedDialogUrl(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         Windows::Foundation::Uri^ BuildRequestsDialogUrl(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        Windows::Foundation::EventRegistrationToken 
-            navigatedEventHandlerRegistrationToken;
-        
-        void FacebookDialog::dialogWebView_NavCompleted(
+        void dialogWebView_LoginNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
-            Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
+            Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
+            );
+
+        void dialogWebView_FeedNavStarting(
+            Windows::UI::Xaml::Controls::WebView^ sender,
+            Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
+            );
+
+        void dialogWebView_RequestNavStarting(
+            Windows::UI::Xaml::Controls::WebView^ sender,
+            Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
 
         void CloseDialogButton_OnClick(
@@ -72,7 +110,21 @@ namespace Facebook
             Windows::UI::Xaml::RoutedEventArgs^ e
             );
 
+        bool IsLoginSuccessRedirect(
+            Windows::Foundation::Uri^ Response
+            );
+
+        void OnSizeChanged(
+            Windows::UI::Core::CoreWindow ^sender,
+            Windows::UI::Core::WindowSizeChangedEventArgs ^args
+            );
+
+        Windows::Foundation::EventRegistrationToken
+            navigatingEventHandlerRegistrationToken;
+        Windows::Foundation::EventRegistrationToken
+            sizeChangedEventRegistrationToken;
+        Windows::UI::Xaml::Controls::Grid^ _grid;
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
-        Windows::Foundation::Uri^ _oauthResponse;
+        Facebook::FBResult^ _dialogResponse;
     };
 }

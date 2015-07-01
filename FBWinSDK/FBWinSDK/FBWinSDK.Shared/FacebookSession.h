@@ -19,6 +19,7 @@
 #include "FacebookAccessTokenData.h"
 #include "FacebookResult.h"
 #include "FBUser.h"
+#include "FacebookDialog.xaml.h"
 
 namespace Facebook
 {
@@ -77,6 +78,7 @@ namespace Facebook
             property Facebook::FBAccessTokenData^ AccessTokenData
             {
                 Facebook::FBAccessTokenData^ get();
+                void set(FBAccessTokenData^ value);
             }
 
             //! Returns the list of permissions
@@ -118,7 +120,7 @@ namespace Facebook
             }
 
             //! Clear all login information, e.g. user info, token string, etc.
-            void Logout();
+            Windows::Foundation::IAsyncAction^ Logout();
 
             //! User info - valid after successful login
             property Facebook::Graph::FBUser^ User
@@ -127,62 +129,20 @@ namespace Facebook
             }
 
             //! Launch 'feed' dialog, to post to user's timeline
-            Windows::Foundation::IAsyncAction^ ShowFeedDialog(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowFeedDialog(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             //! Launch 'request' dialog, to send app
-            Windows::Foundation::IAsyncAction^ ShowRequestsDialog(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowRequestsDialog(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_APP
+            Platform::String^ PermissionsToString(
+                );
+
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
                 );
-#else if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-            //! Start process of logging in via FB app, i.e. launch a 
-            // well-defined fbconnect:// URI, with proper app ID, params,
-            // and redirect URI.
-            Windows::Foundation::IAsyncOperation<FBResult^>^ 
-            LoginAndContinue(
-                );
-
-            bool IsLoginResponse(
-                Platform::String^ Response
-                );
-
-            bool IsFeedDialogResponse(
-                Platform::String^ Response
-                );
-
-            bool IsRequestDialogResponse(
-                Platform::String^ Response
-                );
-
-            //! Finish logging in when app is activated via custom protocol,
-            // i.e. "called back" by Facebook app.  When async action 
-            // completes, on success FBSession::User property will be valid.
-            //
-            // @param p - ProtocolActivatedEventArgs - this function should be
-            // called from App::OnActivate, in the case of protocol activation.
-            Windows::Foundation::IAsyncOperation<FBResult^>^ 
-            ContinueAction(
-                Windows::ApplicationModel::Activation::ProtocolActivatedEventArgs^ p
-                );
-            
-            Windows::Foundation::IAsyncOperation<FBResult^>^ 
-            ContinueLogin(
-                Windows::Foundation::Uri^ Response 
-                );
-
-            Windows::Foundation::IAsyncOperation<FBResult^>^ 
-            ContinuePostToFeed(
-                Windows::Foundation::Uri^ Response 
-                );
-
-            Windows::Foundation::IAsyncOperation<FBResult^>^ 
-            ContinueAppRequest(
-                Windows::Foundation::Uri^ Response 
-                );
-#endif
 
         private:
             FBSession();
@@ -195,15 +155,12 @@ namespace Facebook
             Platform::String^ GetRedirectUriString(
                 );
 
-            concurrency::task<FBResult^> FBSession::GetUserInfo(
+            concurrency::task<FBResult^> GetUserInfo(
                 Facebook::FBAccessTokenData^ TokenData
                 );
 
             void ParseOAuthResponse(
                 Windows::Foundation::Uri^ ResponseUri
-                );
-
-            Platform::String^ PermissionsToString(
                 );
 
             Windows::Foundation::IAsyncOperation<Windows::Storage::IStorageItem^>^ 
@@ -218,7 +175,7 @@ namespace Facebook
             void TrySaveTokenData(
                 );
 
-            void TryDeleteTokenData(
+            Windows::Foundation::IAsyncAction^ TryDeleteTokenData(
                 );
 
             concurrency::task<FBResult^> GetAppPermissions(
@@ -240,13 +197,19 @@ namespace Facebook
             concurrency::task<FBResult^> RunOAuthOnUiThread(
                 );
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-            Windows::Foundation::Uri^ RemoveJSONFromBrowserResponseUri(
-                Windows::Foundation::Uri^ responseUri
+            concurrency::task<FBResult^> RunWebViewLoginOnUIThread(
                 );
-#endif
 
-            int64 FBSession::SecondsTilTokenExpires(
+            concurrency::task<FBResult^> ShowLoginDialog(
+                );
+
+            concurrency::task<FBResult^> TryLoginViaWebView(
+                );
+
+            concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
+                );
+
+            int64 SecondsTilTokenExpires(
                 Windows::Foundation::DateTime Expiration
                 );
 
@@ -259,5 +222,7 @@ namespace Facebook
             Windows::Foundation::DateTime m_Expires;
             Facebook::Graph::FBUser^ m_user;
 			concurrency::task<Facebook::FBResult^> m_loginTask;
+            Facebook::FacebookDialog^ m_dialog;
+            BOOL m_showingDialog;
     };
 }

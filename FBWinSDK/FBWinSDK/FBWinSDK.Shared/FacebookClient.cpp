@@ -557,21 +557,7 @@ Uri^ FBClient::PrepareRequestUri(
             queryString += L"method=delete&";
         }
     #endif
-        auto kvp = parametersWithoutMediaObjects->First();
-        while (kvp->HasCurrent)
-        {
-            String^ key = Uri::EscapeComponent(kvp->Current->Key);
-            String^ value = Uri::EscapeComponent(dynamic_cast<String^>(kvp->Current->Value));
-
-            if (queryString->Length() > 0)
-            {
-                queryString += "&";
-            }
-
-            queryString += key + L"=" + value;
-
-            kvp->MoveNext();
-        }
+        queryString += ParametersToQueryString(parametersWithoutMediaObjects);
     }
 
     String^ host;
@@ -591,7 +577,9 @@ Uri^ FBClient::PrepareRequestUri(
     return ref new Uri(uriString);
 }
 
-void FBClient::SerializeParameters(PropertySet^ parameters)
+void FBClient::SerializeParameters(
+    PropertySet^ parameters
+    )
 {
     auto keysThatAreNotString = ref new Vector<String^>();
 
@@ -622,3 +610,32 @@ void FBClient::SerializeParameters(PropertySet^ parameters)
     }
 }
 
+String^ FBClient::ParametersToQueryString(
+    PropertySet^ Parameters
+    )
+{
+    String^ queryString = L"";
+
+    // Add remaining parameters to query string.  Note that parameters that 
+    // do not need to be uploaded as multipart, i.e. any which is are not 
+    // binary data, are required to be in the query string, even for POST 
+    // requests!
+    IIterator<IKeyValuePair<String^, Object^>^>^ kvp = Parameters->First();
+    while (kvp->HasCurrent)
+    {
+        String^ key = Uri::EscapeComponent(kvp->Current->Key);
+        String^ value = Uri::EscapeComponent(
+            dynamic_cast<String^>(kvp->Current->Value));
+
+        if (queryString->Length() > 0)
+        {
+            queryString += "&";
+        }
+
+        queryString += key + L"=" + value;
+
+        kvp->MoveNext();
+    }
+
+    return queryString;
+}

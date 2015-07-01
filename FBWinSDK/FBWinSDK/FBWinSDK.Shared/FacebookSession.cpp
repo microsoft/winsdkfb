@@ -21,6 +21,7 @@
 #include "FacebookSession.h"
 #include "FacebookAppRequest.h"
 #include "FacebookDialog.xaml.h"
+#include "FacebookError.h"
 #include "FacebookFeedRequest.h"
 #include "FacebookPaginatedArray.h"
 #include "FacebookResult.h"
@@ -53,6 +54,7 @@ using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Controls::Primitives;
 
 #define INT64_STRING_BUFSIZE 65
+extern const wchar_t* ErrorObjectJson;
 
 namespace Facebook
 {
@@ -73,6 +75,7 @@ FBSession::FBSession() :
 	{
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
 	}
+    m_showingDialog = FALSE;
 }
 
 Facebook::FBSession::~FBSession()
@@ -122,6 +125,11 @@ bool FBSession::LoggedIn::get()
 FBAccessTokenData^ FBSession::AccessTokenData::get()
 {
     return m_AccessTokenData;
+}
+
+void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
+{
+    m_AccessTokenData = value;
 }
 
 IVectorView<String^>^ FBSession::Permissions::get()
@@ -182,7 +190,7 @@ void FBSession::ResetPermissions(
     }
 }
 
-void FBSession::Logout()
+IAsyncAction^ FBSession::Logout()
 {
     m_permissions->Clear();
     m_user = nullptr;
@@ -192,7 +200,7 @@ void FBSession::Logout()
     m_AppResponse = nullptr;
     m_loggedIn = false;
 
-    TryDeleteTokenData();
+    return TryDeleteTokenData();
 }
 
 task<FBResult^> FBSession::GetUserInfo(
@@ -351,7 +359,7 @@ void FBSession::TrySaveTokenData(
 {
     if (this->LoggedIn)
     {
-        create_task([this]() -> task<IBuffer^>
+        create_task([=]() -> task<IBuffer^>
         {
             wchar_t buffer[INT64_STRING_BUFSIZE];
             DataProtectionProvider^ provider = ref new DataProtectionProvider(L"LOCAL=user");
@@ -384,162 +392,224 @@ void FBSession::TrySaveTokenData(
     }
 }
 
-void FBSession::TryDeleteTokenData(
+IAsyncAction^ FBSession::TryDeleteTokenData(
     )
 {
     StorageFolder^ folder = ApplicationData::Current->LocalFolder;
-    create_task(MyTryGetItemAsync(folder, "FBSDKData"))
-    .then([=](IStorageItem^ item) -> task<void>
+    String^ msg = L"Deleting cached token from " + folder->Path + L"\n";
+    OutputDebugString(msg->Data());
+
+    return create_async([=]()
     {
-        if (item)
+        return create_task(MyTryGetItemAsync(folder, "FBSDKData"))
+            .then([=](IStorageItem^ item) -> task<void>
         {
-            return create_task(item->DeleteAsync());
+            if (item)
+            {
+                return create_task(item->DeleteAsync());
+            }
+            else
+            {
+                return create_task([]()
+                {
+                    ;
+                });
+            }
+        })
+            .then([](task<void> deleteTask)
+        {
+            try
+            {
+                deleteTask.get();
+            }
+            catch (...)
+            {
+                //Do nothing here, trying to delete the cache file is a "fire and
+                //forget" operation.  If it fails, we'll pick up bad token data at
+                //next login, fail the login and retry, then attempt to cache new
+                //valid token data.
+#ifdef _DEBUG
+                OutputDebugString(L"Deleting cached token file failed!\n");
+#endif
+            }
+        });
+    });
+}
+
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
+    PropertySet^ Parameters
+    )
+{
+    m_dialog = ref new FacebookDialog();
+
+    m_showingDialog = TRUE;
+
+    auto callback = ref new DispatchedHandler(
+        [=]()
+    {
+        try
+        {
+            m_dialog->ShowFeedDialog(Parameters);
+        }
+        catch(Exception^ ex)
+        {
+            m_showingDialog = FALSE;
+        }
+    });
+
+    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
+
+    IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        callback);
+
+    // create a task that will wait for the login control to finish doing what it was doing
+    IAsyncOperation<FBResult^>^ task = concurrency::create_async(
+        [=]()
+    {
+        FBResult^ dialogResponse = nullptr;
+
+        // TODO: Is there a better way to do this?  I was using an event, but
+        // the concurrency event object was deprecated in the Win10 SDK tools.
+        // Switched to plain old Windows event, but that didn't work at all,
+        // so polling for now.
+        while (m_showingDialog && !dialogResponse)
+        {
+            dialogResponse = m_dialog->GetDialogResponse();
+            Sleep(0);
+        }
+
+        if (!m_showingDialog)
+        {
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+            dialogResponse = ref new FBResult(err);
+        }
+
+        m_showingDialog = FALSE;
+        m_dialog = nullptr;
+        return dialogResponse;
+    });
+
+    return task;
+}
+
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
+    Windows::Foundation::Collections::PropertySet^ Parameters
+    )
+{
+    m_dialog = ref new FacebookDialog();
+
+    m_showingDialog = TRUE;
+
+    auto callback = ref new DispatchedHandler(
+        [=]()
+    {
+        try
+        {
+            m_dialog->ShowRequestsDialog(Parameters);
+        }
+        catch(Exception^ ex)
+        {
+            m_showingDialog = FALSE;
+        }
+    });
+
+    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
+
+    IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        callback);
+
+    // create a task that will wait for the login control to finish doing what it was doing
+    IAsyncOperation<FBResult^>^ task = concurrency::create_async(
+        [=]() 
+    {
+        FBResult^ dialogResponse = nullptr;
+
+        // TODO: Is there a better way to do this?  I was using an event, but
+        // the concurrency event object was deprecated in the Win10 SDK tools.
+        // Switched to plane old Windows event, but that didn't work at all,
+        // so polling for now.
+        while (m_showingDialog && !dialogResponse);
+        {
+            dialogResponse = m_dialog->GetDialogResponse();
+            Sleep(0);
+        }
+
+        if (!m_showingDialog)
+        {
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+            dialogResponse = ref new FBResult(err);
+        }
+
+        m_showingDialog = FALSE;
+        m_dialog = nullptr;
+        return dialogResponse;
+    });
+
+    return task;
+}
+
+task<FBResult^> FBSession::ShowLoginDialog(
+    )
+{
+    m_dialog = ref new FacebookDialog();
+
+    m_showingDialog = TRUE;
+
+    auto callback = ref new DispatchedHandler(
+        [=]()
+    {
+        try
+        {
+            m_dialog->ShowLoginDialog();
+        }
+        catch (Exception^ ex)
+        {
+            m_showingDialog = FALSE;
+        }
+    });
+
+    Windows::UI::Core::CoreWindow^ wnd = 
+        Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow;
+
+    IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        callback);
+
+    // create a task that will wait for the login control to finish doing what it was doing
+    return create_task([=]()
+    {
+        FBResult^ dialogResponse = nullptr;
+
+        // TODO: Is there a better way to do this?  I was using an event, but
+        // the concurrency event object was deprecated in the Win10 SDK tools.
+        // Switched to plane old Windows event, but that didn't work at all,
+        // so polling for now.
+        while (m_showingDialog && !dialogResponse)
+        {
+            dialogResponse = m_dialog->GetDialogResponse();
+            Sleep(0);
+        } 
+
+        if (m_showingDialog)
+        {
+            if (dialogResponse->Succeeded)
+            {
+                AccessTokenData =
+                    static_cast<FBAccessTokenData^>(dialogResponse->Object);
+            }
         }
         else
         {
-            return create_task([]()
-            {
-                ;
-            });
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+            dialogResponse = ref new FBResult(err);
         }
-    })
-    .then([](task<void> deleteTask)
-    {
-        try
-        {
-            deleteTask.get();
-        }
-        catch (...)
-        {
-            //Do nothing here, trying to delete the cache file is a "fire and
-            //forget" operation.  If it fails, we'll pick up bad token data at
-            //next login, fail the login and retry, then attempt to cache new
-            //valid token data.
-            ;
-        }
+
+        m_showingDialog = FALSE;
+        m_dialog = nullptr;
+        return dialogResponse;
     });
-}
-
-Windows::Foundation::IAsyncAction^ FBSession::ShowFeedDialog(
-    )
-{
-    FacebookDialog^ requestsControl = ref new FacebookDialog();
-    Platform::String^ errorMessage = nullptr;
-    std::function<void ()>&& action = nullptr;
-
-    auto callback = ref new Windows::UI::Core::DispatchedHandler(
-        [requestsControl, &errorMessage, action, this]()
-    {
-        Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        
-        Popup^ popup = ref new Popup();
-        popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
-        popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
-
-
-        try
-        {
-            Grid^ myGrid = ref new Grid();
-
-            // TODO: (sanjeevd) hard coded, remove and fix these
-            myGrid->Margin =  Windows::UI::Xaml::Thickness(0,0,0,0);
-            myGrid->Height = wnd1->Bounds.Height;
-            myGrid->Width = wnd1->Bounds.Width;
-           
-            requestsControl->Width = myGrid->Width;
-
-            myGrid->Children->Append(requestsControl);
-            popup->Child = myGrid;
-            popup->IsOpen = true;
-
-            requestsControl->ShowFeedDialog(popup);
-        }
-        catch(Exception^ ex)
-        {
-            // TODO: (sanjeevd) remove the line below. Currently leaving for sake of debugging
-            int x = 10;
-        }
-    });
-
-    Windows::UI::Core::CoreWindow^ wnd = Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow;
-
-    IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
-        Windows::UI::Core::CoreDispatcherPriority::Normal,
-        callback);
-
-    // create a task that will wait for the login control to finish doing what it was doing
-    IAsyncAction^ task = concurrency::create_async(
-        [this, &callback, requestsControl]() 
-    {
-        // wait for the browser to fire that the login is done
-		if (login_evt)
-		{
-			WaitForSingleObjectEx(login_evt, INFINITE, FALSE);
-		}
-	});
-
-    return task;
-}
-
-Windows::Foundation::IAsyncAction^ FBSession::ShowRequestsDialog(
-    )
-{
-    FacebookDialog^ requestsControl = ref new FacebookDialog();
-    Platform::String^ errorMessage = nullptr;
-    std::function<void ()>&& action = nullptr;
-
-    auto callback = ref new Windows::UI::Core::DispatchedHandler(
-        [requestsControl, &errorMessage, action, this]()
-    {
-        Windows::UI::Core::CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
-        
-        Popup^ popup = ref new Popup();
-        popup->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Stretch;
-        popup->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Stretch;
-
-
-        try
-        {
-            Grid^ myGrid = ref new Grid();
-
-            // TODO: (sanjeevd) hard coded, remove and fix these
-            myGrid->Margin =  Windows::UI::Xaml::Thickness(0,0,0,0);
-            myGrid->Height = wnd1->Bounds.Height;
-            myGrid->Width = wnd1->Bounds.Width;
-           
-            requestsControl->Width = myGrid->Width;
-
-            myGrid->Children->Append(requestsControl);
-            popup->Child = myGrid;
-            popup->IsOpen = true;
-
-            requestsControl->ShowRequestsDialog(popup);
-        }
-        catch(Exception^ ex)
-        {
-            // TODO: (sanjeevd) remove the line below. Currently leaving for sake of debugging
-            int x = 10;
-        }
-    });
-
-    Windows::UI::Core::CoreWindow^ wnd = Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow;
-
-    IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
-        Windows::UI::Core::CoreDispatcherPriority::Normal,
-        callback);
-
-    // create a task that will wait for the login control to finish doing what it was doing
-    IAsyncAction^ task = concurrency::create_async(
-        [this, &callback, requestsControl]() 
-    {
-        // wait for the browser to fire that the login is done
-		if (login_evt)
-		{
-			WaitForSingleObjectEx(login_evt, INFINITE, FALSE);
-		}
-	});
-
-    return task;
 }
 
 task<FBResult^> FBSession::GetAppPermissions(
@@ -566,375 +636,6 @@ task<FBResult^> FBSession::GetAppPermissions(
         return ref new FBResult(m_user);
     });
 }
-
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-
-Uri^ FBSession::BuildLoginUri(
-    )
-{
-    String^ uriString = 
-        "https://m.facebook.com/v2.1/dialog/oauth?redirect_uri=" + 
-        Uri::EscapeComponent(GetRedirectUriString()) + "&display=touch&state=" +
-        "%7B%220is_active_session%22%3A1%2C%22is_open_session%22%3A1%2C%22com." + 
-        "facebook.sdk_client_state%22%3A1%2C%223_method%22%3A%22browser_auth" +
-        "%22%7D";
-    String^ uriStringEnd = "&type=user_agent&client_id=" + m_FBAppId + 
-        "&sdk=ios";
-    String^ permissionsString = PermissionsToString();
- 
-    if (!permissionsString->IsEmpty())
-    {
-        uriString += L"&scope=" + permissionsString;
-    }
-    uriString += uriStringEnd;
-
-    OutputDebugString(uriString->Data());
-    OutputDebugString(L"\n");
-
-    return ref new Uri(uriString);
-}
-
-String^ FBSession::GetRedirectUriString(
-    )
-{
-    return L"fb" + FBAppId + "://authorize";
-}
-
-Uri^ FBSession::RemoveJSONFromBrowserResponseUri(
-    Uri^ responseUri
-    )
-{
-    wstring cleanUri = responseUri->AbsoluteUri->Data();
-    wstring JSONStart = L"/#state";
-    wstring JSONEnd = L"}&";
-    
-    size_t startPos = cleanUri.find(JSONStart);
-    if (startPos != wstring::npos)
-    {
-        size_t endPos = cleanUri.find(JSONEnd);
-        if (endPos != wstring::npos)
-        {
-            wstring front = cleanUri.substr(0, startPos) + L"?";
-            wstring back = cleanUri.substr(endPos + JSONEnd.size(), wstring::npos);
-            cleanUri = front + back;
-        }
-    }
-
-    return ref new Uri(ref new String(cleanUri.c_str()));
-}
-
-int64 FBSession::SecondsTilTokenExpires(
-    DateTime Expiration
-    )
-{
-    Calendar^ cal = ref new Calendar();
-    cal->SetToNow();
-    DateTime now = cal->GetDateTime();
-
-    int64 ticksTilExpired = Expiration.UniversalTime - now.UniversalTime;
-    if (ticksTilExpired < 0)
-    {
-        ticksTilExpired = 0;
-    }
-
-    return ticksTilExpired / 10000000;
-}
-
-IAsyncOperation<FBResult^>^ FBSession::LoginAndContinue()
-{
-    // Check for valid FB App ID
-    // Check for valid Windows App ID
-    // Check for permissions
-    // Try to see what's up with app package
-    return create_async([=] () -> task<FBResult^>
-    {
-        FBResult^ authResult = nullptr;
-
-        return CheckForExistingToken()
-        .then([this](FBResult^ authResult)
-        {
-            task<FBResult^> loginTask;
-            if (authResult && authResult->Succeeded)
-            {
-                m_AccessTokenData = static_cast<Facebook::FBAccessTokenData^>(authResult->Object);
-                m_loggedIn = true;
-                loginTask = GetUserInfo(m_AccessTokenData);
-            }
-            else
-            {
-                loginTask = create_task([]() -> FBResult^
-                {
-                    return nullptr;
-                });
-            }
-
-            return loginTask;
-        })
-        .then([this](FBResult^ graphResult) -> task<FBResult^>
-        {
-            task<FBResult^> innerResult;
-            Uri^ uriToLaunch = nullptr;
-
-            if (graphResult && graphResult->Succeeded)
-            {
-                wchar_t buffer[INT64_STRING_BUFSIZE];
-                m_user = static_cast<FBUser^>(graphResult->Object);
-                innerResult = GetAppPermissions();
-                TrySaveTokenData();
-                _i64tow_s(
-                    SecondsTilTokenExpires(m_AccessTokenData->ExpirationDate),
-                        buffer, INT64_STRING_BUFSIZE, 10);
-                String^ launchString = GetRedirectUriString() + 
-                    L"?access_token=" + m_AccessTokenData->AccessToken +
-                    L"&expires_in=" + ref new String(buffer) +
-                    L"&state=.";
-                uriToLaunch = ref new Uri(launchString);
-                innerResult = create_task([=]() -> FBResult^
-                {
-                    return graphResult;
-                });
-            }
-            else
-            {
-                m_AccessTokenData = nullptr;
-                innerResult = create_task([]() -> FBResult^
-                {
-                    return nullptr;
-                });
-                uriToLaunch = BuildLoginUri();
-            }
-
-            CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
-            if (wind)
-            {
-                CoreDispatcher^ disp = wind->Dispatcher;
-                if (disp)
-                {
-                    disp->RunAsync(
-                        Windows::UI::Core::CoreDispatcherPriority::Normal, 
-                        ref new Windows::UI::Core::DispatchedHandler([uriToLaunch, this]()
-                    {
-                        // No cached token, launch the FB app
-                        concurrency::task<bool> launchUriOperation(
-                            Windows::System::Launcher::LaunchUriAsync(uriToLaunch));
-                        launchUriOperation.then([](bool launchResult)
-                        {
-                            if (launchResult)
-                            {
-                                OutputDebugString(L"launchResult is TRUE\n");
-                            }
-                            {
-                                OutputDebugString(L"launchResult is FALSE\n");
-                            }
-                        })
-                        .then([](task<void>t)
-                        {
-                            try
-                            {
-                                t.get();
-                                OutputDebugString(L"FB launch succeeded\n");
-                            }
-                            catch (Platform::COMException^ e)
-                            {
-                                OutputDebugString(L"ERROR: FB app launch failed\n");
-                                OutputDebugString(e->Message->Data());
-                            }
-                        });
-                    }));
-                }
-            }
-
-            return innerResult;
-        });
-    });
-}
-
-bool FBSession::IsLoginResponse(
-    String^ Response
-    )
-{
-    return (Response == L"authorize");
-}
-
-bool FBSession::IsFeedDialogResponse(
-    String^ Response
-    )
-{
-    return (Response == L"feed_success");
-}
-
-bool FBSession::IsRequestDialogResponse(
-    String^ Response
-    )
-{
-    return (Response == L"requests_success");
-}
-
-IAsyncOperation<FBResult^>^ FBSession::ContinueAction(
-    ProtocolActivatedEventArgs^ p
-    )
-{
-    String^ uriString = p->Uri->Host;
-    IAsyncOperation<FBResult^>^ result;
-    
-    if (IsLoginResponse(uriString))
-    {
-        result = ContinueLogin(p->Uri);
-    }
-    else if (IsFeedDialogResponse(uriString))
-    {
-        result = ContinuePostToFeed(p->Uri);
-    }
-    else if (IsRequestDialogResponse(uriString))
-    {
-        result = ContinueAppRequest(p->Uri);
-    }
-    else
-    {
-        return create_async([]() -> task<FBResult^>
-        {
-            return create_task([]() -> FBResult^
-            {
-                return nullptr;
-            });
-        });
-    }
-
-    return result;
-}
-
-IAsyncOperation<FBResult^>^ FBSession::ContinueLogin(
-    Uri^ Response 
-    )
-{
-    return create_async([=]() -> task<FBResult^>
-    {
-        if (LoggedIn)
-        {
-            return create_task([=]() -> FBResult^
-            {
-                return ref new FBResult(m_user);
-            });
-        }
-        else
-        {
-            Uri^ cleanUri = RemoveJSONFromBrowserResponseUri(Response);
-            FBError^ loginError = FBError::FromUri(cleanUri);
-            Facebook::FBAccessTokenData^ tokenData = Facebook::FBAccessTokenData::FromUri(cleanUri);
-
-            return create_task([loginError, tokenData, this]() -> task<FBResult^>
-            {
-                task<FBResult^> graphTask;
-                if (loginError)
-                {
-                    graphTask = create_task([=]() -> FBResult^
-                    {
-                        return ref new FBResult(loginError);
-                    });
-                }
-                else if (tokenData)
-                {
-                    m_AccessTokenData = tokenData;
-                    m_loggedIn = true;
-                    TrySaveTokenData();
-                    graphTask = GetUserInfo(tokenData);
-                }
-                else
-                {
-                    graphTask = create_task([]() -> FBResult^
-                    {
-                        return nullptr;
-                    });
-                }
-
-                return graphTask;
-            })
-            .then([tokenData, this](FBResult^ loginResult) -> FBResult^
-            {
-                if (loginResult && loginResult->Succeeded)
-                {
-                    m_user = static_cast<FBUser^>(loginResult->Object);
-                }
-
-                return loginResult;
-            });
-        }
-    });
-}
-
-IAsyncOperation<FBResult^>^ FBSession::ContinuePostToFeed(
-    Uri^ Response 
-    )
-{
-    String^ msg = L"Feed response: " + Response->DisplayUri + L"\n";
-    OutputDebugString(msg->Data());
-
-    return create_async([this, Response]() -> task<FBResult^>
-    {
-        return create_task([this, Response]() -> FBResult^
-        {
-            FBFeedRequest^ info = 
-                FBFeedRequest::FromFeedDialogResponse(Response);
-            FBResult^ result = nullptr;
-
-            if (info)
-            {
-                result = ref new FBResult(info);
-            }
-            else
-            {
-                FBError^ err = FBError::FromUri(Response);
-                if (!err)
-                {
-                    String^ ErrorObjectJson = L"{\"error\": {\"message\": "
-                        L"\"Operation Canceled\", \"type\": "
-                        L"\"OAuthException\", \"code\": 4201, "
-                        L"\"error_user_msg\": \"User canceled the Dialog flow\""
-                        L"}}";
-
-                    //No post ID, and no error returned - user canceled the 
-                    //dialog, so fake up a proper error
-                    err = FBError::FromJson(ErrorObjectJson);
-                }
-                result = ref new FBResult(err);
-            }
-
-            return result;
-        });
-    });
-}
-
-IAsyncOperation<FBResult^>^ FBSession::ContinueAppRequest(
-    Uri^ Response 
-    )
-{
-    String^ msg = L"Request response: " + Response->DisplayUri + L"\n";
-    OutputDebugString(msg->Data());
-
-    return create_async([this, Response]() -> task<FBResult^>
-    {
-        return create_task([this, Response]() -> FBResult^
-        {
-            FBError^ err = FBError::FromUri(Response);
-            FBAppRequest^ info = 
-                FBAppRequest::FromRequestDialogResponse(Response);
-            FBResult^ result = nullptr;
-
-            if (err)
-            {
-                result = ref new FBResult(err);
-            }
-            else if (info)
-            {
-                result = ref new FBResult(info);
-            }
-
-            return result;
-        });
-    });
-}
-
-#else
 
 Uri^ FBSession::BuildLoginUri(
     )
@@ -1069,15 +770,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 		.then([this](WebAuthenticationResult^ authResult) -> task<FBResult^>
 		{
 			return ProcessAuthResult(authResult);
-		})
-		.then([this](FBResult^ graphResult) -> task<FBResult^>
-		{
-			return TryGetUserInfoAfterLogin(graphResult);
-		})
-		.then([this](FBResult^ loginResult) -> task<FBResult^>
-		{
-			return TryGetAppPermissionsAfterLogin(loginResult);
-		});
+        });
 	})));
 
 	return create_task([=](void)
@@ -1108,59 +801,170 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 	});
 }
 
+task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
+    )
+{
+    task<void> authTask = create_task(
+        CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+            Windows::UI::Core::CoreDispatcherPriority::Normal,
+            ref new Windows::UI::Core::DispatchedHandler([this]()
+    {
+        m_loginTask = ShowLoginDialog();
+    })));
+
+    return create_task([=](void)
+    {
+        try
+        {
+            authTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        }
+    })
+    .then([this]() -> FBResult^
+    {
+        FBResult^ result = nullptr;
+
+        try
+        {
+            result = m_loginTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        }
+
+        return result;
+    });
+}
+
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
+    )
+{
+    m_dialog = ref new FacebookDialog();
+
+    return create_async([=]()
+    {
+        return create_task([=]() -> FBResult^
+        {
+            FBResult^ result = nullptr;
+
+            task<FBResult^> authTask = TryLoginViaWebView();
+            result = authTask.get();
+            if (!result)
+            {
+                authTask = TryLoginViaWebAuthBroker();
+                result = authTask.get();
+            }
+
+            return result;
+        })
+        .then([this](FBResult^ graphResult) -> task<FBResult^>
+        {
+            return TryGetUserInfoAfterLogin(graphResult);
+        })
+        .then([this](FBResult^ userInfoResult) -> task<FBResult^>
+        {
+            return TryGetAppPermissionsAfterLogin(userInfoResult);
+        });
+    });
+}
+
+task<FBResult^> FBSession::TryLoginViaWebView(
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+
+    return CheckForExistingToken()
+        .then([this](FBResult^ oauthResult) -> task<FBResult^>
+    {
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
+        if (oauthResult && oauthResult->Succeeded)
+        {
+            Facebook::FBAccessTokenData^ tokenData = 
+                static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
+            if (!tokenData->IsExpired())
+            {
+                AccessTokenData = tokenData;
+                graphTask = create_task([=]() -> FBResult^
+                {
+                    return ref new FBResult(AccessTokenData);
+                });
+            }
+        }
+
+        return graphTask;
+    })
+    .then([this](FBResult^ graphResult)
+    {
+        FBResult^ loginResult = nullptr;
+
+        if (graphResult && graphResult->Succeeded)
+        {
+            loginResult = graphResult;
+        }
+        else
+        {
+            loginResult = RunWebViewLoginOnUIThread().get();
+        }
+
+        return loginResult;
+    });
+}
+
+task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
 
     IAsyncOperation<FBResult^>^ result = nullptr;
 
-    return create_async([=]() -> task<FBResult^>
+    return CheckForExistingToken()
+    .then([this](FBResult^ oauthResult) -> task<FBResult^>
     {
-        return CheckForExistingToken()
-        .then([this](FBResult^ oauthResult) -> task<FBResult^>
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
         {
-            task<FBResult^> graphTask;
-            if (oauthResult && oauthResult->Succeeded)
+            return nullptr;
+        });
+
+        if (oauthResult && oauthResult->Succeeded)
+        {
+            Facebook::FBAccessTokenData^ tokenData = 
+                static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
+            if (!tokenData->IsExpired())
             {
-                Facebook::FBAccessTokenData^ tokenData = static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
-                if (!tokenData->IsExpired())
+                AccessTokenData = tokenData;
+                graphTask = create_task([=]() -> FBResult^
                 {
-                    m_AccessTokenData = tokenData;
-                    m_loggedIn = true;
-                    graphTask = GetUserInfo(m_AccessTokenData);
-                }
-                else
-                {
-                    graphTask = create_task([]() -> FBResult^
-                    {
-                        return nullptr;
-                    });
-                }
-            }
-            else
-            {
-                graphTask = create_task([]() -> FBResult^
-                {
-                    return nullptr;
+                    return ref new FBResult(AccessTokenData);
                 });
             }
+        }
 
-            return graphTask;
-        })
-        .then([this](FBResult^ graphResult)
+        return graphTask;
+    })
+    .then([this](FBResult^ graphResult)
+    {
+        task<FBResult^> loginResult;
+
+        if (graphResult && graphResult->Succeeded)
         {
-            if (graphResult && graphResult->Succeeded)
+            loginResult = create_task([=]()
             {
-                m_user = static_cast<FBUser^>(graphResult->Object);
-                return GetAppPermissions();
-            }
-            else
-            {
-                return RunOAuthOnUiThread();
-            }
-        });
+                return graphResult;
+            });
+        }
+        else
+        {
+            loginResult = RunOAuthOnUiThread();
+        }
+
+        return loginResult;
     });
 }
-
-#endif

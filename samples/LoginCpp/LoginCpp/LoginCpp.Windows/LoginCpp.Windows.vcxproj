@@ -139,12 +139,24 @@
     <ClInclude Include="Common\NavigationHelper.h" />
     <ClInclude Include="Common\RelayCommand.h" />
     <ClInclude Include="Common\SuspensionManager.h" />
+    <ClInclude Include="Dialogs.xaml.h">
+      <DependentUpon>Dialogs.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="MainPage.xaml.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="OptionsPage.xaml.h">
+      <DependentUpon>OptionsPage.xaml</DependentUpon>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Dialogs.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OptionsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
@@ -165,8 +177,14 @@
     <ClCompile Include="Common\NavigationHelper.cpp" />
     <ClCompile Include="Common\RelayCommand.cpp" />
     <ClCompile Include="Common\SuspensionManager.cpp" />
+    <ClCompile Include="Dialogs.xaml.cpp">
+      <DependentUpon>Dialogs.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="MainPage.xaml.cpp">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="OptionsPage.xaml.cpp">
+      <DependentUpon>OptionsPage.xaml</DependentUpon>
     </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

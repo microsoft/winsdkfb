@@ -22,9 +22,6 @@
 #include "pch.h"
 #include "MainPage.xaml.h"
 #include "UserInfo.xaml.h"
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-#include "../LoginCpp.WindowsPhone/OptionsPage.xaml.h"
-#endif
 
 using namespace LoginCpp;
 
@@ -168,67 +165,6 @@ void App::RootFrame_FirstNavigated(Object^ sender, NavigationEventArgs^ e)
 	rootFrame->ContentTransitions = newTransitions;
 
 	rootFrame->Navigated -= _firstNavigatedToken;
-}
-
-void App::OnActivated(IActivatedEventArgs^ e)
-{
-    // Check for activation via protocol.  This code assumes the only protocol
-    // supported by our app is the Facebook redirect protocol (msft-<GUID>).
-    // If your app supports multiple protocols, you'll have to filter here.
-    if (e->Kind == Windows::ApplicationModel::Activation::ActivationKind::Protocol)
-    {
-        ProtocolActivatedEventArgs^ p = safe_cast<ProtocolActivatedEventArgs^>(e);
-        FBSession^ sess = FBSession::ActiveSession;
-
-        // FinishOpenViaFBApp retrieves basic user info via Facebook graph API,
-        // storing it in the Session::User property.  After this async
-        // action completes, the user info will be valid (assuming login 
-        // success).
-        create_task(sess->ContinueAction(p))
-            .then([this](task<FBResult^> resultTask)
-        {
-            try
-            {
-                FBResult^ result = resultTask.get();
-                if (result)
-                {
-                    if (result->Succeeded)
-                    {
-                        // We're redirecting to a page that shows simple user info, so 
-                        // have to dispatch back to the UI thread.
-                        CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
-
-                        if (wind)
-                        {
-                            CoreDispatcher^ disp = wind->Dispatcher;
-                            if (disp)
-                            {
-                                disp->RunAsync(
-                                    Windows::UI::Core::CoreDispatcherPriority::Normal,
-                                    ref new Windows::UI::Core::DispatchedHandler([this]()
-                                {
-                                    this->CreateRootFrame()->Navigate(OptionsPage::typeid);
-                                }));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        String^ msg = "ERROR: code " +
-                            result->ErrorInfo->Code.ToString() + ", Reason '" +
-                            result->ErrorInfo->Type + "', Message '" +
-                            result->ErrorInfo->Message + "'";
-                        OutputDebugString(msg->Data());
-                    }
-                }
-            }
-            catch (COMException^ ex)
-            {
-                //TODO: Handle errors here
-                OutputDebugString(L"Exception in continuation of login");
-            }
-        });
-    }
 }
 #endif
 

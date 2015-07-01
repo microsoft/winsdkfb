@@ -1,20 +1,4 @@
-﻿//******************************************************************************
-//
-// Copyright (c) 2015 Microsoft Corporation. All rights reserved.
-//
-// This code is licensed under the MIT License (MIT).
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-//******************************************************************************
-
-//
+﻿//
 // Dialogs.xaml.cpp
 // Implementation of the Dialogs class
 //
@@ -143,7 +127,7 @@ void Dialogs::Feed_Click(
     params->Insert(L"description", L"Om Nom Nom!");
 
     create_task(s->ShowFeedDialog(params))
-        .then([=](FBResult^ Response)
+        .then([=](FBResult^ DialogResponse)
     {
         OutputDebugString(L"Showed 'Feed' dialog.\n");
     });
@@ -162,7 +146,7 @@ void Dialogs::AppRequests_Click(
     params->Insert(L"message", L"Om Nom Nom!");
 
     create_task(s->ShowRequestsDialog(params))
-        .then([=](FBResult^ Response)
+        .then([=](FBResult^ DialogResponse)
     {
         OutputDebugString(L"Showed 'Requests' dialog.\n");
     });
