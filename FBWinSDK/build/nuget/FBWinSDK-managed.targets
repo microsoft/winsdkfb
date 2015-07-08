@@ -21,8 +21,14 @@
   </Target>
 
   <ItemGroup>
-    <SDKReference Include="Microsoft.VCLibs, Version=12.0">
+    <SDKReference Condition="'$(fbwinsdk-DeviceType)' == 'Windows'" Include="Microsoft.VCLibs, Version=12.0">
       <Name>Microsoft Visual C++ 2013 Runtime Package for Windows</Name>
+    </SDKReference>
+    <SDKReference Condition="'$(fbwinsdk-DeviceType)' == 'Phone'" Include="Microsoft.VCLibs, Version=12.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows</Name>
+    </SDKReference>
+    <SDKReference Condition="'$(fbwinsdk-DeviceType)' == 'UWP'" Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Microsoft Visual C++ 2015 Runtime Package for Windows Universal</Name>
     </SDKReference>
   </ItemGroup>
 
