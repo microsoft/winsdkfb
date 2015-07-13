@@ -69,13 +69,17 @@ namespace LoginCs
             s.WinAppId = winAppId;
 
             // These are the default permissions, needed to retrieve user info.
-            s.AddPermission("public_profile");
-            s.AddPermission("user_friends");
-            s.AddPermission("user_likes");
+            //s.AddPermission("public_profile");
+            //s.AddPermission("user_friends");
+            //s.AddPermission("user_likes");
 
+            PropertySet parameters = new PropertySet();
+            parameters.Add(
+                new KeyValuePair<string, object>("scope", 
+                    "public_profile,user_friends,user_likes"));
             // Launches a URI to redirect to the FB app, which will log us in
             // and return the result via our registered protocol.
-            await s.LoginAsync(null);
+            await s.LoginAsync(parameters);
         }
 
         /// <summary>

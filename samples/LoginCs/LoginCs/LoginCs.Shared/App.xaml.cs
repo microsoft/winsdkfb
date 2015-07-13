@@ -102,11 +102,11 @@ namespace LoginCs
 #else
             sess.WinAppId = loader.GetString(FBStoreAppIDName);
 #endif
-            sess.AddPermission("public_profile");
-            sess.AddPermission("user_friends");
-            sess.AddPermission("email");
-            sess.AddPermission("user_likes");
-            sess.AddPermission("user_groups");
+            //sess.AddPermission("public_profile");
+            //sess.AddPermission("user_friends");
+            //sess.AddPermission("email");
+            //sess.AddPermission("user_likes");
+            //sess.AddPermission("user_groups");
         }
 
         /// <summary>

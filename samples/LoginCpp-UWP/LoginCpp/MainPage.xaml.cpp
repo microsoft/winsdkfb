@@ -85,13 +85,18 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
 	}
 	else
 	{
-		sess->AddPermission("public_profile");
-		sess->AddPermission("user_friends");
-		sess->AddPermission("user_likes");
-		sess->AddPermission("user_groups");
-		sess->AddPermission("user_location");
+		//sess->AddPermission("public_profile");
+		//sess->AddPermission("user_friends");
+		//sess->AddPermission("user_likes");
+		//sess->AddPermission("user_groups");
+		//sess->AddPermission("user_location");
 
-		create_task(sess->LoginAsync(nullptr)).then([=](FBResult^ result)
+        PropertySet^ parameters = ref new PropertySet();
+
+        parameters->Insert(L"scope", 
+            L"public_profile,user_friends,user_likes,user_groups,user_location");
+
+		create_task(sess->LoginAsync(parameters)).then([=](FBResult^ result)
 		{
 			if (result->Succeeded)
 			{

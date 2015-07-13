@@ -54,6 +54,7 @@ using namespace std;
 #define FACEBOOK_DESKTOP_SERVER_NAME L"www"
 #define FACEBOOK_MOBILE_SERVER_NAME  L"m"
 #define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
+#define FACEBOOK_DIALOG_CLOSE_PATH   L"/dialog/close"
 
 const wchar_t* ErrorObjectJson = L"{\"error\": {\"message\": " \
 L"\"Operation Canceled\", \"type\": " \
@@ -262,8 +263,7 @@ Uri^ FacebookDialog::BuildLoginDialogUrl(
     String^ displayType = DefaultDisplay;
     String^ responseType = DefaultResponse;
 
-    uriString += L"&redirect_uri=" + Uri::EscapeComponent(
-        GetRedirectUriString(L"login")) + L"%2fauth";
+    uriString += L"&redirect_uri=" + GetRedirectUriString(L"login") + L"%2fauth";
 
     // App can pass in parameters to override defaults.
     if (Parameters)
@@ -284,7 +284,7 @@ Uri^ FacebookDialog::BuildLoginDialogUrl(
         }
     }
 
-    uriString += ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
+    uriString += L"&" + ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
         displayType + Amp + ResponseTypeKey + EqualSign + responseType;
 
     return ref new Uri(uriString);
@@ -337,6 +337,13 @@ bool FacebookDialog::IsLoginSuccessRedirect(
     return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
 }
 
+bool FacebookDialog::IsDialogCloseRedirect(
+    Uri^ Response
+    )
+{
+    return (String::CompareOrdinal(Response->Path, FACEBOOK_DIALOG_CLOSE_PATH) == 0);
+}
+
 void FacebookDialog::dialogWebView_LoginNavStarting(
     WebView^ sender, 
     WebViewNavigationStartingEventArgs^ e
@@ -361,6 +368,15 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
+    }
+    else if (IsDialogCloseRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        _dialogResponse = ref new FBResult(err);
     }
 }
 
@@ -391,6 +407,15 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
             _dialogResponse = ref new FBResult(err);
         }
     }
+    else if (IsDialogCloseRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        _dialogResponse = ref new FBResult(err);
+    }
 }
 
 void FacebookDialog::dialogWebView_RequestNavStarting(
@@ -419,6 +444,15 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
+    }
+    else if (IsDialogCloseRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        _dialogResponse = ref new FBResult(err);
     }
 }
 
