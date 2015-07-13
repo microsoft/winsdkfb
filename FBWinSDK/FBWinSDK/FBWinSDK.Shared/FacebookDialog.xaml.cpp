@@ -263,7 +263,7 @@ Uri^ FacebookDialog::BuildLoginDialogUrl(
     String^ displayType = DefaultDisplay;
     String^ responseType = DefaultResponse;
 
-    uriString += L"&redirect_uri=" + GetRedirectUriString(L"login") + L"%2fauth";
+    uriString += L"&redirect_uri=" + GetRedirectUriString(L"login");
 
     // App can pass in parameters to override defaults.
     if (Parameters)
