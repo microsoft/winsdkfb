@@ -240,21 +240,54 @@ String^ FacebookDialog::GetFBServer(
     return server;
 }
 
+#define ScopeKey        L"scope"
+#define DisplayKey      L"display"
+#define ResponseTypeKey L"response_type"
+#define EqualSign       L"="
+#define Amp             L"&"
+#define DefaultScope    L"public_profile,email,user_friends"
+#define DefaultDisplay  L"popup"
+#define DefaultResponse L"token"
+
 Uri^ FacebookDialog::BuildLoginDialogUrl(
     PropertySet^ Parameters
     )
 {
-    FBSession^ sess = FBSession::ActiveSession;
-    String^ dialogUriString =
-        L"https://" + GetFBServer() + 
-        L".facebook.com/dialog/oauth?client_id=" + sess->FBAppId + 
-        L"&redirect_uri=" + GetRedirectUriString(L"login") + L"&app_id=" + 
-        sess->FBAppId + L"&scope=" + sess->PermissionsToString() + 
-        L"&display=popup" + L"&response_type=token";
+    FBSession^ s = FBSession::ActiveSession;
+    String^ uriString = L"https://" + GetFBServer() +
+        L".facebook.com/dialog/oauth?client_id=" + s->FBAppId;
 
-    DebugPrintLine(L"Request string is " + dialogUriString);
+    // Use some reasonable default login parameters
+    String^ scope = DefaultScope;
+    String^ displayType = DefaultDisplay;
+    String^ responseType = DefaultResponse;
 
-    return ref new Uri(dialogUriString);
+    uriString += L"&redirect_uri=" + Uri::EscapeComponent(
+        GetRedirectUriString(L"login")) + L"%2fauth";
+
+    // App can pass in parameters to override defaults.
+    if (Parameters)
+    {
+        if (Parameters->HasKey(ScopeKey))
+        {
+            scope = (String^)Parameters->Lookup(ScopeKey);
+        }
+
+        if (Parameters->HasKey(DisplayKey))
+        {
+            displayType = (String^)Parameters->Lookup(DisplayKey);
+        }
+
+        if (Parameters->HasKey(ResponseTypeKey))
+        {
+            responseType = (String^)Parameters->Lookup(ResponseTypeKey);
+        }
+    }
+
+    uriString += ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
+        displayType + Amp + ResponseTypeKey + EqualSign + responseType;
+
+    return ref new Uri(uriString);
 }
 
 Uri^ FacebookDialog::BuildFeedDialogUrl(

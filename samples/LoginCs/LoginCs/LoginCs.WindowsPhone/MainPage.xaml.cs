@@ -75,7 +75,7 @@ namespace LoginCs
 
             // Launches a URI to redirect to the FB app, which will log us in
             // and return the result via our registered protocol.
-            await s.LoginAndContinue();
+            await s.LoginAsync(null);
         }
 
         /// <summary>
@@ -110,13 +110,13 @@ namespace LoginCs
             }
         }
 
-        private void login_OnClicked(object sender, RoutedEventArgs e)
+        private async void login_OnClicked(object sender, RoutedEventArgs e)
         {
             FBSession sess = FBSession.ActiveSession;
             if (sess.LoggedIn)
             {
                 LoginButton.Content = "Login";
-                sess.Logout();
+                await sess.Logout();
                 //Navigate back to same page, to clear out logged in info.
                 App.RootFrame.Navigate(typeof(MainPage));
             }

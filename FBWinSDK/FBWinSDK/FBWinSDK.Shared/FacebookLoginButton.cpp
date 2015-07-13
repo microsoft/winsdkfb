@@ -93,19 +93,26 @@ void FBLoginButton::InitWithPermissions(
     }
 }
 
-void FBLoginButton::SetSessionPermissions(
+String^ FBLoginButton::GetPermissions(
     )
 {
-    FBSession^ s = FBSession::ActiveSession;
-    s->ResetPermissions();
+    String^ permissions = nullptr;
     if (m_permissions)
     {
-        IIterator<String^>^ iter = nullptr;
-        for (iter = m_permissions->First(); iter->HasCurrent; iter->MoveNext())
+        permissions = ref new String();
+
+        for (unsigned int i = 0; i < m_permissions->Size; i++)
         {
-            s->AddPermission(iter->Current);
+            if (i)
+            {
+                permissions += ",";
+            }
+
+            permissions += m_permissions->GetAt(i);
         }
     }
+
+    return permissions;
 }
 
 void FBLoginButton::OnClick(
@@ -121,9 +128,14 @@ void FBLoginButton::OnClick(
     }
     else
     {
-        SetSessionPermissions();
+        String^ permissions = GetPermissions();
+        PropertySet^ parameters = ref new PropertySet();
+        if (permissions != nullptr)
+        {
+            parameters->Insert(L"scope", permissions);
+        }
 
-        create_task(s->LoginAsync())
+        create_task(s->LoginAsync(parameters))
             .then([=](FBResult^ result)
         {
             if (result->Succeeded)

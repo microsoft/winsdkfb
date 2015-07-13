@@ -67,10 +67,8 @@ FBSession::FBSession() :
     m_loggedIn(false),
     m_FBAppId(nullptr),
     m_WinAppId(nullptr),
-    m_permissions(nullptr),
     m_user(nullptr)
 {
-    m_permissions = ref new Vector<String^>;
 	if (!login_evt)
 	{
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
@@ -132,11 +130,6 @@ void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
     m_AccessTokenData = value;
 }
 
-IVectorView<String^>^ FBSession::Permissions::get()
-{
-    return m_permissions->GetView();
-}
-
 Windows::Foundation::DateTime FBSession::Expires::get()
 {
     return m_Expires;
@@ -174,25 +167,8 @@ FBUser^ FBSession::User::get()
     return m_user;
 }
 
-void FBSession::AddPermission(
-    String^ permission
-    )
-{
-    m_permissions->Append(permission);
-}
-
-void FBSession::ResetPermissions(
-    )
-{
-    if (m_permissions)
-    {
-        m_permissions->Clear();
-    }
-}
-
 IAsyncAction^ FBSession::Logout()
 {
-    m_permissions->Clear();
     m_user = nullptr;
     m_FBAppId = nullptr;
     m_WinAppId = nullptr;
@@ -216,23 +192,6 @@ task<FBResult^> FBSession::GetUserInfo(
         }));
 
     return create_task(value->Get());
-}
-
-String^ FBSession::PermissionsToString()
-{
-    String^ permissionsString = ref new String();
-
-    for (unsigned int i = 0; i < m_permissions->Size; i++)
-    {
-        if (i)
-        {
-            permissionsString += ",";
-        }
-
-        permissionsString += m_permissions->GetAt(i);
-    }
-
-    return permissionsString;
 }
 
 IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
@@ -494,7 +453,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
-    Windows::Foundation::Collections::PropertySet^ Parameters
+    PropertySet^ Parameters
     )
 {
     m_dialog = ref new FacebookDialog();
@@ -551,6 +510,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
 }
 
 task<FBResult^> FBSession::ShowLoginDialog(
+    PropertySet^ Parameters
     )
 {
     m_dialog = ref new FacebookDialog();
@@ -637,22 +597,48 @@ task<FBResult^> FBSession::GetAppPermissions(
     });
 }
 
+#define ScopeKey        L"scope"
+#define DisplayKey      L"display"
+#define ResponseTypeKey L"response_type"
+#define EqualSign       L"="
+#define Amp             L"&"
+
 Uri^ FBSession::BuildLoginUri(
+    PropertySet^ Parameters
     )
 {
     String^ uriString = L"https://www.facebook.com/dialog/oauth?client_id=" +
         m_FBAppId;
-    String^ permissionsString = PermissionsToString();
+
+    // Use some reasonable default login parameters
+    String^ scope = L"public_profile,email,user_friends";
+    String^ displayType = L"popup";
+    String^ responseType = L"token";
 
     uriString += L"&redirect_uri=" + Uri::EscapeComponent(
         GetRedirectUriString()) + L"%2fauth";
 
-    if (!permissionsString->IsEmpty())
+    // App can pass in parameters to override defaults.
+    if (Parameters)
     {
-        uriString += L"&scope=" + permissionsString;
+        if (Parameters->HasKey(ScopeKey))
+        {
+            scope = (String^)Parameters->Lookup(ScopeKey);
+        }
+
+        if (Parameters->HasKey(DisplayKey))
+        {
+            displayType = (String^)Parameters->Lookup(DisplayKey);
+        }
+
+        if (Parameters->HasKey(ResponseTypeKey))
+        {
+            responseType = (String^)Parameters->Lookup(ResponseTypeKey);
+        }
     }
 
-    uriString += L"&display=popup&response_type=token";
+    uriString += ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
+        displayType + Amp + ResponseTypeKey + EqualSign + responseType;
 
     return ref new Uri(uriString);
 }
@@ -756,16 +742,17 @@ task<FBResult^> FBSession::TryGetAppPermissionsAfterLogin(
 }
 
 task<FBResult^> FBSession::RunOAuthOnUiThread(
+    PropertySet^ Parameters
     )
 {
 	task<void> authTask = create_task(
 		CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
 		Windows::UI::Core::CoreDispatcherPriority::Normal,
-		ref new Windows::UI::Core::DispatchedHandler([this]() 
+		ref new Windows::UI::Core::DispatchedHandler([=]() 
 	{
 		m_loginTask = create_task(
 			WebAuthenticationBroker::AuthenticateAsync(
-			WebAuthenticationOptions::None, BuildLoginUri(),
+			WebAuthenticationOptions::None, BuildLoginUri(Parameters),
 			ref new Uri(GetRedirectUriString())))
 		.then([this](WebAuthenticationResult^ authResult) -> task<FBResult^>
 		{
@@ -802,14 +789,15 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 }
 
 task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
+    PropertySet^ Parameters
     )
 {
     task<void> authTask = create_task(
         CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
             Windows::UI::Core::CoreDispatcherPriority::Normal,
-            ref new Windows::UI::Core::DispatchedHandler([this]()
+            ref new Windows::UI::Core::DispatchedHandler([=]()
     {
-        m_loginTask = ShowLoginDialog();
+        m_loginTask = ShowLoginDialog(Parameters);
     })));
 
     return create_task([=](void)
@@ -841,6 +829,7 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
+    PropertySet^ Parameters
     )
 {
     m_dialog = ref new FacebookDialog();
@@ -851,11 +840,11 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         {
             FBResult^ result = nullptr;
 
-            task<FBResult^> authTask = TryLoginViaWebView();
+            task<FBResult^> authTask = TryLoginViaWebView(Parameters);
             result = authTask.get();
             if (!result)
             {
-                authTask = TryLoginViaWebAuthBroker();
+                authTask = TryLoginViaWebAuthBroker(Parameters);
                 result = authTask.get();
             }
 
@@ -873,6 +862,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 }
 
 task<FBResult^> FBSession::TryLoginViaWebView(
+    PropertySet^ Parameters
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
@@ -901,7 +891,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 
         return graphTask;
     })
-    .then([this](FBResult^ graphResult)
+    .then([=](FBResult^ graphResult)
     {
         FBResult^ loginResult = nullptr;
 
@@ -911,7 +901,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
         }
         else
         {
-            loginResult = RunWebViewLoginOnUIThread().get();
+            loginResult = RunWebViewLoginOnUIThread(Parameters).get();
         }
 
         return loginResult;
@@ -919,6 +909,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 }
 
 task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
+    PropertySet^ Parameters
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
@@ -926,7 +917,7 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
     IAsyncOperation<FBResult^>^ result = nullptr;
 
     return CheckForExistingToken()
-    .then([this](FBResult^ oauthResult) -> task<FBResult^>
+    .then([=](FBResult^ oauthResult) -> task<FBResult^>
     {
         task<FBResult^> graphTask = create_task([]() -> FBResult^
         {
@@ -949,7 +940,7 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
 
         return graphTask;
     })
-    .then([this](FBResult^ graphResult)
+    .then([=](FBResult^ graphResult)
     {
         task<FBResult^> loginResult;
 
@@ -962,7 +953,7 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
         }
         else
         {
-            loginResult = RunOAuthOnUiThread();
+            loginResult = RunOAuthOnUiThread(Parameters);
         }
 
         return loginResult;

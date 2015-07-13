@@ -52,8 +52,11 @@ namespace LoginCs
             Uri endURI = 
             WebAuthenticationBroker.GetCurrentApplicationCallbackUri();
             string uriString = endURI.ToString();
+            PropertySet parameters = new PropertySet();
 
-            FBResult result = await FBSession.ActiveSession.LoginAsync();
+            parameters.Add(new KeyValuePair<String, Object>("scope", 
+                "public_profile,email,user_friends,publish_actions"));
+            FBResult result = await FBSession.ActiveSession.LoginAsync(parameters);
             if (result.Succeeded)
             {
                 Frame.Navigate(typeof(UserInfo));
@@ -96,13 +99,13 @@ namespace LoginCs
             }
         }
 
-        private void login_OnClicked(object sender, RoutedEventArgs e)
+        private async void login_OnClicked(object sender, RoutedEventArgs e)
         {
             FBSession sess = FBSession.ActiveSession;
             if (sess.LoggedIn)
             {
                 LoginButton.Content = "Login";
-                sess.Logout();
+                await sess.Logout();
                 //Navigate back to same page, to clear out logged in info.
                 App.RootFrame.Navigate(typeof(MainPage));
             }

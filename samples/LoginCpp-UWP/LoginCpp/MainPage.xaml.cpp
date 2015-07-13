@@ -91,7 +91,7 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
 		sess->AddPermission("user_groups");
 		sess->AddPermission("user_location");
 
-		create_task(sess->LoginAsync()).then([=](FBResult^ result)
+		create_task(sess->LoginAsync(nullptr)).then([=](FBResult^ result)
 		{
 			if (result->Succeeded)
 			{

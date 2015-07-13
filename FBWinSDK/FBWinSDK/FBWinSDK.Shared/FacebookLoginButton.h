@@ -76,7 +76,7 @@ namespace Facebook
             event ShowingLoggedOutUserHandler^ ShowingLoggedOutUser;
 
         private:
-            void SetSessionPermissions(
+            Platform::String^ GetPermissions(
                 );
 
             void OnClick(

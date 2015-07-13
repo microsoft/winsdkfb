@@ -81,12 +81,6 @@ namespace Facebook
                 void set(FBAccessTokenData^ value);
             }
 
-            //! Returns the list of permissions
-            property Windows::Foundation::Collections::IVectorView<Platform::String^>^ Permissions
-            {
-                Windows::Foundation::Collections::IVectorView<Platform::String^>^ get();
-            }
-
             //! Expiration date/time of active session
             property Windows::Foundation::DateTime Expires
             {
@@ -99,14 +93,6 @@ namespace Facebook
             {
                 bool get();
             }
-
-            //! Request a new permission
-            void AddPermission(
-                Platform::String^ permission
-                );
-
-            void ResetPermissions(
-                );
 
             //! FBSession is a singleton object - ActiveSession is the way to
             // acquire a reference to the object.
@@ -138,10 +124,8 @@ namespace Facebook
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            Platform::String^ PermissionsToString(
-                );
-
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
         private:
@@ -150,6 +134,7 @@ namespace Facebook
 			~FBSession();
 
             Windows::Foundation::Uri^ BuildLoginUri(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             Platform::String^ GetRedirectUriString(
@@ -195,18 +180,23 @@ namespace Facebook
 				);
 
             concurrency::task<FBResult^> RunOAuthOnUiThread(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> RunWebViewLoginOnUIThread(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> ShowLoginDialog(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> TryLoginViaWebView(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             int64 SecondsTilTokenExpires(
@@ -218,7 +208,6 @@ namespace Facebook
             bool m_loggedIn;
             Platform::String^ m_AppResponse;
             Facebook::FBAccessTokenData^ m_AccessTokenData;
-            Platform::Collections::Vector<Platform::String^>^ m_permissions;
             Windows::Foundation::DateTime m_Expires;
             Facebook::Graph::FBUser^ m_user;
 			concurrency::task<Facebook::FBResult^> m_loginTask;

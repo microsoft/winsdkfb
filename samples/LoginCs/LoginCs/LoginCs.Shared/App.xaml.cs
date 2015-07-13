@@ -60,7 +60,7 @@ namespace LoginCs
             this.Suspending += this.OnSuspending;
         }
 
-#if WINDOWS_PHONE_APP
+#if FALSE //WINDOWS_PHONE_APP
         protected override void OnActivated(IActivatedEventArgs args)
         {
             if (args.Kind == ActivationKind.Protocol)
