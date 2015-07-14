@@ -158,13 +158,14 @@ void FacebookDialog::ShowDialog(
 }
 
 void FacebookDialog::ShowLoginDialog(
+    PropertySet^ Parameters
     )
 {
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_LoginNavStarting);
     ShowDialog(ref new DialogUriBuilder(this,
-        &FacebookDialog::BuildLoginDialogUrl), handler, nullptr);
+        &FacebookDialog::BuildLoginDialogUrl), handler, Parameters);
 }
 
 void FacebookDialog::ShowFeedDialog(
@@ -265,26 +266,36 @@ Uri^ FacebookDialog::BuildLoginDialogUrl(
 
     uriString += L"&redirect_uri=" + GetRedirectUriString(L"login");
 
-    // App can pass in parameters to override defaults.
-    if (Parameters)
+    // Enumerate through all the parameters
+    IIterator<IKeyValuePair<String^, Object^>^>^ first = Parameters->First();
+    while (first && (first->HasCurrent))
     {
-        if (Parameters->HasKey(ScopeKey))
+        String^ Key = first->Current->Key;
+        String^ Value = dynamic_cast<String^>(first->Current->Value);
+        if (Value)
         {
-            scope = (String^)Parameters->Lookup(ScopeKey);
+            if (!String::CompareOrdinal(Key, ScopeKey))
+            {
+                scope = Value;
+            }
+            else if (!String::CompareOrdinal(Key, DisplayKey))
+            {
+                displayType = Value;
+            }
+            else if (!String::CompareOrdinal(Key, ResponseTypeKey))
+            {
+                responseType = Value;
+            }
+            else
+            {
+                uriString += Amp + Key + EqualSign + Value;
+            }
         }
 
-        if (Parameters->HasKey(DisplayKey))
-        {
-            displayType = (String^)Parameters->Lookup(DisplayKey);
-        }
-
-        if (Parameters->HasKey(ResponseTypeKey))
-        {
-            responseType = (String^)Parameters->Lookup(ResponseTypeKey);
-        }
+        first->MoveNext();
     }
 
-    uriString += L"&" + ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
+    uriString += Amp + ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
         displayType + Amp + ResponseTypeKey + EqualSign + responseType;
 
     return ref new Uri(uriString);

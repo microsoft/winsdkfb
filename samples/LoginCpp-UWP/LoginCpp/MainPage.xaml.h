@@ -34,6 +34,14 @@ namespace LoginCpp
 		MainPage();
 
 	private:
-		void login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        BOOL DidGetAllRequestedPermissions(
+            );
+            
+        void NavigateToOptionsPage(
+            );
+
+		void login_OnClicked(
+            Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e
+            );
 	};
 }

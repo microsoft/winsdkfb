@@ -522,7 +522,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
     {
         try
         {
-            m_dialog->ShowLoginDialog();
+            m_dialog->ShowLoginDialog(Parameters);
         }
         catch (Exception^ ex)
         {

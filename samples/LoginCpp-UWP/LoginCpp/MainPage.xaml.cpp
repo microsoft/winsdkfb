@@ -71,6 +71,38 @@ MainPage::MainPage()
 	s->WinAppId = winAppId;
 }
 
+BOOL MainPage::DidGetAllRequestedPermissions(
+    )
+{
+    // TODO: Need to actually check permissions here.
+    return FALSE;
+}
+
+void MainPage::NavigateToOptionsPage()
+{
+    LoginButton->Content = L"Logout";
+
+    // We're redirecting to a page that shows simple user info, so 
+    // have to dispatch back to the UI thread.
+    CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
+
+    if (wind)
+    {
+        CoreDispatcher^ disp = wind->Dispatcher;
+        if (disp)
+        {
+            disp->RunAsync(
+                Windows::UI::Core::CoreDispatcherPriority::Normal,
+                ref new Windows::UI::Core::DispatchedHandler([this]()
+            {
+                LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+                Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+                f->Navigate(OptionsPage::typeid);
+            }));
+        }
+    }
+}
+
 void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	FBSession^ sess = FBSession::ActiveSession;
@@ -93,34 +125,32 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
 
         PropertySet^ parameters = ref new PropertySet();
 
-        parameters->Insert(L"scope", 
+        parameters->Insert(L"scope",
             L"public_profile,user_friends,user_likes,user_groups,user_location");
 
 		create_task(sess->LoginAsync(parameters)).then([=](FBResult^ result)
 		{
 			if (result->Succeeded)
 			{
-				LoginButton->Content = L"Logout";
+                if (DidGetAllRequestedPermissions())
+                {
+                    NavigateToOptionsPage();
+                }
+                else
+                {
+                    PropertySet^ reRequestParams = ref new PropertySet();
 
-				// We're redirecting to a page that shows simple user info, so 
-				// have to dispatch back to the UI thread.
-				CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
-
-				if (wind)
-				{
-					CoreDispatcher^ disp = wind->Dispatcher;
-					if (disp)
-					{
-						disp->RunAsync(
-							Windows::UI::Core::CoreDispatcherPriority::Normal,
-							ref new Windows::UI::Core::DispatchedHandler([this]()
-						{
-							LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
-							Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
-							f->Navigate(OptionsPage::typeid);
-						}));
-					}
-				}
+                    reRequestParams->Insert(L"scope",
+                        L"public_profile,user_friends,user_likes,user_groups,user_location");
+                    reRequestParams->Insert(L"auth_type", L"rerequest");
+                    create_task(sess->LoginAsync(reRequestParams)).then([=](FBResult^ result)
+                    {
+                        if (result->Succeeded)
+                        {
+                            NavigateToOptionsPage();
+                        }
+                    });
+                }
 			}
 		});
 	}

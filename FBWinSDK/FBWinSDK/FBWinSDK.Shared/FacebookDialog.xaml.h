@@ -51,6 +51,7 @@ namespace Facebook
             );
 
         void ShowLoginDialog(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         void ShowFeedDialog(
