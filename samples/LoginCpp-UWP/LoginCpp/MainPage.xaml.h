@@ -34,6 +34,9 @@ namespace LoginCpp
 		MainPage();
 
 	private:
+        Platform::String^ BuildPermissionsString(
+            );
+            
         BOOL DidGetAllRequestedPermissions(
             );
             

@@ -602,42 +602,57 @@ task<FBResult^> FBSession::GetAppPermissions(
 #define ResponseTypeKey L"response_type"
 #define EqualSign       L"="
 #define Amp             L"&"
+#define DefaultScope    L"public_profile,email,user_friends"
+#define DefaultDisplay  L"popup"
+#define DefaultResponse L"token"
+#define AuthTypeKey     L"auth_type"
+#define Rerequest       L"rerequest"
 
 Uri^ FBSession::BuildLoginUri(
     PropertySet^ Parameters
     )
 {
-    String^ uriString = L"https://www.facebook.com/dialog/oauth?client_id=" +
-        m_FBAppId;
+    FBSession^ s = FBSession::ActiveSession;
+    String^ uriString = L"https://" + 
+        L"www.facebook.com/dialog/oauth?client_id=" + s->FBAppId;
 
     // Use some reasonable default login parameters
-    String^ scope = L"public_profile,email,user_friends";
-    String^ displayType = L"popup";
-    String^ responseType = L"token";
+    String^ scope = DefaultScope;
+    String^ displayType = DefaultDisplay;
+    String^ responseType = DefaultResponse;
 
-    uriString += L"&redirect_uri=" + Uri::EscapeComponent(
-        GetRedirectUriString()) + L"%2fauth";
+    uriString += L"&redirect_uri=" + GetRedirectUriString();
 
-    // App can pass in parameters to override defaults.
-    if (Parameters)
+    // Enumerate through all the parameters
+    IIterator<IKeyValuePair<String^, Object^>^>^ first = Parameters->First();
+    while (first && (first->HasCurrent))
     {
-        if (Parameters->HasKey(ScopeKey))
+        String^ Key = first->Current->Key;
+        String^ Value = dynamic_cast<String^>(first->Current->Value);
+        if (Value)
         {
-            scope = (String^)Parameters->Lookup(ScopeKey);
+            if (!String::CompareOrdinal(Key, ScopeKey))
+            {
+                scope = Value;
+            }
+            else if (!String::CompareOrdinal(Key, DisplayKey))
+            {
+                displayType = Value;
+            }
+            else if (!String::CompareOrdinal(Key, ResponseTypeKey))
+            {
+                responseType = Value;
+            }
+            else
+            {
+                uriString += Amp + Key + EqualSign + Value;
+            }
         }
 
-        if (Parameters->HasKey(DisplayKey))
-        {
-            displayType = (String^)Parameters->Lookup(DisplayKey);
-        }
-
-        if (Parameters->HasKey(ResponseTypeKey))
-        {
-            responseType = (String^)Parameters->Lookup(ResponseTypeKey);
-        }
+        first->MoveNext();
     }
 
-    uriString += ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
+    uriString += Amp + ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
         displayType + Amp + ResponseTypeKey + EqualSign + responseType;
 
     return ref new Uri(uriString);
@@ -839,9 +854,10 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         return create_task([=]() -> FBResult^
         {
             FBResult^ result = nullptr;
+            task<FBResult^> authTask;
 
-            task<FBResult^> authTask = TryLoginViaWebView(Parameters);
-            result = authTask.get();
+            //task<FBResult^> authTask = TryLoginViaWebView(Parameters);
+            //result = authTask.get();
             if (!result)
             {
                 authTask = TryLoginViaWebAuthBroker(Parameters);
@@ -867,8 +883,21 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 {
     FBSession^ sess = FBSession::ActiveSession;
 
-    return CheckForExistingToken()
-        .then([this](FBResult^ oauthResult) -> task<FBResult^>
+    return create_task([=]() -> task<FBResult^>
+    {
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
+        if (!IsRerequest(Parameters))
+        {
+            graphTask = CheckForExistingToken();
+        }
+
+        return graphTask;
+    })
+    .then([this](FBResult^ oauthResult) -> task<FBResult^>
     {
         task<FBResult^> graphTask = create_task([]() -> FBResult^
         {
@@ -916,7 +945,20 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
 
     IAsyncOperation<FBResult^>^ result = nullptr;
 
-    return CheckForExistingToken()
+    return create_task([=]() -> task<FBResult^>
+    {
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
+        if (!IsRerequest(Parameters))
+        {
+            graphTask = CheckForExistingToken();
+        }
+
+        return graphTask;
+    })
     .then([=](FBResult^ oauthResult) -> task<FBResult^>
     {
         task<FBResult^> graphTask = create_task([]() -> FBResult^
@@ -959,3 +1001,23 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
         return loginResult;
     });
 }
+
+BOOL FBSession::IsRerequest(
+    PropertySet^ Parameters
+    )
+{
+    BOOL isRerequest = FALSE;
+
+    if (Parameters && Parameters->HasKey(AuthTypeKey))
+    {
+        String^ Value = static_cast<String^>(Parameters->Lookup(AuthTypeKey));
+
+        if (!String::CompareOrdinal(Value, Rerequest))
+        {
+            isRerequest = TRUE;
+        }
+    }
+
+    return isRerequest;
+}
+

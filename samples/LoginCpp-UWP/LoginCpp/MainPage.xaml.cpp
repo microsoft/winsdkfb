@@ -48,6 +48,16 @@ using namespace Windows::UI::Xaml::Navigation;
 
 #define FBAppIDName L"FBApplicationId"
 #define FBStoreAppIDName L"FBWindowsAppId"
+#define PermissionGranted L"granted"
+
+const wchar_t* requested_permissions[] = 
+{
+    L"public_profile",
+    L"user_friends",
+    L"user_likes",
+    L"user_groups",
+    L"user_location"
+};
 
 MainPage::MainPage()
 {
@@ -71,11 +81,52 @@ MainPage::MainPage()
 	s->WinAppId = winAppId;
 }
 
+String^ MainPage::BuildPermissionsString(
+    )
+{
+    String^ result = ref new String();
+
+    for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
+    {
+        if (i)
+        {
+            result += L",";
+        }
+
+        result += ref new String(requested_permissions[i]);
+    }
+
+    return result;
+}
 BOOL MainPage::DidGetAllRequestedPermissions(
     )
 {
-    // TODO: Need to actually check permissions here.
-    return FALSE;
+    BOOL success = FALSE;
+    FBAccessTokenData^ data = FBSession::ActiveSession->AccessTokenData;
+    unsigned int grantedCount = 0;
+
+    if (data)
+    {
+        for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
+        {
+            String^ perm = ref new String(requested_permissions[i]);
+            if (data->Permissions->HasKey(perm))
+            {
+                String^ Value = data->Permissions->Lookup(perm);
+                if (!String::CompareOrdinal(Value, PermissionGranted))
+                {
+                    grantedCount++;
+                }
+            }
+        }
+
+        if (grantedCount == ARRAYSIZE(requested_permissions))
+        {
+            success = TRUE;
+        }
+    }
+
+    return success;
 }
 
 void MainPage::NavigateToOptionsPage()
@@ -117,16 +168,9 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
 	}
 	else
 	{
-		//sess->AddPermission("public_profile");
-		//sess->AddPermission("user_friends");
-		//sess->AddPermission("user_likes");
-		//sess->AddPermission("user_groups");
-		//sess->AddPermission("user_location");
-
         PropertySet^ parameters = ref new PropertySet();
 
-        parameters->Insert(L"scope",
-            L"public_profile,user_friends,user_likes,user_groups,user_location");
+        parameters->Insert(L"scope", BuildPermissionsString());
 
 		create_task(sess->LoginAsync(parameters)).then([=](FBResult^ result)
 		{
@@ -138,12 +182,10 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
                 }
                 else
                 {
-                    PropertySet^ reRequestParams = ref new PropertySet();
-
-                    reRequestParams->Insert(L"scope",
-                        L"public_profile,user_friends,user_likes,user_groups,user_location");
-                    reRequestParams->Insert(L"auth_type", L"rerequest");
-                    create_task(sess->LoginAsync(reRequestParams)).then([=](FBResult^ result)
+                    parameters->Insert(L"scope", BuildPermissionsString());
+                    parameters->Insert(L"auth_type", L"rerequest");
+                    create_task(sess->LoginAsync(parameters))
+                    .then([=](FBResult^ result)
                     {
                         if (result->Succeeded)
                         {

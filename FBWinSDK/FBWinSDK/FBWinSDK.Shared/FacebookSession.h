@@ -203,6 +203,10 @@ namespace Facebook
                 Windows::Foundation::DateTime Expiration
                 );
 
+            BOOL IsRerequest(
+                Windows::Foundation::Collections::PropertySet^ Parameters
+                );
+
             Platform::String^ m_FBAppId;
             Platform::String^ m_WinAppId;
             bool m_loggedIn;
