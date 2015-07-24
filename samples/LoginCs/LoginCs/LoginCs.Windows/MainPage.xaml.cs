@@ -47,6 +47,64 @@ namespace LoginCs
             this.InitializeComponent();
         }
 
+        private const string _granted = "granted";
+
+        private string[] requested_permissions =
+        {
+            "public_profile",
+            "email",
+            "user_friends",
+            "publish_actions"
+        };
+
+        private string BuildPermissionsString()
+        {
+            string permissions = "";
+
+            for (uint i = 0; i < requested_permissions.Length; i++)
+            {
+                if (i > 0)
+                {
+                    permissions += ",";
+                }
+
+                permissions += requested_permissions[i];
+            }
+
+            return permissions;
+        }
+
+        private bool DidGetRequestedPermissions(
+            )
+        {
+            bool gotPermissions = false;
+            uint grantedCount = 0;
+
+            if (FBSession.ActiveSession.AccessTokenData != null)
+            {
+                IReadOnlyDictionary<string, string> Permissions = 
+                    FBSession.ActiveSession.AccessTokenData.Permissions;
+
+                for (uint i = 0; i < requested_permissions.Length; i++)
+                {
+                    if (Permissions.ContainsKey(requested_permissions[i]))
+                    {
+                        if (String.CompareOrdinal(Permissions[requested_permissions[i]], _granted) == 0)
+                        {
+                            grantedCount++;
+                        }
+                    }
+                }
+
+                if (grantedCount == requested_permissions.Length)
+                {
+                    gotPermissions = true;
+                }
+            }
+
+            return gotPermissions;
+        }
+
         private async void LoginToFB()
         {
             Uri endURI = 
@@ -55,11 +113,35 @@ namespace LoginCs
             PropertySet parameters = new PropertySet();
 
             parameters.Add(new KeyValuePair<String, Object>("scope", 
-                "public_profile,email,user_friends,publish_actions"));
+                BuildPermissionsString()));
+
             FBResult result = await FBSession.ActiveSession.LoginAsync(parameters);
+            if ((!result.Succeeded) &&
+                (((ErrorCode)result.ErrorInfo.Code == ErrorCode.ErrorCodeOauthException) && 
+                 ((ErrorSubcode)result.ErrorInfo.Subcode == ErrorSubcode.ErrorSubcodeSessionInvalidated)))
+            {
+                parameters.Add(new KeyValuePair<String, Object>("auth_type", "rerequest"));
+                result = await FBSession.ActiveSession.LoginAsync(parameters);
+            }
+
             if (result.Succeeded)
             {
-                Frame.Navigate(typeof(UserInfo));
+                if (DidGetRequestedPermissions())
+                {
+                    Frame.Navigate(typeof(UserInfo));
+                }
+                else
+                {
+                    if (!parameters.ContainsKey("auth_type"))
+                    {
+                        parameters.Add(new KeyValuePair<String, Object>("auth_type", "rerequest"));
+                    }
+                    result = await FBSession.ActiveSession.LoginAsync(parameters);
+                    if (result.Succeeded)
+                    {
+                        Frame.Navigate(typeof(UserInfo));
+                    }
+                }
             }
         }
 

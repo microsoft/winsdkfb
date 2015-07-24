@@ -86,7 +86,14 @@ DateTime FBAccessTokenData::ExpirationDate::get()
 
 IMapView<String^, String^>^ FBAccessTokenData::Permissions::get()
 {
-    return m_permissions->GetView();
+    IMapView<String^, String^>^ result = nullptr;
+
+    if (m_permissions)
+    {
+        result = m_permissions->GetView();
+    }
+
+    return result;
 }
 
 String^ FBAccessTokenData::UserID::get()

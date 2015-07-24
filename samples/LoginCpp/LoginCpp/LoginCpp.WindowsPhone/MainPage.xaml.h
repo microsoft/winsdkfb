@@ -41,7 +41,23 @@ namespace LoginCpp
     private:
         void StartLogin(
             Facebook::FBSession^ Session
-            );
+			);
+
+		void MainPage::SetSessionAppIds(
+			);
+
+		Platform::String^ BuildPermissionsString(
+			);
+
+		BOOL DidGetAllRequestedPermissions(
+			);
+
+		void NavigateToOptionsPage(
+			);
+
+		concurrency::task<Facebook::FBResult^> MainPage::LoginViaRerequest(
+			Windows::Foundation::Collections::PropertySet^ Parameters
+			);
 
         void LoginButton_Click(
             Platform::Object^ sender,

@@ -47,72 +47,184 @@ using namespace Facebook;
 
 #define FBAppIDName L"FBApplicationId"
 #define FBStoreAppIDName L"FBWindowsAppId"
+#define PermissionGranted L"granted"
+
+const wchar_t* requested_permissions[] =
+{
+	L"public_profile",
+	L"user_friends",
+	L"user_likes",
+	L"user_groups",
+	L"user_location"
+};
 
 MainPage::MainPage()
 {
 	InitializeComponent();
+	SetSessionAppIds();
+}
 
-    // Assumes the Facebook App ID and Windows Phone Store ID have been saved
-    // in the default resource file.
-    ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
+void MainPage::SetSessionAppIds()
+{
+	FBSession^ s = FBSession::ActiveSession;
 
-    FBSession^ s = FBSession::ActiveSession;
+	// Assumes the Facebook App ID and Windows Phone Store ID have been saved
+	// in the default resource file.
+	ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
 
-    String^ appId = rl->GetString(FBAppIDName);
-    String^ winAppId = rl->GetString(FBStoreAppIDName);
+	String^ appId = rl->GetString(FBAppIDName);
+	String^ winAppId = rl->GetString(FBStoreAppIDName);
 
+	// IDs are both sent to FB app, so it can validate us.
+	s->FBAppId = appId;
+	s->WinAppId = winAppId;
+}
 
-    // IDs are both sent to FB app, so it can validate us.
-    s->FBAppId = appId;
-    s->WinAppId = winAppId;
+String^ MainPage::BuildPermissionsString(
+	)
+{
+	String^ result = ref new String();
+
+	for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
+	{
+		if (i)
+		{
+			result += L",";
+		}
+
+		result += ref new String(requested_permissions[i]);
+	}
+
+	return result;
+}
+
+BOOL MainPage::DidGetAllRequestedPermissions(
+	)
+{
+	BOOL success = FALSE;
+	FBAccessTokenData^ data = FBSession::ActiveSession->AccessTokenData;
+	unsigned int grantedCount = 0;
+
+	if (data)
+	{
+		for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
+		{
+			String^ perm = ref new String(requested_permissions[i]);
+			if (data->Permissions && (data->Permissions->HasKey(perm)))
+			{
+				String^ Value = data->Permissions->Lookup(perm);
+				if (!String::CompareOrdinal(Value, PermissionGranted))
+				{
+					grantedCount++;
+				}
+			}
+		}
+
+		if (grantedCount == ARRAYSIZE(requested_permissions))
+		{
+			success = TRUE;
+		}
+	}
+
+	return success;
+}
+
+void MainPage::NavigateToOptionsPage()
+{
+	LoginButton->Content = L"Logout";
+
+	// We're redirecting to a page that shows simple user info, so 
+	// have to dispatch back to the UI thread.
+	CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
+
+	if (wind)
+	{
+		CoreDispatcher^ disp = wind->Dispatcher;
+		if (disp)
+		{
+			disp->RunAsync(
+				Windows::UI::Core::CoreDispatcherPriority::Normal,
+				ref new Windows::UI::Core::DispatchedHandler([this]()
+			{
+				LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+				Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+				f->Navigate(OptionsPage::typeid);
+			}));
+		}
+	}
+}
+
+task<FBResult^> MainPage::LoginViaRerequest(
+	PropertySet^ Parameters
+	)
+{
+	Parameters->Insert(L"auth_type", L"rerequest");
+	return create_task(FBSession::ActiveSession->Logout())
+		.then([=]()
+	{
+		SetSessionAppIds();
+
+		return FBSession::ActiveSession->LoginAsync(Parameters);
+	});
 }
 
 void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
-    FBSession^ sess = FBSession::ActiveSession;
+	FBSession^ sess = FBSession::ActiveSession;
 
-    if (sess->LoggedIn)
-    {
-        sess->Logout();
-        LoginButton->Content = L"Logout";
-        LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
-        Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
-        f->Navigate(MainPage::typeid);
-    }
-    else
-    {
-        sess->AddPermission("public_profile");
-        sess->AddPermission("user_friends");
-        sess->AddPermission("user_likes");
-        sess->AddPermission("user_groups");
-        sess->AddPermission("user_location");
+	if (sess->LoggedIn)
+	{
+		sess->Logout();
+		LoginButton->Content = L"Logout";
+		LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+		Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+		f->Navigate(MainPage::typeid);
+	}
+	else
+	{
+		PropertySet^ parameters = ref new PropertySet();
 
-        create_task(sess->LoginAsync()).then([=](FBResult^ result)
-        {
-            if (result->Succeeded)
-            {
-                LoginButton->Content = L"Logout";
+		parameters->Insert(L"scope", BuildPermissionsString());
 
-                // We're redirecting to a page that shows simple user info, so 
-                // have to dispatch back to the UI thread.
-                CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
+		create_task(sess->LoginAsync(parameters)).then([=](FBResult^ result)
+		{
+			task<FBResult^> nextResult = create_task([=]()
+			{
+				return result;
+			});
 
-                if (wind)
-                {
-                    CoreDispatcher^ disp = wind->Dispatcher;
-                    if (disp)
-                    {
-                        disp->RunAsync(
-                            Windows::UI::Core::CoreDispatcherPriority::Normal,
-                            ref new Windows::UI::Core::DispatchedHandler([this]()
-                        {
-                            LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
-                            Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
-                            f->Navigate(OptionsPage::typeid);
-                        }));
-                    }
-                }
-            }
-        });
-    }
+			if ((!result->Succeeded) &&
+				((result->ErrorInfo->Code == 190) && (result->ErrorInfo->Subcode == 466)))
+			{
+				nextResult = LoginViaRerequest(parameters);
+			}
+
+			return nextResult;
+		})
+			.then([=](FBResult^ loginResult)
+		{
+			task<FBResult^> finalResult = create_task([=]()
+			{
+				return loginResult;
+			});
+
+			if (loginResult->Succeeded)
+			{
+				if (!DidGetAllRequestedPermissions())
+				{
+					finalResult = LoginViaRerequest(parameters);
+				}
+			}
+
+			return finalResult;
+		})
+			.then([=](FBResult^ finalResult)
+		{
+			if (finalResult->Succeeded)
+			{
+				NavigateToOptionsPage();
+			}
+		});
+	}
 }
+

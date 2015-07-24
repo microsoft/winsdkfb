@@ -854,10 +854,9 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         return create_task([=]() -> FBResult^
         {
             FBResult^ result = nullptr;
-            task<FBResult^> authTask;
 
-            //task<FBResult^> authTask = TryLoginViaWebView(Parameters);
-            //result = authTask.get();
+            task<FBResult^> authTask = TryLoginViaWebView(Parameters);
+            result = authTask.get();
             if (!result)
             {
                 authTask = TryLoginViaWebAuthBroker(Parameters);
@@ -873,6 +872,16 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         .then([this](FBResult^ userInfoResult) -> task<FBResult^>
         {
             return TryGetAppPermissionsAfterLogin(userInfoResult);
+        })
+        .then([=](FBResult^ finalResult)
+        {
+            if (!finalResult->Succeeded)
+            {
+                m_loggedIn = false;
+                AccessTokenData = nullptr;
+            }
+
+            return finalResult;
         });
     });
 }

@@ -63,22 +63,26 @@ MainPage::MainPage()
 {
 	InitializeComponent();
 
-	FBSession^ s = FBSession::ActiveSession;
-
 	String^ whatever = WebAuthenticationBroker::GetCurrentApplicationCallbackUri()->DisplayUri + L"\n";
 	OutputDebugString(whatever->Data());
 
-	// Assumes the Facebook App ID and Windows Phone Store ID have been saved
-	// in the default resource file.
-	// TODO: Commenting this out for now - resource loader isn't working for me in UWP app.
-	ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
+    SetSessionAppIds();
+}
 
-	String^ appId = rl->GetString(FBAppIDName);
-	String^ winAppId = rl->GetString(FBStoreAppIDName);
+void MainPage::SetSessionAppIds()
+{
+    FBSession^ s = FBSession::ActiveSession;
 
-	// IDs are both sent to FB app, so it can validate us.
-	s->FBAppId = appId;
-	s->WinAppId = winAppId;
+    // Assumes the Facebook App ID and Windows Phone Store ID have been saved
+    // in the default resource file.
+    ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
+
+    String^ appId = rl->GetString(FBAppIDName);
+    String^ winAppId = rl->GetString(FBStoreAppIDName);
+
+    // IDs are both sent to FB app, so it can validate us.
+    s->FBAppId = appId;
+    s->WinAppId = winAppId;
 }
 
 String^ MainPage::BuildPermissionsString(
@@ -98,6 +102,7 @@ String^ MainPage::BuildPermissionsString(
 
     return result;
 }
+
 BOOL MainPage::DidGetAllRequestedPermissions(
     )
 {
@@ -110,7 +115,7 @@ BOOL MainPage::DidGetAllRequestedPermissions(
         for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
         {
             String^ perm = ref new String(requested_permissions[i]);
-            if (data->Permissions->HasKey(perm))
+            if (data->Permissions && (data->Permissions->HasKey(perm)))
             {
                 String^ Value = data->Permissions->Lookup(perm);
                 if (!String::CompareOrdinal(Value, PermissionGranted))
@@ -154,6 +159,20 @@ void MainPage::NavigateToOptionsPage()
     }
 }
 
+task<FBResult^> MainPage::LoginViaRerequest(
+    PropertySet^ Parameters
+    )
+{
+    Parameters->Insert(L"auth_type", L"rerequest");
+    return create_task(FBSession::ActiveSession->Logout())
+    .then([=]()
+    {
+        SetSessionAppIds();
+
+        return FBSession::ActiveSession->LoginAsync(Parameters);
+    });
+}
+
 void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	FBSession^ sess = FBSession::ActiveSession;
@@ -172,28 +191,44 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
 
         parameters->Insert(L"scope", BuildPermissionsString());
 
-		create_task(sess->LoginAsync(parameters)).then([=](FBResult^ result)
-		{
-			if (result->Succeeded)
-			{
-                if (DidGetAllRequestedPermissions())
+        create_task(sess->LoginAsync(parameters)).then([=](FBResult^ result)
+        {
+            task<FBResult^> nextResult = create_task([=]()
+            {
+                return result;
+            });
+
+            if ((!result->Succeeded) &&
+                ((result->ErrorInfo->Code == 190) && (result->ErrorInfo->Subcode == 466)))
+            {
+                nextResult = LoginViaRerequest(parameters);
+            }
+
+            return nextResult;
+        })
+        .then([=](FBResult^ loginResult)
+        {
+            task<FBResult^> finalResult = create_task([=]()
+            {
+                return loginResult;
+            });
+
+            if (loginResult->Succeeded)
+            {
+                if (!DidGetAllRequestedPermissions())
                 {
-                    NavigateToOptionsPage();
+                    finalResult = LoginViaRerequest(parameters);
                 }
-                else
-                {
-                    parameters->Insert(L"scope", BuildPermissionsString());
-                    parameters->Insert(L"auth_type", L"rerequest");
-                    create_task(sess->LoginAsync(parameters))
-                    .then([=](FBResult^ result)
-                    {
-                        if (result->Succeeded)
-                        {
-                            NavigateToOptionsPage();
-                        }
-                    });
-                }
-			}
-		});
+            }
+
+            return finalResult;
+        })
+        .then([=](FBResult^ finalResult)
+        {
+            if (finalResult->Succeeded)
+            {
+                NavigateToOptionsPage();
+            }
+        });
 	}
 }

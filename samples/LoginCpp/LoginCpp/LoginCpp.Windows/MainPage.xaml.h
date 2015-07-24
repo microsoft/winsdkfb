@@ -34,6 +34,22 @@ namespace LoginCpp
 		MainPage();
 
     private:
-        void login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void MainPage::SetSessionAppIds(
+			);
+
+		Platform::String^ BuildPermissionsString(
+			);
+
+		BOOL DidGetAllRequestedPermissions(
+			);
+
+		void NavigateToOptionsPage(
+			);
+
+		concurrency::task<Facebook::FBResult^> MainPage::LoginViaRerequest(
+			Windows::Foundation::Collections::PropertySet^ Parameters
+			);
+
+		void login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 	};
 }

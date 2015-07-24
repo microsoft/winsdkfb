@@ -34,6 +34,9 @@ namespace LoginCpp
 		MainPage();
 
 	private:
+        void MainPage::SetSessionAppIds(
+            );
+            
         Platform::String^ BuildPermissionsString(
             );
             
@@ -41,6 +44,10 @@ namespace LoginCpp
             );
             
         void NavigateToOptionsPage(
+            );
+
+        concurrency::task<Facebook::FBResult^> MainPage::LoginViaRerequest(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
 		void login_OnClicked(
