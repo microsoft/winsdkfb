@@ -26,7 +26,7 @@ if errorlevel 1 goto errorExit
 
 call :build_one_flavor FBWinSDK.sln Win32 Release 
 if errorlevel 1 goto errorExit
-k
+
 call :build_one_flavor FBWinSDK.sln x64 Debug 
 if errorlevel 1 goto errorExit
 

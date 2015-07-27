@@ -25,6 +25,8 @@
     <ClCompile Include="Common\SuspensionManager.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Dialogs.xaml.cpp" />
+    <ClCompile Include="OptionsPage.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainPage.xaml.h" />
@@ -37,13 +39,14 @@
     <ClInclude Include="Common\SuspensionManager.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Dialogs.xaml.h" />
+    <ClInclude Include="OptionsPage.xaml.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LoginCpp.Windows_TemporaryKey.pfx" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-100.png">

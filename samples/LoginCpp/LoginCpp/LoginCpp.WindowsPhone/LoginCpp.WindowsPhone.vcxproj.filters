@@ -63,7 +63,4 @@
     <Page Include="OptionsPage.xaml" />
     <Page Include="Dialogs.xaml" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
 </Project>
