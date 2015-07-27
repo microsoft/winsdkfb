@@ -117,14 +117,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Facebook">
-      <HintPath>..\..\packages\FBWinSDK.0.9.0\lib\wpa\Facebook.winmd</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\LoginCs.Shared\FBCSObjectImplementation.ttinclude">
       <Link>FBCSObjectImplementation.ttinclude</Link>
     </None>
