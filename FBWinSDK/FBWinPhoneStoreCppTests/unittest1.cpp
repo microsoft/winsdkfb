@@ -182,7 +182,7 @@ namespace FBWinPhoneStoreCppTests
         {
             String^ fbResponse = FBProfilePicResponse;
 
-            FBProfilePicture^ info = FBProfilePicture::FromJson(fbResponse);
+            FBProfilePicture^ info = safe_cast<FBProfilePicture^>(FBProfilePicture::FromJson(fbResponse));
             Assert::IsNotNull(info);
         }
         TEST_METHOD(ParseArrayOfLikes)
