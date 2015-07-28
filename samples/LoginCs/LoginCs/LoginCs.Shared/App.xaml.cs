@@ -60,33 +60,6 @@ namespace LoginCs
             this.Suspending += this.OnSuspending;
         }
 
-#if FALSE //WINDOWS_PHONE_APP
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            if (args.Kind == ActivationKind.Protocol)
-            {
-                HandleProtocolActivation(args);
-            }
-        }
-
-        async void HandleProtocolActivation(IActivatedEventArgs args)
-        {
-            ProtocolActivatedEventArgs pArgs = 
-                (ProtocolActivatedEventArgs)args;
-            FBSession sess = FBSession.ActiveSession;
-
-            FBResult result = await sess.ContinueAction(pArgs);
-            if (result.Succeeded)
-            {
-                await Window.Current.Dispatcher.RunAsync(
-                    Windows.UI.Core.CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    RootFrame.Navigate(typeof(UserInfo));
-                });
-            }
-        }
-#endif
         const string FBAppIDName      = "FBApplicationId";
         const string FBPhoneAppIDName = "FBWinPhoneAppId";
         const string FBStoreAppIDName = "FBWinStoreAppId";

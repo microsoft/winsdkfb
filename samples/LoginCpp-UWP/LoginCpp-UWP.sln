@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginCpp", "LoginCpp\LoginCpp.vcxproj", "{351701A8-12D1-45B3-8E6A-164D796B0297}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Facebook", "..\..\FBWinSDK\FBSDK-UWP\FBSDK-UWP\FBSDK-UWP.vcxproj", "{973A943B-FF77-4267-8F30-F5FE2B7F5583}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -33,6 +35,18 @@ Global
 		{351701A8-12D1-45B3-8E6A-164D796B0297}.Release|x86.ActiveCfg = Release|Win32
 		{351701A8-12D1-45B3-8E6A-164D796B0297}.Release|x86.Build.0 = Release|Win32
 		{351701A8-12D1-45B3-8E6A-164D796B0297}.Release|x86.Deploy.0 = Release|Win32
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Debug|ARM.ActiveCfg = Debug|ARM
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Debug|ARM.Build.0 = Debug|ARM
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Debug|x64.ActiveCfg = Debug|x64
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Debug|x64.Build.0 = Debug|x64
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Debug|x86.ActiveCfg = Debug|Win32
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Debug|x86.Build.0 = Debug|Win32
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Release|ARM.ActiveCfg = Release|ARM
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Release|ARM.Build.0 = Release|ARM
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Release|x64.ActiveCfg = Release|x64
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Release|x64.Build.0 = Release|x64
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Release|x86.ActiveCfg = Release|Win32
+		{973A943B-FF77-4267-8F30-F5FE2B7F5583}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

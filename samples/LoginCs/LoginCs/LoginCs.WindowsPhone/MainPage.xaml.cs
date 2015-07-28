@@ -79,7 +79,7 @@ namespace LoginCs
                     "public_profile,user_friends,user_likes"));
             // Launches a URI to redirect to the FB app, which will log us in
             // and return the result via our registered protocol.
-            await s.LoginAsync(parameters);
+            FBResult result = await s.LoginAsync();
         }
 
         /// <summary>

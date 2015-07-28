@@ -33,5 +33,9 @@ Windows 8.1+
 Windows Phone 8.1+
 Windows 10 Technical Preview
 
+## **Documentation**
+
+  - http://microsoft.github.io/winsdkfb
+
 ## **License**
 See the LICENSE file for licensing information.

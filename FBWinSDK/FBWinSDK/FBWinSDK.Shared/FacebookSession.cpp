@@ -274,9 +274,21 @@ task<FBResult^> FBSession::CheckForExistingToken(
             }
             return decryptTask;
         })
-        .then([](IBuffer^ clearBuffer) -> FBResult^
+        .then([](task<IBuffer^> clearBufferTask) -> FBResult^
         {
             FBResult^ cachedResult = nullptr;
+			IBuffer^ clearBuffer = nullptr;
+
+			try
+			{
+				clearBuffer = clearBufferTask.get();
+			}
+			catch (InvalidArgumentException^ ex)
+			{
+#ifdef _DEBUG
+				OutputDebugString(L"Couldn't decrypt cached token.  Continuing without cached token data.\n");
+#endif
+			}
 
             if (clearBuffer)
             {

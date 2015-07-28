@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\FBWinSDK-debug.0.9.0\build\FBWinSDK-debug.props" Condition="Exists('..\packages\FBWinSDK-debug.0.9.0\build\FBWinSDK-debug.props')" />
-  <Import Project="..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props" Condition="Exists('..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props')" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>{351701a8-12d1-45b3-8e6a-164d796b0297}</ProjectGuid>
     <RootNamespace>LoginCpp</RootNamespace>
@@ -10,6 +8,8 @@
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
     <ApplicationTypeRevision>8.2</ApplicationTypeRevision>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
@@ -174,7 +174,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="LoginCpp_TemporaryKey.pfx" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-100.png" />
@@ -218,7 +217,13 @@
   <ItemGroup>
     <PRIResource Include="Resources.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FBWinSDK\FBSDK-UWP\FBSDK-UWP\FBSDK-UWP.vcxproj">
+      <Project>{973a943b-ff77-4267-8f30-f5fe2b7f5583}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+<<<<<<< HEAD
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets" Condition="Exists('..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets')" />
   </ImportGroup>
@@ -230,4 +235,7 @@
     <Error Condition="!Exists('..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets'))" />
     <Error Condition="!Exists('..\packages\FBWinSDK-debug.0.9.0\build\FBWinSDK-debug.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FBWinSDK-debug.0.9.0\build\FBWinSDK-debug.props'))" />
   </Target>
+=======
+  <ImportGroup Label="ExtensionTargets" />
+>>>>>>> 26_change_sample_sdk_references
 </Project>
