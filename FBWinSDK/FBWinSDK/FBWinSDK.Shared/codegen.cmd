@@ -28,6 +28,7 @@ if not exist Generated\FBPermission.cpp TextTransform.exe -out Generated\FBPermi
 if not exist Generated\FBUser.cpp TextTransform.exe -out Generated\FBUser.cpp FBUser.cpp.tt
 if not exist Generated\FBProfilePicture.cpp TextTransform.exe -out Generated\FBProfilePicture.cpp FBProfilePicture.cpp.tt
 if not exist Generated\FBProfilePictureData.cpp TextTransform.exe -out Generated\FBProfilePictureData.cpp FBProfilePictureData.cpp.tt
+if not exist Generated\FBAppRequest.cpp TextTransform.exe -out Generated\FBAppRequest.cpp FBAppRequest.cpp.tt
 if not exist Generated\FBObject.cpp TextTransform.exe -out Generated\FBObject.cpp FBObject.cpp.tt
 
 if not exist Generated\FBCursors.h TextTransform.exe -out Generated\FBCursors.h FBCursors.h.tt
@@ -39,6 +40,7 @@ if not exist Generated\FBPermission.h TextTransform.exe -out Generated\FBPermiss
 if not exist Generated\FBUser.h TextTransform.exe -out Generated\FBUser.h FBUser.h.tt
 if not exist Generated\FBProfilePicture.h TextTransform.exe -out Generated\FBProfilePicture.h FBProfilePicture.h.tt
 if not exist Generated\FBProfilePictureData.h TextTransform.exe -out Generated\FBProfilePictureData.h FBProfilePictureData.h.tt
+if not exist Generated\FBAppRequest.h TextTransform.exe -out Generated\FBAppRequest.h FBAppRequest.h.tt
 if not exist Generated\FBObject.h TextTransform.exe -out Generated\FBObject.h FBObject.h.tt
 
 goto End

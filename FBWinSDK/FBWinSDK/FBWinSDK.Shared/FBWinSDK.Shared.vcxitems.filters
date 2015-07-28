@@ -84,6 +84,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.h">
       <Filter>Generated Code\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.h">
+      <Filter>Generated Code\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -158,6 +161,9 @@
       <Filter>Generated Code\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.cpp">
+      <Filter>Generated Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.cpp">
       <Filter>Generated Code\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -297,6 +303,12 @@
     <None Include="$(MSBuildThisFileDirectory)FBProfilePictureData.cpp.tt">
       <Filter>Object Templates\Source Files</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)FBAppRequest.h.tt">
+      <Filter>Object Templates\Header Files</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)FBAppRequest.cpp.tt">
+      <Filter>Object Templates\Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="$(MSBuildThisFileDirectory)Images\fb_blank_profile_portrait.png">
@@ -308,6 +320,9 @@
       <Filter>Object Templates\Class Definitions</Filter>
     </Xml>
     <Xml Include="$(MSBuildThisFileDirectory)FBProfilePictureData.xml">
+      <Filter>Object Templates\Class Definitions</Filter>
+    </Xml>
+    <Xml Include="$(MSBuildThisFileDirectory)FBAppRequest.xml">
       <Filter>Object Templates\Class Definitions</Filter>
     </Xml>
   </ItemGroup>

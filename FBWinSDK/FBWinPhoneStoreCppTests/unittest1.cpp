@@ -90,7 +90,7 @@ namespace FBWinPhoneStoreCppTests
         TEST_METHOD(ParseSuccessfulFBAppRequestOneRecipient)
         {
             Uri^ fbResponse = ref new Uri(FBSuccessfulAppRequestResponse);
-            FBAppRequest^ info = FBAppRequest::FromRequestDialogResponse(fbResponse);
+            Facebook::FBAppRequest^ info = Facebook::FBAppRequest::FromRequestDialogResponse(fbResponse);
             Assert::IsNotNull(info);
 
             Assert::IsTrue(String::CompareOrdinal(info->RequestId, ref new String(FBTestRequestId)) == 0);
@@ -101,7 +101,7 @@ namespace FBWinPhoneStoreCppTests
         TEST_METHOD(ParseSuccessfulFBAppRequestMultipleRecipients)
         {
             Uri^ fbResponse = ref new Uri(FBSuccessfulMultiRecipientResponse);
-            FBAppRequest^ info = FBAppRequest::FromRequestDialogResponse(fbResponse);
+            Facebook::FBAppRequest^ info = Facebook::FBAppRequest::FromRequestDialogResponse(fbResponse);
             Assert::IsNotNull(info);
 
             Assert::IsTrue(String::CompareOrdinal(info->RequestId, ref new String(FBTestRequestId)) == 0);
@@ -115,7 +115,7 @@ namespace FBWinPhoneStoreCppTests
         TEST_METHOD(ParseCanceledFBAppRequest)
         {
             Uri^ fbResponse = ref new Uri(FBCanceledRequestResponse);
-            FBAppRequest^ info = FBAppRequest::FromRequestDialogResponse(fbResponse);
+            Facebook::FBAppRequest^ info = Facebook::FBAppRequest::FromRequestDialogResponse(fbResponse);
             Assert::IsNull(info);
         }
         TEST_METHOD(ParseSuccessfulFBFeedPostResponse)
