@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoginCpp", "LoginCpp", "{47BA2ADD-38F5-4219-9C6F-0B2A99667255}"
 EndProject
@@ -18,9 +18,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A2C873
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.Windows", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.Windows\FBWinSDK.Windows.vcxproj", "{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.WindowsPhone", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.WindowsPhone\FBWinSDK.WindowsPhone.vcxproj", "{F833B1E6-2866-4A47-89E2-C474983FE70F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{079ac050-7d48-41f0-83c2-f4c4da7f21d4}*SharedItemsImports = 9
+		..\..\FBWinSDK\FBWinSDK\FBWinSDK.Shared\FBWinSDK.Shared.vcxitems*{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}*SharedItemsImports = 4
+		..\..\FBWinSDK\FBWinSDK\FBWinSDK.Shared\FBWinSDK.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{45baa3ab-92f6-4db0-b008-fddd73d1659b}*SharedItemsImports = 4
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{4fdef5bd-ed11-49a1-b6c6-d9f0ab7eb7e2}*SharedItemsImports = 4
 	EndGlobalSection
@@ -65,6 +71,28 @@ Global
 		{45BAA3AB-92F6-4DB0-B008-FDDD73D1659B}.Release|Win32.Build.0 = Release|Win32
 		{45BAA3AB-92F6-4DB0-B008-FDDD73D1659B}.Release|Win32.Deploy.0 = Release|Win32
 		{45BAA3AB-92F6-4DB0-B008-FDDD73D1659B}.Release|x64.ActiveCfg = Release|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|ARM.Build.0 = Debug|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|Win32.Build.0 = Debug|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|x64.ActiveCfg = Debug|x64
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|x64.Build.0 = Debug|x64
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|ARM.ActiveCfg = Release|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|ARM.Build.0 = Release|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|Win32.ActiveCfg = Release|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|Win32.Build.0 = Release|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|x64.ActiveCfg = Release|x64
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|x64.Build.0 = Release|x64
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|ARM.Build.0 = Debug|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|Win32.Build.0 = Debug|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|x64.ActiveCfg = Debug|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|ARM.ActiveCfg = Release|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|ARM.Build.0 = Release|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|Win32.ActiveCfg = Release|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|Win32.Build.0 = Release|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

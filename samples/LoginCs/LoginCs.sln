@@ -11,17 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginCs.Windows", "LoginCs\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginCs.WindowsPhone", "LoginCs\LoginCs.WindowsPhone\LoginCs.WindowsPhone.csproj", "{EF5F7E3E-8E45-4027-846C-3349247C065D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3171A043-57BD-4AEE-95F8-56CD3749B615}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.Windows", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.Windows\FBWinSDK.Windows.vcxproj", "{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.WindowsPhone", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.WindowsPhone\FBWinSDK.WindowsPhone.vcxproj", "{F833B1E6-2866-4A47-89E2-C474983FE70F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\FBWinSDK\FBWinSDK\FBWinSDK.Shared\FBWinSDK.Shared.vcxitems*{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}*SharedItemsImports = 4
 		LoginCs\LoginCs.Shared\LoginCs.Shared.projitems*{a506e326-7a59-479e-8e80-65fb73ae94d8}*SharedItemsImports = 4
 		LoginCs\LoginCs.Shared\LoginCs.Shared.projitems*{5364ddc1-f2ca-4959-9292-546c26254cd2}*SharedItemsImports = 13
+		..\..\FBWinSDK\FBWinSDK\FBWinSDK.Shared\FBWinSDK.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4
 		LoginCs\LoginCs.Shared\LoginCs.Shared.projitems*{ef5f7e3e-8e45-4027-846c-3349247c065d}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +70,32 @@ Global
 		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Release|x86.ActiveCfg = Release|x86
 		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Release|x86.Build.0 = Release|x86
 		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Release|x86.Deploy.0 = Release|x86
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|ARM.Build.0 = Debug|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|x64.ActiveCfg = Debug|x64
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|x64.Build.0 = Debug|x64
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|x86.ActiveCfg = Debug|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Debug|x86.Build.0 = Debug|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|Any CPU.ActiveCfg = Release|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|ARM.ActiveCfg = Release|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|ARM.Build.0 = Release|ARM
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|x64.ActiveCfg = Release|x64
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|x64.Build.0 = Release|x64
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|x86.ActiveCfg = Release|Win32
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}.Release|x86.Build.0 = Release|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|ARM.Build.0 = Debug|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|x64.ActiveCfg = Debug|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|x86.ActiveCfg = Debug|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Debug|x86.Build.0 = Debug|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|Any CPU.ActiveCfg = Release|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|ARM.ActiveCfg = Release|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|ARM.Build.0 = Release|ARM
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|x64.ActiveCfg = Release|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|x86.ActiveCfg = Release|Win32
+		{F833B1E6-2866-4A47-89E2-C474983FE70F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
