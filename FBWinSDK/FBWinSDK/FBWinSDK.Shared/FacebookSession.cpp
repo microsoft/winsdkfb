@@ -530,7 +530,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (m_showingDialog && !dialogResponse);
+        while (m_showingDialog && !dialogResponse)
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
