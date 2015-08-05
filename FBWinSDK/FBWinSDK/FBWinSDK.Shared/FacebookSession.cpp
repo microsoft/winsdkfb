@@ -89,10 +89,14 @@ Facebook::FBSession::~FBSession()
 
 String^ FBSession::FBAppId::get()
 {
-    if (!m_FBAppId)
-    {
-        m_FBAppId = ref new String(L"MyApp");
-    }
+	if (m_FBAppId)
+	{
+		m_FBAppId = ref new String(L"<INSERT YOUR APP ID HERE>");
+
+#ifdef _DEBUG
+		OutputDebugString(L"!!! Missing App ID.  Update your app to use a valid FB App ID in order for the FB API's to succeed");
+#endif
+	}
 
     return m_FBAppId;
 }
@@ -408,9 +412,10 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
     )
 {
     StorageFolder^ folder = ApplicationData::Current->LocalFolder;
-    String^ msg = L"Deleting cached token from " + folder->Path + L"\n";
+#ifdef _DEBUG
+	String^ msg = L"Deleting cached token from " + folder->Path + L"\n";
     OutputDebugString(msg->Data());
-
+#endif
     return create_async([=]()
     {
         return create_task(MyTryGetItemAsync(folder, "FBSDKData"))
