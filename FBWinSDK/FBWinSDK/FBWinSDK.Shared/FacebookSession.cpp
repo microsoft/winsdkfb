@@ -89,7 +89,7 @@ Facebook::FBSession::~FBSession()
 
 String^ FBSession::FBAppId::get()
 {
-	if (m_FBAppId)
+	if (!m_FBAppId)
 	{
 		m_FBAppId = ref new String(L"<INSERT YOUR APP ID HERE>");
 
