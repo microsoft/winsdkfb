@@ -55,9 +55,9 @@ namespace Facebook
         FBProfilePicture(
             );
 
-        Windows::Foundation::Uri^ m_Uri;
-        bool m_IsSilhouette;
-        int  m_Height;
-        int  m_Width;
+        Windows::Foundation::Uri^ _Uri;
+        bool _IsSilhouette;
+        int  _Height;
+        int  _Width;
     };
 }

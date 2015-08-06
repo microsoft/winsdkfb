@@ -27,12 +27,12 @@ using namespace Windows::Foundation::Collections;
 using namespace Windows::UI::Xaml;
 
 FBLoginButton::FBLoginButton() :
-//    m_loginBehavior(SessionLoginBehavior::SessionLoginBehaviorWithFallbackToWebView),
-    m_permissions(nullptr)
+//    _loginBehavior(SessionLoginBehavior::SessionLoginBehaviorWithFallbackToWebView),
+    _permissions(nullptr)
 {
     String^ styleKey = FBLoginButton::typeid->FullName;
     this->DefaultStyleKey = styleKey;
-    m_permissions = ref new Vector<String^>();
+    _permissions = ref new Vector<String^>();
 }
 
 void FBLoginButton::OnApplyTemplate(
@@ -49,28 +49,28 @@ void FBLoginButton::OnApplyTemplate(
 // Session as well.
 //SessionLoginBehavior FBLoginButton::LoginBehavior::get()
 //{
-//    return m_loginBehavior;
+//    return _loginBehavior;
 //}
 //
 //void FBLoginButton::LoginBehavior::set(SessionLoginBehavior value)
 //{
-//    m_loginBehavior = value;
+//    _loginBehavior = value;
 //}
 //
 
 IVector<String^>^ FBLoginButton::Permissions::get()
 {
-    return m_permissions;
+    return _permissions;
 }
 
 void FBLoginButton::Permissions::set(IVector<String^>^ Values)
 {
-    m_permissions->Clear();
+    _permissions->Clear();
     IIterator<String^>^ it = nullptr;
     for (it = Values->First(); it->HasCurrent; it->MoveNext())
     {
         String^ value = it->Current;
-        m_permissions->Append(value);
+        _permissions->Append(value);
     }
 }
 
@@ -78,18 +78,18 @@ void FBLoginButton::InitWithPermissions(
     IVector<String^>^ permissions
     )
 {
-    if (!m_permissions)
+    if (!_permissions)
     {
-        m_permissions = ref new Vector<String^>(0);
+        _permissions = ref new Vector<String^>(0);
     }
 
-    m_permissions->Clear();
+    _permissions->Clear();
 
     for (IIterator<String^>^ iter = permissions->First();
         iter->HasCurrent;
         iter->MoveNext())
     {
-        m_permissions->Append(iter->Current);
+        _permissions->Append(iter->Current);
     }
 }
 
@@ -98,10 +98,10 @@ void FBLoginButton::SetSessionPermissions(
 {
     FBSession^ s = FBSession::ActiveSession;
     s->ResetPermissions();
-    if (m_permissions)
+    if (_permissions)
     {
         IIterator<String^>^ iter = nullptr;
-        for (iter = m_permissions->First(); iter->HasCurrent; iter->MoveNext())
+        for (iter = _permissions->First(); iter->HasCurrent; iter->MoveNext())
         {
             s->AddPermission(iter->Current);
         }

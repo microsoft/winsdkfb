@@ -28,12 +28,12 @@ using namespace Windows::Foundation::Collections;
 
 Platform::String^ FBAppRequest::RequestId::get()
 {
-    return m_RequestId;
+    return _RequestId;
 }
         
 RecipientView FBAppRequest::RecipientIds::get()
 {
-    Vector<String^>^ recips = ref new Vector<String^>(m_Recipients);
+    Vector<String^>^ recips = ref new Vector<String^>(_Recipients);
     return recips->GetView();
 }
         
@@ -79,8 +79,8 @@ FBAppRequest::FBAppRequest(
     String^ RequestId,
     const RecipientVector& Recipients
     ) :
-    m_RequestId(RequestId),
-    m_Recipients(Recipients)
+    _RequestId(RequestId),
+    _Recipients(Recipients)
 {
     ;
 }

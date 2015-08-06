@@ -25,44 +25,44 @@ using namespace Windows::Foundation::Collections;
 
 FBError::FBError(
     ) :
-    m_message(nullptr),
-    m_type(nullptr),
-    m_code(0),
-    m_subcode(0),
-    m_errorUserTitle(nullptr),
-    m_errorUserMessage(nullptr)
+    _message(nullptr),
+    _type(nullptr),
+    _code(0),
+    _subcode(0),
+    _errorUserTitle(nullptr),
+    _errorUserMessage(nullptr)
 {
     ;
 }
 
 String^ FBError::Message::get()
 {
-    return m_message;
+    return _message;
 }
 
 String^ FBError::Type::get()
 {
-    return m_type;
+    return _type;
 }
 
 int FBError::Code::get()
 {
-    return m_code;
+    return _code;
 }
 
 int FBError::Subcode::get()
 {
-    return m_subcode;
+    return _subcode;
 }
 
 String^ FBError::ErrorUserTitle::get()
 {
-    return m_errorUserTitle;
+    return _errorUserTitle;
 }
 
 String^ FBError::ErrorUserMessage::get()
 {
-    return m_errorUserMessage;
+    return _errorUserMessage;
 }
 
 FBError^ FBError::FromUri(
@@ -112,15 +112,15 @@ FBError^ FBError::FromUri(
         if (foundCode || foundDescription || foundMessage || foundReason)
         {
             err = ref new FBError();
-            err->m_code = code;
-            err->m_type = reason;
+            err->_code = code;
+            err->_type = reason;
             if (foundDescription)
             {
-                err->m_message = description;
+                err->_message = description;
             }
             else
             {
-                err->m_message = message;
+                err->_message = message;
             }
         }
     }
@@ -153,34 +153,34 @@ FBError^ FBError::FromJson(
             if (!String::CompareOrdinal(key, L"message"))
             {
                 found++;
-                result->m_message = it->Current->Value->GetString();
+                result->_message = it->Current->Value->GetString();
             }
             else if (!String::CompareOrdinal(key, L"type"))
             {
                 found++;
-                result->m_type = it->Current->Value->GetString();
+                result->_type = it->Current->Value->GetString();
             }
             else if (!String::CompareOrdinal(key, L"code"))
             {
                 found++;
-                result->m_code = static_cast<int>(
+                result->_code = static_cast<int>(
                     it->Current->Value->GetNumber());
             }
             else if (!String::CompareOrdinal(key, L"error_subcode"))
             {
                 found++;
-                result->m_subcode = static_cast<int>(
+                result->_subcode = static_cast<int>(
                     it->Current->Value->GetNumber());
             }
             else if (!String::CompareOrdinal(key, L"error_user_title"))
             {
                 found++;
-                result->m_errorUserTitle = it->Current->Value->GetString();
+                result->_errorUserTitle = it->Current->Value->GetString();
             }
             else if (!String::CompareOrdinal(key, L"error_user_msg"))
             {
                 found++;
-                result->m_errorUserMessage = it->Current->Value->GetString();
+                result->_errorUserMessage = it->Current->Value->GetString();
             }
         }
 
@@ -199,12 +199,12 @@ FBError::FBError(
     String^ Type,
     String^ Message
     ) :
-    m_code(Code),
-    m_errorUserMessage(nullptr),
-    m_errorUserTitle(nullptr),
-    m_message(Message),
-    m_subcode(0),
-    m_type(Type)
+    _code(Code),
+    _errorUserMessage(nullptr),
+    _errorUserTitle(nullptr),
+    _message(Message),
+    _subcode(0),
+    _type(Type)
 {
     ;
 }
