@@ -213,16 +213,16 @@ namespace Facebook
                 Windows::Foundation::DateTime Expiration
                 );
 
-            Platform::String^ m_FBAppId;
-            Platform::String^ m_WinAppId;
-            bool m_loggedIn;
-            Platform::String^ m_AppResponse;
-            Facebook::FBAccessTokenData^ m_AccessTokenData;
-            Platform::Collections::Vector<Platform::String^>^ m_permissions;
-            Windows::Foundation::DateTime m_Expires;
-            Facebook::Graph::FBUser^ m_user;
-			concurrency::task<Facebook::FBResult^> m_loginTask;
-            Facebook::FacebookDialog^ m_dialog;
-            BOOL m_showingDialog;
+            Platform::String^ _FBAppId;
+            Platform::String^ _WinAppId;
+            bool _loggedIn;
+            Platform::String^ _AppResponse;
+            Facebook::FBAccessTokenData^ _AccessTokenData;
+            Platform::Collections::Vector<Platform::String^>^ _permissions;
+            Windows::Foundation::DateTime _Expires;
+            Facebook::Graph::FBUser^ _user;
+			concurrency::task<Facebook::FBResult^> _loginTask;
+            Facebook::FacebookDialog^ _dialog;
+            BOOL _showingDialog;
     };
 }

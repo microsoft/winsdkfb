@@ -55,38 +55,38 @@ using namespace Windows::UI::Xaml::Media::Imaging;
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 ProfilePictureControl::ProfilePictureControl() :
-    m_userIdValid(false),
-    m_UserId(nullptr),
-    m_CropMode(CroppingType::Square)
+    _userIdValid(false),
+    _UserId(nullptr),
+    _CropMode(CroppingType::Square)
 {
 	InitializeComponent();
 }
 
 String^ ProfilePictureControl::UserId::get()
 {
-    return m_UserId;
+    return _UserId;
 }
 
 void ProfilePictureControl::UserId::set(String^ value)
 {
-    m_userIdValid = true;
-    if (!m_UserId || (String::CompareOrdinal(value, m_UserId) == 0))
+    _userIdValid = true;
+    if (!_UserId || (String::CompareOrdinal(value, _UserId) == 0))
     {
-        m_UserId = value;
+        _UserId = value;
         Update();
     }
 }
 
 CroppingType ProfilePictureControl::CropMode::get()
 {
-    return m_CropMode;
+    return _CropMode;
 }
 
 void ProfilePictureControl::CropMode::set(CroppingType value)
 {
-    if (m_CropMode != value)
+    if (_CropMode != value)
     {
-        m_CropMode = value;
+        _CropMode = value;
         Update();
     }
 }

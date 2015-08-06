@@ -25,42 +25,42 @@ using namespace Windows::Foundation::Collections;
 
 Uri^ FBProfilePicture::URL::get()
 {
-    return m_Uri;
+    return _Uri;
 }
 
 void FBProfilePicture::URL::set(Uri^ value)
 {
-    m_Uri = value;
+    _Uri = value;
 }
 
 bool FBProfilePicture::IsSilhouette::get()
 {
-    return m_IsSilhouette;
+    return _IsSilhouette;
 }
 
 void FBProfilePicture::IsSilhouette::set(bool value)
 {
-    m_IsSilhouette = value;
+    _IsSilhouette = value;
 }
 
 int FBProfilePicture::Height::get()
 {
-    return m_Height;
+    return _Height;
 }
 
 void FBProfilePicture::Height::set(int value)
 {
-    m_Height = value;
+    _Height = value;
 }
 
 int FBProfilePicture::Width::get()
 {
-    return m_Width;
+    return _Width;
 }
 
 void FBProfilePicture::Width::set(int value)
 {
-    m_Width = value;
+    _Width = value;
 }
 
  FBProfilePicture^ FBProfilePicture::FromJson(
@@ -89,19 +89,19 @@ void FBProfilePicture::Width::set(int value)
                             String^ key = it2->Current->Key;
                             if (!String::CompareOrdinal(key, L"url"))
                             {
-                                result->m_Uri = ref new Uri(it2->Current->Value->GetString());
+                                result->_Uri = ref new Uri(it2->Current->Value->GetString());
                             }
                             if (!String::CompareOrdinal(key, L"is_silhouette"))
                             {
-                                result->m_IsSilhouette = it2->Current->Value->GetBoolean();
+                                result->_IsSilhouette = it2->Current->Value->GetBoolean();
                             }
                             if (!String::CompareOrdinal(key, L"height"))
                             {
-                                result->m_Height = static_cast<int>(it2->Current->Value->GetNumber());
+                                result->_Height = static_cast<int>(it2->Current->Value->GetNumber());
                             }
                             if (!String::CompareOrdinal(key, L"width"))
                             {
-                                result->m_Width = static_cast<int>(it2->Current->Value->GetNumber());
+                                result->_Width = static_cast<int>(it2->Current->Value->GetNumber());
                             }
                         }
                     }
@@ -114,9 +114,9 @@ void FBProfilePicture::Width::set(int value)
 }
 
 FBProfilePicture::FBProfilePicture() :
-    m_Uri(nullptr),
-    m_IsSilhouette(true),
-    m_Height(0),
-    m_Width(0)
+    _Uri(nullptr),
+    _IsSilhouette(true),
+    _Height(0),
+    _Width(0)
 {
 }

@@ -25,14 +25,14 @@ using namespace Facebook;
 FBResult::FBResult(
     Platform::Object^ Object
     ) :
-    m_Object(nullptr),
-    m_Error(nullptr)
+    _Object(nullptr),
+    _Error(nullptr)
 {
-    m_Error = dynamic_cast<FBError^>(Object);
-    if (!m_Error)
+    _Error = dynamic_cast<FBError^>(Object);
+    if (!_Error)
     {
         // Not an error, save as our object
-        m_Object = Object;
+        _Object = Object;
     }
 }
 
@@ -44,15 +44,15 @@ FBResult::~FBResult(
 
 bool FBResult::Succeeded::get()
 {
-    return (m_Object != nullptr);
+    return (_Object != nullptr);
 }
 
 Object^ FBResult::Object::get()
 {
-    return m_Object;
+    return _Object;
 }
 
 FBError^ FBResult::ErrorInfo::get()
 {
-    return m_Error;
+    return _Error;
 }

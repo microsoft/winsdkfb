@@ -96,11 +96,11 @@ namespace Facebook
             FBError(
                 );
 
-            Platform::String^ m_message;
-            Platform::String^ m_type;
-            int     m_code;
-            int     m_subcode;
-            Platform::String^ m_errorUserTitle;
-            Platform::String^ m_errorUserMessage;
+            Platform::String^ _message;
+            Platform::String^ _type;
+            int     _code;
+            int     _subcode;
+            Platform::String^ _errorUserTitle;
+            Platform::String^ _errorUserMessage;
     };
 }

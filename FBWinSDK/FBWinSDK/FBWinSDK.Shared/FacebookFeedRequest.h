@@ -38,7 +38,7 @@ namespace Facebook
 
     private:
 
-        Platform::String^ m_PostId;
+        Platform::String^ _PostId;
 
         FBFeedRequest(
             Platform::String^ PostId
