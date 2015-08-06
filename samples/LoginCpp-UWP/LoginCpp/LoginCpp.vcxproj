@@ -223,19 +223,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-<<<<<<< HEAD
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets" Condition="Exists('..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props'))" />
-    <Error Condition="!Exists('..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets'))" />
-    <Error Condition="!Exists('..\packages\FBWinSDK-debug.0.9.0\build\FBWinSDK-debug.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FBWinSDK-debug.0.9.0\build\FBWinSDK-debug.props'))" />
-  </Target>
-=======
   <ImportGroup Label="ExtensionTargets" />
->>>>>>> 26_change_sample_sdk_references
 </Project>

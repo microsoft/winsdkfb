@@ -33,23 +33,36 @@ namespace LoginCpp
 	public:
 		MainPage();
 
-    private:
-		void MainPage::SetSessionAppIds(
+	private:
+        void MainPage::SetSessionAppIds(
+            );
+            
+        Facebook::FBPermissions^ BuildPermissions(
+            );
+            
+        BOOL DidGetAllRequestedPermissions(
+            );
+
+		BOOL MainPage::WasAppPermissionRemovedByUser(
+			Facebook::FBResult^ result
 			);
 
-		Platform::String^ BuildPermissionsString(
+		BOOL ShouldRerequest(
+			Facebook::FBResult^ result
 			);
 
-		BOOL DidGetAllRequestedPermissions(
+        void NavigateToOptionsPage(
+            );
+
+		void MainPage::TryRerequest(
+			BOOL retry
 			);
 
-		void NavigateToOptionsPage(
+		void MainPage::LogoutAndRetry(
 			);
 
-		concurrency::task<Facebook::FBResult^> MainPage::LoginViaRerequest(
-			Windows::Foundation::Collections::PropertySet^ Parameters
-			);
-
-		void login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void login_OnClicked(
+            Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e
+            );
 	};
 }

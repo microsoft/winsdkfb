@@ -21,13 +21,13 @@
 
 #include "pch.h"
 #include "MainPage.xaml.h"
-#include "UserInfo.xaml.h"
 #include "OptionsPage.xaml.h"
 
 using namespace concurrency;
 using namespace Facebook;
 using namespace LoginCpp;
 using namespace Platform;
+using namespace Platform::Collections;
 using namespace Windows::ApplicationModel;
 using namespace Windows::ApplicationModel::Activation;
 using namespace Windows::ApplicationModel::Core;
@@ -85,20 +85,18 @@ void MainPage::SetSessionAppIds()
     s->WinAppId = winAppId;
 }
 
-String^ MainPage::BuildPermissionsString(
+FBPermissions^ MainPage::BuildPermissions(
     )
 {
-    String^ result = ref new String();
+    FBPermissions^ result = ref new FBPermissions();
+	Vector<String^>^ v = ref new Vector<String^>();
 
     for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
     {
-        if (i)
-        {
-            result += L",";
-        }
-
-        result += ref new String(requested_permissions[i]);
+        v->Append(ref new String(requested_permissions[i]));
     }
+
+	result->Values = v->GetView();
 
     return result;
 }
@@ -134,46 +132,95 @@ BOOL MainPage::DidGetAllRequestedPermissions(
     return success;
 }
 
+BOOL MainPage::WasAppPermissionRemovedByUser(
+	FBResult^ result
+	)
+{
+	return (result &&
+		(!result->Succeeded) &&
+		(result->ErrorInfo->Code == (int)Facebook::ErrorCode::ErrorCodeOauthException));
+}
+
+BOOL MainPage::ShouldRerequest(
+	FBResult^ result
+	)
+{
+	return (result &&
+		result->Succeeded &&
+		!DidGetAllRequestedPermissions());
+}
+
 void MainPage::NavigateToOptionsPage()
 {
     LoginButton->Content = L"Logout";
 
-    // We're redirecting to a page that shows simple user info, so 
-    // have to dispatch back to the UI thread.
-    CoreWindow^ wind = CoreApplication::MainView->CoreWindow;
-
-    if (wind)
+    CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        ref new Windows::UI::Core::DispatchedHandler([this]()
     {
-        CoreDispatcher^ disp = wind->Dispatcher;
-        if (disp)
-        {
-            disp->RunAsync(
-                Windows::UI::Core::CoreDispatcherPriority::Normal,
-                ref new Windows::UI::Core::DispatchedHandler([this]()
-            {
-                LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
-                Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
-                f->Navigate(OptionsPage::typeid);
-            }));
-        }
-    }
+        LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+        Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+        f->Navigate(OptionsPage::typeid);
+    }));
 }
 
-task<FBResult^> MainPage::LoginViaRerequest(
-    PropertySet^ Parameters
-    )
+void MainPage::TryRerequest(
+	BOOL retry
+	)
 {
-    Parameters->Insert(L"auth_type", L"rerequest");
-    return create_task(FBSession::ActiveSession->Logout())
-    .then([=]()
-    {
-        SetSessionAppIds();
+    // If we're logged out, the session has cleared the FB and Windows app IDs,
+    // so they need to be set again.  We load these IDs via the ResourceLoader
+    // class, which must be accessed on the UI thread, which is why this call
+    // is outside the task context.
+	SetSessionAppIds();
 
-        return FBSession::ActiveSession->LoginAsync(Parameters);
-    });
+	create_task(FBSession::ActiveSession->LoginAsync(BuildPermissions()))
+		.then([=](FBResult^ result)
+	{
+		if (result->Succeeded)
+		{
+			if (retry && (!DidGetAllRequestedPermissions()))
+			{
+				// Login call has to happen on UI thread, so circle back around to it
+				CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+					Windows::UI::Core::CoreDispatcherPriority::Normal,
+					ref new Windows::UI::Core::DispatchedHandler([=]()
+				{
+					TryRerequest(false);
+				}));
+			}
+			else
+			{
+				NavigateToOptionsPage();
+			}
+		}
+	});
 }
 
-void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void MainPage::LogoutAndRetry(
+	)
+{
+    // It's necessary to logout prior to reattempting login, because it could
+    // be that the session has cached an access token that is no longer valid,
+    // e.g. if the user revoked the app in Settings.  FBSession::Logout clears
+    // the session's cached access token, among other things.
+    create_task(FBSession::ActiveSession->Logout())
+		.then([=]()
+	{
+		// Login call has to happen on UI thread, so circle back around to it
+		CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+			Windows::UI::Core::CoreDispatcherPriority::Normal,
+			ref new Windows::UI::Core::DispatchedHandler([=]()
+		{
+			TryRerequest(TRUE);
+		}));
+	});
+}
+
+void MainPage::login_OnClicked(
+    Object^ sender, 
+    RoutedEventArgs^ e
+    )
 {
 	FBSession^ sess = FBSession::ActiveSession;
 
@@ -187,48 +234,32 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
 	}
 	else
 	{
-        PropertySet^ parameters = ref new PropertySet();
-
-        parameters->Insert(L"scope", BuildPermissionsString());
-
-        create_task(sess->LoginAsync(parameters)).then([=](FBResult^ result)
+        create_task(sess->LoginAsync(BuildPermissions())).then([=](FBResult^ result)
         {
-            task<FBResult^> nextResult = create_task([=]()
+            // There may be other cases where an a failed login request should
+            // prompt the app to retry login, but this one is common enough that
+            // it's helpful to demonstrate handling it here.  If the predicate
+            // returns TRUE, the user has gone to facebook.com in the browser,
+            // and removed our app from their list off allowed apps in Settings.
+            if (WasAppPermissionRemovedByUser(result))
             {
-                return result;
-            });
-
-            if ((!result->Succeeded) &&
-                ((result->ErrorInfo->Code == 190) && (result->ErrorInfo->Subcode == 466)))
+				LogoutAndRetry();
+			}
+			else if (ShouldRerequest(result))
+			{
+				// Login call has to happen on UI thread, so circle back around to it
+				CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+					Windows::UI::Core::CoreDispatcherPriority::Normal,
+					ref new Windows::UI::Core::DispatchedHandler([=]()
+				{
+					TryRerequest(FALSE);
+				}));
+			}
+            else if (result->Succeeded)
             {
-                nextResult = LoginViaRerequest(parameters);
-            }
-
-            return nextResult;
-        })
-        .then([=](FBResult^ loginResult)
-        {
-            task<FBResult^> finalResult = create_task([=]()
-            {
-                return loginResult;
-            });
-
-            if (loginResult->Succeeded)
-            {
-                if (!DidGetAllRequestedPermissions())
-                {
-                    finalResult = LoginViaRerequest(parameters);
-                }
-            }
-
-            return finalResult;
-        })
-        .then([=](FBResult^ finalResult)
-        {
-            if (finalResult->Succeeded)
-            {
+                // Got a token and all our permissions.
                 NavigateToOptionsPage();
             }
-        });
+		});
 	}
 }

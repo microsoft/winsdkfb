@@ -318,6 +318,7 @@ popd
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookMediaObject.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookMediaStream.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPaginatedArray.h" />
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePicture.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePictureControl.xaml.h">
       <DependentUpon>..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePictureControl.xaml</DependentUpon>
@@ -353,6 +354,7 @@ popd
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookMediaObject.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookMediaStream.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPaginatedArray.cpp" />
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePicture.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePictureControl.xaml.cpp">
       <DependentUpon>..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePictureControl.xaml</DependentUpon>

@@ -120,6 +120,9 @@
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\ScaleConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookAccessTokenData.h">
@@ -203,6 +206,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\ScaleConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

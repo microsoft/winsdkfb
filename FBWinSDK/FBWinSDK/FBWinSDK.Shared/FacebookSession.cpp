@@ -501,7 +501,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (m_showingDialog && !dialogResponse);
+        while (m_showingDialog && !dialogResponse)
         {
             dialogResponse = m_dialog->GetDialogResponse();
             Sleep(0);
@@ -674,9 +674,6 @@ String^ FBSession::GetRedirectUriString(
     )
 {
     Uri^ endURI = WebAuthenticationBroker::GetCurrentApplicationCallbackUri();
-    String^ blerg = endURI->DisplayUri;
-    OutputDebugString(blerg->Data());
-    OutputDebugString(L"\n");
     return endURI->DisplayUri;
 }
 
@@ -856,22 +853,33 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
-    PropertySet^ Parameters
+    FBPermissions^ Permissions
     )
 {
     m_dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {
+		PropertySet^ parameters = ref new PropertySet();
+		if (Permissions)
+		{
+			parameters->Insert(L"scope", Permissions->ToString());
+		}
+
+		if (LoggedIn)
+		{
+			parameters->Insert(L"auth_type", L"rerequest");
+		}
+
         return create_task([=]() -> FBResult^
         {
             FBResult^ result = nullptr;
 
-            task<FBResult^> authTask = TryLoginViaWebView(Parameters);
+            task<FBResult^> authTask = TryLoginViaWebView(parameters);
             result = authTask.get();
             if (!result)
             {
-                authTask = TryLoginViaWebAuthBroker(Parameters);
+                authTask = TryLoginViaWebAuthBroker(parameters);
                 result = authTask.get();
             }
 

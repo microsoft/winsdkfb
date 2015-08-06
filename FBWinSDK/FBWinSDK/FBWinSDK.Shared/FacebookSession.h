@@ -20,6 +20,7 @@
 #include "FacebookResult.h"
 #include "FBUser.h"
 #include "FacebookDialog.xaml.h"
+#include "FacebookPermissions.h"
 
 namespace Facebook
 {
@@ -125,7 +126,7 @@ namespace Facebook
                 );
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
-                Windows::Foundation::Collections::PropertySet^ Parameters
+                Facebook::FBPermissions^ Permissions
                 );
 
         private:

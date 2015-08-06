@@ -17,6 +17,7 @@
 #pragma once
 
 #include "FacebookSession.h"
+#include "FacebookPermissions.h"
 
 namespace Facebook
 {
@@ -58,16 +59,16 @@ namespace Facebook
             //}
 
             //! Publish permissions for user
-            property Windows::Foundation::Collections::IVector<Platform::String^>^ 
+            property Facebook::FBPermissions^
                 Permissions
             {
-                Windows::Foundation::Collections::IVector<Platform::String^>^ get();
-                void set(Windows::Foundation::Collections::IVector<Platform::String^>^);
+				Facebook::FBPermissions^ get();
+                void set(Facebook::FBPermissions^);
             }
 
             //! Ask for read permissions at login
             void InitWithPermissions(
-                Windows::Foundation::Collections::IVector<Platform::String^>^ permissions
+                Facebook::FBPermissions^ permissions
                 );
 
             event FBLoginErrorHandler^ FBLoginError;
@@ -85,6 +86,6 @@ namespace Facebook
                 );
 
 //            SessionLoginBehavior m_loginBehavior;
-            Platform::Collections::Vector<Platform::String^>^ m_permissions;
+            Facebook::FBPermissions^ m_permissions;
     };
 }

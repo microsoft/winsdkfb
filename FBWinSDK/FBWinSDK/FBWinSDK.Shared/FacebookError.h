@@ -31,6 +31,7 @@ namespace Facebook
     */
     public enum class ErrorSubcode : int
     {
+        ErrorSubcodeAppNotAuthorized   = 458,
         ErrorSubcodeSessionInvalidated = 466
     };
 

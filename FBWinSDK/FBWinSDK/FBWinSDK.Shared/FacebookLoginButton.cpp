@@ -17,6 +17,7 @@
 #include "pch.h"
 #include "FacebookLoginButton.h"
 #include "FacebookSession.h"
+#include "FacebookPermissions.h"
 
 using namespace Concurrency;
 using namespace Facebook;
@@ -32,7 +33,6 @@ FBLoginButton::FBLoginButton() :
 {
     String^ styleKey = FBLoginButton::typeid->FullName;
     this->DefaultStyleKey = styleKey;
-    m_permissions = ref new Vector<String^>();
 }
 
 void FBLoginButton::OnApplyTemplate(
@@ -58,61 +58,21 @@ void FBLoginButton::OnApplyTemplate(
 //}
 //
 
-IVector<String^>^ FBLoginButton::Permissions::get()
+FBPermissions^ FBLoginButton::Permissions::get()
 {
     return m_permissions;
 }
 
-void FBLoginButton::Permissions::set(IVector<String^>^ Values)
+void FBLoginButton::Permissions::set(FBPermissions^ Permissions)
 {
-    m_permissions->Clear();
-    IIterator<String^>^ it = nullptr;
-    for (it = Values->First(); it->HasCurrent; it->MoveNext())
-    {
-        String^ value = it->Current;
-        m_permissions->Append(value);
-    }
+    m_permissions = Permissions;
 }
 
 void FBLoginButton::InitWithPermissions(
-    IVector<String^>^ permissions
+    FBPermissions^ Permissions
     )
 {
-    if (!m_permissions)
-    {
-        m_permissions = ref new Vector<String^>(0);
-    }
-
-    m_permissions->Clear();
-
-    for (IIterator<String^>^ iter = permissions->First();
-        iter->HasCurrent;
-        iter->MoveNext())
-    {
-        m_permissions->Append(iter->Current);
-    }
-}
-
-String^ FBLoginButton::GetPermissions(
-    )
-{
-    String^ permissions = nullptr;
-    if (m_permissions)
-    {
-        permissions = ref new String();
-
-        for (unsigned int i = 0; i < m_permissions->Size; i++)
-        {
-            if (i)
-            {
-                permissions += ",";
-            }
-
-            permissions += m_permissions->GetAt(i);
-        }
-    }
-
-    return permissions;
+	m_permissions = Permissions;
 }
 
 void FBLoginButton::OnClick(
@@ -128,14 +88,7 @@ void FBLoginButton::OnClick(
     }
     else
     {
-        String^ permissions = GetPermissions();
-        PropertySet^ parameters = ref new PropertySet();
-        if (permissions != nullptr)
-        {
-            parameters->Insert(L"scope", permissions);
-        }
-
-        create_task(s->LoginAsync(parameters))
+        create_task(s->LoginAsync(m_permissions))
             .then([=](FBResult^ result)
         {
             if (result->Succeeded)
