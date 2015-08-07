@@ -7,17 +7,17 @@ using namespace Facebook;
 using namespace Platform;
 using namespace Windows::Foundation::Collections;
 
+FBPermissions::FBPermissions(
+    IVectorView<String^>^ Permissions
+    )
+{
+    _values = Permissions;
+}
+
 IVectorView<String^>^ FBPermissions::Values::get()
 {
 	return _values;
 };
-
-void FBPermissions::Values::set(
-	IVectorView<String^>^ value
-	)
-{
-	_values = value;
-}
 
 Platform::String^ FBPermissions::ToString(
 	)

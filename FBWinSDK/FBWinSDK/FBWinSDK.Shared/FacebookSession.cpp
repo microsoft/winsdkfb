@@ -602,7 +602,7 @@ task<FBResult^> FBSession::GetAppPermissions(
         {
             IVectorView<Object^>^ perms = 
                 static_cast<IVectorView<Object^>^>(result->Object);
-            m_AccessTokenData->AddPermissions(perms);
+            m_AccessTokenData->SetPermissions(perms);
         }
 
         return ref new FBResult(m_user);

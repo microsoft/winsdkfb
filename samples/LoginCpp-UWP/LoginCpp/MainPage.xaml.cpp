@@ -88,7 +88,6 @@ void MainPage::SetSessionAppIds()
 FBPermissions^ MainPage::BuildPermissions(
     )
 {
-    FBPermissions^ result = ref new FBPermissions();
 	Vector<String^>^ v = ref new Vector<String^>();
 
     for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
@@ -96,9 +95,7 @@ FBPermissions^ MainPage::BuildPermissions(
         v->Append(ref new String(requested_permissions[i]));
     }
 
-	result->Values = v->GetView();
-
-    return result;
+    return ref new FBPermissions(v->GetView());
 }
 
 BOOL MainPage::DidGetAllRequestedPermissions(
@@ -106,27 +103,10 @@ BOOL MainPage::DidGetAllRequestedPermissions(
 {
     BOOL success = FALSE;
     FBAccessTokenData^ data = FBSession::ActiveSession->AccessTokenData;
-    unsigned int grantedCount = 0;
 
     if (data)
     {
-        for (unsigned int i = 0; i < ARRAYSIZE(requested_permissions); i++)
-        {
-            String^ perm = ref new String(requested_permissions[i]);
-            if (data->Permissions && (data->Permissions->HasKey(perm)))
-            {
-                String^ Value = data->Permissions->Lookup(perm);
-                if (!String::CompareOrdinal(Value, PermissionGranted))
-                {
-                    grantedCount++;
-                }
-            }
-        }
-
-        if (grantedCount == ARRAYSIZE(requested_permissions))
-        {
-            success = TRUE;
-        }
+        success = !data->DeclinedPermissions->Values->Size;
     }
 
     return success;

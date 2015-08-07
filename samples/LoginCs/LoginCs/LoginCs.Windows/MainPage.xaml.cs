@@ -82,7 +82,7 @@ namespace LoginCs
         FBPermissions BuildPermissions(
             )
         {
-            FBPermissions result = new FBPermissions();
+            FBPermissions result = null; 
             List<string> perms = new List<string>();
 
             for (uint i = 0; i < requested_permissions.Length; i++)
@@ -90,7 +90,7 @@ namespace LoginCs
                 perms.Add(requested_permissions[i]);
             }
 
-            result.Values = perms;
+            result = new FBPermissions(perms);
 
             return result;
         }
@@ -100,27 +100,10 @@ namespace LoginCs
         {
             bool success = false;
             FBAccessTokenData data = FBSession.ActiveSession.AccessTokenData;
-            uint grantedCount = 0;
 
             if (data != null)
             {
-                for (uint i = 0; i < requested_permissions.Length; i++)
-                {
-                    string perm = requested_permissions[i];
-                    if ((data.Permissions != null) && (data.Permissions.ContainsKey(perm)))
-                    {
-                        string Value = data.Permissions[perm];
-                        if (string.CompareOrdinal(Value, PermissionGranted) == 0)
-                        {
-                            grantedCount++;
-                        }
-                    }
-                }
-
-                if (grantedCount == requested_permissions.Length)
-                {
-                    success = true;
-                }
+                success = (data.DeclinedPermissions.Values.Count == 0);
             }
 
             return success;

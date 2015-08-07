@@ -41,7 +41,8 @@ FBAccessTokenData::FBAccessTokenData(
     ) :
     m_accessToken(AccessToken),
     m_appId(nullptr),
-    m_permissions(nullptr),
+    _grantedPermissions(nullptr),
+    _declinedPermissions(nullptr),
     m_userId(nullptr)
 {
     if (Expiration)
@@ -60,13 +61,15 @@ FBAccessTokenData::FBAccessTokenData(
     ) :
     m_accessToken(AccessToken),
     m_appId(nullptr),
-    m_permissions(nullptr),
+    _grantedPermissions(nullptr),
+    _declinedPermissions(nullptr),
     m_userId(nullptr),
     m_expirationDate(Expiration)
 {
 #ifdef _DEBUG
     DebugPrintExpirationTime();
 #endif
+    InitPermissions();
 }
 
 String^ FBAccessTokenData::AccessToken::get()
@@ -84,21 +87,27 @@ DateTime FBAccessTokenData::ExpirationDate::get()
     return m_expirationDate;
 }
 
-IMapView<String^, String^>^ FBAccessTokenData::Permissions::get()
+FBPermissions^ FBAccessTokenData::GrantedPermissions::get()
 {
-    IMapView<String^, String^>^ result = nullptr;
+    return _grantedPermissions;
+}
 
-    if (m_permissions)
-    {
-        result = m_permissions->GetView();
-    }
-
-    return result;
+FBPermissions^ FBAccessTokenData::DeclinedPermissions::get()
+{
+    return _declinedPermissions;
 }
 
 String^ FBAccessTokenData::UserID::get()
 {
     return m_userId;
+}
+
+void FBAccessTokenData::InitPermissions()
+{
+    Vector<String^>^ v = ref new Vector<String^>(0);
+
+    _grantedPermissions  = ref new FBPermissions(v->GetView());
+    _declinedPermissions = ref new FBPermissions(v->GetView());
 }
 
 WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
@@ -192,17 +201,31 @@ bool FBAccessTokenData::IsExpired(
     return expired;
 }
 
-void FBAccessTokenData::AddPermissions(
+void FBAccessTokenData::SetPermissions(
     IVectorView<Object^>^ perms
     )
 {
-    m_permissions = ref new Map<String^, String^>();
+    _grantedPermissions = nullptr;
+    _declinedPermissions = nullptr;
+    Vector<String^>^ granted = ref new Vector<String^>(0);
+    Vector<String^>^ declined = ref new Vector<String^>(0);
+
     for (unsigned int i = 0; i < perms->Size; i++)
     {
-        FBPermission^ perm = 
-            static_cast<FBPermission^>(perms->GetAt(i));
-        m_permissions->Insert(perm->Permission, perm->Status);
+        FBPermission^ perm = static_cast<FBPermission^>(perms->GetAt(i));
+
+        if (!String::CompareOrdinal(perm->Status, L"granted"))
+        {
+            granted->Append(perm->Permission);
+        }
+        else if (!String::CompareOrdinal(perm->Status, L"declined"))
+        {
+            declined->Append(perm->Permission);
+        }
     }
+
+    _grantedPermissions = ref new FBPermissions(granted->GetView());
+    _declinedPermissions = ref new FBPermissions(declined->GetView());
 }
 
 void FBAccessTokenData::CalculateExpirationDateTime(
