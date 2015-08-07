@@ -141,38 +141,6 @@ IVectorView<String^>^ FBSession::Permissions::get()
     return _permissions->GetView();
 }
 
-Windows::Foundation::DateTime FBSession::Expires::get()
-{
-    return _Expires;
-}
-
-void FBSession::Expires::set(Windows::Foundation::DateTime value)
-{
-    _Expires = value;
-}
-
-bool FBSession::IsExpired::get()
-{
-    bool expired = true;
-
-    Windows::Globalization::Calendar^ cal = ref new Windows::Globalization::Calendar();
-
-    cal->SetToNow();
-
-    DateTime now = cal->GetDateTime();
-
-    if (_Expires.UniversalTime >= now.UniversalTime)
-    {
-        expired = true;
-    }
-    else
-    {
-        expired = false;
-    }
-
-    return expired;
-}
-
 FBUser^ FBSession::User::get()
 {
     return _user;
