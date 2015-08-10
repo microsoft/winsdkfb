@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props" Condition="Exists('..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
@@ -97,7 +96,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <PackageCertificateKeyFile>LoginCpp.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <NuGetPackageImportStamp>549b9e9f</NuGetPackageImportStamp>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
@@ -165,7 +163,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="LoginCpp.Windows_TemporaryKey.pfx" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-100.png" />
@@ -187,17 +184,19 @@
       <DependentUpon>OptionsPage.xaml</DependentUpon>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\FBWinSDK\FBWinSDK\FBWinSDK.Windows\FBWinSDK.Windows.vcxproj">
+      <Project>{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-    <Import Project="..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets" Condition="Exists('..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.props'))" />
-    <Error Condition="!Exists('..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\FBWinSDK.0.9.0\build\native\FBWinSDK.targets'))" />
   </Target>
 </Project>

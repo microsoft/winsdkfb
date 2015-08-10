@@ -54,8 +54,8 @@ namespace Facebook
 
     private:
 
-        RecipientVector m_Recipients;
-        Platform::String^ m_RequestId;
+        RecipientVector _Recipients;
+        Platform::String^ _RequestId;
 
         FBAppRequest(
             Platform::String^ RequestId,

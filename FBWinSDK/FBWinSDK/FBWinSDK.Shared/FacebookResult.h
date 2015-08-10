@@ -51,7 +51,7 @@ namespace Facebook
             ~FBResult(
                 );
 
-            Platform::Object^ m_Object;
-            Facebook::FBError^ m_Error;
+            Platform::Object^ _Object;
+            Facebook::FBError^ _Error;
     };
 }

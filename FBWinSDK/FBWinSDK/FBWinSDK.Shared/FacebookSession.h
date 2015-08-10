@@ -87,19 +87,6 @@ namespace Facebook
                 Windows::Foundation::Collections::IVectorView<Platform::String^>^ get();
             }
 
-            //! Expiration date/time of active session
-            property Windows::Foundation::DateTime Expires
-            {
-                Windows::Foundation::DateTime get();
-                void set(Windows::Foundation::DateTime);
-            }
-
-            //! Is session expired?
-            property bool IsExpired
-            {
-                bool get();
-            }
-
             //! Request a new permission
             void AddPermission(
                 Platform::String^ permission
@@ -209,20 +196,15 @@ namespace Facebook
             concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
                 );
 
-            int64 SecondsTilTokenExpires(
-                Windows::Foundation::DateTime Expiration
-                );
-
-            Platform::String^ m_FBAppId;
-            Platform::String^ m_WinAppId;
-            bool m_loggedIn;
-            Platform::String^ m_AppResponse;
-            Facebook::FBAccessTokenData^ m_AccessTokenData;
-            Platform::Collections::Vector<Platform::String^>^ m_permissions;
-            Windows::Foundation::DateTime m_Expires;
-            Facebook::Graph::FBUser^ m_user;
-			concurrency::task<Facebook::FBResult^> m_loginTask;
-            Facebook::FacebookDialog^ m_dialog;
-            BOOL m_showingDialog;
+            Platform::String^ _FBAppId;
+            Platform::String^ _WinAppId;
+            bool _loggedIn;
+            Platform::String^ _AppResponse;
+            Facebook::FBAccessTokenData^ _AccessTokenData;
+            Platform::Collections::Vector<Platform::String^>^ _permissions;
+            Facebook::Graph::FBUser^ _user;
+			concurrency::task<Facebook::FBResult^> _loginTask;
+            Facebook::FacebookDialog^ _dialog;
+            BOOL _showingDialog;
     };
 }

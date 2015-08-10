@@ -24,7 +24,7 @@ using namespace Windows::Foundation;
 
 String^ FBFeedRequest::PostId::get()
 {
-    return m_PostId;
+    return _PostId;
 }
         
 FBFeedRequest^ FBFeedRequest::FromFeedDialogResponse(
@@ -61,7 +61,7 @@ FBFeedRequest^ FBFeedRequest::FromFeedDialogResponse(
 FBFeedRequest::FBFeedRequest(
     String^ PostId
     ) :
-    m_PostId(PostId)
+    _PostId(PostId)
 {
     ;
 }

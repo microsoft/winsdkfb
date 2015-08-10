@@ -39,10 +39,10 @@ FBAccessTokenData::FBAccessTokenData(
     String^ Expiration,
     String^ State
     ) :
-    m_accessToken(AccessToken),
-    m_appId(nullptr),
-    m_permissions(nullptr),
-    m_userId(nullptr)
+    _accessToken(AccessToken),
+    _appId(nullptr),
+    _permissions(nullptr),
+    _userId(nullptr)
 {
     if (Expiration)
     {
@@ -58,11 +58,11 @@ FBAccessTokenData::FBAccessTokenData(
     DateTime Expiration,
     String^ State
     ) :
-    m_accessToken(AccessToken),
-    m_appId(nullptr),
-    m_permissions(nullptr),
-    m_userId(nullptr),
-    m_expirationDate(Expiration)
+    _accessToken(AccessToken),
+    _appId(nullptr),
+    _permissions(nullptr),
+    _userId(nullptr),
+    _expirationDate(Expiration)
 {
 #ifdef _DEBUG
     DebugPrintExpirationTime();
@@ -71,27 +71,27 @@ FBAccessTokenData::FBAccessTokenData(
 
 String^ FBAccessTokenData::AccessToken::get()
 {
-    return m_accessToken;
+    return _accessToken;
 }
 
 String^ FBAccessTokenData::AppID::get()
 {
-    return m_appId;
+    return _appId;
 }
 
 DateTime FBAccessTokenData::ExpirationDate::get()
 {
-    return m_expirationDate;
+    return _expirationDate;
 }
 
 IMapView<String^, String^>^ FBAccessTokenData::Permissions::get()
 {
-    return m_permissions->GetView();
+    return _permissions->GetView();
 }
 
 String^ FBAccessTokenData::UserID::get()
 {
-    return m_userId;
+    return _userId;
 }
 
 WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
@@ -189,12 +189,12 @@ void FBAccessTokenData::AddPermissions(
     IVectorView<Object^>^ perms
     )
 {
-    m_permissions = ref new Map<String^, String^>();
+    _permissions = ref new Map<String^, String^>();
     for (unsigned int i = 0; i < perms->Size; i++)
     {
         FBPermission^ perm = 
             static_cast<FBPermission^>(perms->GetAt(i));
-        m_permissions->Insert(perm->Permission, perm->Status);
+        _permissions->Insert(perm->Permission, perm->Status);
     }
 }
 
@@ -212,7 +212,7 @@ void FBAccessTokenData::CalculateExpirationDateTime(
     // Default to expiring 'now' if we can't convert to the proper time.  This
     // may save us some trouble later.
     cal->SetToNow();
-    m_expirationDate = cal->GetDateTime();
+    _expirationDate = cal->GetDateTime();
     // Convert to ticks
     hr = ULongLongMult(numSecs, SECS_TO_HNS, &numTicks);
     if (SUCCEEDED(hr))
@@ -227,7 +227,7 @@ void FBAccessTokenData::CalculateExpirationDateTime(
             // we now have an accurate expiration DateTime.
             if (expirationTimeInTicks < INT64_MAX)
             {
-                m_expirationDate.UniversalTime = (int64)expirationTimeInTicks;
+                _expirationDate.UniversalTime = (int64)expirationTimeInTicks;
             }
         }
     }
@@ -241,8 +241,8 @@ void FBAccessTokenData::DebugPrintExpirationTime(
         MonthFormat::Default, DayFormat::Default, DayOfWeekFormat::Default);
     DateTimeFormatter^ dtfTime = ref new DateTimeFormatter(HourFormat::Default,
         MinuteFormat::Default, SecondFormat::Default);
-    String^ msgString = L"Token expires at " + dtfDay->Format(m_expirationDate) +
-        L", " + dtfTime->Format(m_expirationDate) + L"\n";
+    String^ msgString = L"Token expires at " + dtfDay->Format(_expirationDate) +
+        L", " + dtfTime->Format(_expirationDate) + L"\n";
     OutputDebugString(msgString->Data());
 }
 #endif
