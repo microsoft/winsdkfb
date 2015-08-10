@@ -22,7 +22,7 @@
 #pragma once
 
 #include "FacebookProfilePictureControl.g.h"
-#include "FacebookProfilePicture.h"
+#include "FBProfilePicture.h"
 #include "FacebookResult.h"
 
 using namespace Platform;
@@ -70,8 +70,8 @@ namespace Facebook
             int height
             );
 
-        bool m_userIdValid;
-        String^ m_UserId;
-        CroppingType m_CropMode;
+        bool _userIdValid;
+        String^ _UserId;
+        CroppingType _CropMode;
 	};
 }

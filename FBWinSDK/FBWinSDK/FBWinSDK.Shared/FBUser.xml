@@ -8,6 +8,7 @@
     <property name="locale" type="string" />
     <property name="location" type="fbclass" className="FBPage"/>
     <property name="name" type="string" />
+    <property name="picture" type="fbclass" className="FBProfilePictureData" />
     <property name="timezone" type="int32" />
     <property name="updated_time" type="string" />
     <property name="verified" type="bool" />

@@ -120,11 +120,11 @@ namespace Facebook
                 );
 #endif
 
-            Platform::String^ m_accessToken;
-            Platform::String^ m_appId;
-            Windows::Foundation::DateTime m_expirationDate;
-            Platform::String^ m_userId;
+            Platform::String^ _accessToken;
+            Platform::String^ _appId;
+            Windows::Foundation::DateTime _expirationDate;
             FBPermissions^ _grantedPermissions;
             FBPermissions^ _declinedPermissions;
+            Platform::String^ _userId;
     };
 }

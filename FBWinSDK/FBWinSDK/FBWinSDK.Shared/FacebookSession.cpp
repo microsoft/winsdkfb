@@ -62,18 +62,18 @@ namespace Facebook
 }
 
 FBSession::FBSession() :
-    m_AccessTokenData(nullptr),
-    m_AppResponse(nullptr),
-    m_loggedIn(false),
-    m_FBAppId(nullptr),
-    m_WinAppId(nullptr),
-    m_user(nullptr)
+    _AccessTokenData(nullptr),
+    _AppResponse(nullptr),
+    _loggedIn(false),
+    _FBAppId(nullptr),
+    _WinAppId(nullptr),
+    _user(nullptr)
 {
 	if (!login_evt)
 	{
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
 	}
-    m_showingDialog = FALSE;
+    _showingDialog = FALSE;
 }
 
 Facebook::FBSession::~FBSession()
@@ -87,94 +87,66 @@ Facebook::FBSession::~FBSession()
 
 String^ FBSession::FBAppId::get()
 {
-    if (!m_FBAppId)
-    {
-        m_FBAppId = ref new String(L"MyApp");
-    }
+	if (!_FBAppId)
+	{
+		_FBAppId = ref new String(L"<INSERT YOUR APP ID HERE>");
 
-    return m_FBAppId;
+#ifdef _DEBUG
+		OutputDebugString(L"!!! Missing App ID.  Update your app to use a valid FB App ID in order for the FB API's to succeed");
+#endif
+	}
+
+    return _FBAppId;
 }
 
 void FBSession::FBAppId::set(String^ value)
 {
-    m_FBAppId = value;
+    _FBAppId = value;
 }
 
 String^ FBSession::WinAppId::get()
 {
-    return m_WinAppId;
+    return _WinAppId;
 }
 
 void FBSession::WinAppId::set(String^ value)
 {
-    m_WinAppId = value;
+    _WinAppId = value;
 }
 
 String^ FBSession::AppResponse::get()
 {
-    return m_AppResponse;
+    return _AppResponse;
 }
 
 bool FBSession::LoggedIn::get()
 {
-    return m_loggedIn;
+    return _loggedIn;
 }
 
 FBAccessTokenData^ FBSession::AccessTokenData::get()
 {
-    return m_AccessTokenData;
+    return _AccessTokenData;
 }
 
 void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
 {
-    m_AccessTokenData = value;
-}
-
-Windows::Foundation::DateTime FBSession::Expires::get()
-{
-    return m_Expires;
-}
-
-void FBSession::Expires::set(Windows::Foundation::DateTime value)
-{
-    m_Expires = value;
-}
-
-bool FBSession::IsExpired::get()
-{
-    bool expired = true;
-
-    Windows::Globalization::Calendar^ cal = ref new Windows::Globalization::Calendar();
-
-    cal->SetToNow();
-
-    DateTime now = cal->GetDateTime();
-
-    if (m_Expires.UniversalTime >= now.UniversalTime)
-    {
-        expired = true;
-    }
-    else
-    {
-        expired = false;
-    }
-
-    return expired;
+    _AccessTokenData = value;
 }
 
 FBUser^ FBSession::User::get()
 {
-    return m_user;
+    return _user;
 }
 
 IAsyncAction^ FBSession::Logout()
 {
-    m_user = nullptr;
-    m_FBAppId = nullptr;
-    m_WinAppId = nullptr;
-    m_AccessTokenData = nullptr;
-    m_AppResponse = nullptr;
-    m_loggedIn = false;
+    _user = nullptr;
+    _FBAppId = nullptr;
+    _WinAppId = nullptr;
+    _AccessTokenData = nullptr;
+    _AppResponse = nullptr;
+    _loggedIn = false;
 
     return TryDeleteTokenData();
 }
@@ -367,9 +339,10 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
     )
 {
     StorageFolder^ folder = ApplicationData::Current->LocalFolder;
-    String^ msg = L"Deleting cached token from " + folder->Path + L"\n";
+#ifdef _DEBUG
+	String^ msg = L"Deleting cached token from " + folder->Path + L"\n";
     OutputDebugString(msg->Data());
-
+#endif
     return create_async([=]()
     {
         return create_task(MyTryGetItemAsync(folder, "FBSDKData"))
@@ -411,20 +384,20 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
-    m_dialog = ref new FacebookDialog();
+    _dialog = ref new FacebookDialog();
 
-    m_showingDialog = TRUE;
+    _showingDialog = TRUE;
 
     auto callback = ref new DispatchedHandler(
         [=]()
     {
         try
         {
-            m_dialog->ShowFeedDialog(Parameters);
+            _dialog->ShowFeedDialog(Parameters);
         }
         catch(Exception^ ex)
         {
-            m_showingDialog = FALSE;
+            _showingDialog = FALSE;
         }
     });
 
@@ -444,20 +417,20 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plain old Windows event, but that didn't work at all,
         // so polling for now.
-        while (m_showingDialog && !dialogResponse)
+        while (_showingDialog && !dialogResponse)
         {
-            dialogResponse = m_dialog->GetDialogResponse();
+            dialogResponse = _dialog->GetDialogResponse();
             Sleep(0);
         }
 
-        if (!m_showingDialog)
+        if (!_showingDialog)
         {
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             dialogResponse = ref new FBResult(err);
         }
 
-        m_showingDialog = FALSE;
-        m_dialog = nullptr;
+        _showingDialog = FALSE;
+        _dialog = nullptr;
         return dialogResponse;
     });
 
@@ -468,20 +441,20 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
     PropertySet^ Parameters
     )
 {
-    m_dialog = ref new FacebookDialog();
+    _dialog = ref new FacebookDialog();
 
-    m_showingDialog = TRUE;
+    _showingDialog = TRUE;
 
     auto callback = ref new DispatchedHandler(
         [=]()
     {
         try
         {
-            m_dialog->ShowRequestsDialog(Parameters);
+            _dialog->ShowRequestsDialog(Parameters);
         }
         catch(Exception^ ex)
         {
-            m_showingDialog = FALSE;
+            _showingDialog = FALSE;
         }
     });
 
@@ -501,20 +474,20 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (m_showingDialog && !dialogResponse)
+        while (_showingDialog && !dialogResponse)
         {
-            dialogResponse = m_dialog->GetDialogResponse();
+            dialogResponse = _dialog->GetDialogResponse();
             Sleep(0);
         }
 
-        if (!m_showingDialog)
+        if (!_showingDialog)
         {
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             dialogResponse = ref new FBResult(err);
         }
 
-        m_showingDialog = FALSE;
-        m_dialog = nullptr;
+        _showingDialog = FALSE;
+        _dialog = nullptr;
         return dialogResponse;
     });
 
@@ -525,20 +498,20 @@ task<FBResult^> FBSession::ShowLoginDialog(
     PropertySet^ Parameters
     )
 {
-    m_dialog = ref new FacebookDialog();
+    _dialog = ref new FacebookDialog();
 
-    m_showingDialog = TRUE;
+    _showingDialog = TRUE;
 
     auto callback = ref new DispatchedHandler(
         [=]()
     {
         try
         {
-            m_dialog->ShowLoginDialog(Parameters);
+            _dialog->ShowLoginDialog(Parameters);
         }
         catch (Exception^ ex)
         {
-            m_showingDialog = FALSE;
+            _showingDialog = FALSE;
         }
     });
 
@@ -558,13 +531,13 @@ task<FBResult^> FBSession::ShowLoginDialog(
         // the concurrency event object was deprecated in the Win10 SDK tools.
         // Switched to plane old Windows event, but that didn't work at all,
         // so polling for now.
-        while (m_showingDialog && !dialogResponse)
+        while (_showingDialog && !dialogResponse)
         {
-            dialogResponse = m_dialog->GetDialogResponse();
+            dialogResponse = _dialog->GetDialogResponse();
             Sleep(0);
         } 
 
-        if (m_showingDialog)
+        if (_showingDialog)
         {
             if (dialogResponse->Succeeded)
             {
@@ -578,8 +551,8 @@ task<FBResult^> FBSession::ShowLoginDialog(
             dialogResponse = ref new FBResult(err);
         }
 
-        m_showingDialog = FALSE;
-        m_dialog = nullptr;
+        _showingDialog = FALSE;
+        _dialog = nullptr;
         return dialogResponse;
     });
 }
@@ -588,7 +561,7 @@ task<FBResult^> FBSession::GetAppPermissions(
     )
 {
     FBPaginatedArray^ permArr = ref new FBPaginatedArray(
-        L"/" + m_user->Id + L"/permissions",
+        L"/" + _user->Id + L"/permissions",
         nullptr,
         ref new FBJsonClassFactory([](String^ JsonText) -> Object^
         {
@@ -602,10 +575,10 @@ task<FBResult^> FBSession::GetAppPermissions(
         {
             IVectorView<Object^>^ perms = 
                 static_cast<IVectorView<Object^>^>(result->Object);
-            m_AccessTokenData->SetPermissions(perms);
+            _AccessTokenData->SetPermissions(perms);
         }
 
-        return ref new FBResult(m_user);
+        return ref new FBResult(_user);
     });
 }
 
@@ -728,10 +701,10 @@ task<FBResult^> FBSession::TryGetUserInfoAfterLogin(
 
 	if (loginResult && loginResult->Succeeded)
 	{
-		m_AccessTokenData = static_cast<FBAccessTokenData^>(loginResult->Object);
-		m_loggedIn = true;
+		_AccessTokenData = static_cast<FBAccessTokenData^>(loginResult->Object);
+		_loggedIn = true;
 		TrySaveTokenData();
-		innerResult = GetUserInfo(m_AccessTokenData);
+		innerResult = GetUserInfo(_AccessTokenData);
 	}
 	else
 	{
@@ -751,7 +724,7 @@ task<FBResult^> FBSession::TryGetAppPermissionsAfterLogin(
 	task<FBResult^> finalResult;
 	if (loginResult->Succeeded)
 	{
-		m_user = static_cast<FBUser^>(loginResult->Object);
+		_user = static_cast<FBUser^>(loginResult->Object);
 		finalResult = GetAppPermissions();
 	}
 	else
@@ -774,7 +747,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 		Windows::UI::Core::CoreDispatcherPriority::Normal,
 		ref new Windows::UI::Core::DispatchedHandler([=]() 
 	{
-		m_loginTask = create_task(
+		_loginTask = create_task(
 			WebAuthenticationBroker::AuthenticateAsync(
 			WebAuthenticationOptions::None, BuildLoginUri(Parameters),
 			ref new Uri(GetRedirectUriString())))
@@ -801,7 +774,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
 
 		try
 		{
-			result = m_loginTask.get();
+			result = _loginTask.get();
 		}
 		catch (Exception^ ex)
 		{
@@ -821,7 +794,7 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
             Windows::UI::Core::CoreDispatcherPriority::Normal,
             ref new Windows::UI::Core::DispatchedHandler([=]()
     {
-        m_loginTask = ShowLoginDialog(Parameters);
+        _loginTask = ShowLoginDialog(Parameters);
     })));
 
     return create_task([=](void)
@@ -841,7 +814,7 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 
         try
         {
-            result = m_loginTask.get();
+            result = _loginTask.get();
         }
         catch (Exception^ ex)
         {
@@ -856,7 +829,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions
     )
 {
-    m_dialog = ref new FacebookDialog();
+    _dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {

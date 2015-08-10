@@ -34,12 +34,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookResult.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSession.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBCursors.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBGroup.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBPage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBPaging.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBPermission.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FBSingleValue.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePicture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBUser.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HlsColor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMethod.h" />
@@ -63,10 +66,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPermissions.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBCursors.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBGroup.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBPage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookProfilePicture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml.cpp">
       <DependentUpon>$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml</DependentUpon>
     </ClCompile>
@@ -75,6 +78,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBPaging.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBPermission.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FBSingleValue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePicture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBUser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HlsColor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -93,6 +98,8 @@
     <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)FBAppRequest.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBAppRequest.h.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBCursors.cpp.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBCursors.h.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBGraphObjectHeader.ttinclude" />
@@ -107,6 +114,9 @@
     <None Include="$(MSBuildThisFileDirectory)FBPaging.h.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBPermission.cpp.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBPermission.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePicture.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePictureData.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePictureData.h.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBUser.cpp.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBUser.h.tt" />
     <None Include="$(MSBuildThisFileDirectory)Utility.ttinclude" />
@@ -124,5 +134,10 @@
     <Image Include="$(MSBuildThisFileDirectory)Images\fb_blank_profile_portrait.png">
       <ExcludedFromBuild>false</ExcludedFromBuild>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(MSBuildThisFileDirectory)FBAppRequest.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)FBProfilePicture.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)FBProfilePictureData.xml" />
   </ItemGroup>
 </Project>

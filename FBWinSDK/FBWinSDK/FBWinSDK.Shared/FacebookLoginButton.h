@@ -85,7 +85,7 @@ namespace Facebook
                 Windows::UI::Xaml::RoutedEventArgs^ e
                 );
 
-//            SessionLoginBehavior m_loginBehavior;
-            Facebook::FBPermissions^ m_permissions;
+//            SessionLoginBehavior _loginBehavior;
+            Platform::Collections::Vector<Platform::String^>^ _permissions;
     };
 }

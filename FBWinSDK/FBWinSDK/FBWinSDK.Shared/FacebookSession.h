@@ -82,18 +82,6 @@ namespace Facebook
                 void set(FBAccessTokenData^ value);
             }
 
-            //! Expiration date/time of active session
-            property Windows::Foundation::DateTime Expires
-            {
-                Windows::Foundation::DateTime get();
-                void set(Windows::Foundation::DateTime);
-            }
-
-            //! Is session expired?
-            property bool IsExpired
-            {
-                bool get();
-            }
 
             //! FBSession is a singleton object - ActiveSession is the way to
             // acquire a reference to the object.
@@ -200,23 +188,14 @@ namespace Facebook
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            int64 SecondsTilTokenExpires(
-                Windows::Foundation::DateTime Expiration
-                );
-
-            BOOL IsRerequest(
-                Windows::Foundation::Collections::PropertySet^ Parameters
-                );
-
-            Platform::String^ m_FBAppId;
-            Platform::String^ m_WinAppId;
-            bool m_loggedIn;
-            Platform::String^ m_AppResponse;
-            Facebook::FBAccessTokenData^ m_AccessTokenData;
-            Windows::Foundation::DateTime m_Expires;
-            Facebook::Graph::FBUser^ m_user;
-			concurrency::task<Facebook::FBResult^> m_loginTask;
-            Facebook::FacebookDialog^ m_dialog;
-            BOOL m_showingDialog;
+            Platform::String^ _FBAppId;
+            Platform::String^ _WinAppId;
+            bool _loggedIn;
+            Platform::String^ _AppResponse;
+            Facebook::FBAccessTokenData^ _AccessTokenData;
+            Facebook::Graph::FBUser^ _user;
+			concurrency::task<Facebook::FBResult^> _loginTask;
+            Facebook::FacebookDialog^ _dialog;
+            BOOL _showingDialog;
     };
 }
