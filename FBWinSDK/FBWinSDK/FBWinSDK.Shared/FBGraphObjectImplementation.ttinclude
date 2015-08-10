@@ -162,6 +162,7 @@ Object^ <#= className #>::FromJson(
             string memberClassName = prop.Attributes["className"].Value;
             string memberClassType = RTTypeFor(prop);
 #>
+                    found++;
                     result-><#= classPropName #> = static_cast<<#= memberClassType #>>(<#= memberClassName #>::FromJson(it->Current->Value->Stringify()));
 <#
         }

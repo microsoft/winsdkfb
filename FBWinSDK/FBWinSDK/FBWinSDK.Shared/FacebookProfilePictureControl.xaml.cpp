@@ -126,7 +126,7 @@ void ProfilePictureControl::SetImageSourceFromUserId()
                 if (info)
                 {
                     ProfilePic->Stretch = Stretch::Uniform;
-                    ProfilePic->Source = ref new BitmapImage(info->URL);
+                    ProfilePic->Source = ref new BitmapImage(ref new Uri(info->Url));
                 }
             }));
         }

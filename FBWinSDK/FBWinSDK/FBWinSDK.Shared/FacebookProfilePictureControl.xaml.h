@@ -22,7 +22,7 @@
 #pragma once
 
 #include "FacebookProfilePictureControl.g.h"
-#include "FacebookProfilePicture.h"
+#include "FBProfilePicture.h"
 #include "FacebookResult.h"
 
 using namespace Platform;
