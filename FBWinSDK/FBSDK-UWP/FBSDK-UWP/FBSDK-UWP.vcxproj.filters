@@ -64,9 +64,6 @@
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookLoginButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePicture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookMediaStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -122,6 +119,14 @@
     </ClCompile>
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.cpp">
       <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBAppRequest.cpp">
+      <Filter>Generated Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePicture.cpp">
+      <Filter>Generated Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePictureData.cpp">
+      <Filter>Generated Code\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +152,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookMediaStream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookProfilePicture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookResult.h">
@@ -210,6 +212,14 @@
     </ClInclude>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.h">
       <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBAppRequest.h">
+      <Filter>Generated Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePicture.h">
+      <Filter>Generated Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePictureData.h">
+      <Filter>Generated Code\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +287,24 @@
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBUser.cpp.tt">
       <Filter>Object Templates\Source Files</Filter>
     </None>
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBAppRequest.h.tt">
+      <Filter>Object Templates\Header Files</Filter>
+    </None>
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePicture.h.tt">
+      <Filter>Object Templates\Header Files</Filter>
+    </None>
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePictureData.h.tt">
+      <Filter>Object Templates\Header Files</Filter>
+    </None>
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBAppRequest.cpp.tt">
+      <Filter>Object Templates\Source Files</Filter>
+    </None>
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePicture.cpp.tt">
+      <Filter>Object Templates\Source Files</Filter>
+    </None>
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePictureData.cpp.tt">
+      <Filter>Object Templates\Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPage.xml">
@@ -298,6 +326,15 @@
       <Filter>Object Templates\Class Definitions</Filter>
     </Xml>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBUser.xml">
+      <Filter>Object Templates\Class Definitions</Filter>
+    </Xml>
+    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBAppRequest.xml">
+      <Filter>Object Templates\Class Definitions</Filter>
+    </Xml>
+    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePicture.xml">
+      <Filter>Object Templates\Class Definitions</Filter>
+    </Xml>
+    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePictureData.xml">
       <Filter>Object Templates\Class Definitions</Filter>
     </Xml>
   </ItemGroup>

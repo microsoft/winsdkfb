@@ -326,12 +326,15 @@ popd
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookResult.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookSession.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FBSingleValue.h" />
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBAppRequest.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBCursors.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBGroup.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPage.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPageCategory.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPaging.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPermission.h" />
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePicture.h" />
+    <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePictureData.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBUser.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\HlsColor.h" />
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\HttpMethod.h" />
@@ -362,12 +365,15 @@ popd
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookResult.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookSession.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FBSingleValue.cpp" />
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBAppRequest.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBCursors.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBGroup.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPage.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPageCategory.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPaging.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBPermission.cpp" />
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePicture.cpp" />
+    <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBProfilePictureData.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBUser.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\HlsColor.cpp" />
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\ScaleConverter.cpp" />
@@ -388,6 +394,8 @@ popd
     <Page Include="..\..\FBWinSDK\FBWinSDK.Shared\Themes\Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBAppRequest.cpp.tt" />
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBAppRequest.h.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBCursors.cpp.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBCursors.h.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBGraphObjectHeader.ttinclude" />
@@ -402,6 +410,10 @@ popd
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPaging.h.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPermission.cpp.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBPermission.h.tt" />
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePicture.cpp.tt" />
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePicture.h.tt" />
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePictureData.cpp.tt" />
+    <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePictureData.h.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBUser.cpp.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\FBUser.h.tt" />
     <None Include="..\..\FBWinSDK\FBWinSDK.Shared\Utility.ttinclude" />
@@ -433,6 +445,20 @@ popd
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
+    </Xml>
+    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBAppRequest.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
     </Xml>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBCursors.xml">
@@ -489,6 +515,34 @@ popd
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
+    </Xml>
+    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePicture.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
+    </Xml>
+    <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBProfilePictureData.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
     </Xml>
     <Xml Include="..\..\FBWinSDK\FBWinSDK.Shared\FBUser.xml">
