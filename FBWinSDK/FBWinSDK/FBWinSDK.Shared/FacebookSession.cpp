@@ -76,6 +76,8 @@ FBSession::FBSession() :
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
 	}
     _showingDialog = FALSE;
+	_APIMajorVersion = 0;
+	_APIMinorVersion = 0;
 }
 
 Facebook::FBSession::~FBSession()
@@ -625,7 +627,12 @@ task<FBResult^> FBSession::GetAppPermissions(
 Uri^ FBSession::BuildLoginUri(
     )
 {
-    String^ uriString = L"https://www.facebook.com/dialog/oauth?client_id=" +
+	String^ apiVersion = L"";
+	if (APIMajorVersion) 
+	{
+		apiVersion = L"v" + APIMajorVersion.ToString() + L"." + APIMinorVersion.ToString() + L"/";
+	}
+    String^ uriString = L"https://www.facebook.com/" + apiVersion + L"dialog/oauth?client_id=" +
         _FBAppId;
     String^ permissionsString = PermissionsToString();
 
@@ -952,4 +959,23 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
 
         return loginResult;
     });
+}
+
+void FBSession::SetAPIVersion(
+	int MajorVersion,
+	int MinorVersion
+	) 
+{
+	_APIMajorVersion = MajorVersion;
+	_APIMinorVersion = MinorVersion;
+}
+
+int FBSession::APIMajorVersion::get() 
+{
+	return _APIMajorVersion;
+}
+
+int FBSession::APIMinorVersion::get() 
+{
+	return _APIMinorVersion;
 }
