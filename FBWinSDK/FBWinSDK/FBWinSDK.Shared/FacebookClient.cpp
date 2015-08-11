@@ -479,7 +479,7 @@ Uri^ FBClient::PrepareRequestUri(
             kvp->MoveNext();
         }
 
-        if (mediaObjects->Size > 0 || mediaStreams->Size > 0)
+        if (mediaStreams->Size > 0)
         {
             IIterator<IKeyValuePair<String^, Object^>^>^ facebookMediaStream = 
                 mediaStreams->First();
@@ -525,6 +525,55 @@ Uri^ FBClient::PrepareRequestUri(
 
                 dataWriter->WriteString(MultiPartNewLine);
                 facebookMediaStream->MoveNext();
+            }
+
+            String^ str = ref new String();
+            str = MultiPartNewLine + MultiPartFormPrefix + boundary +
+                MultiPartFormPrefix + MultiPartNewLine;
+
+            dataWriter->WriteString(str);
+        }
+
+        if (mediaObjects->Size > 0)
+        {
+            IIterator<IKeyValuePair<String^, Object^>^>^ facebookMediaObject =
+                mediaObjects->First();
+            while (facebookMediaObject->HasCurrent)
+            {
+                String^ sbMediaObject = ref new String();
+                FBMediaObject^ mediaObject =
+                    dynamic_cast<FBMediaObject^>(
+                        facebookMediaObject->Current->Value);
+
+                if ((mediaObject->GetValue()== nullptr) ||
+                    (mediaObject->ContentType == nullptr) ||
+                    (mediaObject->FileName == nullptr) ||
+                    (mediaObject->FileName->Length() == 0))
+                {
+                    throw ref new InvalidArgumentException(AttachmentMustHavePropertiesSetError);
+                }
+
+                sbMediaObject = MultiPartFormPrefix + boundary +
+                    MultiPartNewLine +
+                    "Content-Disposition: form-data; name=\"" +
+                    facebookMediaObject->Current->Key + "\"; filename=\"" +
+                    mediaObject->FileName + "\"" + MultiPartNewLine +
+                    "Content-Type: " + mediaObject->ContentType +
+                    MultiPartNewLine + MultiPartNewLine;
+                OutputDebugString(sbMediaObject->Data());
+                OutputDebugString(L"\n");
+
+                dataWriter->WriteString(sbMediaObject);
+
+                if (mediaObject->GetValue() == nullptr)
+                {
+                    throw ref new InvalidArgumentException(AttachmentValueIsNull);
+                }
+
+                dataWriter->WriteBytes(mediaObject->GetValue());
+
+                dataWriter->WriteString(MultiPartNewLine);
+                facebookMediaObject->MoveNext();
             }
 
             String^ str = ref new String();
