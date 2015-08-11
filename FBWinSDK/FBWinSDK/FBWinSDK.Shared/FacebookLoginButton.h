@@ -63,7 +63,7 @@ namespace Facebook
                 Permissions
             {
 				Facebook::FBPermissions^ get();
-                void set(Facebook::FBPermissions^);
+                void set(Facebook::FBPermissions^ value);
             }
 
             //! Ask for read permissions at login
@@ -85,7 +85,6 @@ namespace Facebook
                 Windows::UI::Xaml::RoutedEventArgs^ e
                 );
 
-//            SessionLoginBehavior _loginBehavior;
-            Platform::Collections::Vector<Platform::String^>^ _permissions;
+            Facebook::FBPermissions^ _permissions;
     };
 }

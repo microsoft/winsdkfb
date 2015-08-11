@@ -870,7 +870,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         {
             if (!finalResult->Succeeded)
             {
-                m_loggedIn = false;
+                _loggedIn = false;
                 AccessTokenData = nullptr;
             }
 

@@ -188,6 +188,10 @@ namespace Facebook
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
+            BOOL IsRerequest(
+                Windows::Foundation::Collections::PropertySet^ Parameters
+                );
+
             Platform::String^ _FBAppId;
             Platform::String^ _WinAppId;
             bool _loggedIn;

@@ -119,6 +119,7 @@
     </ClCompile>
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBAppRequest.cpp">
       <Filter>Generated Code\Source Files</Filter>
     </ClCompile>
@@ -212,6 +213,7 @@
     </ClInclude>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\FacebookPermissions.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\FBWinSDK\FBWinSDK.Shared\Generated\FBAppRequest.h">
       <Filter>Generated Code\Header Files</Filter>
     </ClInclude>
