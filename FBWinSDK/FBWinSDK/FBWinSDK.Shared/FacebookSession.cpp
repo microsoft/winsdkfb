@@ -76,8 +76,8 @@ FBSession::FBSession() :
 		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
 	}
     _showingDialog = FALSE;
-	_APIMajorVersion = 0;
-	_APIMinorVersion = 0;
+	_APIMajorVersion = 2;
+	_APIMinorVersion = 1;
 }
 
 Facebook::FBSession::~FBSession()
