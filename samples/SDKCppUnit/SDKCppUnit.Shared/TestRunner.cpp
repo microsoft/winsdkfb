@@ -231,7 +231,7 @@ IAsyncOperation<FBResult^>^ TestRunner::UploadPhotoFromStream(
 
         FBSingleValue^ sval = ref new FBSingleValue(Path, Parameters,
             ref new FBJsonClassFactory(TestPhoto::FromJson));
-        return sval->Post();
+        return sval->PostAsync();
     }
     else
     {
@@ -256,7 +256,7 @@ IAsyncOperation<FBResult^>^ TestRunner::GetExtendedPhotoInfoFor(
 
         FBSingleValue^ sval = ref new FBSingleValue(path, Parameters,
             ref new FBJsonClassFactory(TestPhoto::FromJson));
-        op = sval->Get();
+        op = sval->GetAsync();
     }
 
     return op;

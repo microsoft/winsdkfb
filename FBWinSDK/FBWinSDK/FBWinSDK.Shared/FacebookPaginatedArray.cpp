@@ -43,7 +43,7 @@ FBPaginatedArray::FBPaginatedArray(
 {
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::First(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
     )
 {
     return create_async([this]() -> task<FBResult^>
@@ -56,7 +56,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::First(
     });
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::Next(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
     )
 {
     return create_async([this]() -> task < FBResult^ >
@@ -107,7 +107,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::Next(
     });
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::Previous(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::PreviousAsync(
     )
 {
     return create_async([this]() -> task < FBResult^ >

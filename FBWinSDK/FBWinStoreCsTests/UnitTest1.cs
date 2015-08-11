@@ -268,7 +268,7 @@ namespace FBWinStoreCsTests
                 return obj;
             }));
 
-            FBResult fbresult = await sval.Get();
+            FBResult fbresult = await sval.GetAsync();
 
             if (fbresult.Succeeded)
             {
@@ -303,7 +303,7 @@ namespace FBWinStoreCsTests
                 FBSingleValue sval = new FBSingleValue(path, Parameters,
                     new FBJsonClassFactory(FBTestUser.FromJson));
 
-                FBResult fbresult = await sval.Post();
+                FBResult fbresult = await sval.PostAsync();
     
                 if ((fbresult.Succeeded == false) || (fbresult.Object == null))
                 {
@@ -344,7 +344,7 @@ namespace FBWinStoreCsTests
             FBSingleValue sval = new FBSingleValue(path, parameters,
                 new FBJsonClassFactory(FBObject.FromJson));
 
-            FBResult fbresult = await sval.Post();
+            FBResult fbresult = await sval.PostAsync();
 
             return (FBObject)fbresult.Object;
         }
@@ -361,7 +361,7 @@ namespace FBWinStoreCsTests
             FBPaginatedArray arr = new FBPaginatedArray(path, parameters,
                 new FBJsonClassFactory(FBTestUser.FromJson));
 
-            FBResult result = await arr.First();
+            FBResult result = await arr.FirstAsync();
             //Assert.IsTrue(result.Succeeded);
 
             IReadOnlyList<Object> users = null;
@@ -392,7 +392,7 @@ namespace FBWinStoreCsTests
             FBSingleValue sval = new FBSingleValue(path, parameters,
                 new FBJsonClassFactory(FBSuccess.FromJson));
 
-            return await sval.Delete();
+            return await sval.DeleteAsync();
         }
 
         public async Task deleteTestUsers()
@@ -454,7 +454,7 @@ namespace FBWinStoreCsTests
             FBSingleValue sval = new FBSingleValue(path, parameters,
                 new FBJsonClassFactory(FBObject.FromJson));
 
-            return await sval.Post();
+            return await sval.PostAsync();
         }
 
         public async Task<FBResult> publishCustomStory(
@@ -471,7 +471,7 @@ namespace FBWinStoreCsTests
             FBSingleValue sval = new FBSingleValue(path, parameters,
                 new FBJsonClassFactory(FBObject.FromJson));
 
-            return await sval.Post();
+            return await sval.PostAsync();
         }
 
         [TestMethod]
@@ -520,7 +520,7 @@ namespace FBWinStoreCsTests
             FBPaginatedArray arr = new FBPaginatedArray(path, parameters,
                 new FBJsonClassFactory(FBTestUser.FromJson));
 
-            FBResult result = await arr.First();
+            FBResult result = await arr.FirstAsync();
             Assert.IsTrue(result.Succeeded);
 
             IReadOnlyList<Object> users = 
@@ -588,7 +588,7 @@ namespace FBWinStoreCsTests
             FBSingleValue sval = new FBSingleValue(path, parameters,
                 new FBJsonClassFactory(FBPhoto.FromJson));
 
-            FBResult result = await sval.Post();
+            FBResult result = await sval.PostAsync();
             Assert.IsTrue(result.Succeeded);
 
             try
@@ -625,7 +625,7 @@ namespace FBWinStoreCsTests
             FBSingleValue sval = new FBSingleValue(path, parameters,
                 new FBJsonClassFactory(FBObject.FromJson));
 
-            FBResult result = await sval.Post();
+            FBResult result = await sval.PostAsync();
             Assert.IsTrue(result.Succeeded);
 
             try

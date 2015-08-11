@@ -162,7 +162,7 @@ void FBSession::ResetPermissions(
     }
 }
 
-IAsyncAction^ FBSession::Logout()
+IAsyncAction^ FBSession::LogoutAsync()
 {
     _permissions->Clear();
     _user = nullptr;
@@ -187,7 +187,7 @@ task<FBResult^> FBSession::GetUserInfo(
             return FBUser::FromJson(JsonText);
         }));
 
-    return create_task(value->Get());
+    return create_task(value->GetAsync());
 }
 
 String^ FBSession::PermissionsToString()
@@ -421,7 +421,7 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
     });
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     PropertySet^ Parameters
     )
 {
@@ -478,7 +478,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialog(
     return task;
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialog(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
     Windows::Foundation::Collections::PropertySet^ Parameters
     )
 {
@@ -608,7 +608,7 @@ task<FBResult^> FBSession::GetAppPermissions(
             return FBPermission::FromJson(JsonText);
         }));
 
-    return create_task(permArr->First())
+    return create_task(permArr->FirstAsync())
         .then([this, permArr](FBResult^ result)
     {
         if (result->Succeeded)

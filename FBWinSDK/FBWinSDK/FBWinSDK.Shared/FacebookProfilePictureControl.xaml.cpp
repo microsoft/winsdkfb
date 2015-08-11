@@ -207,7 +207,7 @@ ProfilePictureControl::GetProfilePictureInfo(
             return FBProfilePicture::FromJson(JsonText);
         }));
 
-        result = create_task(value->Get());
+        result = create_task(value->GetAsync());
     }
 
     return result;

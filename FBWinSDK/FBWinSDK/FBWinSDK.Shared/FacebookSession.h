@@ -107,7 +107,7 @@ namespace Facebook
             }
 
             //! Clear all login information, e.g. user info, token string, etc.
-            Windows::Foundation::IAsyncAction^ Logout();
+            Windows::Foundation::IAsyncAction^ LogoutAsync();
 
             //! User info - valid after successful login
             property Facebook::Graph::FBUser^ User
@@ -116,12 +116,12 @@ namespace Facebook
             }
 
             //! Launch 'feed' dialog, to post to user's timeline
-            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowFeedDialog(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowFeedDialogAsync(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             //! Launch 'request' dialog, to send app
-            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowRequestsDialog(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ ShowRequestsDialogAsync(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 

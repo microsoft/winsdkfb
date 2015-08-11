@@ -39,7 +39,7 @@ FBSingleValue::FBSingleValue(
 {
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::Get(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::GetAsync(
     )
 {
     return create_async([this]() -> task<FBResult^>
@@ -54,7 +54,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::Get(
     });
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::Post(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::PostAsync(
     )
 {
     return create_async([this]() -> task<FBResult^>
@@ -69,7 +69,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::Post(
     });
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::Delete(
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::DeleteAsync(
     )
 {
     return create_async([this]() -> task<FBResult^>

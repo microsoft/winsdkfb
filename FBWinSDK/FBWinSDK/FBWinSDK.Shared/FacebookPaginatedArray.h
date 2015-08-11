@@ -34,13 +34,13 @@ namespace Facebook
                 Facebook::FBJsonClassFactory^ ObjectFactory
                 );
 
-            Windows::Foundation::IAsyncOperation<FBResult^>^ First(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ FirstAsync(
                 );
 
-            Windows::Foundation::IAsyncOperation<FBResult^>^ Next(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ NextAsync(
                 );
 
-            Windows::Foundation::IAsyncOperation<FBResult^>^ Previous(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ PreviousAsync(
                 );
             
             property Windows::Foundation::Collections::IVectorView<Object^>^ 
