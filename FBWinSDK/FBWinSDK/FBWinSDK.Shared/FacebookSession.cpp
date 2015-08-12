@@ -585,8 +585,6 @@ task<FBResult^> FBSession::GetAppPermissions(
 #define ScopeKey        L"scope"
 #define DisplayKey      L"display"
 #define ResponseTypeKey L"response_type"
-#define EqualSign       L"="
-#define Amp             L"&"
 #define DefaultScope    L"public_profile,email,user_friends"
 #define DefaultDisplay  L"popup"
 #define DefaultResponse L"token"
@@ -630,15 +628,15 @@ Uri^ FBSession::BuildLoginUri(
             }
             else
             {
-                uriString += Amp + Key + EqualSign + Value;
+                uriString += L"&" + Key + L"=" + Value;
             }
         }
 
         first->MoveNext();
     }
 
-    uriString += Amp + ScopeKey + EqualSign + scope + Amp + DisplayKey + EqualSign +
-        displayType + Amp + ResponseTypeKey + EqualSign + responseType;
+    uriString += L"&" + ScopeKey + L"=" + scope + L"&" + DisplayKey + L"=" +
+        displayType + L"&" + ResponseTypeKey + L"=" + responseType;
 
     return ref new Uri(uriString);
 }
