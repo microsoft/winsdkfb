@@ -36,7 +36,7 @@ AppToken::AppToken(
     _Token = nullptr;
 }
 
-IAsyncOperation<AppToken^>^ AppToken::Create(
+IAsyncOperation<AppToken^>^ AppToken::CreateAsync(
     )
 {
     PropertySet^ parameters = ref new PropertySet();

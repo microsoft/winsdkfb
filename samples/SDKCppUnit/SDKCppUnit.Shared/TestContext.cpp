@@ -62,7 +62,7 @@ task<bool> TestContext::GetAppToken(
     {
         if (!_Token)
         {
-            return create_task(AppToken::Create());
+            return create_task(AppToken::CreateAsync());
         }
         else
         {
