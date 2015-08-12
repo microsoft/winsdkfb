@@ -21,7 +21,7 @@ namespace SDKCppUnit
     public ref class AppToken sealed
     {
     public:
-        static Windows::Foundation::IAsyncOperation<AppToken^>^ Create(
+        static Windows::Foundation::IAsyncOperation<AppToken^>^ CreateAsync(
             );
 
         property Platform::String^ Token

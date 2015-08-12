@@ -36,7 +36,7 @@ AppToken::AppToken(
     _Token = nullptr;
 }
 
-IAsyncOperation<AppToken^>^ AppToken::Create(
+IAsyncOperation<AppToken^>^ AppToken::CreateAsync(
     )
 {
     PropertySet^ parameters = ref new PropertySet();
@@ -63,7 +63,7 @@ IAsyncOperation<AppToken^>^ AppToken::Create(
 
     return create_async([=]() -> task<AppToken^>
     {
-        return create_task(sval->Get())
+        return create_task(sval->GetAsync())
             .then([=](FBResult^ result) -> AppToken^
         {
             AppToken^ token = nullptr;
