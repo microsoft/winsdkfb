@@ -62,7 +62,7 @@ task<bool> TestContext::GetAppToken(
     {
         if (!_Token)
         {
-            return create_task(AppToken::Create());
+            return create_task(AppToken::CreateAsync());
         }
         else
         {
@@ -103,7 +103,7 @@ task<FBResult^> TestContext::CreateTestUser(
             return TestUser::FromJson(JsonText);
         }));
 
-    return create_task(val->Post());
+    return create_task(val->PostAsync());
 }
 
 task<FBResult^> TestContext::DeleteTestUser(
@@ -126,7 +126,7 @@ task<FBResult^> TestContext::DeleteTestUser(
         return APIResult::FromJson(JsonText);
     }));
 
-    return create_task(val->Delete());
+    return create_task(val->DeleteAsync());
 }
 
 task<bool> TestContext::PopulateTestUsersCollection(
@@ -145,7 +145,7 @@ task<bool> TestContext::PopulateTestUsersCollection(
 
     if (_pagedResult->HasNext)
     {
-        return create_task(_pagedResult->Next()).then([this](FBResult^ result) -> task<bool>
+        return create_task(_pagedResult->NextAsync()).then([this](FBResult^ result) -> task<bool>
         {
             if (result->Succeeded)
             {
@@ -197,7 +197,7 @@ task<bool> TestContext::GetTestUsers(
         });
 
         _pagedResult = ref new FBPaginatedArray(graphPath, parameters, fact);
-        return create_task(_pagedResult->First());
+        return create_task(_pagedResult->FirstAsync());
     })
         .then([this](FBResult^ result)
     {

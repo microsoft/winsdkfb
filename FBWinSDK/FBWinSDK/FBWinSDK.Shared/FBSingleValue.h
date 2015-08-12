@@ -33,13 +33,13 @@ namespace Facebook
                 FBJsonClassFactory^ ObjectFactory
                 );
 
-            Windows::Foundation::IAsyncOperation<FBResult^>^ Get(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ GetAsync(
                 );
 
-            Windows::Foundation::IAsyncOperation<FBResult^>^ Post(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ PostAsync(
                 );
 
-            Windows::Foundation::IAsyncOperation<FBResult^>^ Delete(
+            Windows::Foundation::IAsyncOperation<FBResult^>^ DeleteAsync(
                 );
 
         private:

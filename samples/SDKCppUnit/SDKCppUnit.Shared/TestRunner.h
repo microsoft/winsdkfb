@@ -67,25 +67,25 @@ namespace SDKCppUnit
 
         Windows::Foundation::IAsyncOperation
             <Windows::Storage::Streams::IRandomAccessStreamWithContentType^>^
-        GetStreamOnFile(
+        GetStreamOnFileAsync(
             Platform::String^ path
             );
 
         Windows::Foundation::IAsyncOperation<Facebook::FBResult^>^ 
-        TestRunner::UploadPhotoFromStream(
+        TestRunner::UploadPhotoFromStreamAsync(
             Platform::String^ Path,
             Windows::Storage::Streams::IRandomAccessStreamWithContentType^ Stream,
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         Windows::Foundation::IAsyncOperation<Facebook::FBResult^>^ 
-        TestRunner::GetExtendedPhotoInfoFor(
+        TestRunner::GetExtendedPhotoInfoForAsync(
             Facebook::FBResult^ Result,
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         Windows::Foundation::IAsyncOperation<Windows::Storage::Streams::IInputStream^>^ 
-        TestRunner::DownloadPhoto(
+        TestRunner::DownloadPhotoAsync(
             Facebook::FBResult^ Result,
             Windows::Foundation::Collections::PropertySet^ Parameters
             );

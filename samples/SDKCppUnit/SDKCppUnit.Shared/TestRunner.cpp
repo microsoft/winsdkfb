@@ -190,7 +190,7 @@ task<bool> TestRunner::TestDeleteAllTestUsers(
 }
 
 IAsyncOperation<IRandomAccessStreamWithContentType^>^ 
-TestRunner::GetStreamOnFile(
+TestRunner::GetStreamOnFileAsync(
     String^ path
     )
 {
@@ -217,7 +217,7 @@ TestRunner::GetStreamOnFile(
     });
 }
 
-IAsyncOperation<FBResult^>^ TestRunner::UploadPhotoFromStream(
+IAsyncOperation<FBResult^>^ TestRunner::UploadPhotoFromStreamAsync(
     String^ Path,
     IRandomAccessStreamWithContentType^ Stream,
     PropertySet^ Parameters
@@ -231,7 +231,7 @@ IAsyncOperation<FBResult^>^ TestRunner::UploadPhotoFromStream(
 
         FBSingleValue^ sval = ref new FBSingleValue(Path, Parameters,
             ref new FBJsonClassFactory(TestPhoto::FromJson));
-        return sval->Post();
+        return sval->PostAsync();
     }
     else
     {
@@ -242,7 +242,7 @@ IAsyncOperation<FBResult^>^ TestRunner::UploadPhotoFromStream(
     }
 }
 
-IAsyncOperation<FBResult^>^ TestRunner::GetExtendedPhotoInfoFor(
+IAsyncOperation<FBResult^>^ TestRunner::GetExtendedPhotoInfoForAsync(
     FBResult^ Result,
     PropertySet^ Parameters
     )
@@ -256,7 +256,7 @@ IAsyncOperation<FBResult^>^ TestRunner::GetExtendedPhotoInfoFor(
 
         FBSingleValue^ sval = ref new FBSingleValue(path, Parameters,
             ref new FBJsonClassFactory(TestPhoto::FromJson));
-        op = sval->Get();
+        op = sval->GetAsync();
     }
 
     return op;
@@ -296,7 +296,7 @@ task<bool> TestRunner::TestUploadPhoto(
             parameters->Insert(PathParameterKey, path);
             StorageFolder^ appFolder =
                 Windows::ApplicationModel::Package::Current->InstalledLocation;
-            op = GetStreamOnFile(FBTestImagePath);
+            op = GetStreamOnFileAsync(FBTestImagePath);
         }
 
         return op;
@@ -307,11 +307,11 @@ task<bool> TestRunner::TestUploadPhoto(
             static_cast<String^>(parameters->Lookup(PathParameterKey));
         parameters->Remove(PathParameterKey);
 
-        return UploadPhotoFromStream(path, stream, parameters);
+        return UploadPhotoFromStreamAsync(path, stream, parameters);
     })
     .then([=](FBResult^ result) -> IAsyncOperation<FBResult^>^
     {
-        return GetExtendedPhotoInfoFor(result, parameters);
+        return GetExtendedPhotoInfoForAsync(result, parameters);
     })
     .then([=](FBResult^ result) -> bool
     {
