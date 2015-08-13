@@ -106,7 +106,7 @@ namespace Facebook
                 );
 
             //! FBSession is a singleton object - ActiveSession is the way to
-            // acquire a reference to the object.
+            //! acquire a reference to the object.
             static property FBSession^ ActiveSession
             {
                 FBSession^ get()
