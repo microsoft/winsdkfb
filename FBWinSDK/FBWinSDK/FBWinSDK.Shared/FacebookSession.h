@@ -81,6 +81,16 @@ namespace Facebook
                 void set(FBAccessTokenData^ value);
             }
 
+			property int APIMajorVersion 
+			{
+				int get();
+			}
+
+			property int APIMinorVersion
+			{
+				int get();
+			}
+
             //! Returns the list of permissions
             property Windows::Foundation::Collections::IVectorView<Platform::String^>^ Permissions
             {
@@ -130,6 +140,11 @@ namespace Facebook
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
                 );
+
+			void SetAPIVersion(
+				int MajorVersion,
+				int MinorVersion
+				);
 
         private:
             FBSession();
@@ -206,5 +221,7 @@ namespace Facebook
 			concurrency::task<Facebook::FBResult^> _loginTask;
             Facebook::FacebookDialog^ _dialog;
             BOOL _showingDialog;
+			int _APIMajorVersion;
+			int _APIMinorVersion;
     };
 }
