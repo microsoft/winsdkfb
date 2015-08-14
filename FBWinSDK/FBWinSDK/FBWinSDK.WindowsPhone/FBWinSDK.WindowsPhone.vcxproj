@@ -98,16 +98,15 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\$(ItemsProjectName)
+      <Command>pushd "$(ProjectDir)..\$(ItemsProjectName)"
 call codegen.cmd
-if not exist $(TargetDir)Images mkdir $(TargetDir)Images
-if not exist $(TargetDir)Images\fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)Images
+if not exist "$(TargetDir)Images" mkdir "$(TargetDir)Images"
+if not exist "$(TargetDir)Images\fb_blank_profile_portrait.png" copy Images\fb_blank_profile_portrait.png "$(TargetDir)Images"
 popd
-pushd $(ProjectDir)..\..\build\nuget
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe call download-nuget.cmd
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe copy nuget.exe $(ProjectDir)..\..\.nuget
-popd
-</Command>
+pushd "$(ProjectDir)..\..\build\nuget"
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" call download-nuget.cmd
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" copy nuget.exe "$(ProjectDir)..\..\.nuget"
+popd</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -133,16 +132,15 @@ popd
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\$(ItemsProjectName)
+      <Command>pushd "$(ProjectDir)..\$(ItemsProjectName)"
 call codegen.cmd
-if not exist $(TargetDir)Images mkdir $(TargetDir)Images
-if not exist $(TargetDir)Images\fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)Images
+if not exist "$(TargetDir)Images" mkdir "$(TargetDir)Images"
+if not exist "$(TargetDir)Images\fb_blank_profile_portrait.png" copy Images\fb_blank_profile_portrait.png "$(TargetDir)Images"
 popd
-pushd $(ProjectDir)..\..\build\nuget
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe call download-nuget.cmd
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe copy nuget.exe $(ProjectDir)..\..\.nuget
-popd
-</Command>
+pushd "$(ProjectDir)..\..\build\nuget"
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" call download-nuget.cmd
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" copy nuget.exe "$(ProjectDir)..\..\.nuget"
+popd</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -168,16 +166,15 @@ popd
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\$(ItemsProjectName)
+      <Command>pushd "$(ProjectDir)..\$(ItemsProjectName)"
 call codegen.cmd
-if not exist $(TargetDir)Images mkdir $(TargetDir)Images
-if not exist $(TargetDir)Images\fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)Images
+if not exist "$(TargetDir)Images" mkdir "$(TargetDir)Images"
+if not exist "$(TargetDir)Images\fb_blank_profile_portrait.png" copy Images\fb_blank_profile_portrait.png "$(TargetDir)Images"
 popd
-pushd $(ProjectDir)..\..\build\nuget
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe call download-nuget.cmd
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe copy nuget.exe $(ProjectDir)..\..\.nuget
-popd
-</Command>
+pushd "$(ProjectDir)..\..\build\nuget"
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" call download-nuget.cmd
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" copy nuget.exe "$(ProjectDir)..\..\.nuget"
+popd</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -203,16 +200,15 @@ popd
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\$(ItemsProjectName)
+      <Command>pushd "$(ProjectDir)..\$(ItemsProjectName)"
 call codegen.cmd
-if not exist $(TargetDir)Images mkdir $(TargetDir)Images
-if not exist $(TargetDir)Images\fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)Images
+if not exist "$(TargetDir)Images" mkdir "$(TargetDir)Images"
+if not exist "$(TargetDir)Images\fb_blank_profile_portrait.png" copy Images\fb_blank_profile_portrait.png "$(TargetDir)Images"
 popd
-pushd $(ProjectDir)..\..\build\nuget
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe call download-nuget.cmd
-if not exist $(ProjectDir)..\..\.nuget\nuget.exe copy nuget.exe $(ProjectDir)..\..\.nuget
-popd
-</Command>
+pushd "$(ProjectDir)..\..\build\nuget"
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" call download-nuget.cmd
+if not exist "$(ProjectDir)..\..\.nuget\nuget.exe" copy nuget.exe "$(ProjectDir)..\..\.nuget"
+popd</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
