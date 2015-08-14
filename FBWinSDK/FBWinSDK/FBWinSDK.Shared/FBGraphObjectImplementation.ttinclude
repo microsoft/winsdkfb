@@ -86,9 +86,13 @@ using namespace Windows::UI::Xaml::Data;
     }
 #>
 {
-    ;
+    _fields = ref new PropertySet();
 }
 
+    PropertySet^ <#= className #>::Fields::get()
+    {
+        return _fields;
+    }
 <#
     for (int i = 0; i < props.Count; i++)
     {
@@ -177,7 +181,33 @@ Object^ <#= className #>::FromJson(
                 }
 <#
     }
-#>
+#>              
+                else
+                {
+                    String^ value = nullptr;
+
+                    switch (it->Current->Value->ValueType)
+                    {
+                        case JsonValueType::Boolean:
+                            value = it->Current->Value->GetBoolean().ToString();
+                            break;
+                        case JsonValueType::Number:
+                            value = it->Current->Value->GetNumber().ToString();
+                            break;
+                        case JsonValueType::String:
+                            value = it->Current->Value->GetString();
+                            break;
+                        case JsonValueType::Array:
+                        case JsonValueType::Object:
+                            value = it->Current->Value->Stringify();
+                            break;        
+                    }
+
+                    if (value)
+                    {
+                        result->_fields->Insert(key, value);
+                    }
+                }
             }
 
             if (!found)
