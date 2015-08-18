@@ -147,9 +147,9 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared
+      <Command>pushd "$(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared"
 call codegen.cmd
-if not exist $(TargetDir)fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)
+if not exist "$(TargetDir)fb_blank_profile_portrait.png" copy "Images\fb_blank_profile_portrait.png" "$(TargetDir)"
 popd
 </Command>
     </PreBuildEvent>
@@ -177,9 +177,9 @@ popd
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared
+      <Command>pushd "$(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared"
 call codegen.cmd
-if not exist $(TargetDir)fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)
+if not exist "$(TargetDir)fb_blank_profile_portrait.png" copy "Images\fb_blank_profile_portrait.png" "$(TargetDir)"
 popd
 </Command>
     </PreBuildEvent>
@@ -207,9 +207,9 @@ popd
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared
+      <Command>pushd "$(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared"
 call codegen.cmd
-if not exist $(TargetDir)fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)
+if not exist "$(TargetDir)fb_blank_profile_portrait.png" copy "Images\fb_blank_profile_portrait.png" "$(TargetDir)"
 popd
 </Command>
     </PreBuildEvent>
@@ -237,9 +237,9 @@ popd
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared
+      <Command>pushd "$(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared"
 call codegen.cmd
-if not exist $(TargetDir)fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)
+if not exist "$(TargetDir)fb_blank_profile_portrait.png" copy "Images\fb_blank_profile_portrait.png" "$(TargetDir)"
 popd
 </Command>
     </PreBuildEvent>
@@ -267,9 +267,9 @@ popd
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared
+      <Command>pushd "$(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared"
 call codegen.cmd
-if not exist $(TargetDir)fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)
+if not exist "$(TargetDir)fb_blank_profile_portrait.png" copy "Images\fb_blank_profile_portrait.png" "$(TargetDir)"
 popd
 </Command>
     </PreBuildEvent>
@@ -297,9 +297,9 @@ popd
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>pushd $(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared
+      <Command>pushd "$(ProjectDir)..\..\FBWinSDK\FBWinSDK.Shared"
 call codegen.cmd
-if not exist $(TargetDir)fb_blank_profile_portrait.png copy Images\fb_blank_profile_portrait.png $(TargetDir)
+if not exist "$(TargetDir)fb_blank_profile_portrait.png" copy "Images\fb_blank_profile_portrait.png" "$(TargetDir)"
 popd
 </Command>
     </PreBuildEvent>
