@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button x:Name ="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="39,48,0,0" VerticalAlignment="Top" Click="LoginButton_Click" Width="315"/>
+        <Button x:Name ="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="39,48,0,0" VerticalAlignment="Top" Click="login_OnClicked" Width="315"/>
         <TextBlock FontSize="14" HorizontalAlignment="Left" Margin="39,302,0,0" TextWrapping="Wrap" Text="Access Token:" VerticalAlignment="Top" Width="261" Height="18"/>
         <TextBlock x:Name="ResponseText" FontSize="14" HorizontalAlignment="Left" Margin="39,325,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Height="94" Width="261"/>
         <TextBlock FontSize="14" HorizontalAlignment="Left" Margin="39,445,0,0" TextWrapping="Wrap" Text="Expires" VerticalAlignment="Top" Height="24" Width="261"/>

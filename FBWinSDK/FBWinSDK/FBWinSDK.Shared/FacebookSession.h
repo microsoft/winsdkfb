@@ -20,6 +20,7 @@
 #include "FacebookResult.h"
 #include "FBUser.h"
 #include "FacebookDialog.xaml.h"
+#include "FacebookPermissions.h"
 
 namespace Facebook
 {
@@ -81,29 +82,15 @@ namespace Facebook
                 void set(FBAccessTokenData^ value);
             }
 
-			property int APIMajorVersion 
-			{
-				int get();
-			}
-
-			property int APIMinorVersion
-			{
-				int get();
-			}
-
-            //! Returns the list of permissions
-            property Windows::Foundation::Collections::IVectorView<Platform::String^>^ Permissions
+            property int APIMajorVersion
             {
-                Windows::Foundation::Collections::IVectorView<Platform::String^>^ get();
+                int get();
             }
 
-            //! Request a new permission
-            void AddPermission(
-                Platform::String^ permission
-                );
-
-            void ResetPermissions(
-                );
+            property int APIMinorVersion
+            {
+                int get();
+            }
 
             //! FBSession is a singleton object - ActiveSession is the way to
             //! acquire a reference to the object.
@@ -135,23 +122,22 @@ namespace Facebook
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            Platform::String^ PermissionsToString(
-                );
-
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
+                Facebook::FBPermissions^ Permissions
                 );
 
-			void SetAPIVersion(
-				int MajorVersion,
-				int MinorVersion
-				);
+            void SetAPIVersion(
+                int MajorVersion,
+                int MinorVersion
+                );
 
         private:
             FBSession();
            
-			~FBSession();
+            ~FBSession();
 
             Windows::Foundation::Uri^ BuildLoginUri(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             Platform::String^ GetRedirectUriString(
@@ -183,32 +169,41 @@ namespace Facebook
             concurrency::task<FBResult^> GetAppPermissions(
                 );
 
-			concurrency::task<Facebook::FBResult^>
-				ProcessAuthResult(
-				Windows::Security::Authentication::Web::WebAuthenticationResult^ authResult
-				);
+            concurrency::task<Facebook::FBResult^>
+                ProcessAuthResult(
+                Windows::Security::Authentication::Web::WebAuthenticationResult^ authResult
+                );
 
-			concurrency::task<Facebook::FBResult^> TryGetUserInfoAfterLogin(
-				Facebook::FBResult^ loginResult
-				);
+            concurrency::task<Facebook::FBResult^> TryGetUserInfoAfterLogin(
+                Facebook::FBResult^ loginResult
+                );
 
-			concurrency::task<Facebook::FBResult^> TryGetAppPermissionsAfterLogin(
-				Facebook::FBResult^ loginResult
-				);
+            concurrency::task<Facebook::FBResult^> TryGetAppPermissionsAfterLogin(
+                Facebook::FBResult^ loginResult
+                );
 
             concurrency::task<FBResult^> RunOAuthOnUiThread(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> RunWebViewLoginOnUIThread(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> ShowLoginDialog(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> TryLoginViaWebView(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
+                Windows::Foundation::Collections::PropertySet^ Parameters
+                );
+
+            BOOL IsRerequest(
+                Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
             Platform::String^ _FBAppId;
@@ -216,12 +211,11 @@ namespace Facebook
             bool _loggedIn;
             Platform::String^ _AppResponse;
             Facebook::FBAccessTokenData^ _AccessTokenData;
-            Platform::Collections::Vector<Platform::String^>^ _permissions;
             Facebook::Graph::FBUser^ _user;
-			concurrency::task<Facebook::FBResult^> _loginTask;
+            concurrency::task<Facebook::FBResult^> _loginTask;
             Facebook::FacebookDialog^ _dialog;
             BOOL _showingDialog;
-			int _APIMajorVersion;
-			int _APIMinorVersion;
+            int _APIMajorVersion;
+            int _APIMinorVersion;
     };
 }

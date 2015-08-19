@@ -1,4 +1,5 @@
 .nuget
+*.csproj.user
 *.opensdf
 *.sdf
 *.suo

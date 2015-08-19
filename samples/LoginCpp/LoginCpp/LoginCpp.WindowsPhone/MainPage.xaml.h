@@ -25,29 +25,45 @@
 
 namespace LoginCpp
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	public ref class MainPage sealed
-	{
-	public:
-		MainPage();
-
-    protected:
-        virtual void OnNavigatedTo(
-            Windows::UI::Xaml::Navigation::NavigationEventArgs^ e
-            ) override;
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public ref class MainPage sealed
+    {
+    public:
+        MainPage();
 
     private:
-        void StartLogin(
-            Facebook::FBSession^ Session
+        void MainPage::SetSessionAppIds(
             );
 
-        void LoginButton_Click(
-            Platform::Object^ sender,
-            Windows::UI::Xaml::RoutedEventArgs^ e
+        Facebook::FBPermissions^ BuildPermissions(
             );
 
-        Windows::Foundation::EventRegistrationToken m_cookie;
+        BOOL DidGetAllRequestedPermissions(
+            );
+
+        BOOL MainPage::WasAppPermissionRemovedByUser(
+            Facebook::FBResult^ result
+            );
+
+        BOOL ShouldRerequest(
+            Facebook::FBResult^ result
+            );
+
+        void NavigateToOptionsPage(
+            );
+
+        void MainPage::TryRerequest(
+            BOOL retry
+            );
+
+        void MainPage::LogoutAndRetry(
+            );
+
+        void login_OnClicked(
+            Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+        void LoginButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 }

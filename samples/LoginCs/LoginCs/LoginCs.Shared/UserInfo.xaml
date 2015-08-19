@@ -33,9 +33,17 @@
             <Button x:Name="BackButton" Content="Go Back" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="BackButton_Click"/>
             <Button x:Name="UserLikesButton" Content="Show Likes..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="UserLikesButton_Click"/>
         </StackPanel>
-        
+
+        <StackPanel Grid.Row="2" Margin="19,0,0,0">
+            <Ellipse Width="250" Height="250">
+                <Ellipse.Fill>
+                    <ImageBrush x:Name="ProfilePicBrush" ImageSource="" />
+                </Ellipse.Fill>
+            </Ellipse>
+        </StackPanel>
+
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="2" x:Name="ContentRoot" Margin="19,9.5,19,0">
+        <Grid Grid.Row="3" x:Name="ContentRoot" Margin="19,9.5,19,0">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Grid.Row="0">
                     <TextBlock Text="ID:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>

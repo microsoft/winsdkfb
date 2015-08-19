@@ -54,6 +54,7 @@ using namespace std;
 #define FACEBOOK_DESKTOP_SERVER_NAME L"www"
 #define FACEBOOK_MOBILE_SERVER_NAME  L"m"
 #define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
+#define FACEBOOK_DIALOG_CLOSE_PATH   L"/dialog/close"
 
 const wchar_t* ErrorObjectJson = L"{\"error\": {\"message\": " \
 L"\"Operation Canceled\", \"type\": " \
@@ -157,13 +158,14 @@ void FacebookDialog::ShowDialog(
 }
 
 void FacebookDialog::ShowLoginDialog(
+    PropertySet^ Parameters
     )
 {
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_LoginNavStarting);
     ShowDialog(ref new DialogUriBuilder(this,
-        &FacebookDialog::BuildLoginDialogUrl), handler, nullptr);
+        &FacebookDialog::BuildLoginDialogUrl), handler, Parameters);
 }
 
 void FacebookDialog::ShowFeedDialog(
@@ -240,26 +242,66 @@ String^ FacebookDialog::GetFBServer(
     return server;
 }
 
+#define ScopeKey        L"scope"
+#define DisplayKey      L"display"
+#define ResponseTypeKey L"response_type"
+#define DefaultScope    L"public_profile,email,user_friends"
+#define DefaultDisplay  L"popup"
+#define DefaultResponse L"token"
+
 Uri^ FacebookDialog::BuildLoginDialogUrl(
     PropertySet^ Parameters
     )
 {
-    FBSession^ sess = FBSession::ActiveSession;
-	String^ apiVersion = L"";
-	if (sess->APIMajorVersion) 
-	{
-		apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
-	}
-    String^ dialogUriString =
-        L"https://" + GetFBServer() + 
-        L".facebook.com/" + apiVersion + L"dialog/oauth?client_id=" + sess->FBAppId + 
-        L"&redirect_uri=" + GetRedirectUriString(L"login") + L"&app_id=" + 
-        sess->FBAppId + L"&scope=" + sess->PermissionsToString() + 
-        L"&display=popup" + L"&response_type=token";
+    FBSession^ s = FBSession::ActiveSession;
+    String^ apiVersion = L"";
+    if (s->APIMajorVersion)
+    {
+        apiVersion = L"v" + s->APIMajorVersion.ToString() + L"." + s->APIMinorVersion.ToString() + L"/";
+    }
+    String^ uriString = L"https://" + GetFBServer() +
+        L".facebook.com/" + apiVersion + L"dialog/oauth?client_id=" + s->FBAppId;
 
-    DebugPrintLine(L"Request string is " + dialogUriString);
+    // Use some reasonable default login parameters
+    String^ scope = DefaultScope;
+    String^ displayType = DefaultDisplay;
+    String^ responseType = DefaultResponse;
 
-    return ref new Uri(dialogUriString);
+    uriString += L"&redirect_uri=" + GetRedirectUriString(L"login");
+
+    // Enumerate through all the parameters
+    IIterator<IKeyValuePair<String^, Object^>^>^ first = Parameters->First();
+    while (first && (first->HasCurrent))
+    {
+        String^ Key = first->Current->Key;
+        String^ Value = dynamic_cast<String^>(first->Current->Value);
+        if (Value)
+        {
+            if (!String::CompareOrdinal(Key, ScopeKey))
+            {
+                scope = Value;
+            }
+            else if (!String::CompareOrdinal(Key, DisplayKey))
+            {
+                displayType = Value;
+            }
+            else if (!String::CompareOrdinal(Key, ResponseTypeKey))
+            {
+                responseType = Value;
+            }
+            else
+            {
+                uriString += L"&" + Key + L"=" + Value;
+            }
+        }
+
+        first->MoveNext();
+    }
+
+    uriString += L"&" + ScopeKey + L"=" + scope + L"&" + DisplayKey + L"=" +
+        displayType + L"&" + ResponseTypeKey + L"=" + responseType;
+
+    return ref new Uri(uriString);
 }
 
 Uri^ FacebookDialog::BuildFeedDialogUrl(
@@ -267,13 +309,13 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
-	String^ apiVersion = L"";
-	if (sess->APIMajorVersion) 
-	{
-		apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
-	}
+    String^ apiVersion = L"";
+    if (sess->APIMajorVersion)
+    {
+        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+    }
     String^ dialogUriString =
-        L"https://" + GetFBServer() + 
+        L"https://" + GetFBServer() +
         L".facebook.com/" + apiVersion + L"dialog/feed?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
@@ -292,11 +334,11 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
-	String^ apiVersion = L"";
-	if (sess->APIMajorVersion) 
-	{
-		apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
-	}
+    String^ apiVersion = L"";
+    if (sess->APIMajorVersion)
+    {
+        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+    }
     String^ dialogUriString =
         L"https://" + GetFBServer() + 
         L".facebook.com/" + apiVersion + L"dialog/apprequests?access_token=" +
@@ -317,6 +359,13 @@ bool FacebookDialog::IsLoginSuccessRedirect(
     )
 {
     return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
+}
+
+bool FacebookDialog::IsDialogCloseRedirect(
+    Uri^ Response
+    )
+{
+    return (String::CompareOrdinal(Response->Path, FACEBOOK_DIALOG_CLOSE_PATH) == 0);
 }
 
 void FacebookDialog::dialogWebView_LoginNavStarting(
@@ -343,6 +392,15 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
+    }
+    else if (IsDialogCloseRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        _dialogResponse = ref new FBResult(err);
     }
 }
 
@@ -373,6 +431,15 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
             _dialogResponse = ref new FBResult(err);
         }
     }
+    else if (IsDialogCloseRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        _dialogResponse = ref new FBResult(err);
+    }
 }
 
 void FacebookDialog::dialogWebView_RequestNavStarting(
@@ -401,6 +468,15 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
+    }
+    else if (IsDialogCloseRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        _dialogResponse = ref new FBResult(err);
     }
 }
 

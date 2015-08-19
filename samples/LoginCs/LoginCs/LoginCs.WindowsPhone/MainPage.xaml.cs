@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -41,41 +42,116 @@ namespace LoginCs
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        const string FBAppIDName      = "FBApplicationId";
-        const string FBPhoneAppIDName = "FBWinPhoneAppId";
+        const string FBAppIDName       = "FBApplicationId";
+        const string FBPhoneAppIDName  = "FBWinPhoneAppId";
+        const string PermissionGranted = "granted";
+
+        readonly string[] requested_permissions =
+        {
+            "public_profile",
+            "user_friends",
+            "user_likes",
+            "user_groups",
+            "user_location"
+        };
 
         public MainPage()
         {
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
+            SetSessionAppIds();
         }
- 
-        public async void StartLogin(
+
+        void SetSessionAppIds(
             )
         {
             FBSession s = FBSession.ActiveSession;
 
-            // Assumes the Facebook App ID and Windows Phone Store ID have been 
-            // saved in the default resource file.
+            // Assumes the Facebook App ID and Windows Phone Store ID have been saved
+            // in the default resource file.
             ResourceLoader rl = ResourceLoader.GetForCurrentView();
 
             String appId = rl.GetString(FBAppIDName);
             String winAppId = rl.GetString(FBPhoneAppIDName);
 
-
             // IDs are both sent to FB app, so it can validate us.
             s.FBAppId = appId;
             s.WinAppId = winAppId;
+        }
 
-            // These are the default permissions, needed to retrieve user info.
-            s.AddPermission("public_profile");
-            s.AddPermission("user_friends");
-            s.AddPermission("user_likes");
+        FBPermissions BuildPermissions(
+            )
+        {
+            FBPermissions result = null;
+            List<string> perms = new List<string>();
 
-            // Launches a URI to redirect to the FB app, which will log us in
-            // and return the result via our registered protocol.
-            FBResult result = await s.LoginAsync();
+            for (uint i = 0; i < requested_permissions.Length; i++)
+            {
+                perms.Add(requested_permissions[i]);
+            }
+
+            result = new FBPermissions(perms);
+
+            return result;
+        }
+
+        bool DidGetAllRequestedPermissions(
+            )
+        {
+            bool success = false;
+            FBAccessTokenData data = FBSession.ActiveSession.AccessTokenData;
+
+            if (data != null)
+            {
+                success = (data.DeclinedPermissions.Values.Count == 0);
+            }
+
+            return success;
+        }
+
+        bool WasAppPermissionRemovedByUser(
+            FBResult Result
+            )
+        {
+            return ((Result != null)  &&
+                (!Result.Succeeded) &&
+                (Result.ErrorInfo.Code == (int)Facebook.ErrorCode.ErrorCodeOauthException));
+        }
+
+        bool ShouldRerequest(
+            FBResult Result
+            )
+        {
+            return ((Result != null)  &&
+                Result.Succeeded &&
+                !DidGetAllRequestedPermissions());
+        }
+
+        async Task TryRerequest(
+            bool Retry
+            )
+        {
+            // If we're logged out, the session has cleared the FB and Windows app IDs,
+            // so they need to be set again.  We load these IDs via the ResourceLoader
+            // class, which must be accessed on the UI thread, which is why this call
+            // is outside the task context.
+            SetSessionAppIds();
+
+            FBResult result = await FBSession.ActiveSession.LoginAsync(BuildPermissions());
+
+            if (result.Succeeded)
+            {
+                if (Retry && (!DidGetAllRequestedPermissions()))
+                {
+                    await TryRerequest(false);
+                }
+                else
+                {
+                    //Navigate back to same page, to clear out logged in info.
+                    App.RootFrame.Navigate(typeof(UserInfo));
+                }
+            }
         }
 
         /// <summary>
@@ -123,7 +199,27 @@ namespace LoginCs
             else
             {
                 LoginButton.Content = "Logout";
-                StartLogin();
+
+                FBResult result = await sess.LoginAsync(BuildPermissions());
+
+                // There may be other cases where an a failed login request should
+                // prompt the app to retry login, but this one is common enough that
+                // it's helpful to demonstrate handling it here.  If the predicate
+                // returns TRUE, the user has gone to facebook.com in the browser,
+                // and removed our app from their list off allowed apps in Settings.
+                if (WasAppPermissionRemovedByUser(result))
+                {
+                    await sess.Logout();
+                }
+                else if (ShouldRerequest(result))
+                {
+                    await TryRerequest(false);
+                }
+                else if (result.Succeeded)
+                {
+                    //Navigate back to same page, to clear out logged in info.
+                    App.RootFrame.Navigate(typeof(UserInfo));
+                }
             }
         }
     }

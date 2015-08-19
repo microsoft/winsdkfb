@@ -27,6 +27,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaStream.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookPermissions.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookProfilePicture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml.h">
       <DependentUpon>$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml</DependentUpon>
     </ClInclude>
@@ -63,6 +65,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPermissions.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBCursors.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBGroup.cpp" />

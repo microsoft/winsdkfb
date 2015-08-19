@@ -67,38 +67,36 @@ FBSession::FBSession() :
     _loggedIn(false),
     _FBAppId(nullptr),
     _WinAppId(nullptr),
-    _permissions(nullptr),
     _user(nullptr)
 {
-    _permissions = ref new Vector<String^>;
-	if (!login_evt)
-	{
-		login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
-	}
+    if (!login_evt)
+    {
+        login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
+    }
     _showingDialog = FALSE;
-	_APIMajorVersion = 2;
-	_APIMinorVersion = 1;
+    _APIMajorVersion = 2;
+    _APIMinorVersion = 1;
 }
 
 Facebook::FBSession::~FBSession()
 {
-	if (login_evt)
-	{
-		CloseHandle(login_evt);
-		login_evt = NULL;
-	}
+    if (login_evt)
+    {
+        CloseHandle(login_evt);
+        login_evt = NULL;
+    }
 }
 
 String^ FBSession::FBAppId::get()
 {
-	if (!_FBAppId)
-	{
-		_FBAppId = ref new String(L"<INSERT YOUR APP ID HERE>");
+    if (!_FBAppId)
+    {
+        _FBAppId = ref new String(L"<INSERT YOUR APP ID HERE>");
 
 #ifdef _DEBUG
-		OutputDebugString(L"!!! Missing App ID.  Update your app to use a valid FB App ID in order for the FB API's to succeed");
+        OutputDebugString(L"!!! Missing App ID.  Update your app to use a valid FB App ID in order for the FB API's to succeed");
 #endif
-	}
+    }
 
     return _FBAppId;
 }
@@ -138,35 +136,13 @@ void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
     _AccessTokenData = value;
 }
 
-IVectorView<String^>^ FBSession::Permissions::get()
-{
-    return _permissions->GetView();
-}
-
 FBUser^ FBSession::User::get()
 {
     return _user;
 }
 
-void FBSession::AddPermission(
-    String^ permission
-    )
-{
-    _permissions->Append(permission);
-}
-
-void FBSession::ResetPermissions(
-    )
-{
-    if (_permissions)
-    {
-        _permissions->Clear();
-    }
-}
-
 IAsyncAction^ FBSession::LogoutAsync()
 {
-    _permissions->Clear();
     _user = nullptr;
     _FBAppId = nullptr;
     _WinAppId = nullptr;
@@ -190,23 +166,6 @@ task<FBResult^> FBSession::GetUserInfo(
         }));
 
     return create_task(value->GetAsync());
-}
-
-String^ FBSession::PermissionsToString()
-{
-    String^ permissionsString = ref new String();
-
-    for (unsigned int i = 0; i < _permissions->Size; i++)
-    {
-        if (i)
-        {
-            permissionsString += ",";
-        }
-
-        permissionsString += _permissions->GetAt(i);
-    }
-
-    return permissionsString;
 }
 
 IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
@@ -292,18 +251,18 @@ task<FBResult^> FBSession::CheckForExistingToken(
         .then([](task<IBuffer^> clearBufferTask) -> FBResult^
         {
             FBResult^ cachedResult = nullptr;
-			IBuffer^ clearBuffer = nullptr;
+            IBuffer^ clearBuffer = nullptr;
 
-			try
-			{
-				clearBuffer = clearBufferTask.get();
-			}
-			catch (InvalidArgumentException^ ex)
-			{
+            try
+            {
+                clearBuffer = clearBufferTask.get();
+            }
+            catch (InvalidArgumentException^ ex)
+            {
 #ifdef _DEBUG
-				OutputDebugString(L"Couldn't decrypt cached token.  Continuing without cached token data.\n");
+                OutputDebugString(L"Couldn't decrypt cached token.  Continuing without cached token data.\n");
 #endif
-			}
+            }
 
             if (clearBuffer)
             {
@@ -383,7 +342,7 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
 {
     StorageFolder^ folder = ApplicationData::Current->LocalFolder;
 #ifdef _DEBUG
-	String^ msg = L"Deleting cached token from " + folder->Path + L"\n";
+    String^ msg = L"Deleting cached token from " + folder->Path + L"\n";
     OutputDebugString(msg->Data());
 #endif
     return create_async([=]()
@@ -423,7 +382,7 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
     });
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
+IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     PropertySet^ Parameters
     )
 {
@@ -480,8 +439,8 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     return task;
 }
 
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
-    Windows::Foundation::Collections::PropertySet^ Parameters
+IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
+    PropertySet^ Parameters
     )
 {
     _dialog = ref new FacebookDialog();
@@ -538,6 +497,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAs
 }
 
 task<FBResult^> FBSession::ShowLoginDialog(
+    PropertySet^ Parameters
     )
 {
     _dialog = ref new FacebookDialog();
@@ -549,7 +509,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
     {
         try
         {
-            _dialog->ShowLoginDialog();
+            _dialog->ShowLoginDialog(Parameters);
         }
         catch (Exception^ ex)
         {
@@ -617,34 +577,73 @@ task<FBResult^> FBSession::GetAppPermissions(
         {
             IVectorView<Object^>^ perms = 
                 static_cast<IVectorView<Object^>^>(result->Object);
-            _AccessTokenData->AddPermissions(perms);
+            _AccessTokenData->SetPermissions(perms);
         }
 
         return ref new FBResult(_user);
     });
 }
 
+#define ScopeKey        L"scope"
+#define DisplayKey      L"display"
+#define ResponseTypeKey L"response_type"
+#define DefaultScope    L"public_profile,email,user_friends"
+#define DefaultDisplay  L"popup"
+#define DefaultResponse L"token"
+#define AuthTypeKey     L"auth_type"
+#define Rerequest       L"rerequest"
+
 Uri^ FBSession::BuildLoginUri(
+    PropertySet^ Parameters
     )
 {
-	String^ apiVersion = L"";
-	if (APIMajorVersion) 
-	{
-		apiVersion = L"v" + APIMajorVersion.ToString() + L"." + APIMinorVersion.ToString() + L"/";
-	}
-    String^ uriString = L"https://www.facebook.com/" + apiVersion + L"dialog/oauth?client_id=" +
-        _FBAppId;
-    String^ permissionsString = PermissionsToString();
-
-    uriString += L"&redirect_uri=" + Uri::EscapeComponent(
-        GetRedirectUriString()) + L"%2fauth";
-
-    if (!permissionsString->IsEmpty())
+    FBSession^ s = FBSession::ActiveSession;
+    String^ apiVersion = L"";
+    if (APIMajorVersion)
     {
-        uriString += L"&scope=" + permissionsString;
+        apiVersion = L"v" + APIMajorVersion.ToString() + L"." + APIMinorVersion.ToString() + L"/";
+    }
+    String^ uriString = L"https://" + 
+        L"www.facebook.com/" + apiVersion + L"dialog/oauth?client_id=" + s->FBAppId;
+
+    // Use some reasonable default login parameters
+    String^ scope = DefaultScope;
+    String^ displayType = DefaultDisplay;
+    String^ responseType = DefaultResponse;
+
+    uriString += L"&redirect_uri=" + GetRedirectUriString();
+
+    // Enumerate through all the parameters
+    IIterator<IKeyValuePair<String^, Object^>^>^ first = Parameters->First();
+    while (first && (first->HasCurrent))
+    {
+        String^ Key = first->Current->Key;
+        String^ Value = dynamic_cast<String^>(first->Current->Value);
+        if (Value)
+        {
+            if (!String::CompareOrdinal(Key, ScopeKey))
+            {
+                scope = Value;
+            }
+            else if (!String::CompareOrdinal(Key, DisplayKey))
+            {
+                displayType = Value;
+            }
+            else if (!String::CompareOrdinal(Key, ResponseTypeKey))
+            {
+                responseType = Value;
+            }
+            else
+            {
+                uriString += L"&" + Key + L"=" + Value;
+            }
+        }
+
+        first->MoveNext();
     }
 
-    uriString += L"&display=popup&response_type=token";
+    uriString += L"&" + ScopeKey + L"=" + scope + L"&" + DisplayKey + L"=" +
+        displayType + L"&" + ResponseTypeKey + L"=" + responseType;
 
     return ref new Uri(uriString);
 }
@@ -653,155 +652,154 @@ String^ FBSession::GetRedirectUriString(
     )
 {
     Uri^ endURI = WebAuthenticationBroker::GetCurrentApplicationCallbackUri();
-    String^ blerg = endURI->DisplayUri;
-    OutputDebugString(blerg->Data());
-    OutputDebugString(L"\n");
     return endURI->DisplayUri;
 }
 
 task<FBResult^> FBSession::ProcessAuthResult(
-	WebAuthenticationResult^ authResult
-	)
+    WebAuthenticationResult^ authResult
+    )
 {
-	return create_task([=]() -> FBResult^
-	{
-		FBResult^ result = nullptr;
-		String^ uriString = nullptr;
-		FBAccessTokenData^ tokenData = nullptr;
-		Uri^ uri = nullptr;
-		switch (authResult->ResponseStatus)
-		{
-		case WebAuthenticationStatus::ErrorHttp:
-			//TODO: need a real error code
-			result = ref new FBResult(ref new FBError(0,
-				L"Communication error",
-				L"An Http error occurred"));
-			break;
-		case WebAuthenticationStatus::Success:
-			//TODO: need a real error code
-			uriString = authResult->ResponseData;
-			uri = ref new Uri(uriString);
-			tokenData = FBAccessTokenData::FromUri(uri);
-			if (!tokenData)
-			{
-				result = ref new FBResult(FBError::FromUri(uri));
-			}
-			else
-			{
-				result = ref new FBResult(tokenData);
-			}
-			break;
-		case WebAuthenticationStatus::UserCancel:
-			result = ref new FBResult(ref new FBError(0,
-				L"User canceled",
-				L"The login operation was canceled"));
-			break;
-		}
+    return create_task([=]() -> FBResult^
+    {
+        FBResult^ result = nullptr;
+        String^ uriString = nullptr;
+        FBAccessTokenData^ tokenData = nullptr;
+        Uri^ uri = nullptr;
+        switch (authResult->ResponseStatus)
+        {
+        case WebAuthenticationStatus::ErrorHttp:
+            //TODO: need a real error code
+            result = ref new FBResult(ref new FBError(0,
+                L"Communication error",
+                L"An Http error occurred"));
+            break;
+        case WebAuthenticationStatus::Success:
+            //TODO: need a real error code
+            uriString = authResult->ResponseData;
+            uri = ref new Uri(uriString);
+            tokenData = FBAccessTokenData::FromUri(uri);
+            if (!tokenData)
+            {
+                result = ref new FBResult(FBError::FromUri(uri));
+            }
+            else
+            {
+                result = ref new FBResult(tokenData);
+            }
+            break;
+        case WebAuthenticationStatus::UserCancel:
+            result = ref new FBResult(ref new FBError(0,
+                L"User canceled",
+                L"The login operation was canceled"));
+            break;
+        }
 
-		return result;
-	});
+        return result;
+    });
 }
 
 task<FBResult^> FBSession::TryGetUserInfoAfterLogin(
-	FBResult^ loginResult
-	)
+    FBResult^ loginResult
+    )
 {
-	task<FBResult^> innerResult;
+    task<FBResult^> innerResult;
 
-	if (loginResult && loginResult->Succeeded)
-	{
-		_AccessTokenData = static_cast<FBAccessTokenData^>(loginResult->Object);
-		_loggedIn = true;
-		TrySaveTokenData();
-		innerResult = GetUserInfo(_AccessTokenData);
-	}
-	else
-	{
-		innerResult = create_task([=]()
-		{
-			return loginResult;
-		});
-	}
+    if (loginResult && loginResult->Succeeded)
+    {
+        _AccessTokenData = static_cast<FBAccessTokenData^>(loginResult->Object);
+        _loggedIn = true;
+        TrySaveTokenData();
+        innerResult = GetUserInfo(_AccessTokenData);
+    }
+    else
+    {
+        innerResult = create_task([=]()
+        {
+            return loginResult;
+        });
+    }
 
-	return innerResult;
+    return innerResult;
 }
 
 task<FBResult^> FBSession::TryGetAppPermissionsAfterLogin(
-	FBResult^ loginResult
-	)
+    FBResult^ loginResult
+    )
 {
-	task<FBResult^> finalResult;
-	if (loginResult->Succeeded)
-	{
-		_user = static_cast<FBUser^>(loginResult->Object);
-		finalResult = GetAppPermissions();
-	}
-	else
-	{
-		finalResult = create_task([=]()
-		{
-			return loginResult;
-		});
-	}
+    task<FBResult^> finalResult;
+    if (loginResult->Succeeded)
+    {
+        _user = static_cast<FBUser^>(loginResult->Object);
+        finalResult = GetAppPermissions();
+    }
+    else
+    {
+        finalResult = create_task([=]()
+        {
+            return loginResult;
+        });
+    }
 
-	return finalResult;
+    return finalResult;
 }
 
 task<FBResult^> FBSession::RunOAuthOnUiThread(
+    PropertySet^ Parameters
     )
 {
-	task<void> authTask = create_task(
-		CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
-		Windows::UI::Core::CoreDispatcherPriority::Normal,
-		ref new Windows::UI::Core::DispatchedHandler([this]() 
-	{
-		_loginTask = create_task(
-			WebAuthenticationBroker::AuthenticateAsync(
-			WebAuthenticationOptions::None, BuildLoginUri(),
-			ref new Uri(GetRedirectUriString())))
-		.then([this](WebAuthenticationResult^ authResult) -> task<FBResult^>
-		{
-			return ProcessAuthResult(authResult);
+    task<void> authTask = create_task(
+        CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        ref new Windows::UI::Core::DispatchedHandler([=]()
+    {
+        _loginTask = create_task(
+            WebAuthenticationBroker::AuthenticateAsync(
+            WebAuthenticationOptions::None, BuildLoginUri(Parameters),
+            ref new Uri(GetRedirectUriString())))
+        .then([this](WebAuthenticationResult^ authResult) -> task<FBResult^>
+        {
+            return ProcessAuthResult(authResult);
         });
-	})));
+    })));
 
-	return create_task([=](void)
-	{
-		try
-		{
-			authTask.get();
-		}
-		catch (Exception^ ex)
-		{
-			throw ref new InvalidArgumentException(SDKMessageLoginFailed);
-		}
-	})
-	.then([this]() -> FBResult^
-	{
-		FBResult^ result = nullptr;
+    return create_task([=](void)
+    {
+        try
+        {
+            authTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        }
+    })
+    .then([this]() -> FBResult^
+    {
+        FBResult^ result = nullptr;
 
-		try
-		{
-			result = _loginTask.get();
-		}
-		catch (Exception^ ex)
-		{
-			throw ref new InvalidArgumentException(SDKMessageLoginFailed);
-		}
+        try
+        {
+            result = _loginTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        }
 
-		return result;
-	});
+        return result;
+    });
 }
 
 task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
+    PropertySet^ Parameters
     )
 {
     task<void> authTask = create_task(
         CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
             Windows::UI::Core::CoreDispatcherPriority::Normal,
-            ref new Windows::UI::Core::DispatchedHandler([this]()
+            ref new Windows::UI::Core::DispatchedHandler([=]()
     {
-        _loginTask = ShowLoginDialog();
+        _loginTask = ShowLoginDialog(Parameters);
     })));
 
     return create_task([=](void)
@@ -833,21 +831,33 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
+    FBPermissions^ Permissions
     )
 {
     _dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {
+        PropertySet^ parameters = ref new PropertySet();
+        if (Permissions)
+        {
+            parameters->Insert(L"scope", Permissions->ToString());
+        }
+
+        if (LoggedIn)
+        {
+            parameters->Insert(L"auth_type", L"rerequest");
+        }
+
         return create_task([=]() -> FBResult^
         {
             FBResult^ result = nullptr;
 
-            task<FBResult^> authTask = TryLoginViaWebView();
+            task<FBResult^> authTask = TryLoginViaWebView(parameters);
             result = authTask.get();
             if (!result)
             {
-                authTask = TryLoginViaWebAuthBroker();
+                authTask = TryLoginViaWebAuthBroker(parameters);
                 result = authTask.get();
             }
 
@@ -860,64 +870,40 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         .then([this](FBResult^ userInfoResult) -> task<FBResult^>
         {
             return TryGetAppPermissionsAfterLogin(userInfoResult);
+        })
+        .then([=](FBResult^ finalResult)
+        {
+            if (!finalResult->Succeeded)
+            {
+                _loggedIn = false;
+                AccessTokenData = nullptr;
+            }
+
+            return finalResult;
         });
     });
 }
 
 task<FBResult^> FBSession::TryLoginViaWebView(
+    PropertySet^ Parameters
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
 
-    return CheckForExistingToken()
-        .then([this](FBResult^ oauthResult) -> task<FBResult^>
+    return create_task([=]() -> task<FBResult^>
     {
         task<FBResult^> graphTask = create_task([]() -> FBResult^
         {
             return nullptr;
         });
 
-        if (oauthResult && oauthResult->Succeeded)
+        if (!IsRerequest(Parameters))
         {
-            Facebook::FBAccessTokenData^ tokenData = 
-                static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
-            if (!tokenData->IsExpired())
-            {
-                AccessTokenData = tokenData;
-                graphTask = create_task([=]() -> FBResult^
-                {
-                    return ref new FBResult(AccessTokenData);
-                });
-            }
+            graphTask = CheckForExistingToken();
         }
 
         return graphTask;
     })
-    .then([this](FBResult^ graphResult)
-    {
-        FBResult^ loginResult = nullptr;
-
-        if (graphResult && graphResult->Succeeded)
-        {
-            loginResult = graphResult;
-        }
-        else
-        {
-            loginResult = RunWebViewLoginOnUIThread().get();
-        }
-
-        return loginResult;
-    });
-}
-
-task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
-    )
-{
-    FBSession^ sess = FBSession::ActiveSession;
-
-    IAsyncOperation<FBResult^>^ result = nullptr;
-
-    return CheckForExistingToken()
     .then([this](FBResult^ oauthResult) -> task<FBResult^>
     {
         task<FBResult^> graphTask = create_task([]() -> FBResult^
@@ -941,7 +927,69 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
 
         return graphTask;
     })
-    .then([this](FBResult^ graphResult)
+    .then([=](FBResult^ graphResult)
+    {
+        FBResult^ loginResult = nullptr;
+
+        if (graphResult && graphResult->Succeeded)
+        {
+            loginResult = graphResult;
+        }
+        else
+        {
+            loginResult = RunWebViewLoginOnUIThread(Parameters).get();
+        }
+
+        return loginResult;
+    });
+}
+
+task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
+    PropertySet^ Parameters
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+
+    IAsyncOperation<FBResult^>^ result = nullptr;
+
+    return create_task([=]() -> task<FBResult^>
+    {
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
+        if (!IsRerequest(Parameters))
+        {
+            graphTask = CheckForExistingToken();
+        }
+
+        return graphTask;
+    })
+    .then([=](FBResult^ oauthResult) -> task<FBResult^>
+    {
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
+        if (oauthResult && oauthResult->Succeeded)
+        {
+            Facebook::FBAccessTokenData^ tokenData = 
+                static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
+            if (!tokenData->IsExpired())
+            {
+                AccessTokenData = tokenData;
+                graphTask = create_task([=]() -> FBResult^
+                {
+                    return ref new FBResult(AccessTokenData);
+                });
+            }
+        }
+
+        return graphTask;
+    })
+    .then([=](FBResult^ graphResult)
     {
         task<FBResult^> loginResult;
 
@@ -954,28 +1002,47 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
         }
         else
         {
-            loginResult = RunOAuthOnUiThread();
+            loginResult = RunOAuthOnUiThread(Parameters);
         }
 
         return loginResult;
     });
 }
 
+BOOL FBSession::IsRerequest(
+    PropertySet^ Parameters
+    )
+{
+    BOOL isRerequest = FALSE;
+
+    if (Parameters && Parameters->HasKey(AuthTypeKey))
+    {
+        String^ Value = static_cast<String^>(Parameters->Lookup(AuthTypeKey));
+
+        if (!String::CompareOrdinal(Value, Rerequest))
+        {
+            isRerequest = TRUE;
+        }
+    }
+
+    return isRerequest;
+}
+
 void FBSession::SetAPIVersion(
-	int MajorVersion,
-	int MinorVersion
-	) 
+    int MajorVersion,
+    int MinorVersion
+    )
 {
-	_APIMajorVersion = MajorVersion;
-	_APIMinorVersion = MinorVersion;
+    _APIMajorVersion = MajorVersion;
+    _APIMinorVersion = MinorVersion;
 }
 
-int FBSession::APIMajorVersion::get() 
+int FBSession::APIMajorVersion::get()
 {
-	return _APIMajorVersion;
+    return _APIMajorVersion;
 }
 
-int FBSession::APIMinorVersion::get() 
+int FBSession::APIMinorVersion::get()
 {
-	return _APIMinorVersion;
+    return _APIMinorVersion;
 }

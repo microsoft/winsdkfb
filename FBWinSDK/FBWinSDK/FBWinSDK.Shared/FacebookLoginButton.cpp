@@ -17,6 +17,7 @@
 #include "pch.h"
 #include "FacebookLoginButton.h"
 #include "FacebookSession.h"
+#include "FacebookPermissions.h"
 
 using namespace Concurrency;
 using namespace Facebook;
@@ -32,7 +33,6 @@ FBLoginButton::FBLoginButton() :
 {
     String^ styleKey = FBLoginButton::typeid->FullName;
     this->DefaultStyleKey = styleKey;
-    _permissions = ref new Vector<String^>();
 }
 
 void FBLoginButton::OnApplyTemplate(
@@ -58,54 +58,21 @@ void FBLoginButton::OnApplyTemplate(
 //}
 //
 
-IVector<String^>^ FBLoginButton::Permissions::get()
+FBPermissions^ FBLoginButton::Permissions::get()
 {
     return _permissions;
 }
 
-void FBLoginButton::Permissions::set(IVector<String^>^ Values)
+void FBLoginButton::Permissions::set(FBPermissions^ value)
 {
-    _permissions->Clear();
-    IIterator<String^>^ it = nullptr;
-    for (it = Values->First(); it->HasCurrent; it->MoveNext())
-    {
-        String^ value = it->Current;
-        _permissions->Append(value);
-    }
+    _permissions = value;
 }
 
 void FBLoginButton::InitWithPermissions(
-    IVector<String^>^ permissions
+    FBPermissions^ permissions
     )
 {
-    if (!_permissions)
-    {
-        _permissions = ref new Vector<String^>(0);
-    }
-
-    _permissions->Clear();
-
-    for (IIterator<String^>^ iter = permissions->First();
-        iter->HasCurrent;
-        iter->MoveNext())
-    {
-        _permissions->Append(iter->Current);
-    }
-}
-
-void FBLoginButton::SetSessionPermissions(
-    )
-{
-    FBSession^ s = FBSession::ActiveSession;
-    s->ResetPermissions();
-    if (_permissions)
-    {
-        IIterator<String^>^ iter = nullptr;
-        for (iter = _permissions->First(); iter->HasCurrent; iter->MoveNext())
-        {
-            s->AddPermission(iter->Current);
-        }
-    }
+    _permissions = permissions;
 }
 
 void FBLoginButton::OnClick(
@@ -121,9 +88,7 @@ void FBLoginButton::OnClick(
     }
     else
     {
-        SetSessionPermissions();
-
-        create_task(s->LoginAsync())
+        create_task(s->LoginAsync(Permissions))
             .then([=](FBResult^ result)
         {
             if (result->Succeeded)

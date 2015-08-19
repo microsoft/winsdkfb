@@ -31,6 +31,7 @@ using Windows.UI.Xaml.Navigation;
 
 using Facebook;
 using Facebook.Graph;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -64,9 +65,35 @@ namespace LoginCs
                     UserUpdatedTime.Text = user.UpdatedTime;
                     UserVerified.Text = user.Verified.ToString();
                     SquarePicture.UserId = user.Id;
+                    LoadRoundProfilePicture(user.Id);
                 }
             }
         }
+
+        private async void LoadRoundProfilePicture(
+            String UserId
+            )
+        {
+            PropertySet parameters = new PropertySet();
+            String path = "/" + UserId + "/picture";
+
+            parameters.Add(new KeyValuePair<String, Object>("redirect", "false"));
+
+            // Just picking a width and height for now
+            parameters.Add(new KeyValuePair<String, Object>("width", "200"));
+            parameters.Add(new KeyValuePair<String, Object>("height", "200"));
+
+            FBSingleValue value = new FBSingleValue(path, parameters, 
+                new FBJsonClassFactory(FBProfilePicture.FromJson));
+
+            FBResult result = await value.Get();
+            if (result.Succeeded)
+            {
+                FBProfilePicture pic = (FBProfilePicture)result.Object;
+                ProfilePicBrush.ImageSource = new BitmapImage(pic.URL);
+            }
+        }
+
         private void UserLikesButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(UserLikes));

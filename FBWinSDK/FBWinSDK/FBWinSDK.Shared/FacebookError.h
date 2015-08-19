@@ -19,19 +19,20 @@
 namespace Facebook
 {
     /*!
-     * \brief error categories. 
+     * \brief error codes.
      */
-    public enum class ErrorCategory
+    public enum class ErrorCode : int
     {
-        ErrorCategoryInvalid = 0,
-        ErrorCategoryRetry = 1,
-        ErrorCategoryAuthenticateReopenSession = 2,
-        ErrorCategoryPermissions = 3,
-        ErrorCategoryServer = 4,
-        ErrorCategoryThrottling = 5,
-        ErrorCategoryUserCancelled = 6,
-        ErrorCategoryFacebookOther = -1,
-        ErrorCategoryBadRequest = -2
+        ErrorCodeOauthException = 190
+    };
+
+    /*!
+    * \brief error subcodes.
+    */
+    public enum class ErrorSubcode : int
+    {
+        ErrorSubcodeAppNotAuthorized   = 458,
+        ErrorSubcodeSessionInvalidated = 466
     };
 
     /*!

@@ -51,6 +51,7 @@ namespace Facebook
             );
 
         void ShowLoginDialog(
+            Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
         void ShowFeedDialog(
@@ -114,6 +115,10 @@ namespace Facebook
             Windows::Foundation::Uri^ Response
             );
 
+        bool IsDialogCloseRedirect(
+            Windows::Foundation::Uri^ Response
+            );
+        
         void OnSizeChanged(
             Windows::UI::Core::CoreWindow ^sender,
             Windows::UI::Core::WindowSizeChangedEventArgs ^args

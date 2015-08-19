@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include "FacebookPermissions.h"
+
 namespace Facebook
 {
     /*!\brief How user was/will be logged in.  Preferred method should be app, 
@@ -71,12 +73,14 @@ namespace Facebook
             }
 
             //! Returns the list of permissions
-            property 
-                Windows::Foundation::Collections::IMapView<Platform::String^, 
-                Platform::String^>^ Permissions
+            property Facebook::FBPermissions^ GrantedPermissions
             {
-                Windows::Foundation::Collections::IMapView<Platform::String^,
-                    Platform::String^>^ get();
+                Facebook::FBPermissions^ get();
+            }
+
+            property Facebook::FBPermissions^ DeclinedPermissions
+            {
+                Facebook::FBPermissions^ get();
             }
 
             //! Returns user ID for the token, if available.
@@ -88,7 +92,7 @@ namespace Facebook
             bool IsExpired(
                 );
 
-            void AddPermissions(
+            void SetPermissions(
                 Windows::Foundation::Collections::IVectorView<Object^>^ perms
                 );
 
@@ -97,6 +101,9 @@ namespace Facebook
                 Platform::String^ AccessToken,
                 Platform::String^ Expiration,
                 Platform::String^ State
+                );
+
+            void InitPermissions(
                 );
 
             void CalculateExpirationDateTime(
@@ -116,8 +123,8 @@ namespace Facebook
             Platform::String^ _accessToken;
             Platform::String^ _appId;
             Windows::Foundation::DateTime _expirationDate;
-            Platform::Collections::Map<Platform::String^, Platform::String^>^ 
-                _permissions;
+            FBPermissions^ _grantedPermissions;
+            FBPermissions^ _declinedPermissions;
             Platform::String^ _userId;
     };
 }
