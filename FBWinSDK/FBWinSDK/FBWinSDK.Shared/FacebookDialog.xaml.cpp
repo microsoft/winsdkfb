@@ -254,8 +254,13 @@ Uri^ FacebookDialog::BuildLoginDialogUrl(
     )
 {
     FBSession^ s = FBSession::ActiveSession;
+    String^ apiVersion = L"";
+    if (s->APIMajorVersion)
+    {
+        apiVersion = L"v" + s->APIMajorVersion.ToString() + L"." + s->APIMinorVersion.ToString() + L"/";
+    }
     String^ uriString = L"https://" + GetFBServer() +
-        L".facebook.com/dialog/oauth?client_id=" + s->FBAppId;
+        L".facebook.com/" + apiVersion + L"dialog/oauth?client_id=" + s->FBAppId;
 
     // Use some reasonable default login parameters
     String^ scope = DefaultScope;
@@ -304,9 +309,14 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
+    String^ apiVersion = L"";
+    if (sess->APIMajorVersion)
+    {
+        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+    }
     String^ dialogUriString =
-        L"https://" + GetFBServer() + 
-        L".facebook.com/v2.1/dialog/feed?access_token=" +
+        L"https://" + GetFBServer() +
+        L".facebook.com/" + apiVersion + L"dialog/feed?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&app_id=" + sess->FBAppId; 
@@ -324,9 +334,14 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
+    String^ apiVersion = L"";
+    if (sess->APIMajorVersion)
+    {
+        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+    }
     String^ dialogUriString =
         L"https://" + GetFBServer() + 
-        L".facebook.com/v2.1/dialog/apprequests?access_token=" +
+        L".facebook.com/" + apiVersion + L"dialog/apprequests?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
         L"&app_id=" + sess->FBAppId;

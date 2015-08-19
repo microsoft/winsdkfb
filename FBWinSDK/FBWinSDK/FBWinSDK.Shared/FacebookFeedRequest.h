@@ -26,7 +26,7 @@ namespace Facebook
     public:
 
         //! Post ID - app can refer to this post in future, e.g. to delete or
-        //update it.
+        //! update it.
         property Platform::String^ PostId
         {
             Platform::String^ get();

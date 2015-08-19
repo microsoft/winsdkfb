@@ -33,16 +33,16 @@ namespace Facebook
     public:
 
         //! Request ID - app is responsible for tracking these! Once a request
-        //has been accepted, FB notifies the app's web site(?verify this), and
-        //the app (or web site, or whatever) must make a graph API call to FB 
-        //to delete it.
+        //! has been accepted, FB notifies the app's web site(?verify this), and
+        //! the app (or web site, or whatever) must make a graph API call to FB
+        //! to delete it.
         property Platform::String^ RequestId
         {
             Platform::String^ get();
         }
         
         //! Recipient ID(s) - the list of user IDs of people this request went
-        //to.
+        //! to.
         property RecipientView RecipientIds
         {
             RecipientView get();

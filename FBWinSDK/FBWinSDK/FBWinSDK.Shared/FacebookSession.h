@@ -82,9 +82,18 @@ namespace Facebook
                 void set(FBAccessTokenData^ value);
             }
 
+            property int APIMajorVersion
+            {
+                int get();
+            }
+
+            property int APIMinorVersion
+            {
+                int get();
+            }
 
             //! FBSession is a singleton object - ActiveSession is the way to
-            // acquire a reference to the object.
+            //! acquire a reference to the object.
             static property FBSession^ ActiveSession
             {
                 FBSession^ get()
@@ -117,10 +126,15 @@ namespace Facebook
                 Facebook::FBPermissions^ Permissions
                 );
 
+            void SetAPIVersion(
+                int MajorVersion,
+                int MinorVersion
+                );
+
         private:
             FBSession();
            
-			~FBSession();
+            ~FBSession();
 
             Windows::Foundation::Uri^ BuildLoginUri(
                 Windows::Foundation::Collections::PropertySet^ Parameters
@@ -155,18 +169,18 @@ namespace Facebook
             concurrency::task<FBResult^> GetAppPermissions(
                 );
 
-			concurrency::task<Facebook::FBResult^>
-				ProcessAuthResult(
-				Windows::Security::Authentication::Web::WebAuthenticationResult^ authResult
-				);
+            concurrency::task<Facebook::FBResult^>
+                ProcessAuthResult(
+                Windows::Security::Authentication::Web::WebAuthenticationResult^ authResult
+                );
 
-			concurrency::task<Facebook::FBResult^> TryGetUserInfoAfterLogin(
-				Facebook::FBResult^ loginResult
-				);
+            concurrency::task<Facebook::FBResult^> TryGetUserInfoAfterLogin(
+                Facebook::FBResult^ loginResult
+                );
 
-			concurrency::task<Facebook::FBResult^> TryGetAppPermissionsAfterLogin(
-				Facebook::FBResult^ loginResult
-				);
+            concurrency::task<Facebook::FBResult^> TryGetAppPermissionsAfterLogin(
+                Facebook::FBResult^ loginResult
+                );
 
             concurrency::task<FBResult^> RunOAuthOnUiThread(
                 Windows::Foundation::Collections::PropertySet^ Parameters
@@ -198,8 +212,10 @@ namespace Facebook
             Platform::String^ _AppResponse;
             Facebook::FBAccessTokenData^ _AccessTokenData;
             Facebook::Graph::FBUser^ _user;
-			concurrency::task<Facebook::FBResult^> _loginTask;
+            concurrency::task<Facebook::FBResult^> _loginTask;
             Facebook::FacebookDialog^ _dialog;
             BOOL _showingDialog;
+            int _APIMajorVersion;
+            int _APIMinorVersion;
     };
 }
