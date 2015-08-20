@@ -195,7 +195,7 @@ namespace LoginCs
             if (sess.LoggedIn)
             {
                 LoginButton.Content = "Login";
-                await sess.Logout();
+                await sess.LogoutAsync();
                 //Navigate back to same page, to clear out logged in info.
                 App.RootFrame.Navigate(typeof(MainPage));
             }
@@ -211,7 +211,7 @@ namespace LoginCs
                 // and removed our app from their list off allowed apps in Settings.
                 if (WasAppPermissionRemovedByUser(result))
                 {
-                    await sess.Logout();
+                    await sess.LogoutAsync();
                     await TryRerequest(true);
                 }
                 else if (ShouldRerequest(result))

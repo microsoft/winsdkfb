@@ -86,11 +86,11 @@ namespace LoginCs
             FBSingleValue value = new FBSingleValue(path, parameters, 
                 new FBJsonClassFactory(FBProfilePicture.FromJson));
 
-            FBResult result = await value.Get();
+            FBResult result = await value.GetAsync();
             if (result.Succeeded)
             {
                 FBProfilePicture pic = (FBProfilePicture)result.Object;
-                ProfilePicBrush.ImageSource = new BitmapImage(pic.URL);
+                ProfilePicBrush.ImageSource = new BitmapImage(new Uri(pic.Url));
             }
         }
 

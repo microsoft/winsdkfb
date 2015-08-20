@@ -142,7 +142,7 @@ void Dialogs::Feed_Click(
     params->Insert(L"link", L"https://en.wikipedia.org/wiki/Brussels_sprout");
     params->Insert(L"description", L"Om Nom Nom!");
 
-    create_task(s->ShowFeedDialog(params))
+    create_task(s->ShowFeedDialogAsync(params))
         .then([=](FBResult^ DialogResponse)
     {
         OutputDebugString(L"Showed 'Feed' dialog.\n");
@@ -161,7 +161,7 @@ void Dialogs::AppRequests_Click(
     params->Insert(L"title", L"I love Brussels Sprouts!");
     params->Insert(L"message", L"Om Nom Nom!");
 
-    create_task(s->ShowRequestsDialog(params))
+    create_task(s->ShowRequestsDialogAsync(params))
         .then([=](FBResult^ DialogResponse)
     {
         OutputDebugString(L"Showed 'Requests' dialog.\n");

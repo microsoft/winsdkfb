@@ -45,7 +45,7 @@ namespace LoginCs
             FBSingleValue val = new FBSingleValue("/" + ID, null,
                 new FBJsonClassFactory((JsonText) => 
                     MyFBPage.FromJson(JsonText)));
-            FBResult result = await val.Get();
+            FBResult result = await val.GetAsync();
             if (result.Succeeded)
             {
                 MyFBPage page = (MyFBPage)result.Object;

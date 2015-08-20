@@ -76,7 +76,7 @@ namespace LoginCs
 
             if (_likes.HasNext)
             {
-                FBResult result = await _likes.Next();
+                FBResult result = await _likes.NextAsync();
                 if (result.Succeeded)
                 {
                     IReadOnlyList<object> nextPages = 
@@ -100,7 +100,7 @@ namespace LoginCs
                     (JsonText) => MyFBPage.FromJson(JsonText));
 
                 _likes = new FBPaginatedArray(graphPath, null, fact);
-                FBResult result = await _likes.First();
+                FBResult result = await _likes.FirstAsync();
                 if (result.Succeeded)
                 {
                     IReadOnlyList<object> pages = 

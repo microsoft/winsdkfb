@@ -53,7 +53,7 @@ void LoginCpp::Dialogs::FeedDialogButton_Click(Platform::Object^ sender, Windows
     params->Insert(L"link", L"https://en.wikipedia.org/wiki/Brussels_sprout");
     params->Insert(L"description", L"Om Nom Nom!");
 
-    create_task(s->ShowFeedDialog(params))
+    create_task(s->ShowFeedDialogAsync(params))
         .then([=](FBResult^ Response)
     {
         OutputDebugString(L"Showed 'Feed' dialog.\n");
@@ -69,7 +69,7 @@ void LoginCpp::Dialogs::AppRequestsButton_Click(Platform::Object^ sender, Window
     params->Insert(L"title", L"I love Brussels Sprouts!");
     params->Insert(L"message", L"Om Nom Nom!");
 
-    create_task(s->ShowRequestsDialog(params))
+    create_task(s->ShowRequestsDialogAsync(params))
         .then([=](FBResult^ Response)
     {
         OutputDebugString(L"Showed 'Requests' dialog.\n");
