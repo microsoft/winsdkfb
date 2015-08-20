@@ -184,7 +184,7 @@ void MainPage::LogoutAndRetry(
     // be that the session has cached an access token that is no longer valid,
     // e.g. if the user revoked the app in Settings.  FBSession::Logout clears
     // the session's cached access token, among other things.
-    create_task(FBSession::ActiveSession->Logout())
+    create_task(FBSession::ActiveSession->LogoutAsync())
 		.then([=]()
 	{
 		// Login call has to happen on UI thread, so circle back around to it
@@ -206,7 +206,7 @@ void MainPage::login_OnClicked(
 
 	if (sess->LoggedIn)
 	{
-		sess->Logout();
+		sess->LogoutAsync();
 		LoginButton->Content = L"Logout";
 		LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
 		Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();

@@ -79,7 +79,7 @@ void UserLikes::AddLikes(
 
     if (_likes->HasNext)
     {
-        create_task(_likes->Next()).then([this](FBResult^ result)
+        create_task(_likes->NextAsync()).then([this](FBResult^ result)
         {
             if (result->Succeeded)
             {
@@ -110,7 +110,7 @@ void UserLikes::GetUserLikes(
         });
 
         _likes = ref new FBPaginatedArray(graphPath, nullptr, fact);
-        create_task(_likes->First()).then([this](FBResult^ result)
+        create_task(_likes->FirstAsync()).then([this](FBResult^ result)
         {
             if (result->Succeeded)
             {
@@ -142,7 +142,7 @@ void UserLikes::ListView_SelectionChanged(
             return FBPageBindable::FromJson(JsonText);
         }));
 
-        create_task(val->Get())
+        create_task(val->GetAsync())
         .then([this](FBResult^ result)
         {
             if (result->Succeeded)
