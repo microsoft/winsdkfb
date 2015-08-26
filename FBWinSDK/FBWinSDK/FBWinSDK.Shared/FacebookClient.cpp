@@ -610,6 +610,7 @@ Uri^ FBClient::PrepareRequestUri(
     }
 
     String^ host;
+    String^ apiVersion = L"";
 
     if (parametersWithoutMediaObjects->HasKey("request_host"))
     {
@@ -619,13 +620,11 @@ Uri^ FBClient::PrepareRequestUri(
     else
     {
         host = L"graph.facebook.com";
+        if (sess->APIMajorVersion)
+        {
+            apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+        }
     }
-
-	String^ apiVersion = L"";
-	if (sess->APIMajorVersion) 
-	{
-		apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
-	}
 
     String^ uriString = L"https://" + host + L"/" + apiVersion + path + L"?" + queryString;
 
