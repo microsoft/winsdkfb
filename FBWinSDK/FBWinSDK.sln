@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FBWinSDK", "FBWinSDK", "{A5BE3147-4D21-457F-A11E-0D0B0C5A5ED8}"
 EndProject
@@ -16,13 +16,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinPhoneStoreCppTests", "FBWinPhoneStoreCppTests\FBWinPhoneStoreCppTests.vcxproj", "{D7AC8F5D-BDD3-4B71-920D-16E6634C802F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBWinStoreCsTests", "FBWinStoreCsTests\FBWinStoreCsTests.csproj", "{E3A45971-AE8A-4785-8C31-CB35B5187408}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0C3441FA-6BB7-4D65-A3E8-69A54EA22495}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDKCppUnit", "SDKCppUnit", "{2FA47F0B-3633-430A-8717-B94CBFBD40FF}"
 EndProject
