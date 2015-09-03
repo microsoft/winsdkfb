@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -323,45 +323,68 @@
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: green; background: white;">
 					// Add permissions required by the app</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess.AddPermission</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">public_profile</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					List&lt;String&gt; permissionList = new List&lt;String&gt;();</span></span>
+                    </p>
+                    
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess.AddPermission</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_friends</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList.Add</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">public_profile</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess.AddPermission</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_likes</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList.Add</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_friends</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess.AddPermission</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_groups</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList.Add</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_likes</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess.AddPermission</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_location</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList.Add</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_groups</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess.AddPermission</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_photos</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList.Add</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_location</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess.AddPermission</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">publish_actions</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
+					permissionList.Add</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_photos</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
+					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
+					<span class="SpellE">
+					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
+					permissionList.Add</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">publish_actions</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
+
+					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
+					<span class="SpellE">
+					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
+                        FBPermissions permissions = new FBPermissions(permissionList);
+					</span></span>
+                    </p>
+                    
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p>
 					&nbsp;</o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: green; background: white;">
 					// Login to Facebook</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">
 					FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span>result 
-					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sess.LoginAsync</span>();</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
+					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sess.LoginAsync</span>(permissions);</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
+                    
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p>
 					&nbsp;</o:p></span></p>
@@ -417,63 +440,92 @@
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">
 					FBSession</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sess</span><span class="Apple-converted-space">&nbsp;</span>=<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBSession</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">::<span class="SpellE">ActiveSession</span>;<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><o:p>
 					&nbsp;</o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: green; background: white;">
 					// Add permissions required by the app</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><o:p></o:p></span></p>
+                    
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">AddPermission</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">public_profile</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="SpellE">
+                        Vector&lt;String^&gt;^ permissionList = ref new Vector&lt;String^&gt;();
+                      </span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">public_profile</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">AddPermission</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_friends</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">Append</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">L"<span class="SpellE">public_profile</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">AddPermission</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_likes</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">Append</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">L"<span class="SpellE">user_friends</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">AddPermission</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_groups</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">Append</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">L"<span class="SpellE">user_likes</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">AddPermission</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_location</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">Append</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">L"<span class="SpellE">user_groups</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">AddPermission</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">user_photos</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">Append</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">L"<span class="SpellE">user_location</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">AddPermission</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">"<span class="SpellE">publish_actions</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+					permissionList</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">Append</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">L"<span class="SpellE">user_photos</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
+					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
+					<span class="SpellE">
+					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
+					permissionList</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;<span class="SpellE">Append</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(163, 21, 21); background: white;">L"<span class="SpellE">publish_actions</span>"</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">);<o:p></o:p></span></p>
+
+					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
+					<span class="SpellE">
+					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
+                      FBPermissions^ permissions = ref new FBPermissions(permissionList-&gt;GetView());
+                    </span></span></p>
+
+                    
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p>
 					&nbsp;</o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: green; background: white;">
 					// Login to Facebook</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					create_task</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(<span class="SpellE">sess</span>-&gt;<span class="SpellE">LoginAsync</span>()).then([=](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
+					create_task</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">(<span class="SpellE">sess</span>-&gt;<span class="SpellE">LoginAsync</span>(permissions)).then([=](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
 					{<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">if</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span>(</span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;Succeeded)<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span>{<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: green; background: white;">// 
 					Login succeeded<o:p></o:p></span></p>
+
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt 1in; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
 					…<o:p></o:p></span></p>
@@ -526,7 +578,7 @@
 					FBSession</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sess</span><span class="Apple-converted-space">&nbsp;</span>=<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBSession</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">.ActiveSession</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">;<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">
-					await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sess.Logout</span>();</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
+					await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sess.LogoutAsync</span>();</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;"><o:p>
 					&nbsp;</o:p></p>
 					</td>
@@ -549,7 +601,7 @@
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;Logout();</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
+					sess</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">-&gt;LogoutAsync();</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;"><o:p>
 					&nbsp;</o:p></p>
 					</td>
@@ -1314,7 +1366,7 @@
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt 0.5in; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">
-					FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">fbresult</span><span class="Apple-converted-space">&nbsp;</span>=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.Post</span>();<o:p></o:p></span></p>
+					FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">fbresult</span><span class="Apple-converted-space">&nbsp;</span>=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.PostAsync</span>();<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt 0.5in; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><o:p>
 					&nbsp;</o:p></span></p>
@@ -1466,7 +1518,7 @@
 					parameters, fact);<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;Post()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
+					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;PostAsync()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span>{<o:p></o:p></span></p>
@@ -1664,7 +1716,7 @@
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">
 					FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span>result 
-					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.Post</span>();</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
+					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.PostAsync</span>();</span><span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt 0.5in; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black;"><o:p>
 					&nbsp;</o:p></span></p>
@@ -1843,7 +1895,7 @@
 					parameters, fact);<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;Post()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
+					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;PostAsync()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span>{<o:p></o:p></span></p>
@@ -2015,7 +2067,7 @@
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span>result 
-					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.Post</span>();<o:p></o:p></span></p>
+					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.PostAsync</span>();<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><o:p>
 					&nbsp;</o:p></span></p>
@@ -2176,7 +2228,7 @@
 					parameters, fact);<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;Post()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
+					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;PostAsync()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span>{<o:p></o:p></span></p>
@@ -2327,7 +2379,7 @@
 					<span class="SpellE">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">
 					FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span>result 
-					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.Post</span>();<o:p></o:p></span></p>
+					=<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">await</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span><span class="SpellE">sval.PostAsync</span>();<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt 0.5in; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">
 					if</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;"><span class="Apple-converted-space">&nbsp;</span>(<span class="SpellE">result.Succeeded</span>)<o:p></o:p></span></p>
@@ -2459,7 +2511,7 @@
 					parameters, fact);<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
-					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;Post()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
+					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span><span class="SpellE">create_task</span>(<span class="SpellE">sval</span>-&gt;PostAsync()).then([</span><span style="font-size: 9.5pt; font-family: Consolas; color: blue; background: white;">this</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">](</span><span class="SpellE"><span style="font-size: 9.5pt; font-family: Consolas; color: rgb(43, 145, 175); background: white;">FBResult</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">^<span class="Apple-converted-space">&nbsp;</span></span><span style="font-size: 9.5pt; font-family: Consolas; color: gray; background: white;">result</span><span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">)<o:p></o:p></span></p>
 					<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-size: 11pt; font-family: Roboto, sans-serif; line-height: normal;">
 					<span style="font-size: 9.5pt; font-family: Consolas; color: black; background: white;">
 					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span></span>{<o:p></o:p></span></p>
