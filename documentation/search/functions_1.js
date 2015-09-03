@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['convert',['Convert',['../class_facebook_1_1_color_luminosity_converter.html#a502a073554db7fa6326ef7fad3c0010c',1,'Facebook::ColorLuminosityConverter::Convert()'],['../class_facebook_1_1_scale_converter.html#a9be83f0b50bb2ccf1d72c25aa6aabd4f',1,'Facebook::ScaleConverter::Convert()']]],
-  ['convertback',['ConvertBack',['../class_facebook_1_1_color_luminosity_converter.html#ae27a7e87a4f61d12cf2a98b49a1ff4cf',1,'Facebook::ColorLuminosityConverter::ConvertBack()'],['../class_facebook_1_1_scale_converter.html#ae7fd2151a6930cb76782a47898513ced',1,'Facebook::ScaleConverter::ConvertBack()']]]
+  ['deleteasync',['DeleteAsync',['../class_facebook_1_1_graph_1_1_f_b_single_value.html#abf124440ab04612cf1fa2559558f2306',1,'Facebook::Graph::FBSingleValue']]],
+  ['deletetaskasync',['DeleteTaskAsync',['../class_facebook_1_1_f_b_client.html#ae36dc34c42ac8c9c17e67053e8487094',1,'Facebook::FBClient']]],
+  ['dialoguribuilder',['DialogUriBuilder',['../namespace_facebook.html#a58fdec63fb550bb456399d7eed4b6bb3',1,'Facebook']]]
 ];

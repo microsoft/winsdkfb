@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>FBWinSDK: FBWinSDK/FBWinSDK.Shared/FacebookFeedRequest.h Source File</title>
+<title>winsdkfb: FBWinSDK/FBWinSDK.Shared/FacebookFeedRequest.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">FBWinSDK
+   <div id="projectname">winsdkfb
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -114,7 +113,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    {</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">//update it.</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_facebook_1_1_f_b_feed_request.html#a2460603b3cf24d3fb45d7bb5e62d1775">   30</a></span>&#160;        <span class="keyword">property</span> Platform::String^ <a class="code" href="class_facebook_1_1_f_b_feed_request.html#a2460603b3cf24d3fb45d7bb5e62d1775">PostId</a></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        {</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            Platform::String^ <span class="keyword">get</span>();</div>
@@ -126,7 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        Platform::String^ m_PostId;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        Platform::String^ _PostId;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="class_facebook_1_1_f_b_feed_request.html">FBFeedRequest</a>(</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            Platform::String^ <a class="code" href="class_facebook_1_1_f_b_feed_request.html#a2460603b3cf24d3fb45d7bb5e62d1775">PostId</a></div>
@@ -134,13 +132,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    };</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
 <div class="ttc" id="namespace_facebook_html"><div class="ttname"><a href="namespace_facebook.html">Facebook</a></div><div class="ttdef"><b>Definition:</b> <a href="_color_luminosity_converter_8h_source.html#l00019">ColorLuminosityConverter.h:19</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_feed_request_html_a2460603b3cf24d3fb45d7bb5e62d1775"><div class="ttname"><a href="class_facebook_1_1_f_b_feed_request.html#a2460603b3cf24d3fb45d7bb5e62d1775">Facebook::FBFeedRequest::PostId</a></div><div class="ttdeci">Platform::String^  PostId</div><div class="ttdoc">Post ID - app can refer to this post in future, e.g. to delete or. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_feed_request_8h_source.html#l00030">FacebookFeedRequest.h:30</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_feed_request_html_a2460603b3cf24d3fb45d7bb5e62d1775"><div class="ttname"><a href="class_facebook_1_1_f_b_feed_request.html#a2460603b3cf24d3fb45d7bb5e62d1775">Facebook::FBFeedRequest::PostId</a></div><div class="ttdeci">Platform::String^  PostId</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_feed_request_8h_source.html#l00030">FacebookFeedRequest.h:30</a></div></div>
 <div class="ttc" id="class_facebook_1_1_f_b_feed_request_html_ab74ba6005678ec742a7481484aa73026"><div class="ttname"><a href="class_facebook_1_1_f_b_feed_request.html#ab74ba6005678ec742a7481484aa73026">Facebook::FBFeedRequest::FromFeedDialogResponse</a></div><div class="ttdeci">static FBFeedRequest^ FromFeedDialogResponse(Windows::Foundation::Uri^ Response)</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_feed_request_8cpp_source.html#l00030">FacebookFeedRequest.cpp:30</a></div></div>
 <div class="ttc" id="class_facebook_1_1_f_b_feed_request_html"><div class="ttname"><a href="class_facebook_1_1_f_b_feed_request.html">Facebook::FBFeedRequest</a></div><div class="ttdoc">Class that encapsulates the response from a successful use of the Facebook "App Requests" dialog...</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_feed_request_8h_source.html#l00024">FacebookFeedRequest.h:24</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 14 2015 14:28:01 for FBWinSDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

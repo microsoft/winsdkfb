@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['errorcategory',['ErrorCategory',['../namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3',1,'Facebook']]]
+  ['errorcode',['ErrorCode',['../namespace_facebook.html#aadaa712b901c62b38021bc25f6eb3039',1,'Facebook']]],
+  ['errorsubcode',['ErrorSubcode',['../namespace_facebook.html#ae1700398744591899afa1622aeed21ea',1,'Facebook']]]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>FBWinSDK: FBWinSDK/FBWinSDK.Shared/FacebookLoginButton.cpp Source File</title>
+<title>winsdkfb: FBWinSDK/FBWinSDK.Shared/FacebookLoginButton.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">FBWinSDK
+   <div id="projectname">winsdkfb
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -109,22 +108,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pch_8h.html">pch.h</a>&quot;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_facebook_login_button_8h.html">FacebookLoginButton.h</a>&quot;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_facebook_session_8h.html">FacebookSession.h</a>&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_concurrency.html">Concurrency</a>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_facebook.html">Facebook</a>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_facebook_1_1_graph.html">Facebook::Graph</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_platform.html">Platform</a>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_platform_1_1_collections.html">Platform::Collections</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_windows_1_1_foundation_1_1_collections.html">Windows::Foundation::Collections</a>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_windows_1_1_u_i_1_1_xaml.html">Windows::UI::Xaml</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_facebook_1_1_f_b_login_button.html#a8fc24110430c95f19a4d78d573aefa78">   29</a></span>&#160;FBLoginButton::FBLoginButton() :</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">//    m_loginBehavior(SessionLoginBehavior::SessionLoginBehaviorWithFallbackToWebView),</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    m_permissions(nullptr)</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    String^ styleKey = FBLoginButton::typeid-&gt;FullName;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    this-&gt;DefaultStyleKey = styleKey;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    m_permissions = ref <span class="keyword">new</span> Vector&lt;String^&gt;();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_facebook_permissions_8h.html">FacebookPermissions.h</a>&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_concurrency.html">Concurrency</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_facebook.html">Facebook</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_facebook_1_1_graph.html">Facebook::Graph</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_platform.html">Platform</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_platform_1_1_collections.html">Platform::Collections</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_windows_1_1_foundation_1_1_collections.html">Windows::Foundation::Collections</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_windows_1_1_u_i_1_1_xaml.html">Windows::UI::Xaml</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_facebook_1_1_f_b_login_button.html#a8fc24110430c95f19a4d78d573aefa78">   30</a></span>&#160;FBLoginButton::FBLoginButton() :</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">//    _loginBehavior(SessionLoginBehavior::SessionLoginBehaviorWithFallbackToWebView),</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    _permissions(nullptr)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    String^ styleKey = FBLoginButton::typeid-&gt;FullName;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    this-&gt;DefaultStyleKey = styleKey;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_facebook_1_1_f_b_login_button.html#ac915782286bc57b2ef57091e4059bebf">   38</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_facebook_1_1_f_b_login_button.html#ac915782286bc57b2ef57091e4059bebf">FBLoginButton::OnApplyTemplate</a>(</div>
@@ -141,119 +140,86 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">// Session as well.</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//SessionLoginBehavior FBLoginButton::LoginBehavior::get()</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//    return m_loginBehavior;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//    return _loginBehavior;</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">//}</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">//void FBLoginButton::LoginBehavior::set(SessionLoginBehavior value)</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//    m_loginBehavior = value;</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//    _loginBehavior = value;</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//}</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;IVector&lt;String^&gt;^ FBLoginButton::Permissions::get()</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<a class="code" href="class_facebook_1_1_f_b_permissions.html">FBPermissions</a>^ FBLoginButton::Permissions::get()</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> m_permissions;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> _permissions;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">void</span> FBLoginButton::Permissions::set(IVector&lt;String^&gt;^ Values)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">void</span> FBLoginButton::Permissions::set(<a class="code" href="class_facebook_1_1_f_b_permissions.html">FBPermissions</a>^ value)</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    m_permissions-&gt;Clear();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    IIterator&lt;String^&gt;^ it = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">for</span> (it = Values-&gt;First(); it-&gt;HasCurrent; it-&gt;MoveNext())</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        String^ value = it-&gt;Current;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        m_permissions-&gt;Append(value);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="class_facebook_1_1_f_b_login_button.html#a4c20b7f8ba9cfcf37e0e0c108f3fe8cd">   77</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_facebook_1_1_f_b_login_button.html#a4c20b7f8ba9cfcf37e0e0c108f3fe8cd">FBLoginButton::InitWithPermissions</a>(</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    IVector&lt;String^&gt;^ permissions</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    )</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;{</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span> (!m_permissions)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        m_permissions = ref <span class="keyword">new</span> Vector&lt;String^&gt;(0);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    m_permissions-&gt;Clear();</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">for</span> (IIterator&lt;String^&gt;^ iter = permissions-&gt;First();</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        iter-&gt;HasCurrent;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        iter-&gt;MoveNext())</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        m_permissions-&gt;Append(iter-&gt;Current);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keywordtype">void</span> FBLoginButton::SetSessionPermissions(</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    )</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="class_facebook_1_1_f_b_session.html">FBSession</a>^ s = <a class="code" href="class_facebook_1_1_f_b_session.html#a01ac72a0cd586db416a0ac6df7b45562">FBSession::ActiveSession</a>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    s-&gt;<a class="code" href="class_facebook_1_1_f_b_session.html#a320b776859431fde7a508624a95f61a4">ResetPermissions</a>();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> (m_permissions)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        IIterator&lt;String^&gt;^ iter = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">for</span> (iter = m_permissions-&gt;First(); iter-&gt;HasCurrent; iter-&gt;MoveNext())</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            s-&gt;<a class="code" href="class_facebook_1_1_f_b_session.html#a5d0643d1a2d2200e5b367f3b6f2c7603">AddPermission</a>(iter-&gt;Current);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keywordtype">void</span> FBLoginButton::OnClick(</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    Object^ sender,</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    RoutedEventArgs^ e</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    )</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;{</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="class_facebook_1_1_f_b_session.html">FBSession</a>^ s = <a class="code" href="class_facebook_1_1_f_b_session.html#a01ac72a0cd586db416a0ac6df7b45562">FBSession::ActiveSession</a>;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">if</span> (s-&gt;<a class="code" href="class_facebook_1_1_f_b_session.html#a2f529a8215566bbbebb44c2cd1dffecf">LoggedIn</a> == <span class="keyword">true</span>)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        ;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        SetSessionPermissions();</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        create_task(s-&gt;<a class="code" href="class_facebook_1_1_f_b_session.html#ae5b46760926890694338dbed9724be4a">LoginAsync</a>())</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            .then([=](<a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a>^ result)</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">if</span> (result-&gt;<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>)</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                FBUser^ user = <span class="keyword">static_cast&lt;</span>FBUser^<span class="keyword">&gt;</span>(result-&gt;<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                ;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        });</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    _permissions = value;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="class_facebook_1_1_f_b_login_button.html#aa0812eee086e53840522d157250047b1">   71</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_facebook_1_1_f_b_login_button.html#aa0812eee086e53840522d157250047b1">FBLoginButton::InitWithPermissions</a>(</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="class_facebook_1_1_f_b_permissions.html">FBPermissions</a>^ permissions</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    )</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    _permissions = permissions;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">void</span> FBLoginButton::OnClick(</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Object^ sender,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    RoutedEventArgs^ e</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    )</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;{</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="class_facebook_1_1_f_b_session.html">FBSession</a>^ s = <a class="code" href="class_facebook_1_1_f_b_session.html#a01ac72a0cd586db416a0ac6df7b45562">FBSession::ActiveSession</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span> (s-&gt;<a class="code" href="class_facebook_1_1_f_b_session.html#a2f529a8215566bbbebb44c2cd1dffecf">LoggedIn</a> == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        ;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        create_task(s-&gt;<a class="code" href="class_facebook_1_1_f_b_session.html#a3c6247454549dff7230ce5659ef9d521">LoginAsync</a>(<a class="code" href="class_facebook_1_1_f_b_login_button.html#a325f2a39f6fb23c5d723b9ee139f9de5">Permissions</a>))</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            .then([=](<a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a>^ result)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">if</span> (result-&gt;<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <a class="code" href="class_facebook_1_1_graph_1_1_f_b_user.html">FBUser</a>^ user = <span class="keyword">static_cast&lt;</span><a class="code" href="class_facebook_1_1_graph_1_1_f_b_user.html">FBUser</a>^<span class="keyword">&gt;</span>(result-&gt;<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                ;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        });</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
 <div class="ttc" id="class_facebook_1_1_f_b_result_html_adca0971842eab3fce4eaf03b2346cfd7"><div class="ttname"><a href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Facebook::FBResult::Succeeded</a></div><div class="ttdeci">bool Succeeded</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_result_8h_source.html#l00031">FacebookResult.h:31</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html_a320b776859431fde7a508624a95f61a4"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a320b776859431fde7a508624a95f61a4">Facebook::FBSession::ResetPermissions</a></div><div class="ttdeci">void ResetPermissions()</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8cpp_source.html#l00184">FacebookSession.cpp:184</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_permissions_html"><div class="ttname"><a href="class_facebook_1_1_f_b_permissions.html">Facebook::FBPermissions</a></div><div class="ttdoc">Simple class to contain a set of permissions for FB. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_permissions_8h_source.html#l00022">FacebookPermissions.h:22</a></div></div>
 <div class="ttc" id="namespace_windows_1_1_u_i_1_1_xaml_html"><div class="ttname"><a href="namespace_windows_1_1_u_i_1_1_xaml.html">Xaml</a></div></div>
+<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_user_html"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_user.html">Facebook::Graph::FBUser</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_user_8h_source.html#l00037">FBUser.h:37</a></div></div>
 <div class="ttc" id="namespace_facebook_html"><div class="ttname"><a href="namespace_facebook.html">Facebook</a></div><div class="ttdef"><b>Definition:</b> <a href="_color_luminosity_converter_8h_source.html#l00019">ColorLuminosityConverter.h:19</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html">Facebook::FBSession</a></div><div class="ttdoc">The main object for the SDK, repository for access token, etc. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00047">FacebookSession.h:47</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_session_html"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html">Facebook::FBSession</a></div><div class="ttdoc">The main object for the SDK, repository for access token, etc. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00048">FacebookSession.h:48</a></div></div>
 <div class="ttc" id="namespace_facebook_1_1_graph_html"><div class="ttname"><a href="namespace_facebook_1_1_graph.html">Facebook::Graph</a></div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8h_source.html#l00026">FacebookPaginatedArray.h:26</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_session_html_a3c6247454549dff7230ce5659ef9d521"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a3c6247454549dff7230ce5659ef9d521">Facebook::FBSession::LoginAsync</a></div><div class="ttdeci">Windows::Foundation::IAsyncOperation&lt; FBResult^ &gt;^ LoginAsync(Facebook::FBPermissions^ Permissions)</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8cpp_source.html#l00833">FacebookSession.cpp:833</a></div></div>
 <div class="ttc" id="namespace_windows_1_1_foundation_1_1_collections_html"><div class="ttname"><a href="namespace_windows_1_1_foundation_1_1_collections.html">Collections</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html_ae5b46760926890694338dbed9724be4a"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#ae5b46760926890694338dbed9724be4a">Facebook::FBSession::LoginAsync</a></div><div class="ttdeci">Windows::Foundation::IAsyncOperation&lt; FBResult^ &gt;^ LoginAsync()</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8cpp_source.html#l00843">FacebookSession.cpp:843</a></div></div>
 <div class="ttc" id="_facebook_session_8h_html"><div class="ttname"><a href="_facebook_session_8h.html">FacebookSession.h</a></div></div>
 <div class="ttc" id="pch_8h_html"><div class="ttname"><a href="pch_8h.html">pch.h</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_login_button_html_aa0812eee086e53840522d157250047b1"><div class="ttname"><a href="class_facebook_1_1_f_b_login_button.html#aa0812eee086e53840522d157250047b1">Facebook::FBLoginButton::InitWithPermissions</a></div><div class="ttdeci">void InitWithPermissions(Facebook::FBPermissions^ permissions)</div><div class="ttdoc">Ask for read permissions at login. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_login_button_8cpp_source.html#l00071">FacebookLoginButton.cpp:71</a></div></div>
 <div class="ttc" id="namespace_platform_html"><div class="ttname"><a href="namespace_platform.html">Platform</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html_a5d0643d1a2d2200e5b367f3b6f2c7603"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a5d0643d1a2d2200e5b367f3b6f2c7603">Facebook::FBSession::AddPermission</a></div><div class="ttdeci">void AddPermission(Platform::String^ permission)</div><div class="ttdoc">Request a new permission. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8cpp_source.html#l00177">FacebookSession.cpp:177</a></div></div>
 <div class="ttc" id="_facebook_login_button_8h_html"><div class="ttname"><a href="_facebook_login_button_8h.html">FacebookLoginButton.h</a></div></div>
 <div class="ttc" id="class_facebook_1_1_f_b_result_html"><div class="ttname"><a href="class_facebook_1_1_f_b_result.html">Facebook::FBResult</a></div><div class="ttdoc">Container class holding the result of a graph API call - either a JSON object of some type...</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_result_8h_source.html#l00028">FacebookResult.h:28</a></div></div>
+<div class="ttc" id="_facebook_permissions_8h_html"><div class="ttname"><a href="_facebook_permissions_8h.html">FacebookPermissions.h</a></div></div>
 <div class="ttc" id="namespace_platform_1_1_collections_html"><div class="ttname"><a href="namespace_platform_1_1_collections.html">Collections</a></div></div>
 <div class="ttc" id="class_facebook_1_1_f_b_result_html_aa078bd0ef5f5611261f185be8fa41019"><div class="ttname"><a href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Facebook::FBResult::Object</a></div><div class="ttdeci">Platform::Object^  Object</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_result_8h_source.html#l00036">FacebookResult.h:36</a></div></div>
 <div class="ttc" id="namespace_concurrency_html"><div class="ttname"><a href="namespace_concurrency.html">Concurrency</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html_a01ac72a0cd586db416a0ac6df7b45562"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a01ac72a0cd586db416a0ac6df7b45562">Facebook::FBSession::ActiveSession</a></div><div class="ttdeci">static FBSession^  ActiveSession</div><div class="ttdoc">FBSession is a singleton object - ActiveSession is the way to. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00113">FacebookSession.h:113</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_login_button_html_a4c20b7f8ba9cfcf37e0e0c108f3fe8cd"><div class="ttname"><a href="class_facebook_1_1_f_b_login_button.html#a4c20b7f8ba9cfcf37e0e0c108f3fe8cd">Facebook::FBLoginButton::InitWithPermissions</a></div><div class="ttdeci">void InitWithPermissions(Windows::Foundation::Collections::IVector&lt; Platform::String^  &gt;^permissions)</div><div class="ttdoc">Ask for read permissions at login. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_login_button_8cpp_source.html#l00077">FacebookLoginButton.cpp:77</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_login_button_html_a325f2a39f6fb23c5d723b9ee139f9de5"><div class="ttname"><a href="class_facebook_1_1_f_b_login_button.html#a325f2a39f6fb23c5d723b9ee139f9de5">Facebook::FBLoginButton::Permissions</a></div><div class="ttdeci">Facebook::FBPermissions^  Permissions</div><div class="ttdoc">Publish permissions for user. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_login_button_8h_source.html#l00062">FacebookLoginButton.h:62</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_session_html_a01ac72a0cd586db416a0ac6df7b45562"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a01ac72a0cd586db416a0ac6df7b45562">Facebook::FBSession::ActiveSession</a></div><div class="ttdeci">static FBSession^  ActiveSession</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00097">FacebookSession.h:97</a></div></div>
 <div class="ttc" id="class_facebook_1_1_f_b_login_button_html_ac915782286bc57b2ef57091e4059bebf"><div class="ttname"><a href="class_facebook_1_1_f_b_login_button.html#ac915782286bc57b2ef57091e4059bebf">Facebook::FBLoginButton::OnApplyTemplate</a></div><div class="ttdeci">virtual void OnApplyTemplate() override</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_login_button_8cpp_source.html#l00038">FacebookLoginButton.cpp:38</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html_a2f529a8215566bbbebb44c2cd1dffecf"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a2f529a8215566bbbebb44c2cd1dffecf">Facebook::FBSession::LoggedIn</a></div><div class="ttdeci">bool LoggedIn</div><div class="ttdoc">Returns whether session (user) is logged in. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00072">FacebookSession.h:72</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_session_html_a2f529a8215566bbbebb44c2cd1dffecf"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a2f529a8215566bbbebb44c2cd1dffecf">Facebook::FBSession::LoggedIn</a></div><div class="ttdeci">bool LoggedIn</div><div class="ttdoc">Returns whether session (user) is logged in. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00073">FacebookSession.h:73</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 14 2015 14:28:01 for FBWinSDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

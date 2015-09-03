@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>FBWinSDK: Facebook::FBAccessTokenData Class Reference</title>
+<title>winsdkfb: Facebook::FBAccessTokenData Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">FBWinSDK
+   <div id="projectname">winsdkfb
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -109,8 +108,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7889eb9e9e3df8f4795322d3c63b597b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47fba7ec36af5cd6614f26dfea8919e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#a47fba7ec36af5cd6614f26dfea8919e4">IsExpired</a> ()</td></tr>
 <tr class="separator:a47fba7ec36af5cd6614f26dfea8919e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09752f8a540af2558a206078ff3a94ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#a09752f8a540af2558a206078ff3a94ad">AddPermissions</a> (Windows::Foundation::Collections::IVectorView&lt; Object^  &gt;^perms)</td></tr>
-<tr class="separator:a09752f8a540af2558a206078ff3a94ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22be7a0e6f2c53d89c74bfc87951e9e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#a22be7a0e6f2c53d89c74bfc87951e9e3">SetPermissions</a> (Windows::Foundation::Collections::IVectorView&lt; Object^  &gt;^perms)</td></tr>
+<tr class="separator:a22be7a0e6f2c53d89c74bfc87951e9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -128,9 +127,11 @@ Properties</h2></td></tr>
 <tr class="memitem:a709b6ad5a07ae69b53c02e21f1321a26"><td class="memItemLeft" align="right" valign="top">Windows::Foundation::DateTime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#a709b6ad5a07ae69b53c02e21f1321a26">ExpirationDate</a><code> [get]</code></td></tr>
 <tr class="memdesc:a709b6ad5a07ae69b53c02e21f1321a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns token expiration date as Windows::Foundation::DateTime.  <a href="#a709b6ad5a07ae69b53c02e21f1321a26">More...</a><br /></td></tr>
 <tr class="separator:a709b6ad5a07ae69b53c02e21f1321a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae91d977c4f53ca4059d63cbd7be0f978"><td class="memItemLeft" align="right" valign="top">Windows::Foundation::Collections::IMapView&lt; Platform::String^ , Platform::String^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#ae91d977c4f53ca4059d63cbd7be0f978">Permissions</a><code> [get]</code></td></tr>
-<tr class="memdesc:ae91d977c4f53ca4059d63cbd7be0f978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the list of permissions.  <a href="#ae91d977c4f53ca4059d63cbd7be0f978">More...</a><br /></td></tr>
-<tr class="separator:ae91d977c4f53ca4059d63cbd7be0f978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a46190cef3ea15dffb491f2e0641580"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_facebook_1_1_f_b_permissions.html">Facebook::FBPermissions</a>^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#a3a46190cef3ea15dffb491f2e0641580">GrantedPermissions</a><code> [get]</code></td></tr>
+<tr class="memdesc:a3a46190cef3ea15dffb491f2e0641580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the list of permissions.  <a href="#a3a46190cef3ea15dffb491f2e0641580">More...</a><br /></td></tr>
+<tr class="separator:a3a46190cef3ea15dffb491f2e0641580"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e6434bbada70281e4c2fdeb44362ed5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_facebook_1_1_f_b_permissions.html">Facebook::FBPermissions</a>^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#a8e6434bbada70281e4c2fdeb44362ed5">DeclinedPermissions</a><code> [get]</code></td></tr>
+<tr class="separator:a8e6434bbada70281e4c2fdeb44362ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7794ecd009e72ef9774612ebc479fe1"><td class="memItemLeft" align="right" valign="top">Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_facebook_1_1_f_b_access_token_data.html#ab7794ecd009e72ef9774612ebc479fe1">UserID</a><code> [get]</code></td></tr>
 <tr class="memdesc:ab7794ecd009e72ef9774612ebc479fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns user ID for the token, if available.  <a href="#ab7794ecd009e72ef9774612ebc479fe1">More...</a><br /></td></tr>
 <tr class="separator:ab7794ecd009e72ef9774612ebc479fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,26 +139,8 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an access token used for <a class="el" href="namespace_facebook.html">Facebook</a> login, with associated data. </p>
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00042">42</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00044">44</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a09752f8a540af2558a206078ff3a94ad"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void FBAccessTokenData::AddPermissions </td>
-          <td>(</td>
-          <td class="paramtype">Windows::Foundation::Collections::IVectorView&lt; Object^  &gt;^&#160;</td>
-          <td class="paramname"><em>perms</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8cpp_source.html#l00188">188</a> of file <a class="el" href="_facebook_access_token_data_8cpp_source.html">FacebookAccessTokenData.cpp</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a7889eb9e9e3df8f4795322d3c63b597b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -212,7 +195,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8cpp_source.html#l00128">128</a> of file <a class="el" href="_facebook_access_token_data_8cpp_source.html">FacebookAccessTokenData.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8cpp_source.html#l00144">144</a> of file <a class="el" href="_facebook_access_token_data_8cpp_source.html">FacebookAccessTokenData.cpp</a>.</p>
 
 </div>
 </div>
@@ -229,7 +212,25 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8cpp_source.html#l00177">177</a> of file <a class="el" href="_facebook_access_token_data_8cpp_source.html">FacebookAccessTokenData.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8cpp_source.html#l00193">193</a> of file <a class="el" href="_facebook_access_token_data_8cpp_source.html">FacebookAccessTokenData.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a22be7a0e6f2c53d89c74bfc87951e9e3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FBAccessTokenData::SetPermissions </td>
+          <td>(</td>
+          <td class="paramtype">Windows::Foundation::Collections::IVectorView&lt; Object^  &gt;^&#160;</td>
+          <td class="paramname"><em>perms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8cpp_source.html#l00204">204</a> of file <a class="el" href="_facebook_access_token_data_8cpp_source.html">FacebookAccessTokenData.cpp</a>.</p>
 
 </div>
 </div>
@@ -254,7 +255,7 @@ Properties</h2></td></tr>
 
 <p>Returns a string representation of the token. </p>
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00056">56</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00058">58</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
 
 </div>
 </div>
@@ -278,7 +279,29 @@ Properties</h2></td></tr>
 
 <p>Returns the app ID string. </p>
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00062">62</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00064">64</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e6434bbada70281e4c2fdeb44362ed5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Facebook:: <a class="el" href="class_facebook_1_1_f_b_permissions.html">FBPermissions</a>^ Facebook::FBAccessTokenData::DeclinedPermissions</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00081">81</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
 
 </div>
 </div>
@@ -302,11 +325,11 @@ Properties</h2></td></tr>
 
 <p>Returns token expiration date as Windows::Foundation::DateTime. </p>
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00068">68</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00070">70</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ae91d977c4f53ca4059d63cbd7be0f978"></a>
+<a class="anchor" id="a3a46190cef3ea15dffb491f2e0641580"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -314,7 +337,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Windows:: Foundation:: Collections:: IMapView&lt; Platform:: String^, Platform:: String^&gt;^ Facebook::FBAccessTokenData::Permissions</td>
+          <td class="memname">Facebook:: <a class="el" href="class_facebook_1_1_f_b_permissions.html">FBPermissions</a>^ Facebook::FBAccessTokenData::GrantedPermissions</td>
         </tr>
       </table>
   </td>
@@ -326,7 +349,7 @@ Properties</h2></td></tr>
 
 <p>Returns the list of permissions. </p>
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00075">75</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00076">76</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
 
 </div>
 </div>
@@ -350,7 +373,7 @@ Properties</h2></td></tr>
 
 <p>Returns user ID for the token, if available. </p>
 
-<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00083">83</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_access_token_data_8h_source.html#l00087">87</a> of file <a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a>.</p>
 
 </div>
 </div>
@@ -361,7 +384,7 @@ Properties</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 14 2015 14:28:04 for FBWinSDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

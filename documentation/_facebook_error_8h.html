@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>FBWinSDK: FBWinSDK/FBWinSDK.Shared/FacebookError.h File Reference</title>
+<title>winsdkfb: FBWinSDK/FBWinSDK.Shared/FacebookError.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">FBWinSDK
+   <div id="projectname">winsdkfb
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -110,27 +109,20 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:aea550e9b8f27203e378f80b5415819b3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3">Facebook::ErrorCategory</a> { <br />
-&#160;&#160;<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3a74d7f6b57f2ad4cfe182a38418adea38">Facebook::ErrorCategory::ErrorCategoryInvalid</a> = 0, 
-<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3a34a791988a939cb1f523e4ff36348187">Facebook::ErrorCategory::ErrorCategoryRetry</a> = 1, 
-<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3a676c359ae67b9d57a5c01169be732cd1">Facebook::ErrorCategory::ErrorCategoryAuthenticateReopenSession</a> = 2, 
-<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3a87f8e19f0af0b18ed7b06aee2813f4a1">Facebook::ErrorCategory::ErrorCategoryPermissions</a> = 3, 
-<br />
-&#160;&#160;<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3aaca62b69c17a3a82d253cc0a0bde586d">Facebook::ErrorCategory::ErrorCategoryServer</a> = 4, 
-<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3abbdaa82023ae5979149a33f4bbc357f6">Facebook::ErrorCategory::ErrorCategoryThrottling</a> = 5, 
-<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3a478344fbe329878e187a7e63004b449e">Facebook::ErrorCategory::ErrorCategoryUserCancelled</a> = 6, 
-<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3a17e4e54589dc1b2d36d1a9b303b47efa">Facebook::ErrorCategory::ErrorCategoryFacebookOther</a> = -1, 
-<br />
-&#160;&#160;<a class="el" href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3aef45c6313af15b9d0f5dcf063e751250">Facebook::ErrorCategory::ErrorCategoryBadRequest</a> = -2
-<br />
- }<tr class="memdesc:aea550e9b8f27203e378f80b5415819b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">error categories.  <a href="namespace_facebook.html#aea550e9b8f27203e378f80b5415819b3">More...</a><br /></td></tr>
-<tr class="separator:aea550e9b8f27203e378f80b5415819b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadaa712b901c62b38021bc25f6eb3039"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_facebook.html#aadaa712b901c62b38021bc25f6eb3039">Facebook::ErrorCode</a> : int { <a class="el" href="namespace_facebook.html#aadaa712b901c62b38021bc25f6eb3039ade2bb30e47b48c3aa550d918fa6ffda7">Facebook::ErrorCode::ErrorCodeOauthException</a> = 190
+ }<tr class="memdesc:aadaa712b901c62b38021bc25f6eb3039"><td class="mdescLeft">&#160;</td><td class="mdescRight">error codes.  <a href="namespace_facebook.html#aadaa712b901c62b38021bc25f6eb3039">More...</a><br /></td></tr>
+<tr class="separator:aadaa712b901c62b38021bc25f6eb3039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+<tr class="memitem:ae1700398744591899afa1622aeed21ea"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_facebook.html#ae1700398744591899afa1622aeed21ea">Facebook::ErrorSubcode</a> : int { <a class="el" href="namespace_facebook.html#ae1700398744591899afa1622aeed21eaab965a1216940263cf22f19000e00def1">Facebook::ErrorSubcode::ErrorSubcodeAppNotAuthorized</a> = 458, 
+<a class="el" href="namespace_facebook.html#ae1700398744591899afa1622aeed21eaa1c617706e7056d5b01f18e7207b37d87">Facebook::ErrorSubcode::ErrorSubcodeSessionInvalidated</a> = 466
+ }<tr class="memdesc:ae1700398744591899afa1622aeed21ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">error subcodes.  <a href="namespace_facebook.html#ae1700398744591899afa1622aeed21ea">More...</a><br /></td></tr>
+<tr class="separator:ae1700398744591899afa1622aeed21ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 14 2015 14:28:03 for FBWinSDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

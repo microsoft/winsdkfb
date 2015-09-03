@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>FBWinSDK: FBWinSDK/FBWinSDK.Shared/FacebookDialog.xaml.cpp File Reference</title>
+<title>winsdkfb: FBWinSDK/FBWinSDK.Shared/FacebookDialog.xaml.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">FBWinSDK
+   <div id="projectname">winsdkfb
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -110,8 +109,22 @@ Macros</h2></td></tr>
 <tr class="separator:a246ed8d2cd359d40358458e431c89a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9d4c64880c76b5437e7fb794b32fd9c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#aa9d4c64880c76b5437e7fb794b32fd9c">FACEBOOK_LOGIN_SUCCESS_PATH</a>&#160;&#160;&#160;L&quot;/connect/login_success.html&quot;</td></tr>
 <tr class="separator:aa9d4c64880c76b5437e7fb794b32fd9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6449d2f34d2ac6cc5e5893d1ece84286"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#a6449d2f34d2ac6cc5e5893d1ece84286">FACEBOOK_DIALOG_CLOSE_PATH</a>&#160;&#160;&#160;L&quot;/dialog/close&quot;</td></tr>
+<tr class="separator:a6449d2f34d2ac6cc5e5893d1ece84286"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa3777a4272cd4ba9cee6bb217e0f9ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#aaa3777a4272cd4ba9cee6bb217e0f9ab">DebugPrintLine</a>(msg)&#160;&#160;&#160;((void) 0)</td></tr>
 <tr class="separator:aaa3777a4272cd4ba9cee6bb217e0f9ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9430f6bec90ac89d74cbbe26210fecc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#ae9430f6bec90ac89d74cbbe26210fecc">ScopeKey</a>&#160;&#160;&#160;L&quot;scope&quot;</td></tr>
+<tr class="separator:ae9430f6bec90ac89d74cbbe26210fecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a134368b813a80133da57e343f363d818"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#a134368b813a80133da57e343f363d818">DisplayKey</a>&#160;&#160;&#160;L&quot;display&quot;</td></tr>
+<tr class="separator:a134368b813a80133da57e343f363d818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59079c627162fce9cc4b4f42e1862093"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#a59079c627162fce9cc4b4f42e1862093">ResponseTypeKey</a>&#160;&#160;&#160;L&quot;response_type&quot;</td></tr>
+<tr class="separator:a59079c627162fce9cc4b4f42e1862093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94ca9e0ee12d2287a0d3c1de52de5be8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#a94ca9e0ee12d2287a0d3c1de52de5be8">DefaultScope</a>&#160;&#160;&#160;L&quot;public_profile,email,user_friends&quot;</td></tr>
+<tr class="separator:a94ca9e0ee12d2287a0d3c1de52de5be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40e289108426c7d683daf9dd87638aa9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#a40e289108426c7d683daf9dd87638aa9">DefaultDisplay</a>&#160;&#160;&#160;L&quot;popup&quot;</td></tr>
+<tr class="separator:a40e289108426c7d683daf9dd87638aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad77cd1497a2555808945498d1046fa26"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_facebook_dialog_8xaml_8cpp.html#ad77cd1497a2555808945498d1046fa26">DefaultResponse</a>&#160;&#160;&#160;L&quot;token&quot;</td></tr>
+<tr class="separator:ad77cd1497a2555808945498d1046fa26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -133,7 +146,63 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00074">74</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00075">75</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a40e289108426c7d683daf9dd87638aa9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DefaultDisplay&#160;&#160;&#160;L&quot;popup&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00249">249</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad77cd1497a2555808945498d1046fa26"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DefaultResponse&#160;&#160;&#160;L&quot;token&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00250">250</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a94ca9e0ee12d2287a0d3c1de52de5be8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DefaultScope&#160;&#160;&#160;L&quot;public_profile,email,user_friends&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00248">248</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a134368b813a80133da57e343f363d818"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DisplayKey&#160;&#160;&#160;L&quot;display&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00246">246</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
 
 </div>
 </div>
@@ -148,6 +217,20 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00054">54</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6449d2f34d2ac6cc5e5893d1ece84286"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FACEBOOK_DIALOG_CLOSE_PATH&#160;&#160;&#160;L&quot;/dialog/close&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00057">57</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
 
 </div>
 </div>
@@ -179,6 +262,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a59079c627162fce9cc4b4f42e1862093"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ResponseTypeKey&#160;&#160;&#160;L&quot;response_type&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00247">247</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae9430f6bec90ac89d74cbbe26210fecc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ScopeKey&#160;&#160;&#160;L&quot;scope&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00245">245</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="a56ccf5616673532fc4b5334bc0230a91"></a>
 <div class="memitem">
@@ -195,14 +306,14 @@ Variables</h2></td></tr>
 <div class="line">L<span class="stringliteral">&quot;\&quot;error_user_msg\&quot;: \&quot;User canceled the Dialog flow\&quot;&quot;</span> </div>
 <div class="line">L<span class="stringliteral">&quot;}}&quot;</span></div>
 </div><!-- fragment -->
-<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00058">58</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html#l00059">59</a> of file <a class="el" href="_facebook_dialog_8xaml_8cpp_source.html">FacebookDialog.xaml.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 14 2015 14:28:02 for FBWinSDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>FBWinSDK: FBWinStoreCppTests/LoginTests.cpp Source File</title>
+<title>winsdkfb: FBWinStoreCppTests/LoginTests.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">FBWinSDK
+   <div id="projectname">winsdkfb
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -63,7 +62,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -90,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">LoginTests.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_login_tests_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//******************************************************************************</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//******************************************************************************</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// Copyright (c) 2015 Microsoft Corporation. All rights reserved.</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//</span></div>
@@ -106,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">//******************************************************************************</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_f_b_win_store_cpp_tests_2pch_8h.html">pch.h</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;pch.h&quot;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;CppUnitTest.h&quot;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
@@ -117,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_facebook.html">Facebook</a>;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespace_facebook_1_1_graph.html">Facebook::Graph</a>;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="_login_tests_8cpp.html#a11775c3dbf02ab9fd817877772321d50">   28</a></span>&#160;<span class="preprocessor">#define FBArrayOfLikes                                                        \</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#define FBArrayOfLikes                                                        \</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">            L&quot;{\&quot;data\&quot;:[{\&quot;category\&quot;:\&quot;Clothing\&quot;,\&quot;name\&quot;:\&quot;Frockasaur&quot;    \</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">            L&quot;us\&quot;,\&quot;created_time\&quot;:\&quot;2014-09-01T16:45:17+0000\&quot;,\&quot;id\&quot;:\&quot;&quot;   \</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">            L&quot;438872976218316\&quot;},{\&quot;category\&quot;:\&quot;Media\\/news\\/publishing\&quot;&quot; \</span></div>
@@ -134,9 +132,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">            L&quot;book.com\\/v2.1\\/10203673618494044\\/likes?access_token=CAADZ&quot; \</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">            L&quot;0iddz0tkrNiuUMKGDiLwZDZD&amp;limit=25&amp;after=MTA2MjI0NjY2MDc0NjI1\&quot;}}&quot;</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="namespace_f_b_win_store_cpp_tests.html">   45</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_f_b_win_store_cpp_tests.html">FBWinStoreCppTests</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_f_b_win_store_cpp_tests.html">FBWinStoreCppTests</a></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="namespace_f_b_win_store_cpp_tests.html#a7b2feb8cf99ff61543bc7c245dc6a324">   47</a></span>&#160;    <a class="code" href="namespace_f_b_win_store_cpp_tests.html#a7b2feb8cf99ff61543bc7c245dc6a324">TEST_CLASS</a>(LoginTests)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    TEST_CLASS(LoginTests)</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    {</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        TEST_METHOD(LoginViaAppWithUI)</div>
@@ -154,18 +152,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        TEST_METHOD(ParseArrayOfLikes)</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            String^ fbResponse = <a class="code" href="_login_tests_8cpp.html#a11775c3dbf02ab9fd817877772321d50">FBArrayOfLikes</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            String^ fbResponse = FBArrayOfLikes;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a>^ arr = ref <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a>(</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                L<span class="stringliteral">&quot;Unused&quot;</span>,</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keyword">nullptr</span>,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                ref <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>([](String^ JsonText) -&gt; Object^</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                ref <span class="keyword">new</span> FBJsonClassFactory([](String^ JsonText) -&gt; Object^</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            {</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keywordflow">return</span> FBPage::FromJson(JsonText);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }));</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            IVectorView&lt;Object^&gt;^ result = arr-&gt;<a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html#ad9c8cf6f57abe6e696a9829e307ff73f">ObjectArrayFromWebResponse</a>(</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            IVectorView&lt;Object^&gt;^ result = arr-&gt;ObjectArrayFromWebResponse(</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                fbResponse, </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                ref <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>([](String^ JsonText) -&gt; Object^</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                ref <span class="keyword">new</span> FBJsonClassFactory([](String^ JsonText) -&gt; Object^</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            {</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">return</span> FBPage::FromJson(JsonText);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            }));</div>
@@ -173,25 +171,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    };</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
 <div class="ttc" id="namespace_microsoft_1_1_visual_studio_1_1_cpp_unit_test_framework_html"><div class="ttname"><a href="namespace_microsoft_1_1_visual_studio_1_1_cpp_unit_test_framework.html">CppUnitTestFramework</a></div></div>
-<div class="ttc" id="_f_b_win_store_cpp_tests_2pch_8h_html"><div class="ttname"><a href="_f_b_win_store_cpp_tests_2pch_8h.html">pch.h</a></div></div>
-<div class="ttc" id="namespace_facebook_html"><div class="ttname"><a href="namespace_facebook.html">Facebook</a></div><div class="ttdef"><b>Definition:</b> <a href="_color_luminosity_converter_8h_source.html#l00019">ColorLuminosityConverter.h:19</a></div></div>
+<div class="ttc" id="namespace_facebook_html"><div class="ttname"><a href="namespace_facebook.html">Facebook</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_s_d_k-_u_w_p_2_f_b_s_d_k-_u_w_p_2_generated_01_files_2_facebook_dialog_8g_8h_source.html#l00022">FacebookDialog.g.h:22</a></div></div>
 <div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_paginated_array_html"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">Facebook::Graph::FBPaginatedArray</a></div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8h_source.html#l00028">FacebookPaginatedArray.h:28</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html_a9bad9c7c393c24567dbfd7d5789c66d9"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a9bad9c7c393c24567dbfd7d5789c66d9">Facebook::FBSession::FBAppId</a></div><div class="ttdeci">Platform::String^  FBAppId</div><div class="ttdoc">Facebook App ID. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00052">FacebookSession.h:52</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html">Facebook::FBSession</a></div><div class="ttdoc">The main object for the SDK, repository for access token, etc. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00047">FacebookSession.h:47</a></div></div>
-<div class="ttc" id="_login_tests_8cpp_html_a11775c3dbf02ab9fd817877772321d50"><div class="ttname"><a href="_login_tests_8cpp.html#a11775c3dbf02ab9fd817877772321d50">FBArrayOfLikes</a></div><div class="ttdeci">#define FBArrayOfLikes</div><div class="ttdef"><b>Definition:</b> <a href="_login_tests_8cpp_source.html#l00028">LoginTests.cpp:28</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_session_html_a9bad9c7c393c24567dbfd7d5789c66d9"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a9bad9c7c393c24567dbfd7d5789c66d9">Facebook::FBSession::FBAppId</a></div><div class="ttdeci">Platform::String^  FBAppId</div><div class="ttdoc">Facebook App ID. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00053">FacebookSession.h:53</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_session_html"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html">Facebook::FBSession</a></div><div class="ttdoc">The main object for the SDK, repository for access token, etc. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00048">FacebookSession.h:48</a></div></div>
 <div class="ttc" id="namespace_facebook_1_1_graph_html"><div class="ttname"><a href="namespace_facebook_1_1_graph.html">Facebook::Graph</a></div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8h_source.html#l00026">FacebookPaginatedArray.h:26</a></div></div>
 <div class="ttc" id="namespace_windows_1_1_foundation_1_1_collections_html"><div class="ttname"><a href="namespace_windows_1_1_foundation_1_1_collections.html">Collections</a></div></div>
-<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_paginated_array_html_ad9c8cf6f57abe6e696a9829e307ff73f"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html#ad9c8cf6f57abe6e696a9829e307ff73f">Facebook::Graph::FBPaginatedArray::ObjectArrayFromWebResponse</a></div><div class="ttdeci">Windows::Foundation::Collections::IVectorView&lt; Object^ &gt;^ ObjectArrayFromWebResponse(Platform::String^ Response, FBJsonClassFactory^ classFactory)</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8cpp_source.html#l00282">FacebookPaginatedArray.cpp:282</a></div></div>
 <div class="ttc" id="namespace_platform_html"><div class="ttname"><a href="namespace_platform.html">Platform</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_session_html_a47656bf1f61950ea3e6dd9d8c5e7cd37"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a47656bf1f61950ea3e6dd9d8c5e7cd37">Facebook::FBSession::WinAppId</a></div><div class="ttdeci">Platform::String^  WinAppId</div><div class="ttdoc">Windows App ID. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00059">FacebookSession.h:59</a></div></div>
-<div class="ttc" id="namespace_f_b_win_store_cpp_tests_html_a7b2feb8cf99ff61543bc7c245dc6a324"><div class="ttname"><a href="namespace_f_b_win_store_cpp_tests.html#a7b2feb8cf99ff61543bc7c245dc6a324">FBWinStoreCppTests::TEST_CLASS</a></div><div class="ttdeci">TEST_CLASS(LoginTests)</div><div class="ttdef"><b>Definition:</b> <a href="_login_tests_8cpp_source.html#l00047">LoginTests.cpp:47</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_session_html_a47656bf1f61950ea3e6dd9d8c5e7cd37"><div class="ttname"><a href="class_facebook_1_1_f_b_session.html#a47656bf1f61950ea3e6dd9d8c5e7cd37">Facebook::FBSession::WinAppId</a></div><div class="ttdeci">Platform::String^  WinAppId</div><div class="ttdoc">Windows App ID. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_session_8h_source.html#l00060">FacebookSession.h:60</a></div></div>
 <div class="ttc" id="namespace_windows_1_1_application_model_1_1_store_html"><div class="ttname"><a href="namespace_windows_1_1_application_model_1_1_store.html">Store</a></div></div>
 <div class="ttc" id="namespace_f_b_win_store_cpp_tests_html"><div class="ttname"><a href="namespace_f_b_win_store_cpp_tests.html">FBWinStoreCppTests</a></div><div class="ttdef"><b>Definition:</b> <a href="_login_tests_8cpp_source.html#l00045">LoginTests.cpp:45</a></div></div>
-<div class="ttc" id="namespace_facebook_html_af7a3c957cddeb1b01226322e88e11caa"><div class="ttname"><a href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">Facebook::FBJsonClassFactory</a></div><div class="ttdeci">public delegate Platform::Object^ FBJsonClassFactory(Platform::String^ JsonText)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 14 2015 14:26:33 for FBWinSDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

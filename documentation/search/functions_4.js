@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['get',['Get',['../class_facebook_1_1_graph_1_1_f_b_single_value.html#aef9d8597d271875f596af977f1afc086',1,'Facebook::Graph::FBSingleValue']]],
-  ['getdialogresponse',['GetDialogResponse',['../class_facebook_1_1_facebook_dialog.html#a4b4a600d02f5a461fdab7e4a0fb768fa',1,'Facebook::FacebookDialog']]],
-  ['gettaskasync',['GetTaskAsync',['../class_facebook_1_1_f_b_client.html#ad4f62b8d069ba7c51d9f3b761a4137c9',1,'Facebook::FBClient']]],
-  ['getvalue',['GetValue',['../class_facebook_1_1_f_b_media_object.html#a184c2910e6926b79519b25c042c89c4a',1,'Facebook::FBMediaObject']]]
+  ['initdialog',['InitDialog',['../class_facebook_1_1_facebook_dialog.html#a8eae64fc874f474226cb61f7d74190ab',1,'Facebook::FacebookDialog']]],
+  ['initwithpermissions',['InitWithPermissions',['../class_facebook_1_1_f_b_login_button.html#aa0812eee086e53840522d157250047b1',1,'Facebook::FBLoginButton']]],
+  ['isexpired',['IsExpired',['../class_facebook_1_1_f_b_access_token_data.html#a47fba7ec36af5cd6614f26dfea8919e4',1,'Facebook::FBAccessTokenData']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['resetpermissions',['ResetPermissions',['../class_facebook_1_1_f_b_session.html#a320b776859431fde7a508624a95f61a4',1,'Facebook::FBSession']]]
+  ['tostring',['ToString',['../class_facebook_1_1_f_b_permissions.html#a7d8398c7620f07e90d09dde852c9e459',1,'Facebook::FBPermissions']]]
 ];

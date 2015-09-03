@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>FBWinSDK: FBWinStoreCsTests/UnitTest1.cs Source File</title>
+<title>winsdkfb: FBWinStoreCsTests/UnitTest1.cs Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">FBWinSDK
+   <div id="projectname">winsdkfb
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -63,7 +62,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
-      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -90,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">UnitTest1.cs</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_unit_test1_8cs.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//******************************************************************************</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//******************************************************************************</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// Copyright (c) 2015 Microsoft Corporation. All rights reserved.</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//</span></div>
@@ -113,15 +111,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>.Threading.Tasks;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>.Windows;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using</span> Microsoft.VisualStudio.TestPlatform.UnitTestFramework;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using</span> Windows.Foundation;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using</span> Windows.Foundation.Collections;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using</span> Windows.Data.Json;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_windows.html">Windows</a>.Foundation;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_windows.html">Windows</a>.Foundation.Collections;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_windows.html">Windows</a>.Data.Json;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_facebook.html">Facebook</a>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_facebook.html">Facebook</a>.<a class="code" href="namespace_facebook_1_1_graph.html">Graph</a>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> Windows.Storage;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using</span> Windows.Storage.Streams;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_windows.html">Windows</a>.Storage;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_windows.html">Windows</a>.Storage.Streams;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="namespace_f_b_win_store_cs_tests.html">   32</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_f_b_win_store_cs_tests.html">FBWinStoreCsTests</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_f_b_win_store_cs_tests.html">FBWinStoreCsTests</a></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    [TestClass]</div>
@@ -229,7 +227,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="stringliteral">&quot;}&quot;</span>;</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a3fd0a4721110ec6a0396ac7d1c42129c">  140</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a3fd0a4721110ec6a0396ac7d1c42129c">tryCreateFBPage</a>()</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> tryCreateFBPage()</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        {</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="keywordtype">string</span>[] pages =</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            {</div>
@@ -241,8 +239,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = SAMPLE_PAGE_INDEX; i &lt;= SAMPLE_PAGE4_INDEX; i++)</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                <span class="keywordtype">object</span> obj = FBPage.FromJson(pages[i]);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                FBPage page = (FBPage)obj;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                <span class="keywordtype">object</span> obj = <a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a>.FromJson(pages[i]);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                <a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a> page = (<a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a>)obj;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                Assert.IsNotNull(obj);</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                Assert.IsNotNull(page);</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
@@ -252,7 +250,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            }</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        }</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a0e6adff07e24372f72d422e0e056dd3b">  163</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a0e6adff07e24372f72d422e0e056dd3b">tryCreatePageViaClassFactory</a>()</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> tryCreatePageViaClassFactory()</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        {</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="keywordtype">string</span>[] pages =</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            {</div>
@@ -264,10 +262,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = SAMPLE_PAGE_INDEX; i &lt;= SAMPLE_PAGE4_INDEX; i++)</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a> fact = <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                    (JsonText) =&gt; FBPage.FromJson(JsonText));</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                FBJsonClassFactory fact = <span class="keyword">new</span> FBJsonClassFactory(</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                    (JsonText) =&gt; <a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a>.FromJson(JsonText));</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                <span class="keywordtype">object</span> obj = fact(pages[i]);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                FBPage page = (FBPage)obj;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                <a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a> page = (<a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a>)obj;</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                Assert.IsNotNull(obj);</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                Assert.IsNotNull(page);</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
@@ -277,35 +275,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            }</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        }</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a8e71d079044284b7fc9a52e08f7eb626">  188</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a8e71d079044284b7fc9a52e08f7eb626">tryCreateFBPaging</a>()</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> tryCreateFBPaging()</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            Object obj = FBPaging.FromJson(PagingObjectJson);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            FBPaging paging = (FBPaging)obj;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            Object obj = <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paging.html">FBPaging</a>.FromJson(PagingObjectJson);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paging.html">FBPaging</a> paging = (<a class="code" href="class_facebook_1_1_graph_1_1_f_b_paging.html">FBPaging</a>)obj;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            Assert.IsNotNull(obj);</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            Assert.IsNotNull(paging);</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        }</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00197"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a5e990a667b4dc6b70adc1b92b8971945">  197</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a5e990a667b4dc6b70adc1b92b8971945">parseArrayOfLikes</a>()</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> parseArrayOfLikes()</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="keywordtype">string</span> <a class="code" href="unittest1_8cpp.html#a11775c3dbf02ab9fd817877772321d50">FBArrayOfLikes</a> =</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="keywordtype">string</span> FBArrayOfLikes =</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                <span class="stringliteral">&quot;{\&quot;data\&quot;:[&quot;</span> + SampleJsonPage + <span class="stringliteral">&quot;,&quot;</span> + SampleJsonPage2 + <span class="stringliteral">&quot;,&quot;</span> +</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                SampleJsonPage3 + <span class="stringliteral">&quot;,&quot;</span> + SampleJsonPage4 + <span class="stringliteral">&quot;],\&quot;paging\&quot;:&quot;</span> +</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                PagingObjectJson + <span class="stringliteral">&quot;}&quot;</span>;</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordtype">string</span> fbResponse = <a class="code" href="unittest1_8cpp.html#a11775c3dbf02ab9fd817877772321d50">FBArrayOfLikes</a>;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordtype">string</span> fbResponse = FBArrayOfLikes;</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a> arr = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a>(<span class="stringliteral">&quot;Unused&quot;</span>, null,</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                    (JsonText) =&gt; FBPage.FromJson(JsonText)));</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                    (JsonText) =&gt; <a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a>.FromJson(JsonText)));</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            IReadOnlyList&lt;object&gt; result = arr.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html#ad9c8cf6f57abe6e696a9829e307ff73f">ObjectArrayFromWebResponse</a>(</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            IReadOnlyList&lt;object&gt; result = arr.ObjectArrayFromWebResponse(</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                fbResponse,</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    (JsonText) =&gt; FBPage.FromJson(JsonText)));</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    (JsonText) =&gt; <a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a>.FromJson(JsonText)));</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; result.Count; i++)</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            {</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                <span class="keywordtype">object</span> obj = result[i];</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                FBPage page = (FBPage)result[i];</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                <a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a> page = (<a class="code" href="class_facebook_1_1_graph_1_1_f_b_page.html">FBPage</a>)result[i];</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                Assert.IsNotNull(obj);</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                Assert.IsNotNull(page);</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                StringAssert.Equals(page.Name, PageNames[i]);</div>
@@ -313,9 +311,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        }</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00224"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a19f558cc98d92c439828b6f8e29ee90f">  224</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a19f558cc98d92c439828b6f8e29ee90f">parseErrorFromJson</a>()</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> parseErrorFromJson()</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        {</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a> e = <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a>.<a class="code" href="class_facebook_1_1_f_b_error.html#a187f62d8add220edc2337781a169b6a5">FromJson</a>(ErrorObjectJson);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a> e = <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a>.FromJson(ErrorObjectJson);</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            Assert.IsNotNull(e);</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            Assert.IsNotNull(e.<a class="code" href="class_facebook_1_1_f_b_error.html#a0a1880d5fb47666bc1916191215a23a5">Message</a>);</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            Assert.IsNotNull(e.<a class="code" href="class_facebook_1_1_f_b_error.html#a84237cafbe5045d0fe95d7ed4ebf636d">Type</a>);</div>
@@ -330,9 +328,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        }</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00241"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a796e0f08d8325437d79256c36011a52e">  241</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a796e0f08d8325437d79256c36011a52e">parseErrorFromQueryString</a>()</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> parseErrorFromQueryString()</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        {</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a> err = <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a>.<a class="code" href="class_facebook_1_1_f_b_error.html#a75a59c216d54f8d2e4af4f36b675468a">FromUri</a>(<span class="keyword">new</span> Uri(FBCanceledRequestResponse));</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a> err = <a class="code" href="class_facebook_1_1_f_b_error.html">FBError</a>.FromUri(<span class="keyword">new</span> Uri(FBCanceledRequestResponse));</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            Assert.IsNotNull(err);</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            Assert.AreEqual(err.<a class="code" href="class_facebook_1_1_f_b_error.html#af5317af3e9c385a1fd577c057cee4a34">Code</a>, 4201);</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            Assert.AreEqual(FBCanceledRequestMessage, err.<a class="code" href="class_facebook_1_1_f_b_error.html#a0a1880d5fb47666bc1916191215a23a5">Message</a>);</div>
@@ -349,7 +347,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            </div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(FBSDKTokenApiPath,</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                parameters, </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>((JsonText) =&gt; </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory((JsonText) =&gt; </div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            {</div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                JsonObject obj = null;</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                <span class="keywordflow">if</span> (!JsonObject.TryParse(JsonText, out obj))</div>
@@ -360,11 +358,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">return</span> obj;</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            }));</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> fbresult = await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aef9d8597d271875f596af977f1afc086">Get</a>();</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> fbresult = await sval.GetAsync();</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <span class="keywordflow">if</span> (fbresult.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>)</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            <span class="keywordflow">if</span> (fbresult.Succeeded)</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;            {</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                JsonObject obj = (JsonObject)fbresult.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                JsonObject obj = (JsonObject)fbresult.Object;</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                if (obj.Keys.Contains(<span class="stringliteral">&quot;access_token&quot;</span>))</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                { </div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                    result = obj.GetNamedString(<span class="stringliteral">&quot;access_token&quot;</span>); </div>
@@ -378,7 +376,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            PropertySet Parameters </div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            )</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        {</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            FBTestUser user = null;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user = null;</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordtype">bool</span> success = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            <span class="comment">// If you&#39;re creating/deleting test users frequently, like say in</span></div>
@@ -393,11 +391,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                <span class="keywordtype">string</span> path = <span class="stringliteral">&quot;/&quot;</span> + TestAppId + FBSDKTestUsersPath;</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(path, Parameters,</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                    <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBTestUser.FromJson));</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                    <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a>.FromJson));</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> fbresult = await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aba58ae3a18014ebbf68645e78e550f04">Post</a>();</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> fbresult = await sval.PostAsync();</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    </div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="keywordflow">if</span> ((fbresult.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a> == <span class="keyword">false</span>) || (fbresult.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a> == null))</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="keywordflow">if</span> ((fbresult.Succeeded == <span class="keyword">false</span>) || (fbresult.Object == null))</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                {</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                    await Task.Delay(TEST_RETRY_DELAY);</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                }</div>
@@ -405,7 +403,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                {</div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                    <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                    {</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                        user = (FBTestUser)fbresult.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                        user = (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a>)fbresult.Object;</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                        success = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                    }</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                    <span class="keywordflow">catch</span> (InvalidCastException)</div>
@@ -422,7 +420,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        }</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="keyword">private</span> async Task&lt;FBObject&gt; postToFeed(</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            FBTestUser User,</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> User,</div>
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;            <span class="keywordtype">string</span> Message</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            )</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        {</div>
@@ -434,14 +432,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            <span class="keywordtype">string</span> path = <span class="stringliteral">&quot;/&quot;</span> + User.Id + FBFeedPath;</div>
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;</div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(path, parameters,</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBObject.FromJson));</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>.FromJson));</div>
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> fbresult = await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aba58ae3a18014ebbf68645e78e550f04">Post</a>();</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> fbresult = await sval.PostAsync();</div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            <span class="keywordflow">return</span> (FBObject)fbresult.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            <span class="keywordflow">return</span> (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>)fbresult.Object;</div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        }</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;</div>
-<div class="line"><a name="l00352"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aeb469672bcf77ae28aec9adb13ee44cf">  352</a></span>&#160;        <span class="keyword">public</span> async Task&lt;IReadOnlyList&lt;Object&gt;&gt; <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aeb469672bcf77ae28aec9adb13ee44cf">getListOfTestUsers</a>()</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="keyword">public</span> async Task&lt;IReadOnlyList&lt;Object&gt;&gt; getListOfTestUsers()</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        {</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;            <span class="keywordtype">string</span> token = await getAppToken();</div>
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
@@ -451,16 +449,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            parameters.Add(<span class="stringliteral">&quot;access_token&quot;</span>, Uri.EscapeUriString(token));</div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;</div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a> arr = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a>(path, parameters,</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBTestUser.FromJson));</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a>.FromJson));</div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await arr.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html#a04c5d8c13a468cf8fdd0872bcfd470b3">First</a>();</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await arr.FirstAsync();</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            <span class="comment">//Assert.IsTrue(result.Succeeded);</span></div>
 <div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            IReadOnlyList&lt;Object&gt; users = null;</div>
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;</div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            {</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                users = (IReadOnlyList&lt;Object&gt;)result.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>; </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                users = (IReadOnlyList&lt;Object&gt;)result.Object; </div>
 <div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            }</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            <span class="keywordflow">catch</span> (InvalidCastException)</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;            {</div>
@@ -471,8 +469,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            <span class="keywordflow">return</span> users;</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        }</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
-<div class="line"><a name="l00382"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a32f9305aae92ff4efb9b76a024ecd2cc">  382</a></span>&#160;        <span class="keyword">public</span> async Task&lt;FBResult&gt; <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a32f9305aae92ff4efb9b76a024ecd2cc">deleteTestUser</a>(</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            FBTestUser user</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keyword">public</span> async Task&lt;FBResult&gt; deleteTestUser(</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user</div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            )</div>
 <div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        {</div>
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            <span class="keywordtype">string</span> token = await getAppToken();</div>
@@ -482,14 +480,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            parameters.Add(<span class="stringliteral">&quot;access_token&quot;</span>, Uri.EscapeUriString(token));</div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;</div>
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(path, parameters,</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBSuccess.FromJson));</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_success.html">FBSuccess</a>.FromJson));</div>
 <div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;            <span class="keywordflow">return</span> await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#a4b82fa0161e552d4de9170a501d254f5">Delete</a>();</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;            <span class="keywordflow">return</span> await sval.DeleteAsync();</div>
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        }</div>
 <div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
-<div class="line"><a name="l00398"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a4f3302bd554006e2dfb7824ab2c04157">  398</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a4f3302bd554006e2dfb7824ab2c04157">deleteTestUsers</a>()</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        <span class="keyword">public</span> async Task deleteTestUsers()</div>
 <div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        {</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            IReadOnlyList&lt;Object&gt; users = await <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aeb469672bcf77ae28aec9adb13ee44cf">getListOfTestUsers</a>();</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            IReadOnlyList&lt;Object&gt; users = await getListOfTestUsers();</div>
 <div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            Assert.IsNotNull(users);</div>
 <div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            List&lt;Task&lt;FBResult&gt;&gt; results = <span class="keyword">new</span> List&lt;Task&lt;FBResult&gt;&gt;();</div>
 <div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;</div>
@@ -497,7 +495,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            {</div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                {</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                    results.Add(<a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a32f9305aae92ff4efb9b76a024ecd2cc">deleteTestUser</a>((FBTestUser)users[i]));</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                    results.Add(deleteTestUser((<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a>)users[i]));</div>
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                }</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                <span class="keywordflow">catch</span> (InvalidCastException)</div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                {</div>
@@ -510,19 +508,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            {</div>
 <div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await results[i];</div>
 <div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                </div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                <span class="keywordflow">if</span> (result.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a> == <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                <span class="keywordflow">if</span> (result.Succeeded == <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                {</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                    Assert.IsNotNull(result.<a class="code" href="class_facebook_1_1_f_b_result.html#a2f77c2aaebb66238475f1978dbf88782">ErrorInfo</a>);</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                    Assert.IsNotNull(result.ErrorInfo);</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                    <span class="comment">// &quot;You cannot delete the Open Graph Test User for your app.&quot;</span></div>
 <div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                    <span class="comment">// We should always successfully delete the user, except for</span></div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                    <span class="comment">// the special &quot;Open Graph Test User&quot;.</span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                    Assert.AreEqual(result.<a class="code" href="class_facebook_1_1_f_b_result.html#a2f77c2aaebb66238475f1978dbf88782">ErrorInfo</a>.<a class="code" href="class_facebook_1_1_f_b_error.html#af5317af3e9c385a1fd577c057cee4a34">Code</a>, </div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                    Assert.AreEqual(result.ErrorInfo.<a class="code" href="class_facebook_1_1_f_b_error.html#af5317af3e9c385a1fd577c057cee4a34">Code</a>, </div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                        FBDeleteOpenGraphUserErrorCode);</div>
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                }</div>
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                {</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;                    FBSuccess success = (FBSuccess)result.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;                    <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_success.html">FBSuccess</a> success = (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_success.html">FBSuccess</a>)result.Object;</div>
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                }</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                <span class="keywordflow">catch</span> (InvalidCastException)</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;                {</div>
@@ -532,8 +530,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            }</div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        }</div>
 <div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;</div>
-<div class="line"><a name="l00443"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a261e10e86b728662dcc2584b567241c5">  443</a></span>&#160;        <span class="keyword">public</span> async Task&lt;FBResult&gt; <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a261e10e86b728662dcc2584b567241c5">publishCustomUserObject</a>(</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            FBTestUser user</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        <span class="keyword">public</span> async Task&lt;FBResult&gt; publishCustomUserObject(</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user</div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            )</div>
 <div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        {</div>
 <div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
@@ -544,14 +542,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            parameters.Add(<span class="stringliteral">&quot;object&quot;</span>, FBCustomObjectInstance);</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(path, parameters,</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBObject.FromJson));</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>.FromJson));</div>
 <div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            <span class="keywordflow">return</span> await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aba58ae3a18014ebbf68645e78e550f04">Post</a>();</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            <span class="keywordflow">return</span> await sval.PostAsync();</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        }</div>
 <div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
-<div class="line"><a name="l00460"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aaa1791410f5864b6a118da14c887f165">  460</a></span>&#160;        <span class="keyword">public</span> async Task&lt;FBResult&gt; <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aaa1791410f5864b6a118da14c887f165">publishCustomStory</a>(</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;            FBTestUser user,</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;            FBObject customObject</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        <span class="keyword">public</span> async Task&lt;FBResult&gt; publishCustomStory(</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user,</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a> customObject</div>
 <div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;            )</div>
 <div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;        {</div>
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
@@ -561,13 +559,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;            parameters.Add(<span class="stringliteral">&quot;access_token&quot;</span>, user.AccessToken);</div>
 <div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;</div>
 <div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(path, parameters,</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBObject.FromJson));</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>.FromJson));</div>
 <div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;            <span class="keywordflow">return</span> await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aba58ae3a18014ebbf68645e78e550f04">Post</a>();</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;            <span class="keywordflow">return</span> await sval.PostAsync();</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        }</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;</div>
 <div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00478"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a0709bc3df4e9ab7a42ee7ed4aa2bd067">  478</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a0709bc3df4e9ab7a42ee7ed4aa2bd067">testGetAppToken</a>()</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        <span class="keyword">public</span> async Task testGetAppToken()</div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        {</div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;            <span class="keywordtype">string</span> token = await getAppToken();</div>
 <div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;</div>
@@ -575,7 +573,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;        }</div>
 <div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;</div>
 <div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00486"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a4640c61b4375a26c2c71d5eb29693eb1">  486</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a4640c61b4375a26c2c71d5eb29693eb1">testPostToTestUserFeed</a>()</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;        <span class="keyword">public</span> async Task testPostToTestUserFeed()</div>
 <div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        {</div>
 <div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;            <span class="keywordtype">string</span> appToken = await getAppToken();</div>
 <div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
@@ -586,17 +584,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;            parameters.Add(<span class="stringliteral">&quot;permissions&quot;</span>, permissions);</div>
 <div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;            parameters.Add(<span class="stringliteral">&quot;installed&quot;</span>, <span class="stringliteral">&quot;true&quot;</span>);</div>
 <div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;            FBTestUser user = await createTestUser(parameters);</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user = await createTestUser(parameters);</div>
 <div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;            Assert.IsNotNull(user);</div>
 <div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;            FBObject post = await postToFeed(user, FBSDKTestMessage);</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a> post = await postToFeed(user, FBSDKTestMessage);</div>
 <div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;            Assert.IsNotNull(post);</div>
 <div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;            await <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a32f9305aae92ff4efb9b76a024ecd2cc">deleteTestUser</a>(user);</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;            await deleteTestUser(user);</div>
 <div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        }</div>
 <div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;</div>
 <div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00507"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a5edb1767d55a5a4486d4c52e870f13f2">  507</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a5edb1767d55a5a4486d4c52e870f13f2">testListTestUsers</a>()</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        <span class="keyword">public</span> async Task testListTestUsers()</div>
 <div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;        {</div>
 <div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;            <span class="keywordtype">string</span> token = await getAppToken();</div>
 <div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
@@ -607,16 +605,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;            parameters.Add(<span class="stringliteral">&quot;access_token&quot;</span>, Uri.EscapeUriString(token));</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;</div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;            <span class="comment">//Ensure we have at least one test user!</span></div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;            FBTestUser user = await createTestUser(parameters);</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user = await createTestUser(parameters);</div>
 <div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;            </div>
 <div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a> arr = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">FBPaginatedArray</a>(path, parameters,</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBTestUser.FromJson));</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a>.FromJson));</div>
 <div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await arr.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html#a04c5d8c13a468cf8fdd0872bcfd470b3">First</a>();</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            Assert.IsTrue(result.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>);</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await arr.FirstAsync();</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            Assert.IsTrue(result.Succeeded);</div>
 <div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;</div>
 <div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;            IReadOnlyList&lt;Object&gt; users = </div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;                (IReadOnlyList&lt;Object&gt;)result.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;                (IReadOnlyList&lt;Object&gt;)result.Object;</div>
 <div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;</div>
 <div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;            Assert.IsTrue(users.Count &gt; 0);</div>
 <div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;</div>
@@ -624,7 +622,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;            {</div>
 <div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;                <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;                {</div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;                    FBTestUser testuser = (FBTestUser)users[i];</div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;                    <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> testuser = (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a>)users[i];</div>
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;                    <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.CompareOrdinal(testuser.Id, user.Id) == 0)</div>
 <div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;                    {</div>
 <div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;                        found = <span class="keyword">true</span>;</div>
@@ -639,17 +637,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;</div>
 <div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;            Assert.IsTrue(found);</div>
 <div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;</div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;            await <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a32f9305aae92ff4efb9b76a024ecd2cc">deleteTestUser</a>(user);</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;            await deleteTestUser(user);</div>
 <div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;        }</div>
 <div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;</div>
 <div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00554"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a988930cce67f703e3f670a314753b748">  554</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a988930cce67f703e3f670a314753b748">testDeleteAllTestUsers</a>()</div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;        <span class="keyword">public</span> async Task testDeleteAllTestUsers()</div>
 <div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;        {</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;            await <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a4f3302bd554006e2dfb7824ab2c04157">deleteTestUsers</a>();</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;            await deleteTestUsers();</div>
 <div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;        }</div>
 <div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;</div>
 <div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00560"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a9b9ba57275f8f6ad0e4b2c06c86e9ab4">  560</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a9b9ba57275f8f6ad0e4b2c06c86e9ab4">testUploadPhoto</a>()</div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;        <span class="keyword">public</span> async Task testUploadPhoto()</div>
 <div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;        {</div>
 <div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;            <span class="keywordtype">string</span> token = await getAppToken();</div>
 <div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
@@ -657,10 +655,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;            parameters.Add(<span class="stringliteral">&quot;access_token&quot;</span>, Uri.EscapeUriString(token));</div>
 <div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;            parameters.Add(<span class="stringliteral">&quot;permissions&quot;</span>, FBTestPhotoUploadPermissions);</div>
 <div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;            FBTestUser user = await createTestUser(parameters);</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user = await createTestUser(parameters);</div>
 <div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;</div>
 <div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;            StorageFolder appFolder = </div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                Windows.ApplicationModel.Package.Current.InstalledLocation;</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                <a class="code" href="namespace_windows.html">Windows</a>.ApplicationModel.Package.Current.InstalledLocation;</div>
 <div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;            StorageFile f = await appFolder.GetFileAsync(</div>
 <div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;                FBTestImagePath);</div>
 <div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;            IRandomAccessStreamWithContentType stream = await f.OpenReadAsync();</div>
@@ -678,14 +676,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;            <span class="keywordtype">string</span> path = <span class="stringliteral">&quot;/&quot;</span> + user.Id + <span class="stringliteral">&quot;/photos&quot;</span>;</div>
 <div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;</div>
 <div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(path, parameters,</div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBPhoto.FromJson));</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_photo.html">FBPhoto</a>.FromJson));</div>
 <div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aba58ae3a18014ebbf68645e78e550f04">Post</a>();</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            Assert.IsTrue(result.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>);</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await sval.PostAsync();</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            Assert.IsTrue(result.Succeeded);</div>
 <div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;</div>
 <div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;            <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;            {</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;                FBPhoto pic = (FBPhoto)result.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;                <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_photo.html">FBPhoto</a> pic = (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_photo.html">FBPhoto</a>)result.Object;</div>
 <div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;            }</div>
 <div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;            <span class="keywordflow">catch</span> (InvalidCastException)</div>
 <div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;            {</div>
@@ -695,7 +693,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;        }</div>
 <div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;</div>
 <div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00606"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a064cfe78c67f434302e0350c0dc59804">  606</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a064cfe78c67f434302e0350c0dc59804">testLikeSomething</a>()</div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;        <span class="keyword">public</span> async Task testLikeSomething()</div>
 <div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;        {</div>
 <div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;            <span class="keywordtype">string</span> token = await getAppToken();</div>
 <div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
@@ -704,7 +702,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;            parameters.Add(<span class="stringliteral">&quot;permissions&quot;</span>,</div>
 <div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                <span class="stringliteral">&quot;public_profile,publish_actions,user_photos&quot;</span>);</div>
 <div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;            FBTestUser user = await createTestUser(parameters);</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user = await createTestUser(parameters);</div>
 <div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;</div>
 <div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;            <span class="keywordtype">string</span> path = user.Id + <span class="stringliteral">&quot;/og.likes&quot;</span>;</div>
 <div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;</div>
@@ -715,14 +713,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;            parameters.Add(<span class="stringliteral">&quot;object&quot;</span>, likedObject);</div>
 <div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;</div>
 <div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;            <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a> sval = <span class="keyword">new</span> <a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html">FBSingleValue</a>(path, parameters,</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                <span class="keyword">new</span> <a class="code" href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">FBJsonClassFactory</a>(FBObject.FromJson));</div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                <span class="keyword">new</span> FBJsonClassFactory(<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>.FromJson));</div>
 <div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await sval.<a class="code" href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aba58ae3a18014ebbf68645e78e550f04">Post</a>();</div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;            Assert.IsTrue(result.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>);</div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await sval.PostAsync();</div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;            Assert.IsTrue(result.Succeeded);</div>
 <div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;</div>
 <div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;            <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;            {</div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                FBObject like = (FBObject)result.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a> like = (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>)result.Object;</div>
 <div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;            }</div>
 <div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;            <span class="keywordflow">catch</span> (InvalidCastException)</div>
 <div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;            {</div>
@@ -732,25 +730,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;        }</div>
 <div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;</div>
 <div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;        [TestMethod]</div>
-<div class="line"><a name="l00643"></a><span class="lineno"><a class="line" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#ae5cf63a00218ef585177ddf3e36fea73">  643</a></span>&#160;        <span class="keyword">public</span> async Task <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#ae5cf63a00218ef585177ddf3e36fea73">testPublishCustomStory</a>()</div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;        <span class="keyword">public</span> async Task testPublishCustomStory()</div>
 <div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;        {</div>
 <div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;            <span class="keywordtype">string</span> token = await getAppToken();</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;            PropertySet parameters = <span class="keyword">new</span> PropertySet();</div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;            FBObject customObject = null;</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            FBObject customStory = null;</div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a> customObject = null;</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a> customStory = null;</div>
 <div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;</div>
 <div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;            parameters.Add(<span class="stringliteral">&quot;access_token&quot;</span>, Uri.EscapeUriString(token));</div>
 <div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;            parameters.Add(<span class="stringliteral">&quot;permissions&quot;</span>,</div>
 <div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;                <span class="stringliteral">&quot;public_profile,publish_actions,user_photos&quot;</span>);</div>
 <div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;            FBTestUser user = await createTestUser(parameters);</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;            <a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBTestUser</a> user = await createTestUser(parameters);</div>
 <div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;</div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a261e10e86b728662dcc2584b567241c5">publishCustomUserObject</a>(user);</div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            Assert.IsTrue(result.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>);</div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            <a class="code" href="class_facebook_1_1_f_b_result.html">FBResult</a> result = await publishCustomUserObject(user);</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            Assert.IsTrue(result.Succeeded);</div>
 <div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;</div>
 <div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;            <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;            {</div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;                customObject = (FBObject)result.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;                customObject = (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>)result.Object;</div>
 <div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;            }</div>
 <div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;            <span class="keywordflow">catch</span> (InvalidCastException)</div>
 <div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;            {</div>
@@ -758,12 +756,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;                    <span class="stringliteral">&quot;expected type (FBObject).&quot;</span>);</div>
 <div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;            }</div>
 <div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;</div>
-<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;            result = await <a class="code" href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aaa1791410f5864b6a118da14c887f165">publishCustomStory</a>(user, customObject);</div>
-<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;            Assert.IsTrue(result.<a class="code" href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Succeeded</a>);</div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;            result = await publishCustomStory(user, customObject);</div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;            Assert.IsTrue(result.Succeeded);</div>
 <div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;</div>
 <div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;            <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;            {</div>
-<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;                customStory = (FBObject)result.<a class="code" href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Object</a>;</div>
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;                customStory = (<a class="code" href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBObject</a>)result.Object;</div>
 <div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;            }</div>
 <div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;            <span class="keywordflow">catch</span> (InvalidCastException)</div>
 <div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;            {</div>
@@ -773,56 +771,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;        }</div>
 <div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;    }</div>
 <div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;}</div>
-<div class="ttc" id="class_facebook_1_1_f_b_result_html_adca0971842eab3fce4eaf03b2346cfd7"><div class="ttname"><a href="class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7">Facebook::FBResult::Succeeded</a></div><div class="ttdeci">bool Succeeded</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_result_8h_source.html#l00031">FacebookResult.h:31</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_result_html_a2f77c2aaebb66238475f1978dbf88782"><div class="ttname"><a href="class_facebook_1_1_f_b_result.html#a2f77c2aaebb66238475f1978dbf88782">Facebook::FBResult::ErrorInfo</a></div><div class="ttdeci">Facebook::FBError^  ErrorInfo</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_result_8h_source.html#l00041">FacebookResult.h:41</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a261e10e86b728662dcc2584b567241c5"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a261e10e86b728662dcc2584b567241c5">FBWinStoreCsTests.UnitTest1.publishCustomUserObject</a></div><div class="ttdeci">async Task&lt; FBResult &gt; publishCustomUserObject(FBTestUser user)</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00443">UnitTest1.cs:443</a></div></div>
-<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_single_value_html_aef9d8597d271875f596af977f1afc086"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aef9d8597d271875f596af977f1afc086">Facebook::Graph::FBSingleValue::Get</a></div><div class="ttdeci">Windows::Foundation::IAsyncOperation&lt; FBResult^ &gt;^ Get()</div><div class="ttdef"><b>Definition:</b> <a href="_f_b_single_value_8cpp_source.html#l00042">FBSingleValue.cpp:42</a></div></div>
-<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_single_value_html_a4b82fa0161e552d4de9170a501d254f5"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_single_value.html#a4b82fa0161e552d4de9170a501d254f5">Facebook::Graph::FBSingleValue::Delete</a></div><div class="ttdeci">Windows::Foundation::IAsyncOperation&lt; FBResult^ &gt;^ Delete()</div><div class="ttdef"><b>Definition:</b> <a href="_f_b_single_value_8cpp_source.html#l00072">FBSingleValue.cpp:72</a></div></div>
 <div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_a210f7532f61d4021e97d7f3246041ee3"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a210f7532f61d4021e97d7f3246041ee3">Facebook::FBError::ErrorUserTitle</a></div><div class="ttdeci">Platform::String^  ErrorUserTitle</div><div class="ttdoc">Error user title. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00084">FacebookError.h:84</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_a75a59c216d54f8d2e4af4f36b675468a"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a75a59c216d54f8d2e4af4f36b675468a">Facebook::FBError::FromUri</a></div><div class="ttdeci">static FBError^ FromUri(Windows::Foundation::Uri^ ResponseUri)</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8cpp_source.html#l00068">FacebookError.cpp:68</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_aaa1791410f5864b6a118da14c887f165"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aaa1791410f5864b6a118da14c887f165">FBWinStoreCsTests.UnitTest1.publishCustomStory</a></div><div class="ttdeci">async Task&lt; FBResult &gt; publishCustomStory(FBTestUser user, FBObject customObject)</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00460">UnitTest1.cs:460</a></div></div>
-<div class="ttc" id="namespace_facebook_html"><div class="ttname"><a href="namespace_facebook.html">Facebook</a></div><div class="ttdef"><b>Definition:</b> <a href="_color_luminosity_converter_8h_source.html#l00019">ColorLuminosityConverter.h:19</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a796e0f08d8325437d79256c36011a52e"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a796e0f08d8325437d79256c36011a52e">FBWinStoreCsTests.UnitTest1.parseErrorFromQueryString</a></div><div class="ttdeci">void parseErrorFromQueryString()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00241">UnitTest1.cs:241</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a0e6adff07e24372f72d422e0e056dd3b"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a0e6adff07e24372f72d422e0e056dd3b">FBWinStoreCsTests.UnitTest1.tryCreatePageViaClassFactory</a></div><div class="ttdeci">void tryCreatePageViaClassFactory()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00163">UnitTest1.cs:163</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_ae5cf63a00218ef585177ddf3e36fea73"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#ae5cf63a00218ef585177ddf3e36fea73">FBWinStoreCsTests.UnitTest1.testPublishCustomStory</a></div><div class="ttdeci">async Task testPublishCustomStory()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00643">UnitTest1.cs:643</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_error_html_a210f7532f61d4021e97d7f3246041ee3"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a210f7532f61d4021e97d7f3246041ee3">Facebook::FBError::ErrorUserTitle</a></div><div class="ttdeci">Platform::String^  ErrorUserTitle</div><div class="ttdoc">Error user title. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00085">FacebookError.h:85</a></div></div>
+<div class="ttc" id="namespace_facebook_html"><div class="ttname"><a href="namespace_facebook.html">Facebook</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_s_d_k-_u_w_p_2_f_b_s_d_k-_u_w_p_2_generated_01_files_2_facebook_dialog_8g_8h_source.html#l00022">FacebookDialog.g.h:22</a></div></div>
 <div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_paginated_array_html"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html">Facebook::Graph::FBPaginatedArray</a></div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8h_source.html#l00028">FacebookPaginatedArray.h:28</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html">Facebook::FBError</a></div><div class="ttdoc">class wrapper for FB error responses. For the time being, this is a very bare shell around the error ...</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00042">FacebookError.h:42</a></div></div>
+<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_f_b_success_html"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_f_b_success.html">FBWinStoreCsTests.FBSuccess</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_success_8cs_source.html#l00033">FBSuccess.cs:33</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_error_html"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html">Facebook::FBError</a></div><div class="ttdoc">class wrapper for FB error responses. For the time being, this is a very bare shell around the error ...</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00043">FacebookError.h:43</a></div></div>
 <div class="ttc" id="namespace_facebook_1_1_graph_html"><div class="ttname"><a href="namespace_facebook_1_1_graph.html">Facebook::Graph</a></div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8h_source.html#l00026">FacebookPaginatedArray.h:26</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a5e990a667b4dc6b70adc1b92b8971945"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a5e990a667b4dc6b70adc1b92b8971945">FBWinStoreCsTests.UnitTest1.parseArrayOfLikes</a></div><div class="ttdeci">void parseArrayOfLikes()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00197">UnitTest1.cs:197</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a19f558cc98d92c439828b6f8e29ee90f"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a19f558cc98d92c439828b6f8e29ee90f">FBWinStoreCsTests.UnitTest1.parseErrorFromJson</a></div><div class="ttdeci">void parseErrorFromJson()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00224">UnitTest1.cs:224</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_a187f62d8add220edc2337781a169b6a5"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a187f62d8add220edc2337781a169b6a5">Facebook::FBError::FromJson</a></div><div class="ttdeci">static FBError^ FromJson(Platform::String^ JsonText)</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8cpp_source.html#l00131">FacebookError.cpp:131</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a32f9305aae92ff4efb9b76a024ecd2cc"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a32f9305aae92ff4efb9b76a024ecd2cc">FBWinStoreCsTests.UnitTest1.deleteTestUser</a></div><div class="ttdeci">async Task&lt; FBResult &gt; deleteTestUser(FBTestUser user)</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00382">UnitTest1.cs:382</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_a84237cafbe5045d0fe95d7ed4ebf636d"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a84237cafbe5045d0fe95d7ed4ebf636d">Facebook::FBError::Type</a></div><div class="ttdeci">Platform::String^  Type</div><div class="ttdoc">Error type string. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00066">FacebookError.h:66</a></div></div>
-<div class="ttc" id="unittest1_8cpp_html_a11775c3dbf02ab9fd817877772321d50"><div class="ttname"><a href="unittest1_8cpp.html#a11775c3dbf02ab9fd817877772321d50">FBArrayOfLikes</a></div><div class="ttdeci">#define FBArrayOfLikes</div><div class="ttdef"><b>Definition:</b> <a href="unittest1_8cpp_source.html#l00068">unittest1.cpp:68</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a5edb1767d55a5a4486d4c52e870f13f2"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a5edb1767d55a5a4486d4c52e870f13f2">FBWinStoreCsTests.UnitTest1.testListTestUsers</a></div><div class="ttdeci">async Task testListTestUsers()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00507">UnitTest1.cs:507</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a3fd0a4721110ec6a0396ac7d1c42129c"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a3fd0a4721110ec6a0396ac7d1c42129c">FBWinStoreCsTests.UnitTest1.tryCreateFBPage</a></div><div class="ttdeci">void tryCreateFBPage()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00140">UnitTest1.cs:140</a></div></div>
+<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_f_b_object_html"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_f_b_object.html">FBWinStoreCsTests.FBObject</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_object_8cs_source.html#l00033">FBObject.cs:33</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_error_html_a84237cafbe5045d0fe95d7ed4ebf636d"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a84237cafbe5045d0fe95d7ed4ebf636d">Facebook::FBError::Type</a></div><div class="ttdeci">Platform::String^  Type</div><div class="ttdoc">Error type string. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00067">FacebookError.h:67</a></div></div>
 <div class="ttc" id="class_facebook_1_1_f_b_media_stream_html"><div class="ttname"><a href="class_facebook_1_1_f_b_media_stream.html">Facebook::FBMediaStream</a></div><div class="ttdef"><b>Definition:</b> <a href="_facebook_media_stream_8h_source.html#l00021">FacebookMediaStream.h:21</a></div></div>
-<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_paginated_array_html_a04c5d8c13a468cf8fdd0872bcfd470b3"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html#a04c5d8c13a468cf8fdd0872bcfd470b3">Facebook::Graph::FBPaginatedArray::First</a></div><div class="ttdeci">Windows::Foundation::IAsyncOperation&lt; FBResult^ &gt;^ First()</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8cpp_source.html#l00046">FacebookPaginatedArray.cpp:46</a></div></div>
 <div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_single_value_html"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_single_value.html">Facebook::Graph::FBSingleValue</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_single_value_8h_source.html#l00027">FBSingleValue.h:27</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_a2897236a6febc7512a311192a533a3df"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a2897236a6febc7512a311192a533a3df">Facebook::FBError::Subcode</a></div><div class="ttdeci">int Subcode</div><div class="ttdoc">Error subcode. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00078">FacebookError.h:78</a></div></div>
-<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_paginated_array_html_ad9c8cf6f57abe6e696a9829e307ff73f"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_paginated_array.html#ad9c8cf6f57abe6e696a9829e307ff73f">Facebook::Graph::FBPaginatedArray::ObjectArrayFromWebResponse</a></div><div class="ttdeci">Windows::Foundation::Collections::IVectorView&lt; Object^ &gt;^ ObjectArrayFromWebResponse(Platform::String^ Response, FBJsonClassFactory^ classFactory)</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_paginated_array_8cpp_source.html#l00282">FacebookPaginatedArray.cpp:282</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a4f3302bd554006e2dfb7824ab2c04157"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a4f3302bd554006e2dfb7824ab2c04157">FBWinStoreCsTests.UnitTest1.deleteTestUsers</a></div><div class="ttdeci">async Task deleteTestUsers()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00398">UnitTest1.cs:398</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_aeb469672bcf77ae28aec9adb13ee44cf"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#aeb469672bcf77ae28aec9adb13ee44cf">FBWinStoreCsTests.UnitTest1.getListOfTestUsers</a></div><div class="ttdeci">async Task&lt; IReadOnlyList&lt; Object &gt; &gt; getListOfTestUsers()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00352">UnitTest1.cs:352</a></div></div>
-<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_single_value_html_aba58ae3a18014ebbf68645e78e550f04"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_single_value.html#aba58ae3a18014ebbf68645e78e550f04">Facebook::Graph::FBSingleValue::Post</a></div><div class="ttdeci">Windows::Foundation::IAsyncOperation&lt; FBResult^ &gt;^ Post()</div><div class="ttdef"><b>Definition:</b> <a href="_f_b_single_value_8cpp_source.html#l00057">FBSingleValue.cpp:57</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_error_html_a2897236a6febc7512a311192a533a3df"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a2897236a6febc7512a311192a533a3df">Facebook::FBError::Subcode</a></div><div class="ttdeci">int Subcode</div><div class="ttdoc">Error subcode. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00079">FacebookError.h:79</a></div></div>
+<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_page_html"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_page.html">Facebook::Graph::FBPage</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_page_8h_source.html#l00036">FBPage.h:36</a></div></div>
 <div class="ttc" id="class_facebook_1_1_f_b_result_html"><div class="ttname"><a href="class_facebook_1_1_f_b_result.html">Facebook::FBResult</a></div><div class="ttdoc">Container class holding the result of a graph API call - either a JSON object of some type...</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_result_8h_source.html#l00028">FacebookResult.h:28</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a4640c61b4375a26c2c71d5eb29693eb1"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a4640c61b4375a26c2c71d5eb29693eb1">FBWinStoreCsTests.UnitTest1.testPostToTestUserFeed</a></div><div class="ttdeci">async Task testPostToTestUserFeed()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00486">UnitTest1.cs:486</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a988930cce67f703e3f670a314753b748"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a988930cce67f703e3f670a314753b748">FBWinStoreCsTests.UnitTest1.testDeleteAllTestUsers</a></div><div class="ttdeci">async Task testDeleteAllTestUsers()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00554">UnitTest1.cs:554</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_a0a1880d5fb47666bc1916191215a23a5"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a0a1880d5fb47666bc1916191215a23a5">Facebook::FBError::Message</a></div><div class="ttdeci">Platform::String^  Message</div><div class="ttdoc">Error message string. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00060">FacebookError.h:60</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_result_html_aa078bd0ef5f5611261f185be8fa41019"><div class="ttname"><a href="class_facebook_1_1_f_b_result.html#aa078bd0ef5f5611261f185be8fa41019">Facebook::FBResult::Object</a></div><div class="ttdeci">Platform::Object^  Object</div><div class="ttdef"><b>Definition:</b> <a href="_facebook_result_8h_source.html#l00036">FacebookResult.h:36</a></div></div>
-<div class="ttc" id="namespace_facebook_html_af7a3c957cddeb1b01226322e88e11caa"><div class="ttname"><a href="namespace_facebook.html#af7a3c957cddeb1b01226322e88e11caa">Facebook::FBJsonClassFactory</a></div><div class="ttdeci">public delegate Platform::Object^ FBJsonClassFactory(Platform::String^ JsonText)</div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_a91a9a5788672a1d36a1f523d5d92bb0b"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a91a9a5788672a1d36a1f523d5d92bb0b">Facebook::FBError::ErrorUserMessage</a></div><div class="ttdeci">Platform::String^  ErrorUserMessage</div><div class="ttdoc">Error user message. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00090">FacebookError.h:90</a></div></div>
-<div class="ttc" id="class_facebook_1_1_f_b_error_html_af5317af3e9c385a1fd577c057cee4a34"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#af5317af3e9c385a1fd577c057cee4a34">Facebook::FBError::Code</a></div><div class="ttdeci">int Code</div><div class="ttdoc">Error code. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00072">FacebookError.h:72</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a9b9ba57275f8f6ad0e4b2c06c86e9ab4"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a9b9ba57275f8f6ad0e4b2c06c86e9ab4">FBWinStoreCsTests.UnitTest1.testUploadPhoto</a></div><div class="ttdeci">async Task testUploadPhoto()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00560">UnitTest1.cs:560</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a8e71d079044284b7fc9a52e08f7eb626"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a8e71d079044284b7fc9a52e08f7eb626">FBWinStoreCsTests.UnitTest1.tryCreateFBPaging</a></div><div class="ttdeci">void tryCreateFBPaging()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00188">UnitTest1.cs:188</a></div></div>
-<div class="ttc" id="namespace_f_b_win_store_cs_tests_html"><div class="ttname"><a href="namespace_f_b_win_store_cs_tests.html">FBWinStoreCsTests</a></div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00032">UnitTest1.cs:32</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_error_html_a0a1880d5fb47666bc1916191215a23a5"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a0a1880d5fb47666bc1916191215a23a5">Facebook::FBError::Message</a></div><div class="ttdeci">Platform::String^  Message</div><div class="ttdoc">Error message string. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00061">FacebookError.h:61</a></div></div>
+<div class="ttc" id="namespace_windows_html"><div class="ttname"><a href="namespace_windows.html">Windows</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_s_d_k-_u_w_p_2_f_b_s_d_k-_u_w_p_2_generated_01_files_2_facebook_dialog_8g_8h_source.html#l00010">FacebookDialog.g.h:10</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_error_html_a91a9a5788672a1d36a1f523d5d92bb0b"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#a91a9a5788672a1d36a1f523d5d92bb0b">Facebook::FBError::ErrorUserMessage</a></div><div class="ttdeci">Platform::String^  ErrorUserMessage</div><div class="ttdoc">Error user message. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00091">FacebookError.h:91</a></div></div>
+<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_f_b_test_user_html"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_f_b_test_user.html">FBWinStoreCsTests.FBTestUser</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_test_user_8cs_source.html#l00033">FBTestUser.cs:33</a></div></div>
+<div class="ttc" id="class_facebook_1_1_f_b_error_html_af5317af3e9c385a1fd577c057cee4a34"><div class="ttname"><a href="class_facebook_1_1_f_b_error.html#af5317af3e9c385a1fd577c057cee4a34">Facebook::FBError::Code</a></div><div class="ttdeci">int Code</div><div class="ttdoc">Error code. </div><div class="ttdef"><b>Definition:</b> <a href="_facebook_error_8h_source.html#l00073">FacebookError.h:73</a></div></div>
+<div class="ttc" id="namespace_f_b_win_store_cs_tests_html"><div class="ttname"><a href="namespace_f_b_win_store_cs_tests.html">FBWinStoreCsTests</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_object_8cs_source.html#l00031">FBObject.cs:31</a></div></div>
 <div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html">FBWinStoreCsTests.UnitTest1</a></div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00036">UnitTest1.cs:36</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a064cfe78c67f434302e0350c0dc59804"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a064cfe78c67f434302e0350c0dc59804">FBWinStoreCsTests.UnitTest1.testLikeSomething</a></div><div class="ttdeci">async Task testLikeSomething()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00606">UnitTest1.cs:606</a></div></div>
-<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_unit_test1_html_a0709bc3df4e9ab7a42ee7ed4aa2bd067"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_unit_test1.html#a0709bc3df4e9ab7a42ee7ed4aa2bd067">FBWinStoreCsTests.UnitTest1.testGetAppToken</a></div><div class="ttdeci">async Task testGetAppToken()</div><div class="ttdef"><b>Definition:</b> <a href="_unit_test1_8cs_source.html#l00478">UnitTest1.cs:478</a></div></div>
+<div class="ttc" id="class_facebook_1_1_graph_1_1_f_b_paging_html"><div class="ttname"><a href="class_facebook_1_1_graph_1_1_f_b_paging.html">Facebook::Graph::FBPaging</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_paging_8h_source.html#l00037">FBPaging.h:37</a></div></div>
+<div class="ttc" id="class_f_b_win_store_cs_tests_1_1_f_b_photo_html"><div class="ttname"><a href="class_f_b_win_store_cs_tests_1_1_f_b_photo.html">FBWinStoreCsTests.FBPhoto</a></div><div class="ttdef"><b>Definition:</b> <a href="_f_b_photo_8cs_source.html#l00033">FBPhoto.cs:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 14 2015 14:26:33 for FBWinSDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>
