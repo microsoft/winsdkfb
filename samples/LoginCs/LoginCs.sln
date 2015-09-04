@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoginCs", "LoginCs", "{F3A8EFF0-4471-4905-B279-756B1D864AAB}"
 EndProject
@@ -35,6 +35,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A506E326-7A59-479E-8E80-65FB73AE94D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A506E326-7A59-479E-8E80-65FB73AE94D8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{A506E326-7A59-479E-8E80-65FB73AE94D8}.Debug|ARM.ActiveCfg = Debug|ARM
 		{A506E326-7A59-479E-8E80-65FB73AE94D8}.Debug|ARM.Build.0 = Debug|ARM
 		{A506E326-7A59-479E-8E80-65FB73AE94D8}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -55,6 +56,7 @@ Global
 		{A506E326-7A59-479E-8E80-65FB73AE94D8}.Release|x86.Build.0 = Release|x86
 		{A506E326-7A59-479E-8E80-65FB73AE94D8}.Release|x86.Deploy.0 = Release|x86
 		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Debug|ARM.ActiveCfg = Debug|ARM
 		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Debug|ARM.Build.0 = Debug|ARM
 		{EF5F7E3E-8E45-4027-846C-3349247C065D}.Debug|ARM.Deploy.0 = Debug|ARM

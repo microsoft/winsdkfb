@@ -11,13 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginCpp.Windows", "LoginCp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginCpp.WindowsPhone", "LoginCpp\LoginCpp.WindowsPhone\LoginCpp.WindowsPhone.vcxproj", "{45BAA3AB-92F6-4DB0-B008-FDDD73D1659B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A2C87340-7FE2-4303-9BDD-1CF4F70AA8D9}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.Windows", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.Windows\FBWinSDK.Windows.vcxproj", "{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.WindowsPhone", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.WindowsPhone\FBWinSDK.WindowsPhone.vcxproj", "{F833B1E6-2866-4A47-89E2-C474983FE70F}"
