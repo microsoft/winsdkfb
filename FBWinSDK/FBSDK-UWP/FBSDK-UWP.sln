@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.Shared", "..\FBWin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBWinStoreCsTests", "FBWinStoreCsTests\FBWinStoreCsTests.csproj", "{9658B19F-68CE-4A30-8D26-D683DBCE3ECC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinStoreCppTests", "FBWinStoreCppTests\FBWinStoreCppTests.vcxproj", "{B44F04FB-CECB-425C-9D41-F4F733FBE159}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\FBWinSDK\FBWinSDK.Shared\FBWinSDK.Shared.vcxitems*{5c0b24d0-ba5f-490a-ab3e-71265d4a0a4b}*SharedItemsImports = 9
@@ -53,6 +55,24 @@ Global
 		{9658B19F-68CE-4A30-8D26-D683DBCE3ECC}.Release|x86.ActiveCfg = Release|x86
 		{9658B19F-68CE-4A30-8D26-D683DBCE3ECC}.Release|x86.Build.0 = Release|x86
 		{9658B19F-68CE-4A30-8D26-D683DBCE3ECC}.Release|x86.Deploy.0 = Release|x86
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|ARM.ActiveCfg = Debug|ARM
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|ARM.Build.0 = Debug|ARM
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|ARM.Deploy.0 = Debug|ARM
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|x64.ActiveCfg = Debug|x64
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|x64.Build.0 = Debug|x64
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|x64.Deploy.0 = Debug|x64
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|x86.ActiveCfg = Debug|Win32
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|x86.Build.0 = Debug|Win32
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Debug|x86.Deploy.0 = Debug|Win32
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|ARM.ActiveCfg = Release|ARM
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|ARM.Build.0 = Release|ARM
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|ARM.Deploy.0 = Release|ARM
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|x64.ActiveCfg = Release|x64
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|x64.Build.0 = Release|x64
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|x64.Deploy.0 = Release|x64
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|x86.ActiveCfg = Release|Win32
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|x86.Build.0 = Release|Win32
+		{B44F04FB-CECB-425C-9D41-F4F733FBE159}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
