@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="b458ea4a-97c6-43df-9ded-8dd933dd14e9" Publisher="CN=blakeben" Version="1.0.0.0" />
+  <Identity Name="b458ea4a-97c6-43df-9ded-8dd933dd14e9" Publisher="CN=winsdkfb" Version="1.0.0.0" />
   <Properties>
     <DisplayName>FBWinStoreCsTests</DisplayName>
     <PublisherDisplayName>blakeben</PublisherDisplayName>

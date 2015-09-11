@@ -37,6 +37,6 @@
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FBWinPhoneStoreCppTests_TemporaryKey.pfx" />
+    <None Include="..\winsdkfb_testing_key.pfx" />
   </ItemGroup>
 </Project>
