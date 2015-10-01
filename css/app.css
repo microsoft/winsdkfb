@@ -1,0 +1,66 @@
+/* bootstrap overrides */
+
+html body{
+    font-family: 'Roboto', Helvetica, Arial, Verdana, sans-serif;
+    font-weight: 300;
+}
+
+.navbar-default {
+    background-color: #787878;
+    color: #fff;
+}
+
+.navbar-brand {
+    height: 50px;
+    font-size: 22px;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: #fff
+}
+
+.container {
+    margin: 0 auto;
+}
+
+.divider-top {
+    border-top: 1px solid #E6E6E6;
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+.hero_image {
+    text-align: center;
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+
+.hero_text {
+    text-align: center;
+    font-weight: 400;
+    font-size: 32px;
+    padding-bottom: 30px;
+}
+
+.intro {
+    font-size: 22px;
+    line-height: 32px;
+    color: #787878;
+}
+
+li {
+    font-size: 14px;
+    line-height: 24px;
+}
+
+pre {
+    margin: 8px;
+}
