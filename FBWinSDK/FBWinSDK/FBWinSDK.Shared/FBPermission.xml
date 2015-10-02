@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<class name="FBPermission" bindable="no">
-    <property name="permission" type="string" />
-    <property name="status" type="string" />
-</class>

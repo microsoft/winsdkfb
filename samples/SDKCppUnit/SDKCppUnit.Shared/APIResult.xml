@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<class name="APIResult" bindable="yes" namespace="SDKCppUnit">
-    <property name="success" type="bool" />
-</class>

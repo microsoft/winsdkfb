@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<class name="FBTestUser" bindable="yes" namespace="FBWinStoreCsTests">
-    <property name="id" type="string" required="true" />
-    <property name="access_token" type="string" />
-    <property name="login_url" type="string" />
-    <property name="email" type="string" />
-    <property name="password" type="string" />
-</class>

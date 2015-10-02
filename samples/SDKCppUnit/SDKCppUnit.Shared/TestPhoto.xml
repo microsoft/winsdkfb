@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<class name="TestPhoto" bindable="yes" namespace="SDKCppUnit">
-    <property name="id" type="string" />
-    <property name="post_id" type="string" />
-    <property name="link" type="string" />
-</class>

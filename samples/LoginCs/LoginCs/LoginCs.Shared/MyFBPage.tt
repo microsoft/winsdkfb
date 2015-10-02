@@ -1,5 +1,0 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<# string classDefFile = Host.ResolvePath("MyFBPage.xml"); #>
-<#@ include file="FBCSObjectImplementation.ttinclude" #>
-<#@ output extension=".cs" #>
-
