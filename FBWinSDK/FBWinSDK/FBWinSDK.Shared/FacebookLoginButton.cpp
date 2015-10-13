@@ -88,7 +88,7 @@ void FBLoginButton::OnClick(
     }
     else
     {
-        create_task(s->LoginAsync(Permissions))
+        create_task(s->LoginAsync(Permissions, SessionLoginBehavior::SessionLoginBehaviorWithFallbackToWebView))
             .then([=](FBResult^ result)
         {
             if (result->Succeeded)

@@ -41,14 +41,6 @@ namespace Facebook
         SessionLoginBehaviorForcingWebView = 2
     };
 
-    //! Specifies method for login
-    public enum class SessionLoginMethod
-    {
-        SessionLoginMethodDefault = 0,
-        SessionLoginMethodWebView = 1,
-        SessionLoginMethodWebAuthBroker = 2
-    };
-
     ref class FBSession;
 
     /*!\brief The main object for the SDK, repository for access token, etc.
@@ -132,7 +124,7 @@ namespace Facebook
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
                 Facebook::FBPermissions^ Permissions,
-                SessionLoginMethod method = SessionLoginMethodDefault
+                SessionLoginBehavior behavior
                 );
 
             void SetAPIVersion(
