@@ -1,0 +1,18 @@
+.nuget
+*.csproj.user
+*.opensdf
+*.sdf
+*.suo
+AppPackages
+bin
+Debug
+Doxygen
+fbwinsdk.githash.txt
+Generated
+Generated Files
+ipch
+packages
+Packages.dgml
+Release
+sdk-build.log
+
