@@ -831,7 +831,8 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
-    FBPermissions^ Permissions
+    FBPermissions^ Permissions,
+	SessionLoginMethod method
     )
 {
     _dialog = ref new FacebookDialog();
@@ -852,15 +853,25 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         return create_task([=]() -> FBResult^
         {
             FBResult^ result = nullptr;
-
-            task<FBResult^> authTask = TryLoginViaWebView(parameters);
-            result = authTask.get();
-            if (!result)
+            task<FBResult^> authTask;
+            switch (method) 
             {
-                authTask = TryLoginViaWebAuthBroker(parameters);
+            case SessionLoginMethodDefault: 
+                authTask = TryLoginViaWebView(parameters);
                 result = authTask.get();
+                if (!result)
+                {
+                    authTask = TryLoginViaWebAuthBroker(parameters);
+                    result = authTask.get();
+                }
+                break;
+            case SessionLoginMethodWebView: 
+                authTask = TryLoginViaWebView(parameters);
+                break;
+            case SessionLoginMethodWebAuthBroker: 
+                authTask = TryLoginViaWebAuthBroker(parameters);
+                break;
             }
-
             return result;
         })
         .then([this](FBResult^ graphResult) -> task<FBResult^>
