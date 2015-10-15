@@ -11,15 +11,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginCpp.Windows", "LoginCp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginCpp.WindowsPhone", "LoginCpp\LoginCpp.WindowsPhone\LoginCpp.WindowsPhone.vcxproj", "{45BAA3AB-92F6-4DB0-B008-FDDD73D1659B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.Windows", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.Windows\FBWinSDK.Windows.vcxproj", "{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb.Windows", "..\..\winsdkfb\winsdkfb\winsdkfb.Windows\winsdkfb.Windows.vcxproj", "{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FBWinSDK.WindowsPhone", "..\..\FBWinSDK\FBWinSDK\FBWinSDK.WindowsPhone\FBWinSDK.WindowsPhone.vcxproj", "{F833B1E6-2866-4A47-89E2-C474983FE70F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb.WindowsPhone", "..\..\winsdkfb\winsdkfb\winsdkfb.WindowsPhone\winsdkfb.WindowsPhone.vcxproj", "{F833B1E6-2866-4A47-89E2-C474983FE70F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{079ac050-7d48-41f0-83c2-f4c4da7f21d4}*SharedItemsImports = 9
-		..\..\FBWinSDK\FBWinSDK\FBWinSDK.Shared\FBWinSDK.Shared.vcxitems*{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}*SharedItemsImports = 4
-		..\..\FBWinSDK\FBWinSDK\FBWinSDK.Shared\FBWinSDK.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4
+		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}*SharedItemsImports = 4
+		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{45baa3ab-92f6-4db0-b008-fddd73d1659b}*SharedItemsImports = 4
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{4fdef5bd-ed11-49a1-b6c6-d9f0ab7eb7e2}*SharedItemsImports = 4
 	EndGlobalSection
