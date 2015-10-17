@@ -36,9 +36,9 @@ namespace Facebook
     //! Specifies behavior of login for web view vs. app
     public enum class SessionLoginBehavior
     {
-        SessionLoginBehaviorWithFallbackToWebView = 0,
-        SessionLoginBehaviorWithNoFallbackToWebView = 1,
-        SessionLoginBehaviorForcingWebView = 2
+        FallbackToWebView = 0,
+        NoFallbackToWebView = 1,
+        ForcingWebView = 2
     };
 
     ref class FBSession;
@@ -120,6 +120,10 @@ namespace Facebook
             //! Launch 'request' dialog, to send app
             Windows::Foundation::IAsyncOperation<FBResult^>^ ShowRequestsDialogAsync(
                 Windows::Foundation::Collections::PropertySet^ Parameters
+                );
+
+            Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
+                Facebook::FBPermissions^ Permissions
                 );
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
