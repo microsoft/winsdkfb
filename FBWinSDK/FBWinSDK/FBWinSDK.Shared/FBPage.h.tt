@@ -1,3 +1,3 @@
 <#@ template debug="false" hostspecific="false" language="C#" #>
-<# string classDefFile = "..\\FBWinSDK.Shared\\FacebookPage.xml"; #>
+<# string classDefFile = "..\\FBWinSDK.Shared\\FBPage.xml"; #>
 <#@ include file="FBGraphObjectHeader.ttinclude" #>

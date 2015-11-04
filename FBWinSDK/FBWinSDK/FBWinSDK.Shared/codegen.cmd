@@ -19,29 +19,30 @@ if not "%ErrorLevel%" == "0" goto :NotFound
 
 :Found
 if not exist Generated md Generated
-if not exist Generated\FBCursors.cpp TextTransform.exe -out Generated\FBCursors.cpp FBCursors.cpp.tt
-if not exist Generated\FBGroup.cpp TextTransform.exe -out Generated\FBGroup.cpp FBGroup.cpp.tt
-if not exist Generated\FBPage.cpp TextTransform.exe -out Generated\FBPage.cpp FBPage.cpp.tt
-if not exist Generated\FBPageCategory.cpp TextTransform.exe -out Generated\FBPageCategory.cpp FBPageCategory.cpp.tt
-if not exist Generated\FBPaging.cpp TextTransform.exe -out Generated\FBPaging.cpp FBPaging.cpp.tt
-if not exist Generated\FBPermission.cpp TextTransform.exe -out Generated\FBPermission.cpp FBPermission.cpp.tt
-if not exist Generated\FBUser.cpp TextTransform.exe -out Generated\FBUser.cpp FBUser.cpp.tt
-if not exist Generated\FBProfilePicture.cpp TextTransform.exe -out Generated\FBProfilePicture.cpp FBProfilePicture.cpp.tt
-if not exist Generated\FBProfilePictureData.cpp TextTransform.exe -out Generated\FBProfilePictureData.cpp FBProfilePictureData.cpp.tt
-if not exist Generated\FBAppRequest.cpp TextTransform.exe -out Generated\FBAppRequest.cpp FBAppRequest.cpp.tt
-if not exist Generated\FBObject.cpp TextTransform.exe -out Generated\FBObject.cpp FBObject.cpp.tt
-
-if not exist Generated\FBCursors.h TextTransform.exe -out Generated\FBCursors.h FBCursors.h.tt
-if not exist Generated\FBGroup.h TextTransform.exe -out Generated\FBGroup.h FBGroup.h.tt
-if not exist Generated\FBPage.h TextTransform.exe -out Generated\FBPage.h FBPage.h.tt
-if not exist Generated\FBPageCategory.h TextTransform.exe -out Generated\FBPageCategory.h FBPageCategory.h.tt
-if not exist Generated\FBPaging.h TextTransform.exe -out Generated\FBPaging.h FBPaging.h.tt
-if not exist Generated\FBPermission.h TextTransform.exe -out Generated\FBPermission.h FBPermission.h.tt
-if not exist Generated\FBUser.h TextTransform.exe -out Generated\FBUser.h FBUser.h.tt
-if not exist Generated\FBProfilePicture.h TextTransform.exe -out Generated\FBProfilePicture.h FBProfilePicture.h.tt
-if not exist Generated\FBProfilePictureData.h TextTransform.exe -out Generated\FBProfilePictureData.h FBProfilePictureData.h.tt
-if not exist Generated\FBAppRequest.h TextTransform.exe -out Generated\FBAppRequest.h FBAppRequest.h.tt
-if not exist Generated\FBObject.h TextTransform.exe -out Generated\FBObject.h FBObject.h.tt
+REM cpp files
+call :GenFile FBCursors.cpp FBCursors.cpp.tt
+call :GenFile FBGroup.cpp FBGroup.cpp.tt
+call :GenFile FBPage.cpp FBPage.cpp.tt
+call :GenFile FBPageCategory.cpp FBPageCategory.cpp.tt
+call :GenFile FBPaging.cpp FBPaging.cpp.tt
+call :GenFile FBPermission.cpp FBPermission.cpp.tt
+call :GenFile FBUser.cpp FBUser.cpp.tt
+call :GenFile FBProfilePicture.cpp FBProfilePicture.cpp.tt
+call :GenFile FBProfilePictureData.cpp FBProfilePictureData.cpp.tt
+call :GenFile FBAppRequest.cpp FBAppRequest.cpp.tt
+call :GenFile FBObject.cpp FBObject.cpp.tt
+REM header files
+call :GenFile FBCursors.h FBCursors.h.tt
+call :GenFile FBGroup.h FBGroup.h.tt
+call :GenFile FBPage.h FBPage.h.tt
+call :GenFile FBPageCategory.h FBPageCategory.h.tt
+call :GenFile FBPaging.h FBPaging.h.tt
+call :GenFile FBPermission.h FBPermission.h.tt
+call :GenFile FBUser.h FBUser.h.tt
+call :GenFile FBProfilePicture.h FBProfilePicture.h.tt
+call :GenFile FBProfilePictureData.h FBProfilePictureData.h.tt
+call :GenFile FBAppRequest.h FBAppRequest.h.tt
+call :GenFile FBObject.h FBObject.h.tt
 
 goto End
 
@@ -49,3 +50,44 @@ goto End
 echo Could not find TextTransform, please add it to your PATH or have it available in %CommonProgramFiles(x86)%\Microsoft Shared\TextTemplating\14.0 (VS2015) or %CommonProgramFiles(x86)%\Microsoft Shared\TextTemplating\12.0 (VS2013)
 
 :End
+exit /b 0
+
+REM call :GenFile GeneratedFileName TemplateFileName
+:GenFile
+setlocal
+set CurrentGeneratedFile=%1
+set CurrentTemplateFile=%2
+REM check the generated file and its .tt equivalent
+if not exist Generated\%CurrentGeneratedFile% goto :RunGenFile
+call :ShouldRegen %CurrentGeneratedFile% %CurrentTemplateFile%
+if %errorlevel% EQU 1 goto :RunGenFile
+REM check the .xml file
+for %%i in (%CurrentGeneratedFile%) do set BaseName=%%~ni
+call :ShouldRegen %CurrentGeneratedFile% %BaseName%.xml
+if %errorlevel% EQU 1 goto :RunGenFile
+REM check if we need to also check a .ttinclude file
+set Ext=""
+set TTIncludeFile="x"
+for %%i in (%CurrentGeneratedFile%) do set Ext=%%~xi
+if "%Ext%" EQU ".cpp" set TTIncludeFile=FBGraphObjectImplementation.ttinclude
+if "%Ext%" EQU ".h" set TTIncludeFile=FBGraphObjectHeader.ttinclude
+if "%TTIncludeFile%" EQU "x" exit /b 0
+call :ShouldRegen %CurrentGeneratedFile% %TTIncludeFile%
+if %errorlevel% EQU 1 goto :RunGenFile
+exit /b 0
+
+:RunGenFile
+echo Generating Generated\%CurrentGeneratedFile%
+TextTransform.exe -out Generated\%CurrentGeneratedFile% %CurrentTemplateFile%
+exit /b 0
+
+
+REM call :ShouldRegen GeneratedFileName TemplateFileName
+REM returns 1 if should regen, 0 otherwise
+:ShouldRegen
+setlocal
+set CurrentGeneratedFile=%1
+set CurrentTemplateFile=%2
+set CompareTool="..\..\build\CompareFileDates.exe"
+%CompareTool% "%CD%\Generated\%CurrentGeneratedFile%" "%CD%\%CurrentTemplateFile%"
+if %errorlevel% EQU 1 exit /b 1 else exit /b 0
