@@ -834,6 +834,16 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions
     )
 {
+    return LoginAsync(
+        Permissions, 
+        SessionLoginBehavior::FallbackToWebView);
+}
+
+IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
+    FBPermissions^ Permissions,
+	SessionLoginBehavior behavior
+    )
+{
     _dialog = ref new FacebookDialog();
 
     return create_async([=]()
@@ -852,15 +862,30 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         return create_task([=]() -> FBResult^
         {
             FBResult^ result = nullptr;
-
-            task<FBResult^> authTask = TryLoginViaWebView(parameters);
-            result = authTask.get();
-            if (!result)
+            task<FBResult^> authTask;
+            switch (behavior)
             {
+            case SessionLoginBehavior::FallbackToWebView:
                 authTask = TryLoginViaWebAuthBroker(parameters);
                 result = authTask.get();
+                if (!result)
+                {
+                    authTask = TryLoginViaWebView(parameters);
+                    result = authTask.get();
+                }
+                break;
+            case SessionLoginBehavior::ForcingWebView:
+                authTask = TryLoginViaWebView(parameters);
+                result = authTask.get();
+                break;
+            case SessionLoginBehavior::NoFallbackToWebView:
+                authTask = TryLoginViaWebAuthBroker(parameters);
+                result = authTask.get();
+                break;
+            default:
+                OutputDebugString(L"Invalid SessionLoginBehavior member!\n");
+                break;
             }
-
             return result;
         })
         .then([this](FBResult^ graphResult) -> task<FBResult^>

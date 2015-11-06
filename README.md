@@ -39,3 +39,11 @@ Windows 10 Technical Preview
 
 ## **License**
 See the LICENSE file for licensing information.
+
+## **Contributing**
+
+All pull requests should be made to the `develop` branch.
+
+## Privacy
+
+https://www.microsoft.com/en-us/privacystatement/default.aspx
