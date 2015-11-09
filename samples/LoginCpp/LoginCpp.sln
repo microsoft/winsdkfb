@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb.Windows", "..\..\w
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb.WindowsPhone", "..\..\winsdkfb\winsdkfb\winsdkfb.WindowsPhone\winsdkfb.WindowsPhone.vcxproj", "{F833B1E6-2866-4A47-89E2-C474983FE70F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb.Shared", "..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems", "{5C0B24D0-BA5F-490A-AB3E-71265D4A0A4B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{079ac050-7d48-41f0-83c2-f4c4da7f21d4}*SharedItemsImports = 9

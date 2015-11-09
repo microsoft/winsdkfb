@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoginCpp", "LoginCpp\LoginC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb", "..\..\winsdkfb\winsdkfb_uwp\winsdkfb_uwp\winsdkfb_uwp.vcxproj", "{973A943B-FF77-4267-8F30-F5FE2B7F5583}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb.Shared", "..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems", "{5C0B24D0-BA5F-490A-AB3E-71265D4A0A4B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{973a943b-ff77-4267-8f30-f5fe2b7f5583}*SharedItemsImports = 4
