@@ -17,8 +17,8 @@
 #include "pch.h"
 #include "FBPageBindable.h"
 
-using namespace Facebook;
-using namespace Facebook::Graph;
+using namespace winsdkfb;
+using namespace winsdkfb::Graph;
 using namespace LoginCpp;
 using namespace Platform;
 using namespace Windows::Data::Json;

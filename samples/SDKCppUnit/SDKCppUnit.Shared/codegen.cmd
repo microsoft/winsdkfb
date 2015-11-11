@@ -71,7 +71,7 @@ REM returns 1 if should regen, 0 otherwise
 setlocal
 set CurrentGeneratedFile=%1
 set CurrentTemplateFile=%2
-set CompareTool="..\..\..\FBWinSDK\build\CompareFileDates.exe"
+set CompareTool="..\..\..\winsdkfb\build\CompareFileDates.exe"
 %CompareTool% "%CD%\Generated\%CurrentGeneratedFile%" "%CD%\%CurrentTemplateFile%"
 if %errorlevel% EQU 1 exit /b 1
 exit /b 0
