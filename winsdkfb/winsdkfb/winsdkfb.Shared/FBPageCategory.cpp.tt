@@ -1,4 +1,4 @@
 <#@ template debug="false" hostspecific="false" language="C#" #>
-<# string classDefFile = "..\\winsdkfb.Shared\\FacebookPageCategory.xml"; #>
+<# string classDefFile = "..\\winsdkfb.Shared\\FBPageCategory.xml"; #>
 <#@ include file="FBGraphObjectImplementation.ttinclude" #>
 
