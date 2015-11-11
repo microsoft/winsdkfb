@@ -76,14 +76,14 @@ namespace LoginCpp
 
         private:
             FBPageBindable(
-                Facebook::Graph::FBPage^ page
+                winsdkfb::Graph::FBPage^ page
                 );
 
             void NotifyPropertyChanged(
                 Platform::String^ prop
                 );
             
-            Facebook::Graph::FBPage^ _page;
+            winsdkfb::Graph::FBPage^ _page;
     };
 }
 

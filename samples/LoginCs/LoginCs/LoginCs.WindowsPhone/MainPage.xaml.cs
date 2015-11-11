@@ -14,7 +14,7 @@
 //
 //******************************************************************************
 
-using Facebook;
+using winsdkfb;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -116,7 +116,7 @@ namespace LoginCs
         {
             return ((Result != null)  &&
                 (!Result.Succeeded) &&
-                (Result.ErrorInfo.Code == (int)Facebook.ErrorCode.ErrorCodeOauthException));
+                (Result.ErrorInfo.Code == (int)winsdkfb.ErrorCode.ErrorCodeOauthException));
         }
 
         bool ShouldRerequest(
