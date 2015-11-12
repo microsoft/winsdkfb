@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['name',['Name',['../class_facebook_1_1_graph_1_1_f_b_group.html#a626bd511f38322dfad0c7fbdb331037f',1,'Facebook::Graph::FBGroup::Name()'],['../class_facebook_1_1_graph_1_1_f_b_page.html#a12a534169d934ea98b7960466a30f7de',1,'Facebook::Graph::FBPage::Name()'],['../class_facebook_1_1_graph_1_1_f_b_page_category.html#a467403d9c69a5ea89591c06117374e5e',1,'Facebook::Graph::FBPageCategory::Name()'],['../class_facebook_1_1_graph_1_1_f_b_user.html#a94c54f1f127959ab75cb0770b399adc3',1,'Facebook::Graph::FBUser::Name()'],['../class_facebook_1_1_f_b_page_category.html#a595a8388971ea3e13c2aa7a22cfc084e',1,'Facebook::FBPageCategory::name()']]],
-  ['next',['Next',['../class_facebook_1_1_graph_1_1_f_b_paging.html#a477af71fcb80ce75d435dc2821e105e6',1,'Facebook::Graph::FBPaging']]]
+  ['user',['User',['../classwinsdkfb_1_1_f_b_session.html#ac5f12c2b3dcda6f24f33e89b8185419b',1,'winsdkfb::FBSession']]],
+  ['userid',['UserID',['../classwinsdkfb_1_1_f_b_access_token_data.html#a436aa0c58165dea46bea4f9304457d64',1,'winsdkfb::FBAccessTokenData']]]
 ];

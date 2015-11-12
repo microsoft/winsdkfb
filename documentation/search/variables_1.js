@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['login_5fevt',['login_evt',['../namespace_facebook.html#add71b42c0f715713d9f8a8119c1ef2ca',1,'Facebook']]]
+  ['code',['Code',['../classwinsdkfb_1_1sealed.html#ab6c984966367c22c798279d837b1722c',1,'winsdkfb::sealed']]]
 ];
