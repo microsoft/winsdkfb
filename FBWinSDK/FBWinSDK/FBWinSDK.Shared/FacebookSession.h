@@ -38,7 +38,8 @@ namespace Facebook
     {
         FallbackToWebView = 0,
         NoFallbackToWebView = 1,
-        ForcingWebView = 2
+        ForcingWebView = 2,
+        WebViewWithWebAuthFallback = 3
     };
 
     ref class FBSession;

@@ -836,7 +836,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 {
     return LoginAsync(
         Permissions, 
-        SessionLoginBehavior::FallbackToWebView);
+        SessionLoginBehavior::WebViewWithWebAuthFallback);
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
@@ -881,6 +881,15 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
             case SessionLoginBehavior::NoFallbackToWebView:
                 authTask = TryLoginViaWebAuthBroker(parameters);
                 result = authTask.get();
+                break;
+            case SessionLoginBehavior::WebViewWithWebAuthFallback:
+                authTask = TryLoginViaWebView(parameters);
+                result = authTask.get();
+                if (!result)
+                {
+                    authTask = TryLoginViaWebAuthBroker(parameters);
+                    result = authTask.get();
+                }
                 break;
             default:
                 OutputDebugString(L"Invalid SessionLoginBehavior member!\n");
