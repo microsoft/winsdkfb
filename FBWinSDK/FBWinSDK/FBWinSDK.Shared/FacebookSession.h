@@ -132,6 +132,9 @@ namespace Facebook
                 SessionLoginBehavior behavior
                 );
 
+            //! Try open session with existing token without appear login interface
+            Windows::Foundation::IAsyncOperation<FBResult^>^ TryOpenSession();
+
             void SetAPIVersion(
                 int MajorVersion,
                 int MinorVersion
