@@ -533,9 +533,6 @@ void FacebookDialog::dialogWebView_SendNavStarting(
         UninitDialog();
 
         DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
-
-
-
         _dialogResponse = ref new FBResult(ref new FBSendRequest());
 
     }

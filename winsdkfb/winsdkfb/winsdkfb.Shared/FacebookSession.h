@@ -123,7 +123,7 @@ namespace winsdkfb
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            // Launch 'send' dialog, to send private message
+            //! Launch 'send' dialog, to send private message
             Windows::Foundation::IAsyncOperation<FBResult^>^ ShowSendDialogAsync(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );

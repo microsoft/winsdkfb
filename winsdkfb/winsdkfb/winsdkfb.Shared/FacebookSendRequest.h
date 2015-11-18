@@ -16,8 +16,6 @@
 
 #pragma once
 
-//#include <collection.h>
-
 namespace winsdkfb
 {
     public ref class FBSendRequest sealed
