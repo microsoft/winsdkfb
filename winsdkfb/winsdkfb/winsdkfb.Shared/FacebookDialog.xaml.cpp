@@ -375,7 +375,6 @@ Uri^ FacebookDialog::BuildSendDialogUrl(
     if (sess->APIMajorVersion)
     {
         apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
-        //apiVersion = L"v" + "2" + L"." + "5" + L"/";
     }
     String^ dialogUriString =
         L"https://" + GetFBServer() + 
