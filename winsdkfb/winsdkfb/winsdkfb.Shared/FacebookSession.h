@@ -137,6 +137,9 @@ namespace winsdkfb
                 SessionLoginBehavior behavior
                 );
 
+            //! Try open session without appear login interface
+            Windows::Foundation::IAsyncOperation<FBResult^>^ TryOpenSession();
+
             void SetAPIVersion(
                 int MajorVersion,
                 int MinorVersion

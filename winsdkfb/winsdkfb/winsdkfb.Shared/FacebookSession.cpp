@@ -784,7 +784,7 @@ task<FBResult^> FBSession::TryGetAppPermissionsAfterLogin(
     )
 {
     task<FBResult^> finalResult;
-    if (loginResult->Succeeded)
+    if (loginResult && loginResult->Succeeded)
     {
         _user = static_cast<FBUser^>(loginResult->Object);
         finalResult = GetAppPermissions();
@@ -901,8 +901,6 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 	SessionLoginBehavior behavior
     )
 {
-    _dialog = ref new FacebookDialog();
-
     return create_async([=]()
     {
         PropertySet^ parameters = ref new PropertySet();
@@ -1117,6 +1115,49 @@ BOOL FBSession::IsRerequest(
     }
 
     return isRerequest;
+}
+
+Windows::Foundation::IAsyncOperation<FBResult^>^ winsdkfb::FBSession::TryOpenSession()
+{
+    return create_async([=]()
+    {
+        return create_task([=]() -> FBResult^
+        {
+            FBResult^ result = nullptr;
+            task<FBResult^> getTokenTask = CheckForExistingToken();
+            result = getTokenTask.get();
+            return result;
+        }).then([this](FBResult^ oauthResult) -> FBResult^
+        {
+            if (oauthResult && oauthResult->Succeeded)
+            {
+                winsdkfb::FBAccessTokenData^ tokenData =
+                    static_cast<winsdkfb::FBAccessTokenData^>(oauthResult->Object);
+                if (!tokenData->IsExpired())
+                {
+                    AccessTokenData = tokenData;
+                    return ref new FBResult(AccessTokenData);
+                }
+            }
+            return nullptr;
+        }).then([this](FBResult^ graphResult) -> task<FBResult^>
+        {
+            return TryGetUserInfoAfterLogin(graphResult);
+        })
+            .then([this](FBResult^ userInfoResult) -> task<FBResult^>
+        {
+            return TryGetAppPermissionsAfterLogin(userInfoResult);
+        })
+            .then([=](FBResult^ finalResult)
+        {
+            if (!finalResult || !finalResult->Succeeded)
+            {
+                _loggedIn = false;
+                AccessTokenData = nullptr;
+            }
+            return finalResult;
+        });
+    });
 }
 
 void FBSession::SetAPIVersion(
