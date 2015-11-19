@@ -496,6 +496,63 @@ IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
     return task;
 }
 
+IAsyncOperation<FBResult^>^ FBSession::ShowSendDialogAsync(
+    PropertySet^ Parameters
+    )
+{
+    _dialog = ref new FacebookDialog();
+
+    _showingDialog = TRUE;
+
+    auto callback = ref new DispatchedHandler(
+        [=]()
+    {
+        try
+        {
+            _dialog->ShowSendDialog(Parameters);
+        }
+        catch(Exception^ ex)
+        {
+            _showingDialog = FALSE;
+        }
+    });
+
+    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
+
+    IAsyncAction^ waiter = wnd->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        callback);
+
+    // create a task that will wait for the login control to finish doing what it was doing
+    IAsyncOperation<FBResult^>^ task = concurrency::create_async(
+        [=]() 
+    {
+        FBResult^ dialogResponse = nullptr;
+
+        // TODO: Is there a better way to do this?  I was using an event, but
+        // the concurrency event object was deprecated in the Win10 SDK tools.
+        // Switched to plane old Windows event, but that didn't work at all,
+        // so polling for now.
+        while (_showingDialog && !dialogResponse)
+        {
+            dialogResponse = _dialog->GetDialogResponse();
+            Sleep(0);
+        }
+
+        if (!_showingDialog)
+        {
+            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+            dialogResponse = ref new FBResult(err);
+        }
+
+        _showingDialog = FALSE;
+        _dialog = nullptr;
+        return dialogResponse;
+    });
+
+    return task;
+}
+
 task<FBResult^> FBSession::ShowLoginDialog(
     PropertySet^ Parameters
     )

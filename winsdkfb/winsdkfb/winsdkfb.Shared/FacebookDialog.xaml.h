@@ -62,6 +62,10 @@ namespace winsdkfb
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
+        void ShowSendDialog(
+            Windows::Foundation::Collections::PropertySet^ Parameters
+            );
+
     private:
         void ShowDialog(
             DialogUriBuilder^ uriBuilder,
@@ -91,6 +95,10 @@ namespace winsdkfb
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
+        Windows::Foundation::Uri^ BuildSendDialogUrl(
+            Windows::Foundation::Collections::PropertySet^ Parameters
+            );
+
         void dialogWebView_LoginNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
@@ -102,6 +110,11 @@ namespace winsdkfb
             );
 
         void dialogWebView_RequestNavStarting(
+            Windows::UI::Xaml::Controls::WebView^ sender,
+            Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
+            );
+
+        void dialogWebView_SendNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
