@@ -39,7 +39,8 @@ namespace Facebook
         FallbackToWebView = 0,
         NoFallbackToWebView = 1,
         ForcingWebView = 2,
-        WebViewWithWebAuthFallback = 3
+        WebViewWithWebAuthFallback = 3,
+        NoFallbackToUi = 4
     };
 
     ref class FBSession;
@@ -205,6 +206,10 @@ namespace Facebook
                 );
 
             concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
+                Windows::Foundation::Collections::PropertySet^ Parameters
+                );
+
+            concurrency::task<FBResult^> TryLoginViaSessionRestore(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
