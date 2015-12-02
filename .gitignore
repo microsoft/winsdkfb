@@ -15,4 +15,6 @@ packages
 Packages.dgml
 Release
 sdk-build.log
-
+_site
+.sass-cache
+.jekyll-metadata
