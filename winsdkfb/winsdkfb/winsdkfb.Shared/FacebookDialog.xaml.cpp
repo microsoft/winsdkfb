@@ -113,6 +113,7 @@ void FacebookDialog::InitDialog()
 
 void FacebookDialog::UninitDialog()
 {
+    dialogWebBrowser->Stop();
     dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
     CoreApplication::MainView->CoreWindow->SizeChanged -= 
         sizeChangedEventRegistrationToken;
@@ -378,8 +379,6 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
@@ -395,8 +394,6 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
@@ -414,8 +411,6 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         DebugPrintLine(L"Feed response is " + e->Uri->DisplayUri);
@@ -433,8 +428,6 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
@@ -452,8 +445,6 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
@@ -471,8 +462,6 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
@@ -485,11 +474,10 @@ void FacebookDialog::CloseDialogButton_OnClick(
     RoutedEventArgs^ e
     )
 {
-    _popup->IsOpen = false;
+    UninitDialog();
 
     FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
     _dialogResponse = ref new FBResult(err);
-    _popup->Child = nullptr;
 }
 
 void FacebookDialog::OnSizeChanged(
