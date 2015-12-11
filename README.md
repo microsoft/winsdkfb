@@ -19,6 +19,7 @@ The Windows SDK for Facebook is geared towards app developers creating modern wi
 ###Dialogs
   - Feed dialog
   - Request dialog
+  - Send dialog
 
 ###Graph
   - Custom Stories
@@ -39,3 +40,11 @@ Windows 10 Technical Preview
 
 ## **License**
 See the LICENSE file for licensing information.
+
+## **Contributing**
+
+All pull requests should be made to the `develop` branch.
+
+## Privacy
+
+https://www.microsoft.com/en-us/privacystatement/default.aspx

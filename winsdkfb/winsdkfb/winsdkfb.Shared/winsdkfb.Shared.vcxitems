@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{5c0b24d0-ba5f-490a-ab3e-71265d4a0a4b}</ItemsProjectGuid>
+    <ItemsRootNamespace>winsdkfb</ItemsRootNamespace>
+    <ItemsProjectName>winsdkfb.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ColorLuminosityConverter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookAccessTokenData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookAppRequest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookClient.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml.h">
+      <DependentUpon>$(MSBuildThisFileDirectory)FacebookDialog.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookError.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaStream.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookPermissions.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookProfilePicture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml.h">
+      <DependentUpon>$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookResult.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSession.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBCursors.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBGroup.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBPage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBPaging.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBPermission.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBSingleValue.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePicture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBUser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HlsColor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpMethod.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonClassFactory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ScaleConverter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SDKMessage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ColorLuminosityConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookAccessTokenData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookAppRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookClient.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml.cpp">
+      <DependentUpon>$(MSBuildThisFileDirectory)FacebookDialog.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookError.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPermissions.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSendRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBCursors.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBGroup.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBPage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml.cpp">
+      <DependentUpon>$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSession.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBPaging.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBPermission.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FBSingleValue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePicture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBUser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HlsColor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScaleConverter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)FBAppRequest.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBAppRequest.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBCursors.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBCursors.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBGraphObjectHeader.ttinclude" />
+    <None Include="$(MSBuildThisFileDirectory)FBGraphObjectImplementation.ttinclude" />
+    <None Include="$(MSBuildThisFileDirectory)FBGroup.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBGroup.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPage.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPage.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPageCategory.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPageCategory.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPaging.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPaging.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPermission.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBPermission.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePicture.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePictureData.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePictureData.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBUser.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBUser.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)Utility.ttinclude" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)FacebookPage.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBCursors.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBGroup.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBPaging.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBPermission.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBUser.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="$(MSBuildThisFileDirectory)Images\fb_blank_profile_portrait.png">
+      <ExcludedFromBuild>false</ExcludedFromBuild>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(MSBuildThisFileDirectory)FBAppRequest.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)FBPageCategory.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)FBProfilePicture.xml" />
+    <Xml Include="$(MSBuildThisFileDirectory)FBProfilePictureData.xml" />
+  </ItemGroup>
+</Project>

@@ -1,3 +1,0 @@
-<#@ template debug="false" hostspecific="false" language="C#" #>
-<# string classDefFile = "..\\FBWinSDK.Shared\\FBProfilePictureData.xml"; #>
-<#@ include file="FBGraphObjectHeader.ttinclude" #>

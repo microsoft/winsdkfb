@@ -149,13 +149,8 @@ popd
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FBWinSDK\FBWinSDK\FBWinSDK.WindowsPhone\FBWinSDK.WindowsPhone.vcxproj">
+    <ProjectReference Include="..\..\..\winsdkfb\winsdkfb\winsdkfb.WindowsPhone\winsdkfb.WindowsPhone.vcxproj">
       <Project>{f833b1e6-2866-4a47-89e2-c474983fe70f}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

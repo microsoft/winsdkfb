@@ -20,8 +20,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Facebook;
-using Facebook.Graph;
+using winsdkfb;
+using winsdkfb.Graph;
 
 namespace LoginCs
 {

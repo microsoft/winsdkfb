@@ -30,8 +30,8 @@
 using namespace SDKCppUnit;
 
 using namespace concurrency;
-using namespace Facebook;
-using namespace Facebook::Graph;
+using namespace winsdkfb;
+using namespace winsdkfb::Graph;
 using namespace Platform; 
 using namespace Platform::Collections;
 using namespace std;

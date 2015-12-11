@@ -30,7 +30,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using Facebook;
+using winsdkfb;
 using Windows.Globalization;
 using Windows.ApplicationModel.Resources;
 using System.Threading.Tasks;
@@ -115,7 +115,7 @@ namespace LoginCs
         {
             return ((Result != null) &&
                 (!Result.Succeeded) &&
-                (Result.ErrorInfo.Code == (int)Facebook.ErrorCode.ErrorCodeOauthException));
+                (Result.ErrorInfo.Code == (int)winsdkfb.ErrorCode.ErrorCodeOauthException));
         }
 
         bool ShouldRerequest(
