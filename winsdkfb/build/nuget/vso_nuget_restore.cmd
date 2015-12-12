@@ -1,3 +1,3 @@
 
 cd %~dp0\..\..
-.\build\nuget\Nuget.exe restore FBWinSDK.sln -NonInteractive
+.\build\nuget\Nuget.exe restore winsdkfb.sln -NonInteractive
