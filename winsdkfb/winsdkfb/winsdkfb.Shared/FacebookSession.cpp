@@ -1078,8 +1078,8 @@ task<FBResult^> FBSession::TryLoginViaSessionRestore(
 
         if (oauthResult && oauthResult->Succeeded)
         {
-            Facebook::FBAccessTokenData^ tokenData =
-                static_cast<Facebook::FBAccessTokenData^>(oauthResult->Object);
+            winsdkfb::FBAccessTokenData^ tokenData =
+                static_cast<winsdkfb::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
                 AccessTokenData = tokenData;
