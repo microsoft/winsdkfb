@@ -1,4 +1,4 @@
-﻿//******************************************************************************
+﻿ //******************************************************************************
 //
 // Copyright (c) 2015 Microsoft Corporation. All rights reserved.
 //
@@ -114,6 +114,10 @@ namespace Facebook
         bool IsLoginSuccessRedirect(
             Windows::Foundation::Uri^ Response
             );
+
+		bool IsLogoutRedirect(
+			Windows::Foundation::Uri^ Response
+			);
 
         bool IsDialogCloseRedirect(
             Windows::Foundation::Uri^ Response

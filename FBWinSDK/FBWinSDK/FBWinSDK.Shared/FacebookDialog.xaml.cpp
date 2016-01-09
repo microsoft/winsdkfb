@@ -1,4 +1,4 @@
-﻿//******************************************************************************
+﻿ //******************************************************************************
 //
 // Copyright (c) 2015 Microsoft Corporation. All rights reserved.
 //
@@ -54,6 +54,7 @@ using namespace std;
 #define FACEBOOK_DESKTOP_SERVER_NAME L"www"
 #define FACEBOOK_MOBILE_SERVER_NAME  L"m"
 #define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
+#define FACEBOOK_LOGOUT_PATH  L"/logout.php"
 #define FACEBOOK_DIALOG_CLOSE_PATH   L"/dialog/close"
 
 const wchar_t* ErrorObjectJson = L"{\"error\": {\"message\": " \
@@ -361,6 +362,13 @@ bool FacebookDialog::IsLoginSuccessRedirect(
     return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
 }
 
+bool FacebookDialog::IsLogoutRedirect(
+	Uri^ Response
+	)
+{
+	return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGOUT_PATH) == 0);
+}
+
 bool FacebookDialog::IsDialogCloseRedirect(
     Uri^ Response
     )
@@ -431,6 +439,19 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
             _dialogResponse = ref new FBResult(err);
         }
     }
+	else if (IsLogoutRedirect(e->Uri))
+	{
+        dialogWebBrowser->Stop();
+			
+		UninitDialog();
+
+		DebugPrintLine(L"Feed response is " + e->Uri->DisplayUri);
+		FBSession^ sess = FBSession::ActiveSession;
+		sess->LogoutAsync();
+
+		FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+		_dialogResponse = ref new FBResult(err);
+	}
     else if (IsDialogCloseRedirect(e->Uri))
     {
         dialogWebBrowser->Stop();
