@@ -1,0 +1,3 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<# string classDefFile = "..\\winsdkfb.Shared\\FBPaging.xml"; #>
+<#@ include file="FBGraphObjectHeader.ttinclude" #>

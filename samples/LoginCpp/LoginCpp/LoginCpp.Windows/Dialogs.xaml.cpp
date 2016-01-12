@@ -25,7 +25,7 @@
 using namespace LoginCpp;
 
 using namespace concurrency;
-using namespace Facebook;
+using namespace winsdkfb;
 using namespace Platform;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;

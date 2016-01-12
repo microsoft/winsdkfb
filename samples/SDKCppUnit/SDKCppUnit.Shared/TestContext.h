@@ -40,11 +40,11 @@ namespace SDKCppUnit
         concurrency::task<bool> GetAppToken(
             );
 
-        concurrency::task<Facebook::FBResult^> CreateTestUser(
+        concurrency::task<winsdkfb::FBResult^> CreateTestUser(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        concurrency::task<Facebook::FBResult^> DeleteTestUser(
+        concurrency::task<winsdkfb::FBResult^> DeleteTestUser(
             TestUser^ user
             );
 
@@ -59,6 +59,6 @@ namespace SDKCppUnit
         TestContext();
         AppToken^ _Token;
         Platform::Collections::Vector<TestUser^>^ _testUsers;
-        Facebook::Graph::FBPaginatedArray^ _pagedResult;
+        winsdkfb::Graph::FBPaginatedArray^ _pagedResult;
     };
 }
