@@ -42,12 +42,11 @@ if errorlevel 1 goto errorExit
 rem ---------------------------------------------------------------------------
 rem build for Windows 10 Universal 
 rem ---------------------------------------------------------------------------
-cd FBSDK-UWP
 
-call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln x86 Debug
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln Win32 Debug
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln x86 Release 
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln Win32 Release
 if errorlevel 1 goto errorExit
 
 call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln x64 Debug 
