@@ -116,7 +116,7 @@
       <file src="winsdkfb_uwp\Release\winsdkfb_uwp\Themes\Generic.xbf" target="bin\UWP\x86\winsdkfb\Themes"/>
       <file src="winsdkfb_uwp\Release\winsdkfb_uwp\Themes\Styles.xbf" target="bin\UWP\x86\winsdkfb\Themes"/>
       <file src="winsdkfb_uwp\Release\winsdkfb_uwp\Controls\FacebookLoginButton.xbf" target="bin\UWP\x86\winsdkfb\Controls"/>
-      <file src="winsdkfb_uwp\Release\winsdkfb_uwp\fb_blank_profile_portrait.png" target="bin\UWP\x86\winsdkfb"/>
+      <file src="winsdkfb_uwp\Release\winsdkfb_uwp\fb_blank_profile_portrait.png" target="bin\UWP\x86\winsdkfb\Images"/>
 
       <file src="winsdkfb_uwp\x64\Release\winsdkfb_uwp\winsdkfb.dll" target="bin\UWP\x64"/>
       <file src="winsdkfb_uwp\x64\Release\winsdkfb_uwp\winsdkfb.winmd" target="bin\UWP\x64"/>
@@ -126,7 +126,7 @@
       <file src="winsdkfb_uwp\x64\Release\winsdkfb_uwp\Themes\Generic.xbf" target="bin\UWP\x64\winsdkfb\Themes"/>
       <file src="winsdkfb_uwp\x64\Release\winsdkfb_uwp\Themes\Styles.xbf" target="bin\UWP\x64\winsdkfb\Themes"/>
       <file src="winsdkfb_uwp\x64\Release\winsdkfb_uwp\Controls\FacebookLoginButton.xbf" target="bin\UWP\x64\winsdkfb\Controls"/>
-      <file src="winsdkfb_uwp\x64\Release\winsdkfb_uwp\fb_blank_profile_portrait.png" target="bin\UWP\x64\winsdkfb"/>
+      <file src="winsdkfb_uwp\x64\Release\winsdkfb_uwp\fb_blank_profile_portrait.png" target="bin\UWP\x64\winsdkfb\Images"/>
 
       <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\winsdkfb.dll" target="bin\UWP\arm"/>
       <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\winsdkfb.winmd" target="bin\UWP\arm"/>
@@ -136,7 +136,7 @@
       <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\Themes\Generic.xbf" target="bin\UWP\arm\winsdkfb\Themes"/>
       <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\Themes\Styles.xbf" target="bin\UWP\arm\winsdkfb\Themes"/>
       <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\Controls\FacebookLoginButton.xbf" target="bin\UWP\arm\winsdkfb\Controls"/>
-      <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\fb_blank_profile_portrait.png" target="bin\UWP\arm\winsdkfb"/>
+      <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\fb_blank_profile_portrait.png" target="bin\UWP\arm\winsdkfb\Images"/>
 
         <!-- Build scripts used by managed Windows Store Apps -->
       <file src="build\nuget\winsdkfb.props" target="build\win\winsdkfb.props" />
