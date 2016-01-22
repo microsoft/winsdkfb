@@ -36,10 +36,10 @@ namespace winsdkfb
     //! Specifies behavior of login for web view vs. app
     public enum class SessionLoginBehavior
     {
-        FallbackToWebView = 0,
-        NoFallbackToWebView = 1,
-        ForcingWebView = 2,
-        WebViewWithWebAuthFallback = 3
+        WebView,
+        WebAuth,
+        WebAccountProvider,
+        DefaultOrdering
     };
 
     ref class FBSession;
@@ -132,6 +132,7 @@ namespace winsdkfb
                 winsdkfb::FBPermissions^ Permissions
                 );
 
+            //! Login to Facebook.
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
                 winsdkfb::FBPermissions^ Permissions,
                 SessionLoginBehavior behavior
@@ -140,6 +141,9 @@ namespace winsdkfb
             void SetAPIVersion(
                 int MajorVersion,
                 int MinorVersion
+                );
+
+            Windows::Foundation::IAsyncOperation<FBResult^>^ TryRefreshAccessToken(
                 );
 
         private:
@@ -151,7 +155,7 @@ namespace winsdkfb
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            Platform::String^ GetRedirectUriString(
+            Platform::String^ GetWebAuthRedirectUriString(
                 );
 
             concurrency::task<FBResult^> GetUserInfo(
@@ -212,6 +216,44 @@ namespace winsdkfb
             concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
+
+            void WriteGrantedPermissionsToFile(
+                );
+
+            Platform::String^ GetGrantedPermissionsFromFile(
+                );
+
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+            Platform::String^ GetWebAccountProviderRedirectUriString(
+                );
+
+            concurrency::task<FBResult^> CheckWebAccountProviderForExistingToken(
+                FBPermissions^ Permissions
+                );
+
+            concurrency::task<FBResult^> TryLoginViaWebAccountProvider(
+                FBPermissions^ Permissions
+                );
+
+            concurrency::task<FBResult^> CallWebAccountProviderOnUiThread(
+                FBPermissions^ Permissions
+                );
+                
+            FBResult^ ExtractAccessTokenDataFromResponseData(
+                Windows::Foundation::Collections::IVectorView
+                    <Windows::Security::Authentication::Web::Core::WebTokenResponse^>^ ResponseData
+                );
+
+            FBResult^ FBResultFromTokenRequestResult(
+                Windows::Security::Authentication::Web::Core::WebTokenRequestResult^ RequestResult
+                );
+#endif
+
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+            Windows::Foundation::Uri^ RemoveJSONFromBrowserResponseUri(
+                Windows::Foundation::Uri^ responseUri
+                );
+#endif
 
             BOOL IsRerequest(
                 Windows::Foundation::Collections::PropertySet^ Parameters
