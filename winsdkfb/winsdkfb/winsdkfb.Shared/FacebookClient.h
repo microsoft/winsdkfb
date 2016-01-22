@@ -110,8 +110,29 @@ namespace winsdkfb
             Platform::Collections::Vector<int>^ batchEtags
             );
 
-        static void FBClient::SerializeParameters(
+        static void SerializeParameters(
             Windows::Foundation::Collections::PropertySet^ parameters
+            );
+
+        static BOOL IsOAuthErrorResponse(
+            Platform::String^ Response
+            );
+
+        static concurrency::task<Platform::String^> GetTaskInternalAsync(
+            Windows::Foundation::Uri^ RequestUri
+            );
+
+        static concurrency::task<Platform::String^> DeleteTaskInternalAsync(
+            Windows::Foundation::Uri^ RequestUri
+            );
+
+        static concurrency::task<Platform::String^> SimplePostInternalAsync(
+            Windows::Foundation::Uri^ RequestUri
+            );
+
+        static concurrency::task<Platform::String^> MultipartPostInternalAsync(
+            Windows::Foundation::Uri^ RequestUri,
+            Windows::Foundation::Collections::PropertySet^ Streams
             );
     };
 };

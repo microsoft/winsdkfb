@@ -182,8 +182,11 @@ namespace FBWinPhoneStoreCppTests
         {
             String^ fbResponse = FBProfilePicResponse;
 
-            FBProfilePicture^ info = safe_cast<FBProfilePicture^>(FBProfilePicture::FromJson(fbResponse));
-            Assert::IsNotNull(info);
+            // Profile picture is an FBSingleValue response, so use the FBProfilePictureData to make the similar process
+            FBProfilePictureData^ data = safe_cast<FBProfilePictureData^>(FBProfilePictureData::FromJson(fbResponse));
+            Assert::IsNotNull(data);
+            Assert::IsNotNull(data->Data);
+            Assert::IsNotNull(data->Data->Url);
         }
         TEST_METHOD(ParseArrayOfLikes)
         {
