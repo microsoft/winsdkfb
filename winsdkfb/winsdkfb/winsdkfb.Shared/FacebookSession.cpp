@@ -1085,6 +1085,13 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
                 _loggedIn = false;
                 AccessTokenData = nullptr;
             }
+            if (finalResult == nullptr)
+            {
+                finalResult = ref new FBResult(ref new FBError(0, L"Unexpected error", L"Log in attempt failed"));
+#ifdef DEBUG
+                OutputDebugString(L"LoginAsync was about to return nullptr, created FBResult object to return instead");
+#endif
+            }
 
             return finalResult;
         });

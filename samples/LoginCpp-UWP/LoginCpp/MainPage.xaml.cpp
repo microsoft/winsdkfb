@@ -235,7 +235,7 @@ void MainPage::login_OnClicked(
 					TryRerequest(FALSE);
 				}));
 			}
-            else if (result != nullptr && result->Succeeded)
+            else if (result->Succeeded)
             {
                 // Got a token and all our permissions.
                 NavigateToOptionsPage();
