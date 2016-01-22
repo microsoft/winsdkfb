@@ -146,13 +146,6 @@ namespace winsdkfb
             Windows::Foundation::IAsyncOperation<FBResult^>^ TryRefreshAccessToken(
                 );
 
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-
-            Platform::String^ GetWP81RedirectUriString(
-                );
-
-#endif
-
         private:
             FBSession();
            

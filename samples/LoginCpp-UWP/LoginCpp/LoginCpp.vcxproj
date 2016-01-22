@@ -174,7 +174,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="LoginCpp_TemporaryKey.pfx" />
     <None Include="winsdkfb_testing_key.pfx" />
   </ItemGroup>
   <ItemGroup>

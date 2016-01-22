@@ -23,7 +23,10 @@ namespace winsdkfb
      */
     public enum class ErrorCode : int
     {
-        ErrorCodeOauthException = 190
+        ErrorCodeOauthException = 190,
+        ErrorCodeWebAccountProviderNotFound = 5000,
+        ErrorCodeWebTokenRequestStatus = 5001,
+        ErrorCodeWebAccountProviderNotSupported = 5002,
     };
 
     /*!

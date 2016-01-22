@@ -59,7 +59,6 @@
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LoginCpp_TemporaryKey.pfx" />
     <None Include="winsdkfb_testing_key.pfx" />
   </ItemGroup>
   <ItemGroup>
