@@ -128,9 +128,9 @@ namespace winsdkfb
             Windows::Foundation::Uri^ Response
             );
 
-		bool IsLogoutRedirect(
-			Windows::Foundation::Uri^ Response
-			);
+        bool IsLogoutRedirect(
+            Windows::Foundation::Uri^ Response
+            );
 
         bool IsDialogCloseRedirect(
             Windows::Foundation::Uri^ Response
