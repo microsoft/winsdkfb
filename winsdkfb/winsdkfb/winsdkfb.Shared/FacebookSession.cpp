@@ -43,6 +43,9 @@ using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Windows::Globalization;
 using namespace Windows::Security::Authentication::Web;
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+using namespace Windows::Security::Authentication::Web::Core;
+#endif
 using namespace Windows::Security::Credentials;
 using namespace Windows::Security::Cryptography;
 using namespace Windows::Security::Cryptography::DataProtection;
@@ -55,6 +58,25 @@ using namespace Windows::UI::Xaml::Controls::Primitives;
 
 #define INT64_STRING_BUFSIZE 65
 extern const wchar_t* ErrorObjectJson;
+
+#define FBAccountProvider L"https://www.facebook.com"
+
+#define TICKS_PER_SECOND    10000000 
+#define SECONDS_PER_MINUTE  60
+#define _90_MINUTES_IN_TICKS (90 * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
+
+#define ScopeKey        L"scope"
+#define DisplayKey      L"display"
+#define ResponseTypeKey L"response_type"
+#define DefaultScope    L"public_profile,email,user_friends"
+#define DefaultDisplay  L"popup"
+#define DefaultResponse L"token"
+#define AuthTypeKey     L"auth_type"
+#define Rerequest       L"rerequest"
+#define RedirectUriKey  L"redirect_uri"
+
+#define SDK_APP_DATA_CONTAINER "winsdkfb"
+#define GRANTED_PERMISSIONS_KEY "granted_permissions"
 
 namespace winsdkfb
 {
@@ -616,6 +638,77 @@ task<FBResult^> FBSession::ShowLoginDialog(
     });
 }
 
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+
+IAsyncOperation<FBResult^>^ FBSession::TryRefreshAccessToken(
+    )
+{
+    return create_async([=]()
+    {
+        return create_task(WebAuthenticationCoreManager::FindAccountProviderAsync(FBAccountProvider))
+            .then([=](WebAccountProvider^ Provider) -> IAsyncOperation<WebTokenRequestResult^>^
+        {
+            IAsyncOperation<WebTokenRequestResult^>^ result = nullptr;
+
+            if (Provider)
+            {
+                String^ perms = this->GetGrantedPermissionsFromFile();
+                WebTokenRequest^ request = ref new WebTokenRequest(Provider,
+                    perms, FBAppId);
+                request->Properties->Insert(RedirectUriKey, GetWebAccountProviderRedirectUriString());
+
+                task<WebTokenRequestResult^> authTask = create_task(WebAuthenticationCoreManager::GetTokenSilentlyAsync(request))
+                .then([=](WebTokenRequestResult^ RequestResult)
+                {
+                    if (RequestResult)
+                    {
+                        RequestResult->InvalidateCacheAsync();
+                    }
+                })
+                .then([=]()
+                {
+                    return WebAuthenticationCoreManager::GetTokenSilentlyAsync(request);
+                });
+
+                result = create_async([=]()
+                {
+                    return authTask.get();
+                });
+            }
+            else
+            {
+                result = create_async([=]()
+                {
+                    return (WebTokenRequestResult^) nullptr;
+                });
+            }
+
+            return result;
+        })
+        .then([=](WebTokenRequestResult^ RequestResult) -> FBResult^
+        {
+            return FBResultFromTokenRequestResult(RequestResult);
+        });
+    });
+}
+
+#else
+
+//
+// TODO: How do we refresh tokens in 8.1?
+//
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::TryRefreshAccessToken(
+    )
+{
+    return create_async([=]()
+    {
+        return (FBResult^)nullptr;
+    });
+}
+
+#endif
+
+
 task<FBResult^> FBSession::GetAppPermissions(
     )
 {
@@ -641,15 +734,6 @@ task<FBResult^> FBSession::GetAppPermissions(
     });
 }
 
-#define ScopeKey        L"scope"
-#define DisplayKey      L"display"
-#define ResponseTypeKey L"response_type"
-#define DefaultScope    L"public_profile,email,user_friends"
-#define DefaultDisplay  L"popup"
-#define DefaultResponse L"token"
-#define AuthTypeKey     L"auth_type"
-#define Rerequest       L"rerequest"
-
 Uri^ FBSession::BuildLoginUri(
     PropertySet^ Parameters
     )
@@ -660,7 +744,7 @@ Uri^ FBSession::BuildLoginUri(
     {
         apiVersion = L"v" + APIMajorVersion.ToString() + L"." + APIMinorVersion.ToString() + L"/";
     }
-    String^ uriString = L"https://" + 
+    String^ uriString = L"https://" +
         L"www.facebook.com/" + apiVersion + L"dialog/oauth?client_id=" + s->FBAppId;
 
     // Use some reasonable default login parameters
@@ -668,7 +752,7 @@ Uri^ FBSession::BuildLoginUri(
     String^ displayType = DefaultDisplay;
     String^ responseType = DefaultResponse;
 
-    uriString += L"&redirect_uri=" + GetRedirectUriString();
+    uriString += L"&" + RedirectUriKey + "=" + GetWebAuthRedirectUriString();
 
     // Enumerate through all the parameters
     IIterator<IKeyValuePair<String^, Object^>^>^ first = Parameters->First();
@@ -703,13 +787,6 @@ Uri^ FBSession::BuildLoginUri(
         displayType + L"&" + ResponseTypeKey + L"=" + responseType;
 
     return ref new Uri(uriString);
-}
-
-String^ FBSession::GetRedirectUriString(
-    )
-{
-    Uri^ endURI = WebAuthenticationBroker::GetCurrentApplicationCallbackUri();
-    return endURI->DisplayUri;
 }
 
 task<FBResult^> FBSession::ProcessAuthResult(
@@ -755,13 +832,20 @@ task<FBResult^> FBSession::ProcessAuthResult(
     });
 }
 
+String^ FBSession::GetWebAuthRedirectUriString(
+    )
+{
+    Uri^ endURI = WebAuthenticationBroker::GetCurrentApplicationCallbackUri();
+    return endURI->DisplayUri;
+}
+
 task<FBResult^> FBSession::TryGetUserInfoAfterLogin(
     FBResult^ loginResult
     )
 {
     task<FBResult^> innerResult;
 
-    if (loginResult && loginResult->Succeeded)
+    if (loginResult != nullptr && loginResult->Succeeded)
     {
         _AccessTokenData = static_cast<FBAccessTokenData^>(loginResult->Object);
         _loggedIn = true;
@@ -784,7 +868,7 @@ task<FBResult^> FBSession::TryGetAppPermissionsAfterLogin(
     )
 {
     task<FBResult^> finalResult;
-    if (loginResult->Succeeded)
+    if (loginResult != nullptr && loginResult->Succeeded)
     {
         _user = static_cast<FBUser^>(loginResult->Object);
         finalResult = GetAppPermissions();
@@ -812,7 +896,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
         _loginTask = create_task(
             WebAuthenticationBroker::AuthenticateAsync(
             WebAuthenticationOptions::None, BuildLoginUri(Parameters),
-            ref new Uri(GetRedirectUriString())))
+            ref new Uri(GetWebAuthRedirectUriString())))
         .then([this](WebAuthenticationResult^ authResult) -> task<FBResult^>
         {
             return ProcessAuthResult(authResult);
@@ -893,7 +977,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 {
     return LoginAsync(
         Permissions, 
-        SessionLoginBehavior::WebViewWithWebAuthFallback);
+        SessionLoginBehavior::DefaultOrdering);
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
@@ -908,12 +992,12 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         PropertySet^ parameters = ref new PropertySet();
         if (Permissions)
         {
-            parameters->Insert(L"scope", Permissions->ToString());
+            parameters->Insert(ScopeKey, Permissions->ToString());
         }
 
         if (LoggedIn)
         {
-            parameters->Insert(L"auth_type", L"rerequest");
+            parameters->Insert(AuthTypeKey, Rerequest);
         }
 
         return create_task([=]() -> FBResult^
@@ -922,24 +1006,43 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
             task<FBResult^> authTask;
             switch (behavior)
             {
-            case SessionLoginBehavior::FallbackToWebView:
-                authTask = TryLoginViaWebAuthBroker(parameters);
-                result = authTask.get();
-                if (!result)
-                {
-                    authTask = TryLoginViaWebView(parameters);
-                    result = authTask.get();
-                }
-                break;
-            case SessionLoginBehavior::ForcingWebView:
+            case SessionLoginBehavior::WebView:
                 authTask = TryLoginViaWebView(parameters);
                 result = authTask.get();
                 break;
-            case SessionLoginBehavior::NoFallbackToWebView:
+            case SessionLoginBehavior::WebAuth:
                 authTask = TryLoginViaWebAuthBroker(parameters);
                 result = authTask.get();
                 break;
-            case SessionLoginBehavior::WebViewWithWebAuthFallback:
+            case SessionLoginBehavior::WebAccountProvider:
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+                authTask = TryLoginViaWebAccountProvider(Permissions);
+                result = authTask.get();
+                break;
+#else
+                result = ref new FBResult(ref new FBError((int) ErrorCode::ErrorCodeWebAccountProviderNotSupported,
+                    L"Platform Error",
+                    L"WebAccountProvider is not supported on this platform"));
+                break;
+#endif
+            case SessionLoginBehavior::DefaultOrdering:
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+                authTask = TryLoginViaWebAccountProvider(Permissions);
+                result = authTask.get();
+                // Unless the WebAccountProvider wasn't found, don't try other methods because the user would have canceled the login
+                // We don't want to keep prompting for login.
+                if(result->ErrorInfo != nullptr && result->ErrorInfo->Code == (int) ErrorCode::ErrorCodeWebAccountProviderNotFound)
+                {
+                    authTask = TryLoginViaWebView(parameters);
+                    result = authTask.get();
+                    if (!result)
+                    {
+                        authTask = TryLoginViaWebAuthBroker(parameters);
+                        result = authTask.get();
+                    }
+                }
+                break;
+#else
                 authTask = TryLoginViaWebView(parameters);
                 result = authTask.get();
                 if (!result)
@@ -948,8 +1051,13 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
                     result = authTask.get();
                 }
                 break;
+#endif
             default:
                 OutputDebugString(L"Invalid SessionLoginBehavior member!\n");
+                // TODO need a real error code
+                result = ref new FBResult(ref new FBError(0,
+                    L"Login Error",
+                    L"Invalid SessionLoginBehavior member"));
                 break;
             }
             return result;
@@ -964,10 +1072,25 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         })
         .then([=](FBResult^ finalResult)
         {
-            if (!finalResult->Succeeded)
+            if (finalResult != nullptr && finalResult->Succeeded)
+            {
+                WriteGrantedPermissionsToFile();
+            }
+            return finalResult;
+        })
+        .then([=](FBResult^ finalResult)
+        {
+            if (finalResult == nullptr || !finalResult->Succeeded)
             {
                 _loggedIn = false;
                 AccessTokenData = nullptr;
+            }
+            if (finalResult == nullptr)
+            {
+                finalResult = ref new FBResult(ref new FBError(0, L"Unexpected error", L"Log in attempt failed"));
+#ifdef DEBUG
+                OutputDebugString(L"LoginAsync was about to return nullptr, created FBResult object to return instead");
+#endif
             }
 
             return finalResult;
@@ -1137,3 +1260,276 @@ int FBSession::APIMinorVersion::get()
 {
     return _APIMinorVersion;
 }
+
+void FBSession::WriteGrantedPermissionsToFile()
+{
+    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    {
+        localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
+    }
+    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    values->Insert(GRANTED_PERMISSIONS_KEY, AccessTokenData->GrantedPermissions->ToString());
+}
+
+String^ FBSession::GetGrantedPermissionsFromFile()
+{
+    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    {
+        return ""; // TODO should this be an exception?
+    }
+    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    if (!values->HasKey(GRANTED_PERMISSIONS_KEY))
+    {
+        return ""; // TODO should this be an exception?
+    }
+    return safe_cast<String^>(values->Lookup(GRANTED_PERMISSIONS_KEY));
+}
+
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+
+String^ FBSession::GetWebAccountProviderRedirectUriString(
+    )
+{
+    return L"msft - " + WinAppId + "://login_success";
+}
+
+task<FBResult^> FBSession::CheckWebAccountProviderForExistingToken(
+    FBPermissions^ Permissions
+    )
+{
+    task<FBResult^> result;
+    if (LoggedIn)
+    {
+        FBResult^ authResult = ref new FBResult(this->AccessTokenData);
+        result = create_task([=]()
+        {
+            return authResult;
+        });
+    }
+    else
+    {
+        result = create_task(WebAuthenticationCoreManager::FindAccountProviderAsync(FBAccountProvider))
+        .then([=](WebAccountProvider^ Provider) -> IAsyncOperation<WebTokenRequestResult^>^
+        {
+            IAsyncOperation<WebTokenRequestResult^>^ result = nullptr;
+            if (Provider)
+            {
+                WebTokenRequest^ request = ref new WebTokenRequest(Provider,
+                    Permissions->ToString(), FBAppId);
+                request->Properties->Insert(RedirectUriKey, GetWebAccountProviderRedirectUriString());
+
+                result = WebAuthenticationCoreManager::GetTokenSilentlyAsync(request);
+            }
+            else
+            {
+                result = create_async([=]()
+                {
+                    return (WebTokenRequestResult^)nullptr;
+                });
+            }
+
+            return result;
+        })
+        .then([=](WebTokenRequestResult^ RequestResult) -> FBResult^
+        {
+            if (RequestResult && RequestResult->ResponseStatus == WebTokenRequestStatus::UserInteractionRequired)
+            {
+                auto task = CallWebAccountProviderOnUiThread(Permissions);
+                return task.get();
+            }
+
+            return FBResultFromTokenRequestResult(RequestResult);
+        });
+    }
+
+    return result;
+}
+
+task<FBResult^> FBSession::TryLoginViaWebAccountProvider(
+    FBPermissions^ Permissions
+    )
+{
+    return CheckWebAccountProviderForExistingToken(Permissions);
+}
+
+task<FBResult^> FBSession::CallWebAccountProviderOnUiThread(
+    FBPermissions^ Permissions
+    )
+{
+    task<void> authTask = create_task(
+        CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+            Windows::UI::Core::CoreDispatcherPriority::Normal,
+            ref new Windows::UI::Core::DispatchedHandler([this, Permissions]()
+    {
+        _loginTask = create_task(
+            WebAuthenticationCoreManager::FindAccountProviderAsync(FBAccountProvider))
+        .then([this, Permissions](WebAccountProvider^ Provider) -> IAsyncOperation<WebTokenRequestResult^>^
+        {
+            IAsyncOperation<WebTokenRequestResult^>^ result = nullptr;
+            if (Provider)
+            {
+                WebTokenRequest^ request = ref new WebTokenRequest(Provider,
+                    Permissions->ToString(), FBAppId);
+                request->Properties->Insert(RedirectUriKey, GetWebAccountProviderRedirectUriString());
+
+                result = WebAuthenticationCoreManager::RequestTokenAsync(request);
+            }
+            else
+            {
+                result = create_async([=]()
+                {
+                    return (WebTokenRequestResult^)nullptr;
+                });
+            }
+            return result;
+        })
+        .then([this](WebTokenRequestResult^ RequestResult) -> FBResult^
+        {
+            return FBResultFromTokenRequestResult(RequestResult);
+        });
+    })));
+
+    return create_task([=](void)
+    {
+        try
+        {
+            authTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        }
+    })
+    .then([this]() -> FBResult^
+    {
+        FBResult^ result = nullptr;
+
+        try
+        {
+            result = _loginTask.get();
+        }
+        catch (Exception^ ex)
+        {
+            throw ref new InvalidArgumentException(SDKMessageLoginFailed);
+        } 
+        return result;
+    });
+}
+
+FBResult^ FBSession::ExtractAccessTokenDataFromResponseData(
+    IVectorView<WebTokenResponse^>^ ResponseData
+    )
+{
+    FBResult^ result = nullptr;
+    for (IIterator<WebTokenResponse^>^ it = ResponseData->First();
+        it->HasCurrent;
+        it->MoveNext())
+    {
+        WebTokenResponse^ response = it->Current;
+        //
+        // Calculate a time 90 minutes from now.  This is the *earliest* time 
+        // at which our token will expire, so to be conservative we'll assume
+        // that's when it expires.  The token broker doesn't expose the 
+        // actual expiration time, so this is the best we can do.
+        //
+        Calendar^ cal = ref new Calendar();
+        DateTime now = cal->GetDateTime();
+        long long minimumExpiryInTicks = now.UniversalTime + _90_MINUTES_IN_TICKS;
+        DateTime expiration;
+        expiration.UniversalTime = minimumExpiryInTicks;
+        FBAccessTokenData^ token = ref new FBAccessTokenData(response->Token, expiration, ref new String());
+
+        result = ref new FBResult(token);
+
+#ifdef DEBUG
+        IIterator<IKeyValuePair<String^, String^>^>^ itProps = nullptr;
+
+        String^ msg = L"Token is: " + response->Token + L"\n";
+        OutputDebugString(msg->Data());
+
+        for (itProps = response->Properties->First();
+            itProps->HasCurrent;
+            itProps->MoveNext())
+        {
+            IKeyValuePair<String^, String^>^ item = itProps->Current;
+
+            msg = L"Found pair (" + item->Key + L", " + item->Value + L")\n";
+            OutputDebugString(msg->Data());
+        }
+
+        itProps = nullptr;
+
+        msg = L"User ID: " + response->WebAccount->Id + L"\n";
+        OutputDebugString(msg->Data());
+
+        msg = L"User Name: " + response->WebAccount->UserName + L"\n";
+        OutputDebugString(msg->Data());
+
+        for (itProps = response->WebAccount->Properties->First();
+            itProps->HasCurrent;
+            itProps->MoveNext())
+        {
+            IKeyValuePair<String^, String^>^ item = itProps->Current;
+
+            msg = L"Found pair (" + item->Key + L", " + item->Value + L")\n";
+            OutputDebugString(msg->Data());
+        }
+#endif // DEBUG
+        break;
+    }
+
+    return result;
+}
+
+FBResult^ FBSession::FBResultFromTokenRequestResult(
+    WebTokenRequestResult^ RequestResult
+    )
+{
+    FBResult^ result = nullptr;
+
+    if (RequestResult != nullptr)
+    {
+        WebTokenRequestStatus status = RequestResult->ResponseStatus;
+        bool expectedError = false;
+
+        // TODO: Do we need to handle any of the other status codes here in any
+        // way besides just returning null?
+        switch (status)
+        {
+        case WebTokenRequestStatus::Success:
+            result = ExtractAccessTokenDataFromResponseData(RequestResult->ResponseData);
+            break;
+
+        case WebTokenRequestStatus::UserCancel:
+        case WebTokenRequestStatus::UserInteractionRequired:
+        case WebTokenRequestStatus::AccountProviderNotAvailable:
+        case WebTokenRequestStatus::AccountSwitch:
+        case WebTokenRequestStatus::ProviderError:
+            expectedError = true;
+        default:
+#ifdef DEBUG
+            if(!expectedError)
+            {
+                wchar_t buf[100];
+                _itow_s((int)status, buf, 100, 10);
+                String^ msg = L"Unexpected status result: " + ref new String(buf) + L"\n";
+                OutputDebugString(msg->Data());
+            }
+#endif
+            result = ref new FBResult(ref new FBError((int) ErrorCode::ErrorCodeWebTokenRequestStatus, L"WebTokenRequestStatus Error", status.ToString()));
+            break;
+        }
+    }
+    else
+    {
+        // We don't have a provider
+        result = ref new FBResult(ref new FBError((int) ErrorCode::ErrorCodeOauthException, L"WebAccountProvider Error", L"No appropriate WebAccountProvider was found"));
+    }
+
+    return result;
+}
+
+#endif // WIN_32_WINNT >= _WIN32_WINNT_WIN10
+

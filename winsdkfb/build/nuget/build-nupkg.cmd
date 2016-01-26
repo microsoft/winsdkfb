@@ -1,5 +1,5 @@
 @ECHO OFF
-
+setlocal
 REM
 REM Version is read from the VERSION file.
 REM
@@ -60,11 +60,6 @@ SET NUGET_ARGS=^
 
 nuget pack winsdkfb.nuspec %NUGET_ARGS%
 IF %ERRORLEVEL% NEQ 0 GOTO END
-
-IF NOT "%1" == "signed" (
-    nuget pack winsdkfb-debug.nuspec %NUGET_ARGS%
-    IF %ERRORLEVEL% NEQ 0 GOTO END
-)
 
 :END
 

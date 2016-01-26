@@ -42,24 +42,23 @@ if errorlevel 1 goto errorExit
 rem ---------------------------------------------------------------------------
 rem build for Windows 10 Universal 
 rem ---------------------------------------------------------------------------
-cd FBSDK-UWP
 
-call :build_one_flavor FBSDK-UWP.sln x86 Debug
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln Win32 Debug
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UWP.sln x86 Release 
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln Win32 Release
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UWP.sln x64 Debug 
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln x64 Debug 
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UWP.sln x64 Release 
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln x64 Release 
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UWP.sln ARM Debug 
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln ARM Debug 
 if errorlevel 1 goto errorExit
 
-call :build_one_flavor FBSDK-UWP.sln ARM Release 
+call :build_one_flavor winsdkfb_uwp/winsdkfb_uwp.sln ARM Release 
 if errorlevel 1 goto errorExit
 
 rem ---------------------------------------------------------------------------
@@ -83,11 +82,6 @@ if not exist nuget.exe (
 call build-nupkg.cmd
 if not exist ..\..\bin\winsdkfb.%version%.nupkg (
     @echo Error: failed to build SDK NuGet package
-    goto :eof
-)
-
-if not exist ..\..\bin\winsdkfb-debug.%version%.nupkg (
-    @echo Error: failed to build SDK debug NuGet package
     goto :eof
 )
 

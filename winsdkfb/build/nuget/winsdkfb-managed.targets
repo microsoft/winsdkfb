@@ -14,8 +14,8 @@
 
   <Target Name="InjectReference" BeforeTargets="ResolveAssemblyReferences">
     <ItemGroup>
-      <Reference Include="Facebook">
-        <HintPath>$(fbwinsdk-BinDir)$(fbwinsdk-DeviceType)\$(fbwinsdk-Platform)\Facebook.winmd</HintPath>
+      <Reference Include="winsdkfb">
+        <HintPath>$(fbwinsdk-BinDir)$(fbwinsdk-DeviceType)\$(fbwinsdk-Platform)\winsdkfb.winmd</HintPath>
       </Reference>
     </ItemGroup>
   </Target>

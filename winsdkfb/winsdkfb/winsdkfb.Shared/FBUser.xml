@@ -4,6 +4,7 @@
     <property name="first_name" type="string" />
     <property name="gender" type="string" />
     <property name="last_name" type="string" />
+    <property name="email" type="string" />
     <property name="link" type="string" />
     <property name="locale" type="string" />
     <property name="location" type="fbclass" className="FBPage"/>

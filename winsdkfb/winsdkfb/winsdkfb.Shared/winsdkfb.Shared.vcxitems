@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -124,22 +124,20 @@
     <None Include="$(MSBuildThisFileDirectory)Utility.ttinclude" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)FacebookPage.xml" />
     <None Include="$(MSBuildThisFileDirectory)FBCursors.xml" />
     <None Include="$(MSBuildThisFileDirectory)FBGroup.xml" />
     <None Include="$(MSBuildThisFileDirectory)FBPaging.xml" />
     <None Include="$(MSBuildThisFileDirectory)FBPermission.xml" />
     <None Include="$(MSBuildThisFileDirectory)FBUser.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBAppRequest.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBPageCategory.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePicture.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBProfilePictureData.xml" />
+    <None Include="$(MSBuildThisFileDirectory)FBPage.xml" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="$(MSBuildThisFileDirectory)Images\fb_blank_profile_portrait.png">
       <ExcludedFromBuild>false</ExcludedFromBuild>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="$(MSBuildThisFileDirectory)FBAppRequest.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)FBPageCategory.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)FBProfilePicture.xml" />
-    <Xml Include="$(MSBuildThisFileDirectory)FBProfilePictureData.xml" />
   </ItemGroup>
 </Project>
