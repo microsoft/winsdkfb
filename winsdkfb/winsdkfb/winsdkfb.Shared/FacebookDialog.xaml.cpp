@@ -331,6 +331,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         L".facebook.com/" + apiVersion + L"dialog/feed?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
+        L"&display=popup" +
         L"&app_id=" + sess->FBAppId; 
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
@@ -356,6 +357,7 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
         L".facebook.com/" + apiVersion + L"dialog/apprequests?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
+        L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
@@ -381,6 +383,7 @@ Uri^ FacebookDialog::BuildSendDialogUrl(
         L".facebook.com/" + apiVersion + L"dialog/send?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"send") +
+        L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
