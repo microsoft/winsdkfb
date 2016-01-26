@@ -41,37 +41,53 @@ using namespace Windows::UI::Xaml::Navigation;
 
 Dialogs::Dialogs()
 {
-	InitializeComponent();
+    InitializeComponent();
 }
 
 
 void LoginCpp::Dialogs::FeedDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     FBSession^ s = FBSession::ActiveSession;
-    PropertySet^ params = ref new PropertySet();
-    params->Insert(L"caption", L"I love Brussels Sprouts!");
-    params->Insert(L"link", L"https://en.wikipedia.org/wiki/Brussels_sprout");
-    params->Insert(L"description", L"Om Nom Nom!");
 
-    create_task(s->ShowFeedDialogAsync(params))
-        .then([=](FBResult^ Response)
+    if (!s->LoggedIn)
     {
-        OutputDebugString(L"Showed 'Feed' dialog.\n");
-    });
+        OutputDebugString(L"The user is no longer logged in.\n");
+    }
+    else
+    {
+        PropertySet^ params = ref new PropertySet();
+        params->Insert(L"caption", L"I love Brussels Sprouts!");
+        params->Insert(L"link", L"https://en.wikipedia.org/wiki/Brussels_sprout");
+        params->Insert(L"description", L"Om Nom Nom!");
+
+        create_task(s->ShowFeedDialogAsync(params))
+            .then([=](FBResult^ Response)
+        {
+            OutputDebugString(L"Showed 'Feed' dialog.\n");
+        });
+    }
 }
 
 
 void LoginCpp::Dialogs::AppRequestsButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
     FBSession^ s = FBSession::ActiveSession;
-    PropertySet^ params = ref new PropertySet();
 
-    params->Insert(L"title", L"I love Brussels Sprouts!");
-    params->Insert(L"message", L"Om Nom Nom!");
-
-    create_task(s->ShowRequestsDialogAsync(params))
-        .then([=](FBResult^ Response)
+    if (!s->LoggedIn)
     {
-        OutputDebugString(L"Showed 'Requests' dialog.\n");
-    });
+        OutputDebugString(L"The user is no longer logged in.\n");
+    }
+    else
+    {
+        PropertySet^ params = ref new PropertySet();
+
+        params->Insert(L"title", L"I love Brussels Sprouts!");
+        params->Insert(L"message", L"Om Nom Nom!");
+
+        create_task(s->ShowRequestsDialogAsync(params))
+            .then([=](FBResult^ Response)
+        {
+            OutputDebugString(L"Showed 'Requests' dialog.\n");
+        });
+    }
 }
