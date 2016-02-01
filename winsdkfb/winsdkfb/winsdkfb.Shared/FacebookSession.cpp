@@ -83,6 +83,17 @@ namespace winsdkfb
     HANDLE login_evt = NULL;
 }
 
+/*
+Base properties for the FBSession object.
+Fields:
+_AccessTokenData - contains relevant data for the user access token retrieved upon login.
+_AppResponse - ?
+_loggedIn - boolean to detect whether user is logged in or not
+_FBAppId - the app ID assigned from Facebook for the app
+_WinAppId - the app ID from your app to register to Facebook
+_user - the user object created to retrieve user information
+_APIMajorVersion/_APIMinorVersion - format following Facebook's API versions (for ex. graph API v2.5)
+*/
 FBSession::FBSession() :
     _AccessTokenData(nullptr),
     _AppResponse(nullptr),
@@ -100,6 +111,7 @@ FBSession::FBSession() :
     _APIMinorVersion = 1;
 }
 
+//Base constructor for the FBSession object
 winsdkfb::FBSession::~FBSession()
 {
     if (login_evt)
@@ -109,6 +121,7 @@ winsdkfb::FBSession::~FBSession()
     }
 }
 
+//getter method for the FBAppId
 String^ FBSession::FBAppId::get()
 {
     if (!_FBAppId)
@@ -123,21 +136,25 @@ String^ FBSession::FBAppId::get()
     return _FBAppId;
 }
 
+//setter method for the FBAppId
 void FBSession::FBAppId::set(String^ value)
 {
     _FBAppId = value;
 }
 
+//getter method for the WinAppId
 String^ FBSession::WinAppId::get()
 {
     return _WinAppId;
 }
 
+//setter method for the WinAppId
 void FBSession::WinAppId::set(String^ value)
 {
     _WinAppId = value;
 }
 
+//getter method for the AppResponse
 String^ FBSession::AppResponse::get()
 {
     return _AppResponse;
