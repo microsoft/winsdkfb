@@ -11,6 +11,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb.Shared", "..\..\wi
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{5c0b24d0-ba5f-490a-ab3e-71265d4a0a4b}*SharedItemsImports = 9
 		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{973a943b-ff77-4267-8f30-f5fe2b7f5583}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

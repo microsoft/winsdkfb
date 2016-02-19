@@ -224,7 +224,7 @@ void MainPage::login_OnClicked(
             if (WasAppPermissionRemovedByUser(result))
             {
 				LogoutAndRetry();
-			}
+            }
 			else if (ShouldRerequest(result))
 			{
 				// Login call has to happen on UI thread, so circle back around to it

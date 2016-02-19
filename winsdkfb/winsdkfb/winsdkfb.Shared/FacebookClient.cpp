@@ -48,6 +48,7 @@ using namespace Windows::Web::Http::Headers;
 #define MultiPartNewLine "\r\n"
 #define MultiPartContentType L"Content-Type: multipart/form-data; "
 #define MultiPartBoundary L"------------------------------fbsdk1234567890"
+
 FBClient::FBClient()
 {
 }
@@ -143,43 +144,78 @@ IAsyncOperation<String^>^ FBClient::GetTaskAsync(
     PropertySet^ parameters
     )
 {
-    return create_async([=]()
+    IAsyncOperation<String^>^ myTask = create_async([=]()
     {
-        HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-        HttpClient^ httpClient = ref new HttpClient(filter);
-        cancellation_token_source cancellationTokenSource =
-            cancellation_token_source();
         bool containsEtag = false;
-
-        filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
-
-        Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Get, path, 
+        Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Get, path,
             parameters, nullptr, nullptr, containsEtag, nullptr);
 
-        return create_task(httpClient->GetAsync(uri), 
-            cancellationTokenSource.get_token())
-        .then([=](HttpResponseMessage^ response)
+        return FBClient::GetTaskInternalAsync(uri)
+            .then([=](String^ Response)
         {
-            return create_task(response->Content->ReadAsStringAsync(), 
-                cancellationTokenSource.get_token());
-        })
-        .then([=](task<String^> resultTask)
-        {
-            String^ result = nullptr;
-            try
+            task<String^> result;
+
+            if (FBClient::IsOAuthErrorResponse(Response)) 
             {
-                result = resultTask.get();
+                result = create_task([=]()
+                {
+                    FBSession^ sess = FBSession::ActiveSession;
+                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                })
+                .then([=](FBResult^ Result)
+                {
+                    return FBClient::GetTaskInternalAsync(uri);
+                });
             }
-            catch (const task_canceled&)
+            else
             {
-            }
-            catch (Exception^ ex)
-            {
-                throw ex;
+                result = create_task([=]()
+                {
+                    return Response;
+                });
             }
 
             return result;
         });
+    });
+
+    return myTask;
+}
+
+task<String^> FBClient::GetTaskInternalAsync(
+    Uri^ RequestUri
+    )
+{
+    HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+    HttpClient^ httpClient = ref new HttpClient(filter);
+    cancellation_token_source cancellationTokenSource =
+        cancellation_token_source();
+
+    filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
+
+    return create_task(httpClient->GetAsync(RequestUri), 
+        cancellationTokenSource.get_token())
+    .then([=](HttpResponseMessage^ response)
+    {
+        return create_task(response->Content->ReadAsStringAsync(), 
+            cancellationTokenSource.get_token());
+    })
+    .then([=](task<String^> resultTask)
+    {
+        String^ result = nullptr;
+        try
+        {
+            result = resultTask.get();
+        }
+        catch (const task_canceled&)
+        {
+        }
+        catch (Exception^ ex)
+        {
+            throw ex;
+        }
+
+        return result;
     });
 }
 
@@ -216,40 +252,74 @@ IAsyncOperation<String^>^ FBClient::SimplePostAsync(
 {
     return create_async([=]()
     {
-        HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-        HttpClient^ httpClient = ref new HttpClient(filter);
-        cancellation_token_source cancellationTokenSource =
-            cancellation_token_source();
         bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
             parameters, nullptr, nullptr, containsEtag, nullptr);
 
-        return create_task(
-            httpClient->PostAsync(uri, ref new HttpStringContent(L"")),
-            cancellationTokenSource.get_token())
-            .then([=](HttpResponseMessage^ response)
+        return FBClient::SimplePostInternalAsync(uri)
+            .then([=](String^ Response)
         {
-            return create_task(response->Content->ReadAsStringAsync(),
-                cancellationTokenSource.get_token());
-        })
-            .then([=](task<String^> previousTask)
-        {
-            String^ response = nullptr;
+            task<String^> result;
 
-            try
+            if (FBClient::IsOAuthErrorResponse(Response))
             {
-                // Check if any previous task threw an exception.
-                response = previousTask.get();
+                result = create_task([=]()
+                {
+                    FBSession^ sess = FBSession::ActiveSession;
+                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                })
+                    .then([=](FBResult^ Result)
+                {
+                    return FBClient::SimplePostInternalAsync(uri);
+                });
             }
-            catch (const task_canceled&)
+            else
             {
-            }
-            catch (Exception^ ex)
-            {
+                result = create_task([=]()
+                {
+                    return Response;
+                });
             }
 
-            return response;
+            return result;
         });
+    });
+}
+
+task<String^> FBClient::SimplePostInternalAsync(
+    Uri^ RequestUri
+    )
+{
+    HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+    HttpClient^ httpClient = ref new HttpClient(filter);
+    cancellation_token_source cancellationTokenSource =
+        cancellation_token_source();
+
+    return create_task(
+        httpClient->PostAsync(RequestUri, ref new HttpStringContent(L"")),
+        cancellationTokenSource.get_token())
+        .then([=](HttpResponseMessage^ response)
+    {
+        return create_task(response->Content->ReadAsStringAsync(),
+            cancellationTokenSource.get_token());
+    })
+        .then([=](task<String^> previousTask)
+    {
+        String^ response = nullptr;
+
+        try
+        {
+            // Check if any previous task threw an exception.
+            response = previousTask.get();
+        }
+        catch (const task_canceled&)
+        {
+        }
+        catch (Exception^ ex)
+        {
+        }
+
+        return response;
     });
 }
 
@@ -286,44 +356,79 @@ IAsyncOperation<String^>^ FBClient::MultipartPostAsync(
 {
     return create_async([=]()
     {
-        HttpClient^ httpClient = ref new HttpClient();
-        HttpMultipartFormDataContent^ form =
-            ref new HttpMultipartFormDataContent();
         bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
             parameters, nullptr, nullptr, containsEtag, nullptr);
-        cancellation_token_source cancellationTokenSource =
-            cancellation_token_source();
-        HttpResponseMessage^ msg = nullptr;
-        String^ response = L"";
 
-        FBClient::AddStreamsToForm(streams, form);
-
-        return create_task(httpClient->PostAsync(uri, form),
-            cancellationTokenSource.get_token())
-            .then([=](HttpResponseMessage^ response) -> task<String^>
+        return FBClient::MultipartPostInternalAsync(uri, streams)
+            .then([=](String^ Response)
         {
-            return create_task(response->Content->ReadAsStringAsync(),
-                cancellationTokenSource.get_token());
-        })
-        .then([=](task<String^> previousTask) -> String^
-        {
-            String^ response = nullptr;
+            task<String^> result;
 
-            try
+            if (FBClient::IsOAuthErrorResponse(Response))
             {
-                // Check if any previous task threw an exception.
-                response = previousTask.get();
+                result = create_task([=]()
+                {
+                    FBSession^ sess = FBSession::ActiveSession;
+                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                })
+                    .then([=](FBResult^ Result)
+                {
+                    return FBClient::MultipartPostInternalAsync(uri, streams);
+                });
             }
-            catch (const task_canceled&)
+            else
             {
-            }
-            catch (Exception^ ex)
-            {
+                result = create_task([=]()
+                {
+                    return Response;
+                });
             }
 
-            return response;
+            return result;
         });
+    });
+}
+
+task<String^> FBClient::MultipartPostInternalAsync(
+    Uri^ RequestUri,
+    PropertySet^ Streams
+    )
+{
+    HttpClient^ httpClient = ref new HttpClient();
+    HttpMultipartFormDataContent^ form =
+        ref new HttpMultipartFormDataContent();
+    cancellation_token_source cancellationTokenSource =
+        cancellation_token_source();
+    HttpResponseMessage^ msg = nullptr;
+    String^ response = L"";
+
+    FBClient::AddStreamsToForm(Streams, form);
+
+    return create_task(httpClient->PostAsync(RequestUri, form),
+        cancellationTokenSource.get_token())
+        .then([=](HttpResponseMessage^ response) -> task<String^>
+    {
+        return create_task(response->Content->ReadAsStringAsync(),
+            cancellationTokenSource.get_token());
+    })
+        .then([=](task<String^> previousTask) -> String^
+    {
+        String^ response = nullptr;
+
+        try
+        {
+            // Check if any previous task threw an exception.
+            response = previousTask.get();
+        }
+        catch (const task_canceled&)
+        {
+        }
+        catch (Exception^ ex)
+        {
+        }
+
+        return response;
     });
 }
 
@@ -353,40 +458,74 @@ Windows::Foundation::IAsyncOperation<String^>^ FBClient::DeleteTaskAsync(
 {
     return create_async([=]()
     {
-        HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-        HttpClient^ httpClient = ref new HttpClient(filter);
-        cancellation_token_source cancellationTokenSource =
-            cancellation_token_source();
         bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Delete, path,
             parameters, nullptr, nullptr, containsEtag, nullptr);
 
-        return create_task(
-            httpClient->DeleteAsync(uri),
-            cancellationTokenSource.get_token())
-            .then([=](HttpResponseMessage^ response)
+        return FBClient::DeleteTaskInternalAsync(uri)
+            .then([=](String^ Response)
         {
-            return create_task(response->Content->ReadAsStringAsync(),
-                cancellationTokenSource.get_token());
-        })
-        .then([=](task<String^> previousTask)
-        {
-            String^ response = nullptr;
+            task<String^> result;
 
-            try
+            if (FBClient::IsOAuthErrorResponse(Response))
             {
-                // Check if any previous task threw an exception.
-                response = previousTask.get();
+                result = create_task([=]()
+                {
+                    FBSession^ sess = FBSession::ActiveSession;
+                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                })
+                    .then([=](FBResult^ Result)
+                {
+                    return FBClient::DeleteTaskInternalAsync(uri);
+                });
             }
-            catch (const task_canceled&)
+            else
             {
-            }
-            catch (Exception^ ex)
-            {
+                result = create_task([=]()
+                {
+                    return Response;
+                });
             }
 
-            return response;
+            return result;
         });
+    });
+}
+
+task<String^> FBClient::DeleteTaskInternalAsync(
+    Uri^ RequestUri
+    )
+{
+    HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+    HttpClient^ httpClient = ref new HttpClient(filter);
+    cancellation_token_source cancellationTokenSource =
+        cancellation_token_source();
+
+    return create_task(
+        httpClient->DeleteAsync(RequestUri),
+        cancellationTokenSource.get_token())
+        .then([=](HttpResponseMessage^ response)
+    {
+        return create_task(response->Content->ReadAsStringAsync(),
+            cancellationTokenSource.get_token());
+    })
+        .then([=](task<String^> previousTask)
+    {
+        String^ response = nullptr;
+
+        try
+        {
+            // Check if any previous task threw an exception.
+            response = previousTask.get();
+        }
+        catch (const task_canceled&)
+        {
+        }
+        catch (Exception^ ex)
+        {
+        }
+
+        return response;
     });
 }
 
@@ -693,3 +832,13 @@ String^ FBClient::ParametersToQueryString(
 
     return queryString;
 }
+
+BOOL FBClient::IsOAuthErrorResponse(
+    String^ Response
+    )
+{
+    FBError^ err = FBError::FromJson(Response);
+
+    return (err && err->Code == 190);
+}
+

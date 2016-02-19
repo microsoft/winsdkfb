@@ -24,6 +24,7 @@
 #include "FacebookSession.h"
 #include "FacebookFeedRequest.h"
 #include "FacebookAppRequest.h"
+#include "FacebookSendRequest.h"
 #include "FacebookClient.h"
 
 using namespace Platform;
@@ -54,6 +55,7 @@ using namespace std;
 #define FACEBOOK_DESKTOP_SERVER_NAME L"www"
 #define FACEBOOK_MOBILE_SERVER_NAME  L"m"
 #define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
+#define FACEBOOK_LOGOUT_PATH  L"/logout.php"
 #define FACEBOOK_DIALOG_CLOSE_PATH   L"/dialog/close"
 
 const wchar_t* ErrorObjectJson = L"{\"error\": {\"message\": " \
@@ -62,6 +64,11 @@ L"\"OAuthException\", \"code\": 4201, " \
 L"\"error_user_msg\": \"User canceled the Dialog flow\"" \
 L"}}";
 
+const wchar_t* ErrorObjectJsonLogout = L"{\"error\": {\"message\": " \
+L"\"Operation Canceled\", \"type\": " \
+L"\"OAuthException\", \"code\": 4202, " \
+L"\"error_user_msg\": \"User logged out\"" \
+L"}}";
 
 #ifdef _DEBUG
 void DebugPrintLine(
@@ -113,6 +120,7 @@ void FacebookDialog::InitDialog()
 
 void FacebookDialog::UninitDialog()
 {
+    dialogWebBrowser->Stop();
     dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
     CoreApplication::MainView->CoreWindow->SizeChanged -= 
         sizeChangedEventRegistrationToken;
@@ -188,6 +196,17 @@ void FacebookDialog::ShowRequestsDialog(
             this, &FacebookDialog::dialogWebView_RequestNavStarting);
     ShowDialog(ref new DialogUriBuilder(this,
         &FacebookDialog::BuildRequestsDialogUrl), handler, Parameters);
+}
+
+void FacebookDialog::ShowSendDialog(
+    PropertySet^ Parameters
+    )
+{
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+        ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
+            this, &FacebookDialog::dialogWebView_SendNavStarting);
+    ShowDialog(ref new DialogUriBuilder(this,
+        &FacebookDialog::BuildSendDialogUrl), handler, Parameters);
 }
 
 String^ FacebookDialog::GetRedirectUriString(
@@ -319,6 +338,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         L".facebook.com/" + apiVersion + L"dialog/feed?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
+        L"&display=popup" +
         L"&app_id=" + sess->FBAppId; 
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
@@ -344,6 +364,33 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
         L".facebook.com/" + apiVersion + L"dialog/apprequests?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
+        L"&display=popup" +
+        L"&app_id=" + sess->FBAppId;
+    String^ queryString = FBClient::ParametersToQueryString(Parameters);
+    if (queryString->Length() > 0)
+    {
+        dialogUriString += "&" + queryString;
+    }
+
+    return ref new Uri(dialogUriString);
+}
+
+Uri^ FacebookDialog::BuildSendDialogUrl(
+    PropertySet^ Parameters
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+    String^ apiVersion = L"";
+    if (sess->APIMajorVersion)
+    {
+        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+    }
+    String^ dialogUriString =
+        L"https://" + GetFBServer() + 
+        L".facebook.com/" + apiVersion + L"dialog/send?access_token=" +
+        sess->AccessTokenData->AccessToken +
+        L"&redirect_uri=" + GetRedirectUriString(L"send") +
+        L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
@@ -359,6 +406,13 @@ bool FacebookDialog::IsLoginSuccessRedirect(
     )
 {
     return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
+}
+
+bool FacebookDialog::IsLogoutRedirect(
+    Uri^ Response
+    )
+{
+    return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGOUT_PATH) == 0);
 }
 
 bool FacebookDialog::IsDialogCloseRedirect(
@@ -378,8 +432,6 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
@@ -395,8 +447,6 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
@@ -414,8 +464,6 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         DebugPrintLine(L"Feed response is " + e->Uri->DisplayUri);
@@ -431,10 +479,19 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
             _dialogResponse = ref new FBResult(err);
         }
     }
+    else if (IsLogoutRedirect(e->Uri))
+    {
+        UninitDialog();
+
+        DebugPrintLine(L"Feed response is " + e->Uri->DisplayUri);
+        FBSession^ sess = FBSession::ActiveSession;
+        sess->LogoutAsync();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJsonLogout));
+        _dialogResponse = ref new FBResult(err);
+    }
     else if (IsDialogCloseRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
@@ -452,8 +509,6 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
 
     if (IsLoginSuccessRedirect(e->Uri))
     {
-        dialogWebBrowser->Stop();
-
         UninitDialog();
 
         DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
@@ -468,6 +523,55 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
             _dialogResponse = ref new FBResult(err);
         }
+    }
+    else if (IsLogoutRedirect(e->Uri))
+    {
+        UninitDialog();
+
+        DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
+        FBSession^ sess = FBSession::ActiveSession;
+        sess->LogoutAsync();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJsonLogout));
+        _dialogResponse = ref new FBResult(err);
+    }
+    else if (IsDialogCloseRedirect(e->Uri))
+    {
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        _dialogResponse = ref new FBResult(err);
+    }
+}
+
+void FacebookDialog::dialogWebView_SendNavStarting(
+    WebView^ sender,
+    WebViewNavigationStartingEventArgs^ e
+    )
+{
+    DebugPrintLine(L"Navigating to " + e->Uri->DisplayUri);
+    DebugPrintLine(L"Path is " + e->Uri->Path);
+
+    if (IsLoginSuccessRedirect(e->Uri))
+    {
+        dialogWebBrowser->Stop();
+
+        UninitDialog();
+
+        DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
+        _dialogResponse = ref new FBResult(ref new FBSendRequest());
+
+    }
+    else if (IsLogoutRedirect(e->Uri))
+    {
+        UninitDialog();
+
+        DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
+        FBSession^ sess = FBSession::ActiveSession;
+        sess->LogoutAsync();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJsonLogout));
+        _dialogResponse = ref new FBResult(err);
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
@@ -485,11 +589,10 @@ void FacebookDialog::CloseDialogButton_OnClick(
     RoutedEventArgs^ e
     )
 {
-    _popup->IsOpen = false;
+    UninitDialog();
 
     FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
     _dialogResponse = ref new FBResult(err);
-    _popup->Child = nullptr;
 }
 
 void FacebookDialog::OnSizeChanged(
