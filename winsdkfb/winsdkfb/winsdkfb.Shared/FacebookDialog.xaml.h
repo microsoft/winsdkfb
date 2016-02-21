@@ -50,6 +50,9 @@ namespace winsdkfb
         winsdkfb::FBResult^ GetDialogResponse(
             );
 
+        static Platform::String^ GetFBServerUrl(
+            );
+
         void ShowLoginDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
@@ -77,10 +80,7 @@ namespace winsdkfb
             Platform::String^ DialogName
             );
 
-        BOOL IsMobilePlatform(
-            );
-
-        Platform::String^ GetFBServer(
+        static BOOL IsMobilePlatform(
             );
 
         Windows::Foundation::Uri^ BuildLoginDialogUrl(
