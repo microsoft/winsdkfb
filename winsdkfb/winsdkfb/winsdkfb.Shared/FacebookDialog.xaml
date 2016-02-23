@@ -23,10 +23,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Button Grid.Row="0"  x:Name="closeDialogButton" HorizontalAlignment="Right" Height="13" VerticalAlignment="Top" Width="13" Style="{StaticResource CircleWithCrossButtonKey}" Click="CloseDialogButton_OnClick" FontFamily="Segoe UI Symbol" Margin="0,0,15,0" Foreground="{ThemeResource ButtonForegroundThemeBrush}"  />
-            <WebView
-            x:Name="dialogWebBrowser"
-            Grid.Row="1"
-            Margin="10" />
+            <WebView x:Name="dialogWebBrowser" Grid.Row="1" Margin="10" />
         </Grid>
     </Grid>
 </UserControl>
