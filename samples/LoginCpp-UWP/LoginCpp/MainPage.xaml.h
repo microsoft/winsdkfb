@@ -37,18 +37,18 @@ namespace LoginCpp
         void MainPage::SetSessionAppIds(
             );
             
-        Facebook::FBPermissions^ BuildPermissions(
+        winsdkfb::FBPermissions^ BuildPermissions(
             );
             
         BOOL DidGetAllRequestedPermissions(
             );
 
 		BOOL MainPage::WasAppPermissionRemovedByUser(
-			Facebook::FBResult^ result
+			winsdkfb::FBResult^ result
 			);
 
 		BOOL ShouldRerequest(
-			Facebook::FBResult^ result
+			winsdkfb::FBResult^ result
 			);
 
         void NavigateToOptionsPage(

@@ -95,7 +95,7 @@
         }
         else if (type.Equals("fbclass"))
         {
-            result = "Facebook::" + node.Attributes["className"].Value + "^";
+            result = "winsdkfb::" + node.Attributes["className"].Value + "^";
         }
 
         return result;

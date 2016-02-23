@@ -19,7 +19,7 @@
 using System;
 using System.ComponentModel;
 using Newtonsoft.Json;
-using Facebook;
+using winsdkfb;
 
 <#  
     string interfaces = "";

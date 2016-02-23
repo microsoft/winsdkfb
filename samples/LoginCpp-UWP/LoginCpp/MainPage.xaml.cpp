@@ -24,7 +24,7 @@
 #include "OptionsPage.xaml.h"
 
 using namespace concurrency;
-using namespace Facebook;
+using namespace winsdkfb;
 using namespace LoginCpp;
 using namespace Platform;
 using namespace Platform::Collections;
@@ -118,7 +118,7 @@ BOOL MainPage::WasAppPermissionRemovedByUser(
 {
 	return (result &&
 		(!result->Succeeded) &&
-		(result->ErrorInfo->Code == (int)Facebook::ErrorCode::ErrorCodeOauthException));
+		(result->ErrorInfo->Code == (int)winsdkfb::ErrorCode::ErrorCodeOauthException));
 }
 
 BOOL MainPage::ShouldRerequest(
@@ -224,7 +224,7 @@ void MainPage::login_OnClicked(
             if (WasAppPermissionRemovedByUser(result))
             {
 				LogoutAndRetry();
-			}
+            }
 			else if (ShouldRerequest(result))
 			{
 				// Login call has to happen on UI thread, so circle back around to it

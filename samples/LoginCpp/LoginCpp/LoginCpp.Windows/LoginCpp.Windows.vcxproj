@@ -184,7 +184,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\FBWinSDK\FBWinSDK\FBWinSDK.Windows\FBWinSDK.Windows.vcxproj">
+    <ProjectReference Include="..\..\..\..\winsdkfb\winsdkfb\winsdkfb.Windows\winsdkfb.Windows.vcxproj">
       <Project>{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}</Project>
     </ProjectReference>
   </ItemGroup>

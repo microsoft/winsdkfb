@@ -19,6 +19,7 @@ The Windows SDK for Facebook is geared towards app developers creating modern wi
 ###Dialogs
   - Feed dialog
   - Request dialog
+  - Send dialog
 
 ###Graph
   - Custom Stories
