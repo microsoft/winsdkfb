@@ -1599,7 +1599,7 @@ FBResult^ FBSession::FBResultFromTokenRequestResult(
     else
     {
         // We don't have a provider
-        result = ref new FBResult(ref new FBError((int) ErrorCode::ErrorCodeOauthException, L"WebAccountProvider Error", L"No appropriate WebAccountProvider was found"));
+        result = ref new FBResult(ref new FBError((int) ErrorCode::ErrorCodeWebAccountProviderNotFound, L"WebAccountProvider Error", L"No appropriate WebAccountProvider was found"));
     }
 
     return result;
