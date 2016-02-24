@@ -1052,6 +1052,10 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
                 }
                 break;
 #endif
+            case SessionLoginBehavior::Silent:
+                authTask = TryLoginSilently(parameters);
+                result = authTask.get();
+                break;
             default:
                 OutputDebugString(L"Invalid SessionLoginBehavior member!\n");
                 // TODO need a real error code
@@ -1217,6 +1221,76 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
         else
         {
             loginResult = RunOAuthOnUiThread(Parameters);
+        }
+
+        return loginResult;
+    });
+}
+
+task<FBResult^> FBSession::TryLoginSilently(
+    PropertySet^ Parameters
+    )
+{
+    FBSession^ sess = FBSession::ActiveSession;
+
+    IAsyncOperation<FBResult^>^ result = nullptr;
+
+    return create_task([=]() -> task<FBResult^>
+    {
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
+        if (!IsRerequest(Parameters))
+        {
+            graphTask = CheckForExistingToken();
+        }
+
+        return graphTask;
+    })
+        .then([=](FBResult^ oauthResult) -> task<FBResult^>
+    {
+        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        {
+            return nullptr;
+        });
+
+        if (oauthResult && oauthResult->Succeeded)
+        {
+            winsdkfb::FBAccessTokenData^ tokenData =
+                static_cast<winsdkfb::FBAccessTokenData^>(oauthResult->Object);
+            if (!tokenData->IsExpired())
+            {
+                AccessTokenData = tokenData;
+                graphTask = create_task([=]() -> FBResult^
+                {
+                    return ref new FBResult(AccessTokenData);
+                });
+            }
+        }
+
+        return graphTask;
+    })
+        .then([=](FBResult^ graphResult)
+    {
+        task<FBResult^> loginResult;
+
+        if (graphResult && graphResult->Succeeded)
+        {
+            loginResult = create_task([=]()
+            {
+                return graphResult;
+            });
+        }
+        else
+        {
+            return create_task([]() -> FBResult^
+            {
+                return ref new FBResult(ref new FBError(0,
+                    L"Restore session error",
+                    L"Could not find a valid access token"));
+            });
         }
 
         return loginResult;
@@ -1525,7 +1599,7 @@ FBResult^ FBSession::FBResultFromTokenRequestResult(
     else
     {
         // We don't have a provider
-        result = ref new FBResult(ref new FBError((int) ErrorCode::ErrorCodeOauthException, L"WebAccountProvider Error", L"No appropriate WebAccountProvider was found"));
+        result = ref new FBResult(ref new FBError((int) ErrorCode::ErrorCodeWebAccountProviderNotFound, L"WebAccountProvider Error", L"No appropriate WebAccountProvider was found"));
     }
 
     return result;
