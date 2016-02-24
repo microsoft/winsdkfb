@@ -23,6 +23,17 @@ using namespace Windows::Data::Json;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 
+/*!
+Class to handle errors coming in from Facebook based
+on a bad request/response. Getter and setter methods as well
+as error codes available. Parameters:
+message: error message
+type: type of error (bad request, etc.)
+code: error code (400, 401, etc.)
+subcode: extra code for more detail
+errorUserTitle: 
+errorUserMessage: 
+*/
 FBError::FBError(
     ) :
     _message(nullptr),
@@ -64,6 +75,7 @@ String^ FBError::ErrorUserMessage::get()
 {
     return _errorUserMessage;
 }
+
 
 FBError^ FBError::FromUri(
     Uri^ ResponseUri

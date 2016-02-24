@@ -34,7 +34,7 @@ Parameters:
 _request - API endpoint, for example /user/feed
 _parameters - any additional information attached to request, ex. title, description. Usually 
 			  sent over as part of a PropertySet
-_objectFactory - 
+_objectFactory - object passed in to parse the response returned from Facebook
 */
 FBSingleValue::FBSingleValue(
     Platform::String^ Request,

@@ -121,7 +121,6 @@ winsdkfb::FBSession::~FBSession()
     }
 }
 
-///getter method for the FBAppId
 String^ FBSession::FBAppId::get()
 {
     if (!_FBAppId)
@@ -136,25 +135,21 @@ String^ FBSession::FBAppId::get()
     return _FBAppId;
 }
 
-///setter method for the FBAppId
 void FBSession::FBAppId::set(String^ value)
 {
     _FBAppId = value;
 }
 
-///getter method for the WinAppId
 String^ FBSession::WinAppId::get()
 {
     return _WinAppId;
 }
 
-///setter method for the WinAppId
 void FBSession::WinAppId::set(String^ value)
 {
     _WinAppId = value;
 }
 
-///getter method for the AppResponse
 String^ FBSession::AppResponse::get()
 {
     return _AppResponse;
@@ -166,13 +161,11 @@ bool FBSession::LoggedIn::get()
     return _loggedIn;
 }
 
-///getter method to retrieve access token data
 FBAccessTokenData^ FBSession::AccessTokenData::get()
 {
     return _AccessTokenData;
 }
 
-///setter method for access token data
 void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
 {
     _AccessTokenData = value;
@@ -197,20 +190,45 @@ IAsyncAction^ FBSession::LogoutAsync()
     return TryDeleteTokenData();
 }
 
+/*!
+function that is automatically called when retrieving the User info from the FBSession object
+makes different URL get requests based on the API Version
+*/
 task<FBResult^> FBSession::GetUserInfo(
     winsdkfb::FBAccessTokenData^ TokenData
     )
 {
-    FBSingleValue^ value = ref new FBSingleValue(
-        "/me",
-        nullptr,
-        ref new FBJsonClassFactory([](String^ JsonText) -> Object^
-        {
-            return FBUser::FromJson(JsonText);
-        }));
+	FBSingleValue^ value;
+
+	/*
+	if (APIMajorVersion == 2 && APIMinorVersion >= 4)
+	{
+		value = ref new FBSingleValue(
+			"/me?fields=id,email,picture,location,age_range,first_name,gender,last_name,link,locale,name,timezone,updated_time,verified",
+			nullptr,
+			ref new FBJsonClassFactory([](String^ JsonText) -> Object^
+		{
+			return FBUser::FromJson(JsonText);
+		}));
+	}
+	
+	else
+	{
+	*/
+		PropertySet^ propSet = ref new PropertySet();
+		//propSet->Insert(L"fields", L"id,email,picture,location,age_range,first_name,gender,last_name,link,locale,name,timezone,updated_time,verified");
+		value = ref new FBSingleValue(
+			"/me",
+			propSet,
+			ref new FBJsonClassFactory([](String^ JsonText) -> Object^
+		{
+			return FBUser::FromJson(JsonText);
+		}));
+	//}
 
     return create_task(value->GetAsync());
 }
+
 
 IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
     StorageFolder^ folder,
@@ -430,6 +448,7 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
 }
 
 ///function that pops up the Feed Dialog for sharing to a user's Facebook feed/timeline.
+///takes a PropertySet of parameters for a link, title, and description for the post
 IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     PropertySet^ Parameters
     )
@@ -549,6 +568,7 @@ IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
 }
 
 ///function that pops up the Send Dialog to send a private message to a user's facebook friends
+///takes a PropertySet of parameters for a link, title, and description for the message
 IAsyncOperation<FBResult^>^ FBSession::ShowSendDialogAsync(
     PropertySet^ Parameters
     )
@@ -1025,7 +1045,9 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 
 /*!
 main LoginAsync function that takes in a SessionLoginBehavior parameter to choose between the login methods:
-WebAccountProvider, WebAuthBroker, and WebView
+WebAccountProvider, WebAuthBroker, and WebView. Takes an FBPermissions object that selects the persmissions
+required from the user. Also takes an optional SessionLoginBehavior object that allows developer to specify which
+login method they want the user to go through for authentication.
 */
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions,
@@ -1301,13 +1323,13 @@ void FBSession::SetAPIVersion(
     _APIMinorVersion = MinorVersion;
 }
 
-///getter method for API Major version (ex. 2)
+
 int FBSession::APIMajorVersion::get()
 {
     return _APIMajorVersion;
 }
 
-///setter method for API Minor version (ex. 2.3, 2.4)
+
 int FBSession::APIMinorVersion::get()
 {
     return _APIMinorVersion;

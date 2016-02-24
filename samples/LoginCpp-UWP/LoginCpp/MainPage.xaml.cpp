@@ -77,8 +77,8 @@ void MainPage::SetSessionAppIds()
     // in the default resource file.
     ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
 
-    String^ appId = rl->GetString(FBAppIDName);
-    String^ winAppId = rl->GetString(FBStoreAppIDName);
+	String^ appId = L"1606735379540755";//rl->GetString(FBAppIDName);
+	String^ winAppId = L"s-1-15-2-3089487911-215249050-3399914704-2991134715-266043697-3786854407-3873117276";//rl->GetString(FBStoreAppIDName);
 
     // IDs are both sent to FB app, so it can validate us.
     s->FBAppId = appId;
@@ -214,7 +214,7 @@ void MainPage::login_OnClicked(
 	}
 	else
 	{
-        create_task(sess->LoginAsync(BuildPermissions())).then([=](FBResult^ result)
+        create_task(sess->LoginAsync(BuildPermissions(),SessionLoginBehavior::WebView)).then([=](FBResult^ result)
         {
             // There may be other cases where an a failed login request should
             // prompt the app to retry login, but this one is common enough that
