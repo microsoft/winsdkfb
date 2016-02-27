@@ -165,6 +165,7 @@ void FacebookDialog::ShowDialog(
     _popup->IsOpen = true;
 
     dialogWebBrowser->Navigate(dialogUrl);
+    dialogWebBrowser->Focus(Windows::UI::Xaml::FocusState::Programmatic);
 }
 
 void FacebookDialog::ShowLoginDialog(
