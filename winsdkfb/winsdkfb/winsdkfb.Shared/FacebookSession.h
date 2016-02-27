@@ -39,7 +39,8 @@ namespace winsdkfb
         WebView,
         WebAuth,
         WebAccountProvider,
-        DefaultOrdering
+        DefaultOrdering,
+        Silent
     };
 
     ref class FBSession;
@@ -214,6 +215,10 @@ namespace winsdkfb
                 );
 
             concurrency::task<FBResult^> TryLoginViaWebAuthBroker(
+                Windows::Foundation::Collections::PropertySet^ Parameters
+                );
+
+            concurrency::task<FBResult^> TryLoginSilently(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
