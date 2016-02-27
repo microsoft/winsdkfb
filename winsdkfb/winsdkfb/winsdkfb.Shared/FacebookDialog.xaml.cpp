@@ -32,6 +32,8 @@ using namespace Platform::Collections;
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
+using namespace Windows::Web::Http;
+using namespace Windows::Web::Http::Filters;
 using namespace Windows::UI::Popups;
 using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml;
@@ -207,6 +209,19 @@ void FacebookDialog::ShowSendDialog(
             this, &FacebookDialog::dialogWebView_SendNavStarting);
     ShowDialog(ref new DialogUriBuilder(this,
         &FacebookDialog::BuildSendDialogUrl), handler, Parameters);
+}
+
+void FacebookDialog::DeleteCookies()
+{
+	// This allows on WP8.1 to logIn with other account from the webView
+	// and on W8.1 & W10 to logIn with other account when the 'Keep me logged in' option from webView was selected
+	HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+	HttpCookieManager^ cookieManager = filter->CookieManager;
+	HttpCookieCollection^ cookiesJar = cookieManager->GetCookies(ref new Uri(FacebookDialog::GetFBServerUrl()));
+	for (HttpCookie^ cookie : cookiesJar)
+	{
+		cookieManager->DeleteCookie(cookie);
+	}
 }
 
 String^ FacebookDialog::GetRedirectUriString(

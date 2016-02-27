@@ -220,12 +220,6 @@ namespace winsdkfb
             void WriteGrantedPermissionsToFile(
                 );
 
-            /*!\discussion The current session in webview is required only if the access token is valid
-             * \discussion When the access token is removed the cookies must be clean up
-             */
-             void DeleteWebViewCookies(
-                );
-
             Platform::String^ GetGrantedPermissionsFromFile(
                 );
 

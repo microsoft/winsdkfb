@@ -69,6 +69,12 @@ namespace winsdkfb
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
+        /*! discussion The current session in webview is required only if the access token is valid
+         *  When the access token is removed the cookies must be clean up
+         */
+        static void DeleteCookies(
+            );
+
     private:
         void ShowDialog(
             DialogUriBuilder^ uriBuilder,

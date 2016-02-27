@@ -55,8 +55,6 @@ using namespace Windows::System;
 using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Controls::Primitives;
-using namespace Windows::Web::Http;
-using namespace Windows::Web::Http::Filters;
 
 #define INT64_STRING_BUFSIZE 65
 extern const wchar_t* ErrorObjectJson;
@@ -174,7 +172,7 @@ IAsyncAction^ FBSession::LogoutAsync()
     _AppResponse = nullptr;
     _loggedIn = false;
 
-    DeleteWebViewCookies();
+    FacebookDialog::DeleteCookies();
 
     return TryDeleteTokenData();
 }
@@ -1274,19 +1272,6 @@ void FBSession::WriteGrantedPermissionsToFile()
     }
     auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
     values->Insert(GRANTED_PERMISSIONS_KEY, AccessTokenData->GrantedPermissions->ToString());
-}
-
-void FBSession::DeleteWebViewCookies()
-{
-	// This allows on WP8.1 to logIn with other account from the webView
-	// and on W8.1 & W10 to logIn with other account when the 'Keep me logged in' option from webView was selected
-	HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-	HttpCookieManager^ cookieManager = filter->CookieManager;
-	HttpCookieCollection^ cookiesJar = cookieManager->GetCookies(ref new Uri(FacebookDialog::GetFBServerUrl()));
-	for (HttpCookie^ cookie : cookiesJar)
-	{
-		cookieManager->DeleteCookie(cookie);
-	}
 }
 
 String^ FBSession::GetGrantedPermissionsFromFile()
