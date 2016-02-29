@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fbpermissions',['FBPermissions',['../classwinsdkfb_1_1_f_b_permissions.html#ada4b4b4ad133d8751738df6543bf0577',1,'winsdkfb::FBPermissions']]]
+  ['deleteasync',['DeleteAsync',['../classwinsdkfb_1_1_graph_1_1_f_b_single_value.html#abf124440ab04612cf1fa2559558f2306',1,'winsdkfb::Graph::FBSingleValue']]]
 ];

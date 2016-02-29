@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['user',['User',['../classwinsdkfb_1_1_f_b_session.html#ac5f12c2b3dcda6f24f33e89b8185419b',1,'winsdkfb::FBSession']]],
-  ['userid',['UserID',['../classwinsdkfb_1_1_f_b_access_token_data.html#a436aa0c58165dea46bea4f9304457d64',1,'winsdkfb::FBAccessTokenData']]]
+  ['recipientids',['RecipientIds',['../classwinsdkfb_1_1_f_b_app_request.html#a232adecdd4e3a35950b22db84608f492',1,'winsdkfb::FBAppRequest']]],
+  ['requestid',['RequestId',['../classwinsdkfb_1_1_f_b_app_request.html#a5a53088fb4d3bad13f4b0fa625c1312e',1,'winsdkfb::FBAppRequest']]]
 ];

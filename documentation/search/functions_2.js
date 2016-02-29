@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logoutasync',['LogoutAsync',['../classwinsdkfb_1_1_f_b_session.html#a95cc2d5779204c52b2713182e29131b2',1,'winsdkfb::FBSession']]]
+  ['getasync',['GetAsync',['../classwinsdkfb_1_1_graph_1_1_f_b_single_value.html#a054454f6dde8bfb418198aa3ce15320f',1,'winsdkfb::Graph::FBSingleValue']]]
 ];

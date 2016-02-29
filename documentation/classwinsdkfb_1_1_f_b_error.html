@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>winsdkfb: winsdkfb::FBError Class Reference</title>
+<title>My Project: winsdkfb::FBError Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,9 +23,8 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">winsdkfb
+   <div id="projectname">My Project
    </div>
-   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -110,11 +109,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a75a59c216d54f8d2e4af4f36b675468a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75a59c216d54f8d2e4af4f36b675468a"></a>
-static <a class="el" href="classwinsdkfb_1_1_f_b_error.html">FBError</a>^&#160;</td><td class="memItemRight" valign="bottom"><b>FromUri</b> (Windows::Foundation::Uri^ ResponseUri)</td></tr>
+<tr class="memitem:a75a59c216d54f8d2e4af4f36b675468a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwinsdkfb_1_1_f_b_error.html">FBError</a>^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_error.html#a75a59c216d54f8d2e4af4f36b675468a">FromUri</a> (Windows::Foundation::Uri^ ResponseUri)</td></tr>
 <tr class="separator:a75a59c216d54f8d2e4af4f36b675468a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a187f62d8add220edc2337781a169b6a5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a187f62d8add220edc2337781a169b6a5"></a>
-static <a class="el" href="classwinsdkfb_1_1_f_b_error.html">FBError</a>^&#160;</td><td class="memItemRight" valign="bottom"><b>FromJson</b> (Platform::String^ JsonText)</td></tr>
+<tr class="memitem:a187f62d8add220edc2337781a169b6a5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwinsdkfb_1_1_f_b_error.html">FBError</a>^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_error.html#a187f62d8add220edc2337781a169b6a5">FromJson</a> (Platform::String^ JsonText)</td></tr>
 <tr class="separator:a187f62d8add220edc2337781a169b6a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
@@ -146,7 +143,70 @@ Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>class wrapper for FB error responses. For the time being, this is a very bare shell around the error response URL from Facebook, and not a full-blown error class such as exists in the Facebook SDK for iOS. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a187f62d8add220edc2337781a169b6a5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwinsdkfb_1_1_f_b_error.html">FBError</a> FBError::FromJson </td>
+          <td>(</td>
+          <td class="paramtype">Platform::String^&#160;</td>
+          <td class="paramname"><em>JsonText</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Tries to instantiate an <a class="el" href="classwinsdkfb_1_1_f_b_error.html" title="class wrapper for FB error responses. For the time being, this is a very bare shell around the error ...">FBError</a> object from a JSON formatted string. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">JsonText</td><td>JSON string to extract error information from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classwinsdkfb_1_1_f_b_error.html" title="class wrapper for FB error responses. For the time being, this is a very bare shell around the error ...">FBError</a> object encapsulating the JSON string error data. Will return nullptr if JsonText is not properly formatted JSON or if it doesn't contain an error. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a75a59c216d54f8d2e4af4f36b675468a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwinsdkfb_1_1_f_b_error.html">FBError</a> FBError::FromUri </td>
+          <td>(</td>
+          <td class="paramtype">Windows::Foundation::Uri^&#160;</td>
+          <td class="paramname"><em>ResponseUri</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Tries to instantiate an <a class="el" href="classwinsdkfb_1_1_f_b_error.html" title="class wrapper for FB error responses. For the time being, this is a very bare shell around the error ...">FBError</a> object based off of a response URI from Facebook. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ResponseUri</td><td>Response URI to extract error information from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classwinsdkfb_1_1_f_b_error.html" title="class wrapper for FB error responses. For the time being, this is a very bare shell around the error ...">FBError</a> object encapsulating error data from the URI. Will return nullptr if the URI doesn't contain an error. </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_error_8h_source.html">FacebookError.h</a></li>
 <li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookError.cpp</li>
 </ul>

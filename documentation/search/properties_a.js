@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['type',['Type',['../classwinsdkfb_1_1_f_b_error.html#a2c10dc5da401bd03f4b12d852574a06f',1,'winsdkfb::FBError']]]
+  ['permissions',['Permissions',['../classwinsdkfb_1_1_f_b_login_button.html#a0fdca25c2f5e74e0175627b1a536b283',1,'winsdkfb::FBLoginButton']]],
+  ['postid',['PostId',['../classwinsdkfb_1_1_f_b_feed_request.html#ab780b2cf7a3a72532430394bbb7c1fcb',1,'winsdkfb::FBFeedRequest']]]
 ];

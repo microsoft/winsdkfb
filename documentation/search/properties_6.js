@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['message',['Message',['../classwinsdkfb_1_1_f_b_error.html#aefd03dcbd80b414f2269d8c89ad1dba2',1,'winsdkfb::FBError']]]
+  ['hascurrent',['HasCurrent',['../classwinsdkfb_1_1_graph_1_1_f_b_paginated_array.html#a15faad257d6965e7248379cdba1b04ae',1,'winsdkfb::Graph::FBPaginatedArray']]]
 ];
