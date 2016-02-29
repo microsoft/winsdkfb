@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['before',['Before',['../class_facebook_1_1_graph_1_1_f_b_cursors.html#aa67212567b09fe8e3a834d2a0c2b0fcf',1,'Facebook::Graph::FBCursors']]],
-  ['buffersize',['BufferSize',['../_facebook_client_8cpp.html#aa362edf6db9662acf6ef958a6db19c35',1,'FacebookClient.cpp']]]
+  ['code',['Code',['../classwinsdkfb_1_1_f_b_error.html#a3b6930526b9afe3f3d54ef525999c9e1',1,'winsdkfb::FBError']]],
+  ['colorluminosityconverter',['ColorLuminosityConverter',['../classwinsdkfb_1_1_color_luminosity_converter.html',1,'winsdkfb']]],
+  ['current',['Current',['../classwinsdkfb_1_1_graph_1_1_f_b_paginated_array.html#a0a63e6416be19453e4b49096f4f7733e',1,'winsdkfb::Graph::FBPaginatedArray']]]
 ];

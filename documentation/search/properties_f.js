@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['status',['Status',['../class_facebook_1_1_graph_1_1_f_b_permission.html#aeaacee9d67ae33c97ef48074bcc7b3b2',1,'Facebook::Graph::FBPermission']]],
-  ['stream',['Stream',['../class_facebook_1_1_f_b_media_stream.html#aef9fc9ffb672f3aaa1f0b96905a926fa',1,'Facebook::FBMediaStream']]],
-  ['subcode',['Subcode',['../class_facebook_1_1_f_b_error.html#a2897236a6febc7512a311192a533a3df',1,'Facebook::FBError']]],
-  ['succeeded',['Succeeded',['../class_facebook_1_1_f_b_result.html#adca0971842eab3fce4eaf03b2346cfd7',1,'Facebook::FBResult']]]
+  ['values',['Values',['../classwinsdkfb_1_1_f_b_permissions.html#a31bd1ebd534ef70026456a1abd778e02',1,'winsdkfb::FBPermissions']]]
 ];

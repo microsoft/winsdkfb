@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['objectarrayfromwebresponse',['ObjectArrayFromWebResponse',['../class_facebook_1_1_graph_1_1_f_b_paginated_array.html#ad9c8cf6f57abe6e696a9829e307ff73f',1,'Facebook::Graph::FBPaginatedArray']]],
-  ['onapplytemplate',['OnApplyTemplate',['../class_facebook_1_1_f_b_login_button.html#ac915782286bc57b2ef57091e4059bebf',1,'Facebook::FBLoginButton']]]
+  ['setapiversion',['SetAPIVersion',['../classwinsdkfb_1_1_f_b_session.html#aa270e4c06658d0636f7ee0db86a9a24b',1,'winsdkfb::FBSession']]],
+  ['setpermissions',['SetPermissions',['../classwinsdkfb_1_1_f_b_access_token_data.html#a22be7a0e6f2c53d89c74bfc87951e9e3',1,'winsdkfb::FBAccessTokenData']]],
+  ['showfeeddialogasync',['ShowFeedDialogAsync',['../classwinsdkfb_1_1_f_b_session.html#a5d01ada9903bf6d30f91e21448bac78d',1,'winsdkfb::FBSession']]],
+  ['showrequestsdialogasync',['ShowRequestsDialogAsync',['../classwinsdkfb_1_1_f_b_session.html#a8cdf0f2149400b487e4e4ba56ac544fd',1,'winsdkfb::FBSession']]],
+  ['showsenddialogasync',['ShowSendDialogAsync',['../classwinsdkfb_1_1_f_b_session.html#a755f85b8566b01daaa59aa12e7566fdb',1,'winsdkfb::FBSession']]]
 ];

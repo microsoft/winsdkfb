@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jsonclassfactory_2eh',['JsonClassFactory.h',['../_json_class_factory_8h.html',1,'']]]
+  ['message',['Message',['../classwinsdkfb_1_1_f_b_error.html#aefd03dcbd80b414f2269d8c89ad1dba2',1,'winsdkfb::FBError']]]
 ];

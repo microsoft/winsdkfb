@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['message',['Message',['../class_facebook_1_1_f_b_error.html#a0a1880d5fb47666bc1916191215a23a5',1,'Facebook::FBError::Message()'],['../class_facebook_1_1_graph_1_1_f_b_app_request.html#a737e56b86b4d7f13de1575afea87327f',1,'Facebook::Graph::FBAppRequest::Message()']]]
+  ['permissions',['Permissions',['../classwinsdkfb_1_1_f_b_login_button.html#a0fdca25c2f5e74e0175627b1a536b283',1,'winsdkfb::FBLoginButton']]],
+  ['postid',['PostId',['../classwinsdkfb_1_1_f_b_feed_request.html#ab780b2cf7a3a72532430394bbb7c1fcb',1,'winsdkfb::FBFeedRequest']]]
 ];
