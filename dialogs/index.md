@@ -5,7 +5,6 @@ title: Dialogs
 
 ##Feed Dialog
 The feed dialog allows the app to specify a title, link, and description for a post to the user's feed. The user can enter a custom message before posting it to Facebook.
-These dialogs work.
 
 C#:
 {% highlight csharp %}
