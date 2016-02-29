@@ -98,7 +98,6 @@ FacebookDialog::~FacebookDialog(
 void FacebookDialog::InitDialog()
 {
     _popup = nullptr;
-    _dialogResponse = nullptr;
 
     CoreWindow^ wnd1 = CoreApplication::MainView->CoreWindow;
 
@@ -135,26 +134,12 @@ void FacebookDialog::UninitDialog()
     _popup->Child = nullptr;
 }
 
-FBResult^ FacebookDialog::GetDialogResponse()
-{
-    FBResult^ response = _dialogResponse;
-    if (response)
-    {
-        // Caller (FBSession) only gets the response *once*.  Then we reset
-        // it to null, so it's valid to poll on the value being null again.
-        _dialogResponse = nullptr;
-    }
-
-    return response;
-}
-
-void FacebookDialog::ShowDialog(
+IAsyncOperation<FBResult^>^ FacebookDialog::ShowDialog(
     DialogUriBuilder^ uriBuilder,
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ EventHandler,
     PropertySet^ Parameters
     )
 {
-    _dialogResponse = nullptr;
     Uri^ dialogUrl = uriBuilder(Parameters);
 
     navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
@@ -164,49 +149,54 @@ void FacebookDialog::ShowDialog(
 
     dialogWebBrowser->Navigate(dialogUrl);
     dialogWebBrowser->Focus(Windows::UI::Xaml::FocusState::Programmatic);
+
+    return create_async([=]()
+    {
+        return create_task(_dialogResponse);
+    });
 }
 
-void FacebookDialog::ShowLoginDialog(
+IAsyncOperation<FBResult^>^ FacebookDialog::ShowLoginDialog(
     PropertySet^ Parameters
     )
 {
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_LoginNavStarting);
-    ShowDialog(ref new DialogUriBuilder(this,
+    return ShowDialog(ref new DialogUriBuilder(this,
         &FacebookDialog::BuildLoginDialogUrl), handler, Parameters);
 }
 
-void FacebookDialog::ShowFeedDialog(
+IAsyncOperation<FBResult^>^ FacebookDialog::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_FeedNavStarting);
-    ShowDialog(ref new DialogUriBuilder(this,
+    return ShowDialog(ref new DialogUriBuilder(this,
         &FacebookDialog::BuildFeedDialogUrl), handler, Parameters);
 }
 
-void FacebookDialog::ShowRequestsDialog(
+IAsyncOperation<FBResult^>^ FacebookDialog::ShowRequestsDialog(
     PropertySet^ Parameters
     )
 {
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_RequestNavStarting);
-    ShowDialog(ref new DialogUriBuilder(this,
+    return ShowDialog(ref new DialogUriBuilder(this,
         &FacebookDialog::BuildRequestsDialogUrl), handler, Parameters);
 }
 
-void FacebookDialog::ShowSendDialog(
+IAsyncOperation<FBResult^>^ FacebookDialog::ShowSendDialog(
     PropertySet^ Parameters
     )
 {
     TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_SendNavStarting);
-    ShowDialog(ref new DialogUriBuilder(this,
+    return ShowDialog(ref new DialogUriBuilder(this,
         &FacebookDialog::BuildSendDialogUrl), handler, Parameters);
 }
 
@@ -438,12 +428,12 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
         FBAccessTokenData^ tokenData = FBAccessTokenData::FromUri(e->Uri);
         if (tokenData)
         {
-            _dialogResponse = ref new FBResult(tokenData);
+            SetDialogResponse(ref new FBResult(tokenData));
         }
         else
         {
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-            _dialogResponse = ref new FBResult(err);
+            SetDialogResponse(ref new FBResult(err));
         }
     }
     else if (IsDialogCloseRedirect(e->Uri))
@@ -451,7 +441,7 @@ void FacebookDialog::dialogWebView_LoginNavStarting(
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-        _dialogResponse = ref new FBResult(err);
+        SetDialogResponse(ref new FBResult(err));
     }
 }
 
@@ -472,12 +462,12 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
         FBFeedRequest^ request = FBFeedRequest::FromFeedDialogResponse(e->Uri);
         if (request)
         {
-            _dialogResponse = ref new FBResult(request);
+            SetDialogResponse(ref new FBResult(request));
         }
         else
         {
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-            _dialogResponse = ref new FBResult(err);
+            SetDialogResponse(ref new FBResult(err));
         }
     }
     else if (IsLogoutRedirect(e->Uri))
@@ -489,14 +479,14 @@ void FacebookDialog::dialogWebView_FeedNavStarting(
         sess->LogoutAsync();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJsonLogout));
-        _dialogResponse = ref new FBResult(err);
+        SetDialogResponse(ref new FBResult(err));
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-        _dialogResponse = ref new FBResult(err);
+        SetDialogResponse(ref new FBResult(err));
     }
 }
 
@@ -517,12 +507,12 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
         FBAppRequest^ request = FBAppRequest::FromRequestDialogResponse(e->Uri);
         if (request)
         {
-            _dialogResponse = ref new FBResult(request);
+            SetDialogResponse(ref new FBResult(request));
         }
         else
         {
             FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-            _dialogResponse = ref new FBResult(err);
+            SetDialogResponse(ref new FBResult(err));
         }
     }
     else if (IsLogoutRedirect(e->Uri))
@@ -534,14 +524,14 @@ void FacebookDialog::dialogWebView_RequestNavStarting(
         sess->LogoutAsync();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJsonLogout));
-        _dialogResponse = ref new FBResult(err);
+        SetDialogResponse(ref new FBResult(err));
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-        _dialogResponse = ref new FBResult(err);
+        SetDialogResponse(ref new FBResult(err));
     }
 }
 
@@ -560,7 +550,7 @@ void FacebookDialog::dialogWebView_SendNavStarting(
         UninitDialog();
 
         DebugPrintLine(L"Request response is " + e->Uri->DisplayUri);
-        _dialogResponse = ref new FBResult(ref new FBSendRequest());
+        SetDialogResponse(ref new FBResult(ref new FBSendRequest()));
 
     }
     else if (IsLogoutRedirect(e->Uri))
@@ -572,7 +562,7 @@ void FacebookDialog::dialogWebView_SendNavStarting(
         sess->LogoutAsync();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJsonLogout));
-        _dialogResponse = ref new FBResult(err);
+        SetDialogResponse(ref new FBResult(err));
     }
     else if (IsDialogCloseRedirect(e->Uri))
     {
@@ -581,7 +571,7 @@ void FacebookDialog::dialogWebView_SendNavStarting(
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-        _dialogResponse = ref new FBResult(err);
+        SetDialogResponse(ref new FBResult(err));
     }
 }
 
@@ -593,7 +583,7 @@ void FacebookDialog::CloseDialogButton_OnClick(
     UninitDialog();
 
     FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-    _dialogResponse = ref new FBResult(err);
+    SetDialogResponse(ref new FBResult(err));
 }
 
 void FacebookDialog::OnSizeChanged(
@@ -603,5 +593,12 @@ void FacebookDialog::OnSizeChanged(
 {
     Height = sender->Bounds.Height;
     Width = sender->Bounds.Width;
+}
+
+void FacebookDialog::SetDialogResponse(
+    FBResult^ dialogResponse
+    )
+{
+    _dialogResponse.set(dialogResponse);
 }
 

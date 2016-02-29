@@ -47,27 +47,24 @@ namespace winsdkfb
         void UninitDialog(
             );
 
-        winsdkfb::FBResult^ GetDialogResponse(
-            );
-
-        void ShowLoginDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowLoginDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        void ShowFeedDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowFeedDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        void ShowRequestsDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowRequestsDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        void ShowSendDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowSendDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
     private:
-        void ShowDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowDialog(
             DialogUriBuilder^ uriBuilder,
             Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandler,
             Windows::Foundation::Collections::PropertySet^ Parameters
@@ -141,12 +138,14 @@ namespace winsdkfb
             Windows::UI::Core::WindowSizeChangedEventArgs ^args
             );
 
+        void SetDialogResponse(winsdkfb::FBResult ^dialogResponse);
+
         Windows::Foundation::EventRegistrationToken
             navigatingEventHandlerRegistrationToken;
         Windows::Foundation::EventRegistrationToken
             sizeChangedEventRegistrationToken;
         Windows::UI::Xaml::Controls::Grid^ _grid;
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
-        winsdkfb::FBResult^ _dialogResponse;
+        concurrency::task_completion_event<winsdkfb::FBResult^> _dialogResponse;
     };
 }

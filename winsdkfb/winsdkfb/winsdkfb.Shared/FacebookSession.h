@@ -272,7 +272,6 @@ namespace winsdkfb
             winsdkfb::Graph::FBUser^ _user;
             concurrency::task<winsdkfb::FBResult^> _loginTask;
             winsdkfb::FacebookDialog^ _dialog;
-            BOOL _showingDialog;
             int _APIMajorVersion;
             int _APIMinorVersion;
     };
