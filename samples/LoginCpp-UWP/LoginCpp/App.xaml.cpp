@@ -42,7 +42,7 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
-using namespace Facebook;
+using namespace winsdkfb;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 

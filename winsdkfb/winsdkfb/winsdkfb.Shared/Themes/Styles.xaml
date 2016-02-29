@@ -1,0 +1,18 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:winsdkfb">
+    <Style x:Key="CircleWithCrossButtonKey" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Rectangle Fill="#FFF4F4F5" Opacity="0"/>
+                        <Path Data="M2.55469,0.445312 L24,21.8672 L45.4453,0.445312 L47.5547,2.55469 L26.1328,24 L47.5547,45.4453 L45.4453,47.5547 L24,26.1328 L2.55469,47.5547 L0.445312,45.4453 L21.8672,24 L0.445312,2.55469 z" Fill="{ThemeResource ButtonForegroundThemeBrush}" Margin="0" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

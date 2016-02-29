@@ -8,7 +8,7 @@
 using System;
 using System.ComponentModel;
 using Newtonsoft.Json;
-using Facebook;
+using winsdkfb;
 
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Data;
