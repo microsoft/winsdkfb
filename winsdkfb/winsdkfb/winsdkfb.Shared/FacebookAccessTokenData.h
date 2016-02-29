@@ -20,25 +20,25 @@
 
 namespace winsdkfb
 {
-    /*!\brief How user was/will be logged in.  Preferred method should be app, 
+    /*!\brief How user was/will be logged in.  Preferred method should be app,
      * with web as a backup in case the Facebook app isn't installed.
      */
-    public enum class SessionLoginType 
+    public enum class SessionLoginType
     {
-        LoginTypeApp, 
-        LoginTypeWeb  
+        LoginTypeApp,
+        LoginTypeWeb
     };
 
     /*!\brief How to crop profile picture.  Facebook offers two settings,
      * square crop or center entire image in a square.
      */
-    public enum class ProfilePictureCropping 
-    { 
-        ProfilePictureCroppingSquare, 
-        ProfilePictureCroppingOriginal 
+    public enum class ProfilePictureCropping
+    {
+        ProfilePictureCroppingSquare,
+        ProfilePictureCroppingOriginal
     };
-   
-    /*!\brief Represents an access token used for Facebook login, with 
+
+    /*!\brief Represents an access token used for Facebook login, with
      * associated data.
      */
     public ref class FBAccessTokenData sealed
@@ -72,12 +72,17 @@ namespace winsdkfb
                 Windows::Foundation::DateTime get();
             }
 
-            //! Returns the list of permissions
+            /**
+             * The permissions that were granted by the user.
+             */
             property winsdkfb::FBPermissions^ GrantedPermissions
             {
                 winsdkfb::FBPermissions^ get();
             }
 
+            /**
+             * The permissions that were declined by the user.
+             */
             property winsdkfb::FBPermissions^ DeclinedPermissions
             {
                 winsdkfb::FBPermissions^ get();
@@ -92,6 +97,13 @@ namespace winsdkfb
             bool IsExpired(
                 );
 
+            /**
+             * Splits permissions into granted and declined groups then stores
+             * these as GrantedPermissions and DeclinedPermissions,
+             * respectively. Note that previous values for GrantedPermissions
+             * and DeclinedPermissions will be overwritten.
+             * @param perms Collection of permissions to divide.
+             */
             void SetPermissions(
                 Windows::Foundation::Collections::IVectorView<Object^>^ perms
                 );
@@ -106,11 +118,16 @@ namespace winsdkfb
             void InitPermissions(
                 );
 
+            /**
+             * Converts expiration string to DateTime object that indicates when
+             * the access token will expire. This value may be accessed via
+             * ExpirationDate.
+             */
             void CalculateExpirationDateTime(
                 Platform::String^ Expiration
                 );
 
-            static Windows::Foundation::WwwFormUrlDecoder^ 
+            static Windows::Foundation::WwwFormUrlDecoder^
             ParametersFromResponse(
                 Windows::Foundation::Uri^ Response
                 );

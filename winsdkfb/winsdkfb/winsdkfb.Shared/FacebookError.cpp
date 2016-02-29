@@ -65,6 +65,7 @@ String^ FBError::ErrorUserMessage::get()
     return _errorUserMessage;
 }
 
+
 FBError^ FBError::FromUri(
     Uri^ ResponseUri
     )

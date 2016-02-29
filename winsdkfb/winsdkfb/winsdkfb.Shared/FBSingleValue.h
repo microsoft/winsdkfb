@@ -24,21 +24,52 @@ namespace winsdkfb
 {
     namespace Graph
     {
+        /**
+         * Used to interact with Facebook Graph API calls that return
+         * non-paginated values.
+         */
         public ref class FBSingleValue sealed
         {
         public:
+            /**
+             * Constructor.
+             * @param Request The Graph API endpoint
+             * @param Parameters Additional parameters that the Graph call may require
+             * @param ObjectFactory Factory to create object from the response data
+             */
             FBSingleValue(
                 Platform::String^ Request,
                 Windows::Foundation::Collections::PropertySet^ Parameters,
                 FBJsonClassFactory^ ObjectFactory
                 );
 
+            /**
+             * Makes an HTTP GET request to the Graph API endpoint.
+             * @return On success, the returned FBResult will contain an object
+             * from ObjectFactory that encapsulates the Graph call return data.
+             * On failure, the FBResult will instead contain error information
+             * about the call.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ GetAsync(
                 );
 
+            /**
+             * Makes an HTTP POST request to the Graph API endpoint.
+             * @return On success, the returned FBResult will contain an object
+             * from ObjectFactory that encapsulates the Graph call return data.
+             * On failure, the FBResult will instead contain error information
+             * about the call.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ PostAsync(
                 );
 
+            /**
+             * Makes an HTTP DELETE request to the Graph API endpoint.
+             * @return On success, the returned FBResult will contain an object
+             * from ObjectFactory that encapsulates the Graph call return data.
+             * On failure, the FBResult will instead contain error information
+             * about the call.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ DeleteAsync(
                 );
 
