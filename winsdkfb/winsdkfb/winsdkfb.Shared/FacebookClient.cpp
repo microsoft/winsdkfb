@@ -212,7 +212,6 @@ task<String^> FBClient::GetTaskInternalAsync(
         }
         catch (Exception^ ex)
         {
-            throw ex;
         }
 
         return result;
