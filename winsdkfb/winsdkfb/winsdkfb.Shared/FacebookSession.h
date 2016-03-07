@@ -290,10 +290,10 @@ namespace winsdkfb
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            void WriteGrantedPermissionsToFile(
+            void SaveGrantedPermissions(
                 );
 
-            Platform::String^ GetGrantedPermissionsFromFile(
+            Platform::String^ GetGrantedPermissions(
                 );
 
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
