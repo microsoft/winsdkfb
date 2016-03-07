@@ -765,7 +765,20 @@ Uri^ FBClient::PrepareRequestUri(
         }
     }
 
-    String^ uriString = L"https://" + host + L"/" + apiVersion + path + L"?" + queryString;
+    // Check the path for multiple id read requests and
+    // modify it accordingly
+    const std::wstring wStringPath(path->Data());
+    std::size_t found = wStringPath.find(L"?ids=");
+    if (found != std::string::npos)
+    {
+        path += L"&";
+    }
+    else
+    {
+        path += L"?";
+    }
+
+    String^ uriString = L"https://" + host + L"/" + apiVersion + path + queryString;
 
     return ref new Uri(uriString);
 }
