@@ -30,7 +30,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 if not exist ..\..\bin mkdir ..\..\bin
 
-git rev-parse HEAD >%~dp0\..\..\fbwinsdk.githash.txt
+git rev-parse HEAD >%~dp0\..\..\winsdkfb.githash.txt
 
 SET /p VERSION=<VERSION
 

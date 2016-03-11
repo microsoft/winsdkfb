@@ -9,7 +9,7 @@ AppPackages
 bin
 Debug
 Doxygen
-fbwinsdk.githash.txt
+*.githash.txt
 Generated
 Generated Files
 ipch

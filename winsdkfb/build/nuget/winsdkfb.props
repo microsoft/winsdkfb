@@ -3,11 +3,12 @@
   <!-- This file is imported by csproj / vcxproj's that have installed the fbwinsdk package -->
 
   <PropertyGroup>
-    <fbwinsdk-Platform Condition="'$(Platform)' == 'Win32'">x86</fbwinsdk-Platform>
-    <fbwinsdk-Platform Condition="'$(Platform)' != 'Win32'">$(Platform)</fbwinsdk-Platform>
+    <winsdkfb-Platform Condition="'$(Platform)' == 'Win32'">x86</winsdkfb-Platform>
+    <winsdkfb-Platform Condition="'$(Platform)' != 'Win32'">$(Platform)</winsdkfb-Platform>
 
     <!-- This directory may be overridden by other packages that provide
-         different binaries (eg for debugging fbwinsdk itself). -->
-    <fbwinsdk-BinDir Condition="'$(fbwinsdk-BinDir)' == ''">$(MSBuildThisFileDirectory)..\..\bin\</fbwinsdk-BinDir>
+         different binaries (eg for debugging winsdkfb itself). -->
+    <winsdkfb-BinDir Condition="'$(winsdkfb-BinDir)' == ''">$(MSBuildThisFileDirectory)..\..\Runtimes\</winsdkfb-BinDir>
+    <winsdkfb-LibDir Condition="'$(winsdkfb-LibDir)' == ''">$(MSBuildThisFileDirectory)..\..\Lib\</winsdkfb-LibDir>
   </PropertyGroup>
 </Project>

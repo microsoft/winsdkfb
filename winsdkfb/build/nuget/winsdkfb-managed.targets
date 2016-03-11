@@ -2,32 +2,25 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'Windows'">Windows</fbwinsdk-DeviceType>
-    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'WindowsPhoneApp'">Phone</fbwinsdk-DeviceType>
-    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UAP'">UWP</fbwinsdk-DeviceType>
-    <fbwinsdk-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UWP'">UWP</fbwinsdk-DeviceType>
+    <winsdkfb-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UAP'">win10</winsdkfb-DeviceType>
+    <winsdkfb-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UWP'">win10</winsdkfb-DeviceType>
   </PropertyGroup>
 
-  <Target Name="fbwinsdk-DeviceType-Check" BeforeTargets="InjectReference">
-      <Error Condition="'$(fbwinsdk-DeviceType)' == ''" Text="Unable to determine if Windows or Windows Phone app" />
+  <Target Name="winsdkfb-DeviceType-Check" BeforeTargets="InjectReference">
+      <Error Condition="'$(winsdkfb-DeviceType)' == ''" Text="Unable to determine if Windows or Windows Phone app" />
   </Target>
 
   <Target Name="InjectReference" BeforeTargets="ResolveAssemblyReferences">
     <ItemGroup>
       <Reference Include="winsdkfb">
-        <HintPath>$(fbwinsdk-BinDir)$(fbwinsdk-DeviceType)\$(fbwinsdk-Platform)\winsdkfb.winmd</HintPath>
+        <HintPath>$(winsdkfb-LibDir)$(winsdkfb-DeviceType)\winsdkfb.winmd</HintPath>
+        <Implementation>winsdkfb.dll</Implementation>
       </Reference>
     </ItemGroup>
   </Target>
 
   <ItemGroup>
-    <SDKReference Condition="'$(fbwinsdk-DeviceType)' == 'Windows'" Include="Microsoft.VCLibs, Version=12.0">
-      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows</Name>
-    </SDKReference>
-    <SDKReference Condition="'$(fbwinsdk-DeviceType)' == 'Phone'" Include="Microsoft.VCLibs, Version=12.0">
-      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows</Name>
-    </SDKReference>
-    <SDKReference Condition="'$(fbwinsdk-DeviceType)' == 'UWP'" Include="Microsoft.VCLibs, Version=14.0">
+    <SDKReference Condition="'$(winsdkfb-DeviceType)' == 'win10'" Include="Microsoft.VCLibs, Version=14.0">
       <Name>Microsoft Visual C++ 2015 Runtime Package for Windows Universal</Name>
     </SDKReference>
   </ItemGroup>
