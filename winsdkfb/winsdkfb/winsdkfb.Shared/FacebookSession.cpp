@@ -538,7 +538,7 @@ task<FBResult^> FBSession::ShowLoginDialog(
         try
         {
             _dialog = ref new FacebookDialog();
-            create_task(_dialog->ShowSendDialog(Parameters)).then([=](FBResult ^result)
+            create_task(_dialog->ShowLoginDialog(Parameters)).then([=](FBResult ^result)
             {
                 dialogResponse.set(result);
             });
