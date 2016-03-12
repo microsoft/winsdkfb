@@ -84,6 +84,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::DeleteAsync(
     });
 }
 
+
 FBResult^ FBSingleValue::ConsumeSingleValue(
     String^ JsonText
     )

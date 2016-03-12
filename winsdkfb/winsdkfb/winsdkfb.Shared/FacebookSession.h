@@ -24,7 +24,7 @@
 
 namespace winsdkfb
 {
-    //! Default audience for sharing.  3 available settings
+    //! Default audience for sharing.
     public enum class SessionDefaultAudience
     {
         SessionDefaultAudienceNone = 0,
@@ -33,7 +33,11 @@ namespace winsdkfb
         SessionDefaultAudienceEveryone = 30
     };
 
-    //! Specifies behavior of login for web view vs. app
+    /**
+     * Specifies behavior of LoginAsync(). Note that:
+     * - WebAuth is not available on Windows Phone 8.1
+     * - WebAccountProvider is available only on Windows 10
+     */
     public enum class SessionLoginBehavior
     {
         WebView,
@@ -45,20 +49,29 @@ namespace winsdkfb
 
     ref class FBSession;
 
-    /*!\brief The main object for the SDK, repository for access token, etc.
+    /**
+     * The main object for the SDK, repository for access token, etc.
+     * FBSession is a singleton class that is used to configure the sdk's
+     * interaction with Facebook.
      */
     public ref class FBSession sealed
     {
         public:
 
-            //! Facebook App ID
+            /**
+             * Facebook App ID that is provided by Facebook in their developer
+             * portal.
+             */
             property Platform::String^ FBAppId
             {
                 Platform::String^ get();
                 void set(Platform::String^);
             }
 
-            //! Windows App ID
+            /**
+             * Windows App ID, must match the appliction's SID and the Windows
+             * Store SID field in the Facebook developer page for the app.
+             */
             property Platform::String^ WinAppId
             {
                 Platform::String^ get();
@@ -66,7 +79,7 @@ namespace winsdkfb
             }
 
             //! Response from FB App
-            property Platform::String^ AppResponse 
+            property Platform::String^ AppResponse
             {
                 Platform::String^ get();
             }
@@ -77,25 +90,46 @@ namespace winsdkfb
                 bool get();
             }
 
-            //! Access token data 
+            /**
+             * Access token data, only populated after LoginAsync() has been
+             * called.
+             */
             property winsdkfb::FBAccessTokenData^ AccessTokenData
             {
                 winsdkfb::FBAccessTokenData^ get();
                 void set(FBAccessTokenData^ value);
             }
 
+            /**
+             * The Facebook API major version that is specified with most http
+             * requests to Facebook. Defaults to 2. Can be changed with
+             * SetAPIVersion().
+             */
             property int APIMajorVersion
             {
                 int get();
             }
 
+            /**
+             * The Facebook API minor version that is specified with most http
+             * requests to Facebook. Defaults to 1. Can be changed with
+             * SetAPIVersion().
+             */
             property int APIMinorVersion
             {
                 int get();
             }
 
-            //! FBSession is a singleton object - ActiveSession is the way to
-            //! acquire a reference to the object.
+            //! User info - valid after successful login
+            property winsdkfb::Graph::FBUser^ User
+            {
+                winsdkfb::Graph::FBUser^ get();
+            }
+
+            /**
+             * FBSession is a singleton object - ActiveSession is the way to
+             * acquire a reference to the object.
+             */
             static property FBSession^ ActiveSession
             {
                 FBSession^ get()
@@ -105,40 +139,74 @@ namespace winsdkfb
                 }
             }
 
-            //! Clear all login information, e.g. user info, token string, etc.
+            /**
+             * Clear all login information, e.g. user info, token string, etc.
+             * Do note that this does not clear cookies.
+             */
             Windows::Foundation::IAsyncAction^ LogoutAsync();
 
-            //! User info - valid after successful login
-            property winsdkfb::Graph::FBUser^ User
-            {
-                winsdkfb::Graph::FBUser^ get();
-            }
 
-            //! Launch 'feed' dialog, to post to user's timeline
+            /**
+             * Launch 'feed' dialog, to post to user's timeline.
+             * @param Parameters The collection of parameters used by the feed
+             * dialog. See https://developers.facebook.com/docs/sharing/reference/feed-dialog
+             * For more information.
+             * @return FBResult indicating the result of the dialog flow.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ ShowFeedDialogAsync(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            //! Launch 'request' dialog, to send app
+            /**
+             *  Launch 'request' dialog, to send app requests to user's
+             * Facebook friends.
+             * @param Parameters The collection of parameters used by the
+             * request dialog, the most notable being "message".
+             * @return FBResult indicating the result of the dialog flow.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ ShowRequestsDialogAsync(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            //! Launch 'send' dialog, to send private message
+            /**
+             * Launch 'send' dialog, to send private message to user's friends.
+             * @param Parameters The collection of parameters used by the send
+             * dialog. See https://developers.facebook.com/docs/sharing/reference/send-dialog
+             * for more information.
+             * @return FBResult indicating the result of the dialog flow.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ ShowSendDialogAsync(
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
+            /**
+             * Login to Facebook. This method defaults to SessionLoginBehavior::DefaultOrdering
+             * for its login method.
+             * @param Permissions The Facebook permissions that the app is requesting.
+             * @return FBResult indicating the result of the Login attempt.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
                 winsdkfb::FBPermissions^ Permissions
                 );
 
-            //! Login to Facebook.
+            /**
+             * Login to Facebook. This method allows the login method to be
+             * specified.
+             * @param Permissions The Facebook permissions that the app is requesting.
+             * @param behavior The login behavior to make the login attempt with.
+             * @return FBResult indicating the result of the Login attempt.
+             */
             Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
                 winsdkfb::FBPermissions^ Permissions,
                 SessionLoginBehavior behavior
                 );
 
+            /**
+             * Sets the Facebook API version that is specified with most API
+             * calls to Facebook.
+             * @param MajorVersion value for API major version.
+             * @param MinorVersion value for API minor version.
+             */
             void SetAPIVersion(
                 int MajorVersion,
                 int MinorVersion
@@ -149,7 +217,7 @@ namespace winsdkfb
 
         private:
             FBSession();
-           
+
             ~FBSession();
 
             Windows::Foundation::Uri^ BuildLoginUri(
@@ -167,7 +235,7 @@ namespace winsdkfb
                 Windows::Foundation::Uri^ ResponseUri
                 );
 
-            Windows::Foundation::IAsyncOperation<Windows::Storage::IStorageItem^>^ 
+            Windows::Foundation::IAsyncOperation<Windows::Storage::IStorageItem^>^
             MyTryGetItemAsync(
                 Windows::Storage::StorageFolder^ folder,
                 Platform::String^ itemName
@@ -243,7 +311,7 @@ namespace winsdkfb
             concurrency::task<FBResult^> CallWebAccountProviderOnUiThread(
                 FBPermissions^ Permissions
                 );
-                
+
             FBResult^ ExtractAccessTokenDataFromResponseData(
                 Windows::Foundation::Collections::IVectorView
                     <Windows::Security::Authentication::Web::Core::WebTokenResponse^>^ ResponseData

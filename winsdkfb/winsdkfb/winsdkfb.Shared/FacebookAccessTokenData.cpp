@@ -102,6 +102,7 @@ String^ FBAccessTokenData::UserID::get()
     return _userId;
 }
 
+
 void FBAccessTokenData::InitPermissions()
 {
     Vector<String^>^ v = ref new Vector<String^>(0);

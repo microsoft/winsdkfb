@@ -171,6 +171,8 @@ IAsyncAction^ FBSession::LogoutAsync()
     _AppResponse = nullptr;
     _loggedIn = false;
 
+    FacebookDialog::DeleteCookies();
+
     return TryDeleteTokenData();
 }
 

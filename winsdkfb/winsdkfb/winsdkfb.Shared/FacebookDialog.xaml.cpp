@@ -32,6 +32,8 @@ using namespace Platform::Collections;
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
+using namespace Windows::Web::Http;
+using namespace Windows::Web::Http::Filters;
 using namespace Windows::UI::Popups;
 using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml;
@@ -52,8 +54,8 @@ using namespace pplx;
 
 using namespace std;
 
-#define FACEBOOK_DESKTOP_SERVER_NAME L"www"
-#define FACEBOOK_MOBILE_SERVER_NAME  L"m"
+#define FACEBOOK_DESKTOP_SERVER_NAME L"https://www.facebook.com"
+#define FACEBOOK_MOBILE_SERVER_NAME  L"https://m.facebook.com"
 #define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
 #define FACEBOOK_LOGOUT_PATH  L"/logout.php"
 #define FACEBOOK_DIALOG_CLOSE_PATH   L"/dialog/close"
@@ -200,6 +202,19 @@ IAsyncOperation<FBResult^>^ FacebookDialog::ShowSendDialog(
         &FacebookDialog::BuildSendDialogUrl), handler, Parameters);
 }
 
+void FacebookDialog::DeleteCookies()
+{
+	// This allows on WP8.1 to logIn with other account from the webView
+	// and on W8.1 & W10 to logIn with other account when the 'Keep me logged in' option from webView was selected
+	HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+	HttpCookieManager^ cookieManager = filter->CookieManager;
+	HttpCookieCollection^ cookiesJar = cookieManager->GetCookies(ref new Uri(FacebookDialog::GetFBServerUrl()));
+	for (HttpCookie^ cookie : cookiesJar)
+	{
+		cookieManager->DeleteCookie(cookie);
+	}
+}
+
 String^ FacebookDialog::GetRedirectUriString(
     String^ FacebookDialogName
     )
@@ -213,8 +228,7 @@ String^ FacebookDialog::GetRedirectUriString(
     // to the login_success page on FB, then canceling the redirect in our
     // NavigationStarted event handler, for all dialogs.
     // 
-    String^ result = L"https://" + GetFBServer() + L".facebook.com" +
-        FACEBOOK_LOGIN_SUCCESS_PATH;
+    String^ result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
         
     result = Uri::EscapeComponent(result);
 
@@ -235,12 +249,12 @@ BOOL FacebookDialog::IsMobilePlatform(
     return isMobile;
 }
 
-String^ FacebookDialog::GetFBServer(
+String^ FacebookDialog::GetFBServerUrl(
     )
 {
     String^ server = nullptr;
 
-    if (IsMobilePlatform())
+    if (FacebookDialog::IsMobilePlatform())
     {
         server = FACEBOOK_MOBILE_SERVER_NAME;
     }
@@ -267,10 +281,9 @@ Uri^ FacebookDialog::BuildLoginDialogUrl(
     String^ apiVersion = L"";
     if (s->APIMajorVersion)
     {
-        apiVersion = L"v" + s->APIMajorVersion.ToString() + L"." + s->APIMinorVersion.ToString() + L"/";
+        apiVersion = L"/v" + s->APIMajorVersion.ToString() + L"." + s->APIMinorVersion.ToString() + L"/";
     }
-    String^ uriString = L"https://" + GetFBServer() +
-        L".facebook.com/" + apiVersion + L"dialog/oauth?client_id=" + s->FBAppId;
+    String^ uriString = FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/oauth?client_id=" + s->FBAppId;
 
     // Use some reasonable default login parameters
     String^ scope = DefaultScope;
@@ -322,11 +335,10 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
     String^ apiVersion = L"";
     if (sess->APIMajorVersion)
     {
-        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+        apiVersion = L"/v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
     }
     String^ dialogUriString =
-        L"https://" + GetFBServer() +
-        L".facebook.com/" + apiVersion + L"dialog/feed?access_token=" +
+		FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/feed?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
@@ -348,11 +360,10 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
     String^ apiVersion = L"";
     if (sess->APIMajorVersion)
     {
-        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+        apiVersion = L"/v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
     }
     String^ dialogUriString =
-        L"https://" + GetFBServer() + 
-        L".facebook.com/" + apiVersion + L"dialog/apprequests?access_token=" +
+		FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/apprequests?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
         L"&display=popup" +
@@ -374,11 +385,10 @@ Uri^ FacebookDialog::BuildSendDialogUrl(
     String^ apiVersion = L"";
     if (sess->APIMajorVersion)
     {
-        apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+        apiVersion = L"/v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
     }
     String^ dialogUriString =
-        L"https://" + GetFBServer() + 
-        L".facebook.com/" + apiVersion + L"dialog/send?access_token=" +
+        FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/send?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"send") +
         L"&display=popup" +
