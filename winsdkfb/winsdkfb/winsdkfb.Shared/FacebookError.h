@@ -30,8 +30,8 @@ namespace winsdkfb
     };
 
     /*!
-    * \brief error subcodes.
-    */
+     * \brief error subcodes.
+     */
     public enum class ErrorSubcode : int
     {
         ErrorSubcodeAppNotAuthorized   = 458,
@@ -39,17 +39,32 @@ namespace winsdkfb
     };
 
     /*!
-     * \brief class wrapper for FB error responses. For the time being, this is 
+     * \brief class wrapper for FB error responses. For the time being, this is
      * a very bare shell around the error response URL from Facebook, and not a
      * full-blown error class such as exists in the Facebook SDK for iOS.
      */
     public ref class FBError sealed
     {
         public:
+            /**
+             * Tries to instantiate an FBError object based off of a response
+             * URI from Facebook.
+             * @param ResponseUri Response URI to extract error information from.
+             * @return FBError object encapsulating error data from the URI.
+             * Will return nullptr if the URI doesn't contain an error.
+             */
             static FBError^ FromUri(
                 Windows::Foundation::Uri^ ResponseUri
                 );
 
+            /**
+             * Tries to instantiate an FBError object from a JSON formatted
+             * string.
+             * @param JsonText JSON string to extract error information from.
+             * @return FBError object encapsulating the JSON string error data.
+             * Will return nullptr if JsonText is not properly formatted JSON
+             * or if it doesn't contain an error.
+             */
             static FBError^ FromJson(
                 Platform::String^ JsonText
                 );

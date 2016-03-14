@@ -302,6 +302,6 @@ IVectorView<Object^>^ FBPaginatedArray::ObjectArrayFromWebResponse(
             }
         }
     }
-    
+
     return result;
 }
