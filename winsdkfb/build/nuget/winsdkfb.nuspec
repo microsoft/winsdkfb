@@ -78,13 +78,8 @@
       <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\Controls\FacebookLoginButton.xbf" target="runtimes\win10-arm\native\winsdkfb\Controls"/>
       <file src="winsdkfb_uwp\ARM\Release\winsdkfb_uwp\fb_blank_profile_portrait.png" target="runtimes\win10-arm\native\winsdkfb\Images"/>
 
-      <!-- Build scripts used by managed Windows Store Apps -->
-      <file src="build\nuget\winsdkfb.props" target="build\win\winsdkfb.props" />
-      <file src="build\nuget\winsdkfb-managed.targets" target="build\win\winsdkfb.targets" />
-
       <!-- Build scripts used by native apps (Windows Store and Windows Phone) -->
       <file src="build\nuget\winsdkfb-native.targets" target="build\native\winsdkfb.targets" />
-      <file src="build\nuget\winsdkfb.props" target="build\native\winsdkfb.props" />
 
       <!-- SHA-1 hash of the git HEAD this package was built from -->
       <file src="winsdkfb.githash.txt"/>
