@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="LayoutRoot" Background="#00000000">
-        <Grid MaxWidth="512" MaxHeight="500">
+        <Grid MaxWidth="512" MaxHeight="480">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*"/>
