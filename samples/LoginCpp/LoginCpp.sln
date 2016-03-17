@@ -21,6 +21,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{079ac050-7d48-41f0-83c2-f4c4da7f21d4}*SharedItemsImports = 9
 		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}*SharedItemsImports = 4
+		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{5c0b24d0-ba5f-490a-ab3e-71265d4a0a4b}*SharedItemsImports = 9
 		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{45baa3ab-92f6-4db0-b008-fddd73d1659b}*SharedItemsImports = 4
 		LoginCpp\LoginCpp.Shared\LoginCpp.Shared.vcxitems*{4fdef5bd-ed11-49a1-b6c6-d9f0ab7eb7e2}*SharedItemsImports = 4

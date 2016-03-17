@@ -1012,7 +1012,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         {
             if (finalResult != nullptr && finalResult->Succeeded)
             {
-                WriteGrantedPermissionsToFile();
+                SaveGrantedPermissions();
             }
             return finalResult;
         })
@@ -1269,7 +1269,7 @@ int FBSession::APIMinorVersion::get()
     return _APIMinorVersion;
 }
 
-void FBSession::WriteGrantedPermissionsToFile()
+void FBSession::SaveGrantedPermissions()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
     if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
@@ -1280,7 +1280,7 @@ void FBSession::WriteGrantedPermissionsToFile()
     values->Insert(GRANTED_PERMISSIONS_KEY, AccessTokenData->GrantedPermissions->ToString());
 }
 
-String^ FBSession::GetGrantedPermissionsFromFile()
+String^ FBSession::GetGrantedPermissions()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
     if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
