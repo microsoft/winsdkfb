@@ -586,7 +586,7 @@ IAsyncOperation<FBResult^>^ FBSession::TryRefreshAccessToken(
 
             if (Provider)
             {
-                String^ perms = this->GetGrantedPermissionsFromFile();
+                String^ perms = this->GetGrantedPermissions();
                 WebTokenRequest^ request = ref new WebTokenRequest(Provider,
                     perms, FBAppId);
                 request->Properties->Insert(RedirectUriKey, GetWebAccountProviderRedirectUriString());
