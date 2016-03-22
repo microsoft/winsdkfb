@@ -65,7 +65,6 @@
     <Page Include="MainPage.xaml" />
     <Page Include="UserInfo.xaml" />
     <Page Include="UserLikes.xaml" />
-    <Page Include="OptionsPage.xaml" />
     <Page Include="Dialogs.xaml" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <ProjectGuid>{351701a8-12d1-45b3-8e6a-164d796b0297}</ProjectGuid>
@@ -141,9 +141,6 @@
       <DependentUpon>Dialogs.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="FBPageBindable.h" />
-    <ClInclude Include="OptionsPage.xaml.h">
-      <DependentUpon>OptionsPage.xaml</DependentUpon>
-    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -166,7 +163,6 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OptionsPage.xaml" />
     <Page Include="UserInfo.xaml" />
     <Page Include="UserLikes.xaml" />
   </ItemGroup>
@@ -196,9 +192,6 @@
     <ClCompile Include="FBPageBindable.cpp" />
     <ClCompile Include="MainPage.xaml.cpp">
       <DependentUpon>MainPage.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="OptionsPage.xaml.cpp">
-      <DependentUpon>OptionsPage.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
