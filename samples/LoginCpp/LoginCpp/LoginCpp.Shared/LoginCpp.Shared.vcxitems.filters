@@ -6,20 +6,12 @@
     <CLCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FBPageBindable.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UserInfo.xaml.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UserLikes.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)UserInfo.xaml" />
-    <Page Include="$(MSBuildThisFileDirectory)UserLikes.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FBPageBindable.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UserInfo.xaml.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UserLikes.xaml.h" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Resources.resw" />

@@ -36,5 +36,7 @@ namespace LoginCpp
     private:
         void FeedDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         void AppRequestsButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void SendDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void BackButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 }

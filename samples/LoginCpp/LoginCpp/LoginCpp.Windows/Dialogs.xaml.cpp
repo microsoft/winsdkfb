@@ -91,3 +91,32 @@ void LoginCpp::Dialogs::AppRequestsButton_Click(Platform::Object^ sender, Window
         });
     }
 }
+
+void LoginCpp::Dialogs::SendDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    FBSession^ s = FBSession::ActiveSession;
+    if (!s->LoggedIn)
+    {
+        OutputDebugString(L"The user is no longer logged in.\n");
+    }
+    else
+    {
+        PropertySet^ params = ref new PropertySet();
+
+        params->Insert(L"link", L"http://example.com");
+
+        create_task(s->ShowSendDialogAsync(params))
+            .then([=](FBResult^ DialogResponse)
+        {
+            OutputDebugString(L"Showed 'Send' dialog.\n");
+        });
+    }
+}
+
+void LoginCpp::Dialogs::BackButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    if (Frame->CanGoBack)
+    {
+        Frame->GoBack();
+    }
+}

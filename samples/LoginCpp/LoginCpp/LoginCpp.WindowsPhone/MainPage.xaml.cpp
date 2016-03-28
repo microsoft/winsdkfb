@@ -21,7 +21,8 @@
 
 #include "pch.h"
 #include "MainPage.xaml.h"
-#include "OptionsPage.xaml.h"
+#include "UserInfo.xaml.h"
+#include "Dialogs.xaml.h"
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -43,6 +44,7 @@ using namespace Windows::UI::Xaml::Data;
 using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
+using namespace Windows::Globalization::DateTimeFormatting;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -135,20 +137,6 @@ BOOL MainPage::ShouldRerequest(
         !DidGetAllRequestedPermissions());
 }
 
-void MainPage::NavigateToOptionsPage()
-{
-    LoginButton->Content = L"Logout";
-
-    CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
-        Windows::UI::Core::CoreDispatcherPriority::Normal,
-        ref new Windows::UI::Core::DispatchedHandler([this]()
-    {
-        LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
-        Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
-        f->Navigate(OptionsPage::typeid);
-    }));
-}
-
 void MainPage::TryRerequest(
     BOOL retry
     )
@@ -159,7 +147,7 @@ void MainPage::TryRerequest(
     // is outside the task context.
     SetSessionAppIds();
 
-    create_task(FBSession::ActiveSession->LoginAsync(BuildPermissions()))
+    create_task(FBSession::ActiveSession->LoginAsync(BuildPermissions(), GetLoginBehavior()))
         .then([=](FBResult^ result)
     {
         if (result->Succeeded)
@@ -176,7 +164,7 @@ void MainPage::TryRerequest(
             }
             else
             {
-                NavigateToOptionsPage();
+                UpdateXamlControls();
             }
         }
     });
@@ -216,7 +204,7 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
     }
     else
     {
-        create_task(sess->LoginAsync(BuildPermissions())).then([=](FBResult^ result)
+        create_task(sess->LoginAsync(BuildPermissions(), GetLoginBehavior())).then([=](FBResult^ result)
         {
             // There may be other cases where an a failed login request should
             // prompt the app to retry login, but this one is common enough that
@@ -240,8 +228,90 @@ void MainPage::login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::Rout
             else if (result && result->Succeeded)
             {
                 // Got a token, and all the permissions we wanted - go ahead to the options page
-                NavigateToOptionsPage();
+                UpdateXamlControls();
             }
         });
     }
+}
+
+void LoginCpp::MainPage::UserInfoButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        ref new Windows::UI::Core::DispatchedHandler([this]()
+    {
+        LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+        Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+        f->Navigate(UserInfo::typeid);
+    }));
+}
+
+
+void LoginCpp::MainPage::DialogsPageButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
+        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        ref new Windows::UI::Core::DispatchedHandler([this]()
+    {
+        LoginCpp::App^ a = dynamic_cast<LoginCpp::App^>(Application::Current);
+        Windows::UI::Xaml::Controls::Frame^ f = a->CreateRootFrame();
+        f->Navigate(Dialogs::typeid);
+    }));
+}
+
+void LoginCpp::MainPage::UpdateXamlControls()
+{
+    FBSession^ sess = FBSession::ActiveSession;
+    if (sess->LoggedIn)
+    {
+        LoginButton->Content = L"Logout";
+        AccessTokenText->Text = sess->AccessTokenData->AccessToken;
+        DateTimeFormatter^ dateFormatter = ref new DateTimeFormatter(
+            L"{year.full(4)}-{month.integer(2)}-{day.integer(2)} "
+            L"{hour.integer(2)}:{minute.integer(2)}:{second.integer(2)}");
+        ExpirationDateText->Text = dateFormatter->Format(sess->AccessTokenData->ExpirationDate);
+        UserInfoButton->IsEnabled = true;
+        DialogsPageButton->IsEnabled = true;
+    }
+    else
+    {
+        LoginButton->Content = L"Login To FB";
+        AccessTokenText->Text = L"";
+        ExpirationDateText->Text = L"";
+        UserInfoButton->IsEnabled = false;
+        DialogsPageButton->IsEnabled = false;
+    }
+
+}
+
+SessionLoginBehavior MainPage::GetLoginBehavior()
+{
+    ComboBoxItem^ selectedLoginMethod = dynamic_cast<ComboBoxItem^>(LoginMethodComboBox->SelectedItem);
+    String^ text = dynamic_cast<String^>(selectedLoginMethod->Content);
+    if (String::CompareOrdinal(text, L"WebView") == 0)
+    {
+        return SessionLoginBehavior::WebView;
+    }
+    if (String::CompareOrdinal(text, L"WebAuth") == 0)
+    {
+        return SessionLoginBehavior::WebAuth;
+    }
+    if (String::CompareOrdinal(text, L"WebAccountProvider") == 0)
+    {
+        return SessionLoginBehavior::WebAccountProvider;
+    }
+    if (String::CompareOrdinal(text, L"DefaultOrdering") == 0)
+    {
+        return SessionLoginBehavior::DefaultOrdering;
+    }
+    if (String::CompareOrdinal(text, L"Silent") == 0)
+    {
+        return SessionLoginBehavior::Silent;
+    }
+    throw ref new InvalidArgumentException();
+}
+
+void LoginCpp::MainPage::LayoutRoot_Loaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    UpdateXamlControls();
 }

@@ -61,12 +61,12 @@ FBPageBindable^ UserLikes::SelectedItem::get()
     return _selectedItem;
 }
 
+
 void UserLikes::AddLikes(
-    IVectorView<Object^>^ NewLikes 
+    IVectorView<Object^>^ NewLikes
     )
 {
-    for (IIterator<Object^>^ it = NewLikes->First(); it->HasCurrent;
-        it->MoveNext())
+    for (IIterator<Object^>^ it = NewLikes->First(); it->HasCurrent; it->MoveNext())
     {
         FBPageBindable^ page = static_cast<FBPageBindable^>(it->Current);
         if (page)
@@ -76,21 +76,19 @@ void UserLikes::AddLikes(
             _listViewItems->Append(page);
         }
     }
-
+    // go through the paginated calls here so that we don't have to deal with task chaining
     if (_likes->HasNext)
     {
         create_task(_likes->NextAsync()).then([this](FBResult^ result)
         {
             if (result->Succeeded)
             {
-                IVectorView<Object^>^ items = 
-                    static_cast<IVectorView<Object^>^>(result->Object);
-                AddLikes(items);
-            }
-            else
-            {
-                // TODO: Handle FB errors...
-                ;
+                IVectorView<Object^>^ items = static_cast<IVectorView<Object^>^> (result->Object);
+                if (items->Size > 0)
+                {
+                    AddLikes(items);
+                }
+
             }
         });
     }
@@ -103,7 +101,7 @@ void UserLikes::GetUserLikes(
     if (sess->LoggedIn)
     {
         String^ graphPath = sess->User->Id + L"/likes";
-        FBJsonClassFactory^ fact = 
+        FBJsonClassFactory^ fact =
             ref new FBJsonClassFactory([](String^ JsonText) -> Object^
         {
             return FBPageBindable::FromJson(JsonText);
@@ -114,14 +112,25 @@ void UserLikes::GetUserLikes(
         {
             if (result->Succeeded)
             {
-                IVectorView<Object^>^ items = static_cast<IVectorView<Object^>^>
-                    (result->Object);
-                AddLikes(items);
+                BadResultsTextBlock->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+                LikesListView->Visibility = Windows::UI::Xaml::Visibility::Visible;
+                IVectorView<Object^>^ items = static_cast<IVectorView<Object^>^> (result->Object);
+                if (items->Size > 0)
+                {
+                    AddLikes(items);
+                }
+                else
+                {
+                    LikesListView->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+                    BadResultsTextBlock->Visibility = Windows::UI::Xaml::Visibility::Visible;
+                    BadResultsTextBlock->Text = L"No User likes found";
+                }
             }
             else
             {
-                // TODO: Handle FB errors...
-                ;
+                LikesListView->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+                BadResultsTextBlock->Visibility = Windows::UI::Xaml::Visibility::Visible;
+                BadResultsTextBlock->Text = result->ErrorInfo->Message;
             }
         });
     }
@@ -165,4 +174,13 @@ void UserLikes::NotifyPropertyChanged(
         PropertyChangedEventArgs^ args = ref new PropertyChangedEventArgs(prop);
         PropertyChanged(this, args);
     }));
+}
+
+
+void LoginCpp::UserLikes::BackButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    if (Frame->CanGoBack)
+    {
+        Frame->GoBack();
+    }
 }

@@ -157,3 +157,12 @@ void LoginCpp::UserInfo::UserLikesButton_Click(Platform::Object^ sender, Windows
     f->Navigate(UserLikes::typeid);
 }
 
+
+
+void LoginCpp::UserInfo::BackButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    if (Frame->CanGoBack)
+    {
+        Frame->GoBack();
+    }
+}

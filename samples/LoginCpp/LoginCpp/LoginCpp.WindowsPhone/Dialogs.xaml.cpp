@@ -131,7 +131,7 @@ void Dialogs::SaveState(Object^ sender, Common::SaveStateEventArgs^ e) {
 }
 
 
-void Dialogs::Feed_Click(
+void Dialogs::FeedDialogButton_Click(
     Object^ sender,
     RoutedEventArgs^ e
     )
@@ -157,7 +157,7 @@ void Dialogs::Feed_Click(
 }
 
 
-void Dialogs::AppRequests_Click(
+void Dialogs::AppRequestsButton_Click(
     Object^ sender,
     RoutedEventArgs^ e
     )
@@ -179,6 +179,27 @@ void Dialogs::AppRequests_Click(
             .then([=](FBResult^ Response)
         {
             OutputDebugString(L"Showed 'Requests' dialog.\n");
+        });
+    }
+}
+
+void LoginCpp::Dialogs::SendDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+    FBSession^ s = FBSession::ActiveSession;
+    if (!s->LoggedIn)
+    {
+        OutputDebugString(L"The user is no longer logged in.\n");
+    }
+    else
+    {
+        PropertySet^ params = ref new PropertySet();
+
+        params->Insert(L"link", L"http://example.com");
+
+        create_task(s->ShowSendDialogAsync(params))
+            .then([=](FBResult^ DialogResponse)
+        {
+            OutputDebugString(L"Showed 'Send' dialog.\n");
         });
     }
 }
