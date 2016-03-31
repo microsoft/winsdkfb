@@ -65,32 +65,7 @@ namespace LoginCs
                     UserUpdatedTime.Text = user.UpdatedTime;
                     UserVerified.Text = user.Verified.ToString();
                     SquarePicture.UserId = user.Id;
-                    LoadRoundProfilePicture(user.Id);
                 }
-            }
-        }
-
-        private async void LoadRoundProfilePicture(
-            String UserId
-            )
-        {
-            PropertySet parameters = new PropertySet();
-            String path = "/" + UserId + "/picture";
-
-            parameters.Add(new KeyValuePair<String, Object>("redirect", "false"));
-
-            // Just picking a width and height for now
-            parameters.Add(new KeyValuePair<String, Object>("width", "200"));
-            parameters.Add(new KeyValuePair<String, Object>("height", "200"));
-
-            FBSingleValue value = new FBSingleValue(path, parameters, 
-                new FBJsonClassFactory(FBProfilePicture.FromJson));
-
-            FBResult result = await value.GetAsync();
-            if (result.Succeeded)
-            {
-                FBProfilePicture pic = (FBProfilePicture)result.Object;
-                ProfilePicBrush.ImageSource = new BitmapImage(new Uri(pic.Url));
             }
         }
 

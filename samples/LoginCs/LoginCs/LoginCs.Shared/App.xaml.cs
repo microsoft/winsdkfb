@@ -58,6 +58,9 @@ namespace LoginCs
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+#if WINDOWS_PHONE_APP
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+#endif
         }
 
         const string FBAppIDName      = "FBApplicationId";
@@ -75,11 +78,6 @@ namespace LoginCs
 #else
             sess.WinAppId = loader.GetString(FBStoreAppIDName);
 #endif
-            //sess.AddPermission("public_profile");
-            //sess.AddPermission("user_friends");
-            //sess.AddPermission("email");
-            //sess.AddPermission("user_likes");
-            //sess.AddPermission("user_groups");
         }
 
         /// <summary>
@@ -181,5 +179,18 @@ namespace LoginCs
             // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+#if WINDOWS_PHONE_APP
+        private void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs args)
+        {
+            Frame frame = Window.Current.Content as Frame;
+            if (frame.CanGoBack)
+            {
+                args.Handled = true;
+                frame.GoBack();
+            }
+            
+        }
+#endif
     }
 }
