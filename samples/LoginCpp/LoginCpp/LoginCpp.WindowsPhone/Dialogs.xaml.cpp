@@ -1,4 +1,5 @@
-﻿//******************************************************************************
+﻿
+//******************************************************************************
 //
 // Copyright (c) 2015 Microsoft Corporation. All rights reserved.
 //
@@ -13,11 +14,6 @@
 // THE SOFTWARE.
 //
 //******************************************************************************
-
-//
-// Dialogs.xaml.cpp
-// Implementation of the Dialogs class
-//
 
 #include "pch.h"
 #include "Dialogs.xaml.h"
@@ -39,8 +35,6 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
-
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 Dialogs::Dialogs()
 {
@@ -128,78 +122,4 @@ void Dialogs::LoadState(Object^ sender, Common::LoadStateEventArgs^ e)
 void Dialogs::SaveState(Object^ sender, Common::SaveStateEventArgs^ e) {
     (void)sender;   // Unused parameter
     (void)e;        // Unused parameter
-}
-
-
-void Dialogs::FeedDialogButton_Click(
-    Object^ sender,
-    RoutedEventArgs^ e
-    )
-{
-    FBSession^ s = FBSession::ActiveSession;
-    if (!s->LoggedIn)
-    {
-        OutputDebugString(L"The user is no longer logged in.\n");
-    }
-    else
-    {
-        PropertySet^ params = ref new PropertySet();
-        params->Insert(L"caption", L"I love Brussels Sprouts!");
-        params->Insert(L"link", L"https://en.wikipedia.org/wiki/Brussels_sprout");
-        params->Insert(L"description", L"Om Nom Nom!");
-
-        create_task(s->ShowFeedDialogAsync(params))
-            .then([=](FBResult^ Response)
-        {
-            OutputDebugString(L"Showed 'Feed' dialog.\n");
-        });
-    }
-}
-
-
-void Dialogs::AppRequestsButton_Click(
-    Object^ sender,
-    RoutedEventArgs^ e
-    )
-{
-    FBSession^ s = FBSession::ActiveSession;
-
-    if (!s->LoggedIn)
-    {
-        OutputDebugString(L"The user is no longer logged in.\n");
-    }
-    else
-    {
-        PropertySet^ params = ref new PropertySet();
-
-        params->Insert(L"title", L"I love Brussels Sprouts!");
-        params->Insert(L"message", L"Om Nom Nom!");
-
-        create_task(s->ShowRequestsDialogAsync(params))
-            .then([=](FBResult^ Response)
-        {
-            OutputDebugString(L"Showed 'Requests' dialog.\n");
-        });
-    }
-}
-
-void LoginCpp::Dialogs::SendDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-{
-    FBSession^ s = FBSession::ActiveSession;
-    if (!s->LoggedIn)
-    {
-        OutputDebugString(L"The user is no longer logged in.\n");
-    }
-    else
-    {
-        PropertySet^ params = ref new PropertySet();
-
-        params->Insert(L"link", L"http://example.com");
-
-        create_task(s->ShowSendDialogAsync(params))
-            .then([=](FBResult^ DialogResponse)
-        {
-            OutputDebugString(L"Showed 'Send' dialog.\n");
-        });
-    }
 }

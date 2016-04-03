@@ -19,7 +19,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)App.xaml.cpp">
       <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Dialogs.Shared.xaml.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FBPageBindable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainPage.Shared.xaml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UserInfo.Shared.xaml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UserLikes.Shared.xaml.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)App.xaml.h">
       <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
     </ClInclude>

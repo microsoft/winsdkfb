@@ -6,6 +6,10 @@
     <CLCompile Include="$(MSBuildThisFileDirectory)pch.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FBPageBindable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainPage.Shared.xaml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Dialogs.Shared.xaml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UserInfo.Shared.xaml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UserLikes.Shared.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml" />
