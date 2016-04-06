@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -15,6 +15,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ColorLuminosityConverter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DialogUrlBuilder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookAccessTokenData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookAppRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookClient.h" />
@@ -35,6 +36,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookResult.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSession.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBWebAuthDialog.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBCursors.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBGroup.h" />
@@ -54,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ColorLuminosityConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DialogUrlBuilder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookAccessTokenData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookAppRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookClient.cpp" />
@@ -68,6 +72,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPermissions.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSendRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FBWebAuthDialog.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBCursors.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBGroup.cpp" />

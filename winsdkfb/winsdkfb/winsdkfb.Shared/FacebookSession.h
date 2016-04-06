@@ -126,6 +126,18 @@ namespace winsdkfb
                 winsdkfb::Graph::FBUser^ get();
             }
 
+            property SessionLoginBehavior LoginMethod
+            {
+                SessionLoginBehavior get();
+            }
+
+            property Platform::String^ WebAuthDialogRedirectUrl
+            {
+                void set(Platform::String^ url);
+                Platform::String^ get();
+
+            }
+
             /**
              * FBSession is a singleton object - ActiveSession is the way to
              * acquire a reference to the object.
@@ -342,5 +354,7 @@ namespace winsdkfb
             winsdkfb::FacebookDialog^ _dialog;
             int _APIMajorVersion;
             int _APIMinorVersion;
+            SessionLoginBehavior _LoginMethod;
+            Platform::String^ _webAuthDialogRedirectUrl;
     };
 }

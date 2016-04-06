@@ -79,26 +79,10 @@ namespace winsdkfb
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        Platform::String^ GetRedirectUriString(
-            Platform::String^ DialogName
-            );
-
         static BOOL IsMobilePlatform(
             );
 
         Windows::Foundation::Uri^ BuildLoginDialogUrl(
-            Windows::Foundation::Collections::PropertySet^ Parameters
-            );
-
-        Windows::Foundation::Uri^ BuildFeedDialogUrl(
-            Windows::Foundation::Collections::PropertySet^ Parameters
-            );
-
-        Windows::Foundation::Uri^ BuildRequestsDialogUrl(
-            Windows::Foundation::Collections::PropertySet^ Parameters
-            );
-
-        Windows::Foundation::Uri^ BuildSendDialogUrl(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 

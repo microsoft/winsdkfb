@@ -29,6 +29,7 @@
 #include "FBSingleValue.h"
 #include "FBUser.h"
 #include "SDKMessage.h"
+#include "FBWebAuthDialog.h"
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -59,25 +60,6 @@ using namespace Windows::UI::Xaml::Controls::Primitives;
 #define INT64_STRING_BUFSIZE 65
 extern const wchar_t* ErrorObjectJson;
 
-#define FBAccountProvider L"https://www.facebook.com"
-
-#define TICKS_PER_SECOND    10000000 
-#define SECONDS_PER_MINUTE  60
-#define _90_MINUTES_IN_TICKS (90 * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
-
-#define ScopeKey        L"scope"
-#define DisplayKey      L"display"
-#define ResponseTypeKey L"response_type"
-#define DefaultScope    L"public_profile,email,user_friends"
-#define DefaultDisplay  L"popup"
-#define DefaultResponse L"token"
-#define AuthTypeKey     L"auth_type"
-#define Rerequest       L"rerequest"
-#define RedirectUriKey  L"redirect_uri"
-
-#define SDK_APP_DATA_CONTAINER "winsdkfb"
-#define GRANTED_PERMISSIONS_KEY "granted_permissions"
-
 namespace winsdkfb
 {
     HANDLE login_evt = NULL;
@@ -89,7 +71,8 @@ FBSession::FBSession() :
     _loggedIn(false),
     _FBAppId(nullptr),
     _WinAppId(nullptr),
-    _user(nullptr)
+    _user(nullptr),
+    _webAuthDialogRedirectUrl(nullptr)
 {
     if (!login_evt)
     {
@@ -160,6 +143,21 @@ void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
 FBUser^ FBSession::User::get()
 {
     return _user;
+}
+
+SessionLoginBehavior FBSession::LoginMethod::get()
+{
+    return _LoginMethod;
+}
+
+void FBSession::WebAuthDialogRedirectUrl::set(String^ url)
+{
+    _webAuthDialogRedirectUrl = url;
+}
+
+String^ FBSession::WebAuthDialogRedirectUrl::get()
+{
+    return _webAuthDialogRedirectUrl;
 }
 
 IAsyncAction^ FBSession::LogoutAsync()
@@ -409,123 +407,144 @@ IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     PropertySet^ Parameters
     )
 {
-    concurrency::task_completion_event<FBResult^> dialogResponse;
-
-    auto callback = ref new DispatchedHandler(
-        [=]()
+    if (_LoginMethod == SessionLoginBehavior::WebAuth)
     {
-        try
+        return FBWebAuthDialog::ShowFeedDialog(Parameters);
+    }
+    else
+    {
+        concurrency::task_completion_event<FBResult^> dialogResponse;
+
+        auto callback = ref new DispatchedHandler(
+            [=]()
         {
-            _dialog = ref new FacebookDialog();
-            create_task(_dialog->ShowFeedDialog(Parameters)).then([=](FBResult ^result)
+            try
             {
-                dialogResponse.set(result);
-            });
-        }
-        catch(Exception^ ex)
-        {
-            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-            dialogResponse.set(ref new FBResult(err));
-        }
-    });
-
-    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
-
-    wnd->Dispatcher->RunAsync(
-        Windows::UI::Core::CoreDispatcherPriority::Normal,
-        callback);
-
-    return create_async(
-        [=]()
-    {
-        return create_task(dialogResponse).then([=](FBResult ^result)
-        {
-            _dialog = nullptr;
-            return result;
+                _dialog = ref new FacebookDialog();
+                create_task(_dialog->ShowFeedDialog(Parameters)).then([=](FBResult ^result)
+                {
+                    dialogResponse.set(result);
+                });
+            }
+            catch (Exception^ ex)
+            {
+                FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+                dialogResponse.set(ref new FBResult(err));
+            }
         });
-    });
+
+        Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
+
+        wnd->Dispatcher->RunAsync(
+            Windows::UI::Core::CoreDispatcherPriority::Normal,
+            callback);
+
+        return create_async(
+            [=]()
+        {
+            return create_task(dialogResponse).then([=](FBResult ^result)
+            {
+                _dialog = nullptr;
+                return result;
+            });
+        });
+    }
 }
 
 IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
     PropertySet^ Parameters
     )
 {
-    concurrency::task_completion_event<FBResult^> dialogResponse;
-
-    auto callback = ref new DispatchedHandler(
-        [=]()
+    if (_LoginMethod == SessionLoginBehavior::WebAuth)
     {
-        try
+        return FBWebAuthDialog::ShowRequestsDialog(Parameters);
+    }
+    else
+    {
+        concurrency::task_completion_event<FBResult^> dialogResponse;
+
+        auto callback = ref new DispatchedHandler(
+            [=]()
         {
-            _dialog = ref new FacebookDialog();
-            create_task(_dialog->ShowRequestsDialog(Parameters)).then([=](FBResult ^result)
+            try
             {
-                dialogResponse.set(result);
-            });
-        }
-        catch(Exception^ ex)
-        {
-            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-            dialogResponse.set(ref new FBResult(err));
-        }
-    });
-
-    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
-
-    wnd->Dispatcher->RunAsync(
-        Windows::UI::Core::CoreDispatcherPriority::Normal,
-        callback);
-
-    return create_async(
-        [=]()
-    {
-        return create_task(dialogResponse).then([=](FBResult ^result)
-        {
-            _dialog = nullptr;
-            return result;
+                _dialog = ref new FacebookDialog();
+                create_task(_dialog->ShowRequestsDialog(Parameters)).then([=](FBResult ^result)
+                {
+                    dialogResponse.set(result);
+                });
+            }
+            catch (Exception^ ex)
+            {
+                FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+                dialogResponse.set(ref new FBResult(err));
+            }
         });
-    });
+
+        Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
+
+        wnd->Dispatcher->RunAsync(
+            Windows::UI::Core::CoreDispatcherPriority::Normal,
+            callback);
+
+        return create_async(
+            [=]()
+        {
+            return create_task(dialogResponse).then([=](FBResult ^result)
+            {
+                _dialog = nullptr;
+                return result;
+            });
+        });
+    }
 }
 
 IAsyncOperation<FBResult^>^ FBSession::ShowSendDialogAsync(
     PropertySet^ Parameters
     )
 {
-    concurrency::task_completion_event<FBResult^> dialogResponse;
-
-    auto callback = ref new DispatchedHandler(
-        [=]()
+    if (_LoginMethod == SessionLoginBehavior::WebAuth)
     {
-        try
+        return FBWebAuthDialog::ShowSendDialog(Parameters);
+    }
+    else
+    {
+        concurrency::task_completion_event<FBResult^> dialogResponse;
+
+        auto callback = ref new DispatchedHandler(
+            [=]()
         {
-            _dialog = ref new FacebookDialog();
-            create_task(_dialog->ShowSendDialog(Parameters)).then([=](FBResult ^result)
+            try
             {
-                dialogResponse.set(result);
-            });
-        }
-        catch(Exception^ ex)
-        {
-            FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
-            dialogResponse.set(ref new FBResult(err));
-        }
-    });
-
-    Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
-
-    wnd->Dispatcher->RunAsync(
-        Windows::UI::Core::CoreDispatcherPriority::Normal,
-        callback);
-
-    return create_async(
-        [=]()
-    {
-        return create_task(dialogResponse).then([=](FBResult ^result)
-        {
-            _dialog = nullptr;
-            return result;
+                _dialog = ref new FacebookDialog();
+                create_task(_dialog->ShowSendDialog(Parameters)).then([=](FBResult ^result)
+                {
+                    dialogResponse.set(result);
+                });
+            }
+            catch (Exception^ ex)
+            {
+                FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+                dialogResponse.set(ref new FBResult(err));
+            }
         });
-    });
+
+        Windows::UI::Core::CoreWindow^ wnd = CoreApplication::MainView->CoreWindow;
+
+        wnd->Dispatcher->RunAsync(
+            Windows::UI::Core::CoreDispatcherPriority::Normal,
+            callback);
+
+        return create_async(
+            [=]()
+        {
+            return create_task(dialogResponse).then([=](FBResult ^result)
+            {
+                _dialog = nullptr;
+                return result;
+            });
+        });
+    }
 }
 
 task<FBResult^> FBSession::ShowLoginDialog(
@@ -920,7 +939,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     )
 {
     _dialog = ref new FacebookDialog();
-
+    _LoginMethod = behavior;
     return create_async([=]()
     {
         PropertySet^ parameters = ref new PropertySet();
@@ -961,26 +980,31 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 #endif
             case SessionLoginBehavior::DefaultOrdering:
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+                _LoginMethod = SessionLoginBehavior::WebAccountProvider;
                 authTask = TryLoginViaWebAccountProvider(Permissions);
                 result = authTask.get();
                 // Unless the WebAccountProvider wasn't found, don't try other methods because the user would have canceled the login
                 // We don't want to keep prompting for login.
                 if(result->ErrorInfo != nullptr && result->ErrorInfo->Code == (int) ErrorCode::ErrorCodeWebAccountProviderNotFound)
                 {
+                    _LoginMethod = SessionLoginBehavior::WebView;
                     authTask = TryLoginViaWebView(parameters);
                     result = authTask.get();
                     if (!result)
                     {
+                        _LoginMethod = SessionLoginBehavior::WebAuth;
                         authTask = TryLoginViaWebAuthBroker(parameters);
                         result = authTask.get();
                     }
                 }
                 break;
 #else
+                _LoginMethod = SessionLoginBehavior::WebView;
                 authTask = TryLoginViaWebView(parameters);
                 result = authTask.get();
                 if (!result)
                 {
+                    _LoginMethod = SessionLoginBehavior::WebAuth;
                     authTask = TryLoginViaWebAuthBroker(parameters);
                     result = authTask.get();
                 }
