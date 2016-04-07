@@ -10,7 +10,7 @@ You can find more details [here](https://developers.facebook.com/docs/graph-api/
 
 C#:
 
-```C#
+{% highlight csharp %}
 using winsdkfb;
 using winsdkfb.Graph;
 …
@@ -55,11 +55,11 @@ public class FBReturnObject
     public string Id { get; set; }
     public string Post_Id { get; set; }
 }
-```
+{% endhighlight %}
 
 C++:
 
-```C++
+{% highlight c++ %}
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
 …
@@ -103,7 +103,7 @@ if (sess->LoggedIn)
      });
 
 }       
-```
+{% endhighlight %}
 
 ##Custom Stories
 Follow the steps [here](https://developers.facebook.com/docs/sharing/opengraph/custom) to configure custom stories in your app on developers.facebook.com
@@ -123,7 +123,7 @@ This will be published as "*user* tried *scenario* from Sample Application".
 
 C#:
 
-```C#
+{% highlight csharp %}
 using winsdkfb;
 using winsdkfb.Graph;
  ...
@@ -174,11 +174,11 @@ public class FBReturnObject
     public string Id { get; set; }
     public string Post_Id { get; set; }
 }
-```
+{% endhighlight %}
 
 C++
 
-```C++
+{% highlight c++ %}
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
  ...
@@ -230,7 +230,7 @@ if (sess->LoggedIn)
          }
        });
 }
-```
+{% endhighlight %}
 
 ##Upload a Photo
 The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id": "*id*"} if published successfully.
@@ -238,7 +238,7 @@ You can find more details [here](https://developers.facebook.com/docs/graph-api/
 
 C#:
 
-```C#
+{% highlight csharp %}
 using winsdkfb;
 using winsdkfb.Graph;
  ...
@@ -286,11 +286,11 @@ public class FBReturnObject
     public string Id { get; set; }
     public string Post_Id { get; set; }
 }
-```
+{% endhighlight %}
 
 C++:
 
-```C++
+{% highlight c++ %}
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
  ...
@@ -340,7 +340,7 @@ create_task(selectedPhoto->OpenReadAsync())
           });
       }
 });
-```
+{% endhighlight %}
 
 ##Upload a Video (non-resumable)
 The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id":"*id*"} if published successfully. Note that this is for uploading a small sized video all at once (non-resumable). The Facebook Graph API has said non-resumable upload supports videos up to 1GB and 20 minutes long.
@@ -348,7 +348,7 @@ The app should have publish_actions permission granted by the user. A class will
 
 C#:
 
-```C#
+{% highlight csharp %}
 using winsdkfb;
 using winsdkfb.Graph;
 ...
@@ -389,7 +389,7 @@ public class FBReturnObject
     public string Id { get; set; }
     public string Post_Id { get; set; }
 }
-```
+{% endhighlight %}
 
 
 ##Like Action
@@ -399,7 +399,7 @@ Note that this is not the same as 'liking' a Facebook Page. If successful, the l
 
 C#:
 
-```C#
+{% highlight csharp %}
 using winsdkfb;
 using winsdkfb.Graph;
  ...
@@ -440,11 +440,11 @@ public class FBReturnObject
     public string Id { get; set; }
     public string Post_Id { get; set; }
 }
-```
+{% endhighlight %}
 
 C++:
 
-```C++
+{% highlight c++ %}
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
 ...
@@ -484,4 +484,4 @@ if (sess->LoggedIn)
          }
      });
 }
-```
+{% endhighlight %}

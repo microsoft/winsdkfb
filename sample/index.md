@@ -21,19 +21,19 @@ Use this code snippet to get your Windows Store ID:
 
 C#:
 
-```C#
+{% highlight csharp %}
 using Windows.Security.Authentication.Web;
 ...
 string SID = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
-```
+{% endhighlight %}
 
 C++:
 
-```C++
+{% highlight c++ %}
 using namespace Windows::Security::Authentication::Web;
 ...
 String^ SID = WebAuthenticationBroker::GetCurrentApplicationCallbackUri()->DisplayUri;
-```
+{% endhighlight %}
         
 This will return a string with value "ms-app://<SID>". The part after the // is the Windows Store ID or SID. 
 Now, to get the Windows Phone SID for your application, open the Package.appxmanifest file. Look for the mp:PhoneIdentity
@@ -51,7 +51,12 @@ and the Windows Phone SID in the Windows Phone Store ID textbox. See the image b
 
 You will also need to enable OAuth login on the Facebook App Developer Portal. In the same "Settings" page of your app, click on the "Advanced tab". Near the bottom of the page will be an "OAuth Settings" section. In this section, enable both "Client OAuth Login" as well as "Embedded Browser OAuth Login". Make sure to click on "Save Changes" at the end as well.
 
-Finally, you have to include the Project within your solution. Either clone the [github repo](www.github.com/Microsoft/winsdkfb) or download it as a zip. Open up your app within Visual Studio. Right click on the solution and select "Add -> Existing Project". From there, go to where you downloaded the winsdkfb source and pull in the "winsdk_uwp.vcxproj" file within the "winsdk_uwp" folder. Then,
+Finally, you have to include the Project within your solution. For Universal Windows 10 applications, you can use the [nuget package](https://www.nuget.org/packages/winsdkfb). Go to the Nuget package manager and search for "winsdkfb" in the Nuget package explorer. 
+
+![Nuget Explorer](../img/nugetexplorer.PNG)
+
+
+For Windows Store/Phone 8.1 projects, either clone the [github repo](www.github.com/Microsoft/winsdkfb) or download it as a zip. Open up your app within Visual Studio. Right click on the solution and select "Add -> Existing Project". From there, go to where you downloaded the winsdkfb source and pull in the "winsdk_uwp.vcxproj" file within the "winsdk_uwp" folder. Then,
 add a reference to the winsdkfb project from your app's project by right-clicking on your project and selecting "Add -> Reference". See images below for details.
 
 **winsdkfb vcxproj**
@@ -68,7 +73,7 @@ first and most important feature to integrate is Facebook Login/Authentication. 
 
 In this app, the XAML page file is called MainPage.XAML. After this step, we can jump to the MainPage.XAML.cs file so that we can enter in the code to set up login. An easy way to do this is to look at the Design tab on the XAML page, and double click the button you have set up for Login. In this case, it is the "MainLogin" button. Within the MainLogin_Click function, enter in the following code to set up user login.
 
-```C#
+{% highlight csharp %}
 using winsdkfb;
 ...
 private async void MainLogin_Click(object sender, RoutedEventArgs e)
@@ -99,7 +104,7 @@ private async void MainLogin_Click(object sender, RoutedEventArgs e)
         //Login failed
     }
 }
-```
+{% endhighlight %}
 
 Note that you have to enter your Facebook App ID from the developer portal as well as the Windows Store ID retrieved in the earlier step to correctly configure your app. Then, create a permissionList object and add in the permissions you want to get from the user. Finally, call the sess.LoginAsync() method with the permissionList you created and then you should see the following Dialog box pop up:
 
@@ -107,9 +112,9 @@ Note that you have to enter your Facebook App ID from the developer portal as we
 
 When you are testing your application, you can only use the login credentials associated with the account used on the Facebook Developer Portal site to login. On that portal you can optionally add other developer and tester Facebook accounts, but for the purposes of this example we will stick to the same account we used when registering the app. At this point you should have a successful login - and with the code snippet from above you should see the User ID and the user's full name printed to the console. One key feature to add in is Profile Picture Control. In your XAML file, add in the following line to your code:
 
-```XML
+{% highlight xml %}
 <fbsdk:ProfilePictureControl x:Name="ProfilePic" Width="120" Height="120">
-```
+{% endhighlight %}
 
 This line paired with the earlier code snippet (ProfilePic.UserId = sess.User.Id) should automatically populate the user's profile picture into a small box within your application after log-in. In our sample app, it will look something like this:
 
@@ -119,7 +124,7 @@ This line paired with the earlier code snippet (ProfilePic.UserId = sess.User.Id
 ##Dialog Example - Feed Dialog
 At this point, the user is authenticated and we want to allow the user to post to their feed through our application. For this purpose, we have the Feed Dialog which posts to the user's timeline. There are other dialogs as well, and if you want to see how they work in more detail you can check out the description [here](../dialogs). For now we will just cover the Feed Dialog. Once again, create any XAML button you want and then open up its function in the MainPage.cs file. Paste the following code snippet into the function:
 
-```C#
+{% highlight csharp %}
 private async void Post_Click(object sender, RoutedEventArgs e)
 {
     FBSession sess = FBSession.ActiveSession;
@@ -134,7 +139,7 @@ private async void Post_Click(object sender, RoutedEventArgs e)
         FBResult fbresult = await sess.ShowFeedDialogAsync(parameters);
     }
 }
-```
+{% endhighlight %}
 
 In this example, my function is called "Post_Click" and it is tied to the "Post to Feed" button seen earlier. With the Feed Dialog, you can add parameters to go along with the post. For my button, the post title is "Microsoft" and there is a link to the Microsoft website. When you link to an external website Facebook will automatically load a picture from that webpage. Finally, there is a description that I have set to "Microsoft home page". Once you call the ShowFeedDialogAsync function with the parameters listed above you should see the following pop-up:
 
@@ -151,7 +156,7 @@ Another big use case of the Windows SDK for Facebook is interacting with the Gra
 
 The last example we will cover in this sample app is how to upload a photo to a user's Facebook Timeline. There are other features involving the Graph API that our SDK provides, and for the full list and code snippets you can check out the [graph API section](../graph) of the website. For now, referring back to the sample app, you can create another custom XAML button that will be tied to the photo upload action in the MainPage.xaml.cs file. In our app, this is the button labeled "Upload a Photo" and tied to the PhotoUpload_Click method. In this method, paste the following code snippet:
 
-```C#
+{% highlight csharp %}
 using winsdkfb;
 using winsdkfb.Graph;
 ...
@@ -187,17 +192,17 @@ private async void PhotoUpload_Click(object sender, RoutedEventArgs e)
         }
     }
 }
-```
+{% endhighlight %}
 
 You will also need to create a custom class to handle the response. In this example, it is using a class called FBPhoto and the class can be seen here:
 
-```C#
+{% highlight csharp %}
 public class FBPhoto
 {
     public string Id { get; set; }
     public string Post_Id { get; set; }
 }
-```
+{% endhighlight %}
 
 In this code snippet, the first few lines can be changed based on how you want the photo to be loaded from the filesystem. These are all based on Windows API's that have different options for selecting a photo file. In our example, this code snippet will create a pop up to the file explorer as seen in this diagram:
 
