@@ -6,6 +6,5 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Build settings
-markdown: rdiscount
 highlighter: pygments
 permalink: pretty

@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Unity Plugins : Unity Plugins for Windows Store and Azure">
+    <meta name="description" content="Windows SDK for Facebook">
 
     <link rel="stylesheet" type="text/css" media="screen" href="./css/stylesheet.css">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/syntax.css">
@@ -115,15 +115,15 @@
         </p>
 
         <h3>Building the SDK</h3>
-         For Universal Windows Applications for Windows 10 add the following vcxproj to your solution. You need to use Visual Studio 2015 with the Windows 10 Tools installed.
+         For Universal Windows Applications for Windows 10 you can use the Nuget package within Visual Studio. Search for "winsdkfb" in the Nuget package explorer and install the package for your project. Alternatively you can grab the SDK directly from Github and add the following project to your solution
          <li>
-          FBWinSDK\FBSDK-UWP\FBSDK-UWP\FBSDK-UWP.vcxproj
+          winsdkfb\winsdkfb\winsdkfb_uwp\winsdkfb_uwp.vcxproj
          </li>
          For Windows 8.1 Universal Applications add the following vcxproj's to your solution. You can use Visual Studio 2013 or 2015.
          <br>
           <ul>
-          <li>FBWinSDK\FBWinSDK\FBWinSDK.Windows\FBWinSDK.Windows.vcxproj</li>
-          <li>FBWinSDK\FBWinSDK\FBWinSDK.WindowsPhone\FBWinSDK.WindowsPhone.vcxproj</li>
+          <li>winsdkfb\winsdkfb\winsdkfb.Windows\winsdkfb.Windows.vcxproj</li>
+          <li>winsdkfb\winsdkfb\winsdkfb.WindowsPhone\winsdkfb.WindowsPhone.vcxproj</li>
           </ul>
         
         <p>
