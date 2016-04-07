@@ -56,7 +56,7 @@ Finally, you have to include the Project within your solution. For Universal Win
 ![Nuget Explorer](../img/nugetexplorer.PNG)
 
 
-For Windows Store/Phone 8.1 projects, either clone the [github repo](www.github.com/Microsoft/winsdkfb) or download it as a zip. Open up your app within Visual Studio. Right click on the solution and select "Add -> Existing Project". From there, go to where you downloaded the winsdkfb source and pull in the "winsdk_uwp.vcxproj" file within the "winsdk_uwp" folder. Then,
+For Windows Store/Phone 8.1 projects, either clone the [github repo](www.github.com/Microsoft/winsdkfb) or download it as a zip. Open up your app within Visual Studio. Right click on the solution and select "Add -> Existing Project". From there, go to where you downloaded the winsdkfb source and pull in the "winsdkfb_uwp.vcxproj" file within the "winsdkfb_uwp" folder. Then,
 add a reference to the winsdkfb project from your app's project by right-clicking on your project and selecting "Add -> Reference". See images below for details.
 
 **winsdkfb vcxproj**
