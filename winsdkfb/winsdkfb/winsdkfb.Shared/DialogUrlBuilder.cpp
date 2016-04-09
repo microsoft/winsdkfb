@@ -105,7 +105,7 @@ String^ DialogUrlBuilder::GetRedirectUriString(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
-    if (sess->LoginMethod == SessionLoginBehavior::WebAuth)
+    if (sess->LastSuccessfulDialogBasedLoginType == SessionLoginBehavior::WebAuth)
     {
         if (sess->WebAuthDialogRedirectUrl == nullptr)
         {

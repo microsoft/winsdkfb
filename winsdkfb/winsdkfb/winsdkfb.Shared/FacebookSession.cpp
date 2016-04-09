@@ -145,9 +145,9 @@ FBUser^ FBSession::User::get()
     return _user;
 }
 
-SessionLoginBehavior FBSession::LoginMethod::get()
+SessionLoginBehavior FBSession::LastSuccessfulDialogBasedLoginType::get()
 {
-    return _LoginMethod;
+    return _lastSuccessfulDialogBasedLoginType;
 }
 
 void FBSession::WebAuthDialogRedirectUrl::set(String^ url)
@@ -407,7 +407,7 @@ IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     PropertySet^ Parameters
     )
 {
-    if (_LoginMethod == SessionLoginBehavior::WebAuth)
+    if (_lastSuccessfulDialogBasedLoginType == SessionLoginBehavior::WebAuth)
     {
         return FBWebAuthDialog::ShowFeedDialog(Parameters);
     }
@@ -455,7 +455,7 @@ IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
     PropertySet^ Parameters
     )
 {
-    if (_LoginMethod == SessionLoginBehavior::WebAuth)
+    if (_lastSuccessfulDialogBasedLoginType == SessionLoginBehavior::WebAuth)
     {
         return FBWebAuthDialog::ShowRequestsDialog(Parameters);
     }
@@ -503,7 +503,7 @@ IAsyncOperation<FBResult^>^ FBSession::ShowSendDialogAsync(
     PropertySet^ Parameters
     )
 {
-    if (_LoginMethod == SessionLoginBehavior::WebAuth)
+    if (_lastSuccessfulDialogBasedLoginType == SessionLoginBehavior::WebAuth)
     {
         return FBWebAuthDialog::ShowSendDialog(Parameters);
     }
@@ -939,7 +939,11 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     )
 {
     _dialog = ref new FacebookDialog();
-    _LoginMethod = behavior;
+    _lastSuccessfulDialogBasedLoginType = GetLastSuccessfulDialogBasedLoginType();
+    if (behavior != SessionLoginBehavior::Silent && behavior != SessionLoginBehavior::DefaultOrdering)
+    {
+        _lastSuccessfulDialogBasedLoginType = behavior;
+    }
     return create_async([=]()
     {
         PropertySet^ parameters = ref new PropertySet();
@@ -980,31 +984,31 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 #endif
             case SessionLoginBehavior::DefaultOrdering:
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
-                _LoginMethod = SessionLoginBehavior::WebAccountProvider;
+                _lastSuccessfulDialogBasedLoginType = SessionLoginBehavior::WebAccountProvider;
                 authTask = TryLoginViaWebAccountProvider(Permissions);
                 result = authTask.get();
                 // Unless the WebAccountProvider wasn't found, don't try other methods because the user would have canceled the login
                 // We don't want to keep prompting for login.
                 if(result->ErrorInfo != nullptr && result->ErrorInfo->Code == (int) ErrorCode::ErrorCodeWebAccountProviderNotFound)
                 {
-                    _LoginMethod = SessionLoginBehavior::WebView;
+                    _lastSuccessfulDialogBasedLoginType = SessionLoginBehavior::WebView;
                     authTask = TryLoginViaWebView(parameters);
                     result = authTask.get();
                     if (!result)
                     {
-                        _LoginMethod = SessionLoginBehavior::WebAuth;
+                        _lastSuccessfulDialogBasedLoginType = SessionLoginBehavior::WebAuth;
                         authTask = TryLoginViaWebAuthBroker(parameters);
                         result = authTask.get();
                     }
                 }
                 break;
 #else
-                _LoginMethod = SessionLoginBehavior::WebView;
+                _lastSuccessfulDialogBasedLoginType = SessionLoginBehavior::WebView;
                 authTask = TryLoginViaWebView(parameters);
                 result = authTask.get();
                 if (!result)
                 {
-                    _LoginMethod = SessionLoginBehavior::WebAuth;
+                    _lastSuccessfulDialogBasedLoginType = SessionLoginBehavior::WebAuth;
                     authTask = TryLoginViaWebAuthBroker(parameters);
                     result = authTask.get();
                 }
@@ -1037,6 +1041,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
             if (finalResult != nullptr && finalResult->Succeeded)
             {
                 SaveGrantedPermissions();
+                SaveLastSuccessfulDialogBasedLoginType();
             }
             return finalResult;
         })
@@ -1046,6 +1051,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
             {
                 _loggedIn = false;
                 AccessTokenData = nullptr;
+                this->_lastSuccessfulDialogBasedLoginType = GetLastSuccessfulDialogBasedLoginType();
             }
             if (finalResult == nullptr)
             {
@@ -1317,6 +1323,58 @@ String^ FBSession::GetGrantedPermissions()
         return ""; // TODO should this be an exception?
     }
     return safe_cast<String^>(values->Lookup(GRANTED_PERMISSIONS_KEY));
+}
+#define LAST_SUCCESSFUL_DIALOG_BASED_LOGIN_TYPE_KEY L"last_successful_dialog_based_login_type"
+void FBSession::SaveLastSuccessfulDialogBasedLoginType()
+{
+    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    {
+        localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
+    }
+    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    values->Insert(LAST_SUCCESSFUL_DIALOG_BASED_LOGIN_TYPE_KEY, _lastSuccessfulDialogBasedLoginType.ToString());
+
+}
+
+SessionLoginBehavior FBSession::GetLastSuccessfulDialogBasedLoginType()
+{
+    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    {
+        return SessionLoginBehavior::WebView; // TODO should this be an exception?
+    }
+    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    if (!values->HasKey(LAST_SUCCESSFUL_DIALOG_BASED_LOGIN_TYPE_KEY))
+    {
+        return SessionLoginBehavior::WebView; // TODO should this be an exception?
+    }
+    String^ sesionLoginBehaviorString = safe_cast<String^>(values->Lookup(LAST_SUCCESSFUL_DIALOG_BASED_LOGIN_TYPE_KEY));
+    // convert from String to SessionLoginBehavior
+    if (String::CompareOrdinal(sesionLoginBehaviorString, L"WebView") == 0)
+    {
+        return SessionLoginBehavior::WebView;
+    }
+    else if (String::CompareOrdinal(sesionLoginBehaviorString, L"WebAuth") == 0)
+    {
+        return SessionLoginBehavior::WebAuth;
+    }
+    else if (String::CompareOrdinal(sesionLoginBehaviorString, L"WebAccountProvider") == 0)
+    {
+        return SessionLoginBehavior::WebAccountProvider;
+    }
+    else if (String::CompareOrdinal(sesionLoginBehaviorString, L"Silent") == 0)
+    {
+        return SessionLoginBehavior::Silent;
+    }
+    else if (String::CompareOrdinal(sesionLoginBehaviorString, L"DefaultOrdering") == 0)
+    {
+        return SessionLoginBehavior::DefaultOrdering;
+    }
+    else
+    {
+        return SessionLoginBehavior::DefaultOrdering; // TODO should probably throw an exception here
+    }
 }
 
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)

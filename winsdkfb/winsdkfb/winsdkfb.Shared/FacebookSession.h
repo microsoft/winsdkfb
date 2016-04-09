@@ -126,7 +126,7 @@ namespace winsdkfb
                 winsdkfb::Graph::FBUser^ get();
             }
 
-            property SessionLoginBehavior LoginMethod
+            property SessionLoginBehavior LastSuccessfulDialogBasedLoginType
             {
                 SessionLoginBehavior get();
             }
@@ -308,6 +308,12 @@ namespace winsdkfb
             Platform::String^ GetGrantedPermissions(
                 );
 
+            void SaveLastSuccessfulDialogBasedLoginType(
+                );
+
+            SessionLoginBehavior GetLastSuccessfulDialogBasedLoginType(
+                );
+
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
             Platform::String^ GetWebAccountProviderRedirectUriString(
                 );
@@ -354,7 +360,7 @@ namespace winsdkfb
             winsdkfb::FacebookDialog^ _dialog;
             int _APIMajorVersion;
             int _APIMinorVersion;
-            SessionLoginBehavior _LoginMethod;
+            SessionLoginBehavior _lastSuccessfulDialogBasedLoginType;
             Platform::String^ _webAuthDialogRedirectUrl;
     };
 }
