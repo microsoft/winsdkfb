@@ -59,50 +59,16 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
     )
 {
-    return create_async([this]() -> task < FBResult^ >
+    if (!HasNext)
     {
-        if (!HasNext)
+        throw ref new InvalidArgumentException(SDKMessageBadCall);
+    }
+    return create_async([this]() -> task<FBResult^>
+    {
+        return create_task(FBClient::GetTaskAsync(_paging->Next, _parameters))
+            .then([this](String^ responseString)
         {
-            throw ref new InvalidArgumentException(SDKMessageBadCall);
-        }
-
-        HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-        HttpClient^ httpClient = ref new HttpClient(filter);
-        cancellation_token_source cancellationTokenSource =
-            cancellation_token_source();
-        bool containsEtag = false;
-
-        filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
-
-        Uri^ uri = ref new Uri(_paging->Next);
-
-        return create_task(httpClient->GetAsync(uri),
-            cancellationTokenSource.get_token())
-            .then([=](HttpResponseMessage^ response)
-        {
-            return create_task(response->Content->ReadAsStringAsync(),
-                cancellationTokenSource.get_token());
-        })
-            .then([=](task<String^> resultTask)
-        {
-            String^ result = nullptr;
-            try
-            {
-                result = resultTask.get();
-            }
-            catch (const task_canceled&)
-            {
-            }
-            catch (Exception^ ex)
-            {
-                throw ex;
-            }
-
-            return result;
-        })
-            .then([=](String^ JsonText)
-        {
-            return ConsumePagedResponse(JsonText);
+            return ConsumePagedResponse(responseString);
         });
     });
 }
@@ -110,50 +76,16 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::PreviousAsync(
     )
 {
-    return create_async([this]() -> task < FBResult^ >
+    if (!HasPrevious)
     {
-        if (!HasPrevious)
+        throw ref new InvalidArgumentException(SDKMessageBadCall);
+    }
+    return create_async([this]() -> task<FBResult^>
+    {
+        return create_task(FBClient::GetTaskAsync(_paging->Previous, _parameters))
+            .then([this](String^ responseString)
         {
-            throw ref new InvalidArgumentException(SDKMessageBadCall);
-        }
-
-        HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-        HttpClient^ httpClient = ref new HttpClient(filter);
-        cancellation_token_source cancellationTokenSource =
-            cancellation_token_source();
-        bool containsEtag = false;
-
-        filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
-
-        Uri^ uri = ref new Uri(_paging->Previous);
-
-        return create_task(httpClient->GetAsync(uri),
-            cancellationTokenSource.get_token())
-            .then([=](HttpResponseMessage^ response)
-        {
-            return create_task(response->Content->ReadAsStringAsync(),
-                cancellationTokenSource.get_token());
-        })
-            .then([=](task<String^> resultTask)
-        {
-            String^ result = nullptr;
-            try
-            {
-                result = resultTask.get();
-            }
-            catch (const task_canceled&)
-            {
-            }
-            catch (Exception^ ex)
-            {
-                throw ex;
-            }
-
-            return result;
-        })
-            .then([=](String^ JsonText)
-        {
-            return ConsumePagedResponse(JsonText);
+            return ConsumePagedResponse(responseString);
         });
     });
 }
