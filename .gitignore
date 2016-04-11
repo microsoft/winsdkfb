@@ -5,6 +5,7 @@
 *.opensdf
 *.sdf
 *.suo
+*.VC.db
 AppPackages
 bin
 Debug

@@ -79,8 +79,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSendRequest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DialogUrlBuilder.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FBWebAuthDialog.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -174,9 +172,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DialogUrlBuilder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FBWebAuthDialog.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h" />
   </ItemGroup>
   <ItemGroup>
