@@ -3,7 +3,7 @@ layout: default
 title: Dialogs
 ---
 
-##Feed Dialog
+## Feed Dialog
 The feed dialog allows the app to specify a title, link, and description for a post to the user's feed. The user can enter a custom message before posting it to Facebook.
 
 C#:
@@ -57,7 +57,7 @@ if (sess->LoggedIn)
 }
 {% endhighlight %}
 
-##Request Dialog
+## Request Dialog
 The user can invite his/her Facebook friends to the app through the request dialog. Note that your app must be set to type 'Game' when registering with Facebook in order for the request dialog to work.
 
 C#:
@@ -109,7 +109,7 @@ if (sess->LoggedIn)
 }
 {% endhighlight %}
 
-##Send Dialog
+## Send Dialog
 Using the send dialog, a user can send private messages to any of his/her facebook friends with a predetermined link specified.
 
 C#:

@@ -3,7 +3,7 @@ layout: default
 title: Graph API
 ---
 
-##Post to Feed
+## Post to Feed
 The app should have publish_actions permission granted by the user.
 A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id": "*id*"} if published successfully.
 You can find more details [here](https://developers.facebook.com/docs/graph-api/reference/v2.3/user/feed).
@@ -105,7 +105,7 @@ if (sess->LoggedIn)
 }       
 {% endhighlight %}
 
-##Custom Stories
+## Custom Stories
 Follow the steps [here](https://developers.facebook.com/docs/sharing/opengraph/custom) to configure custom stories in your app on developers.facebook.com
 The app should have publish_actions permission granted by the user.
 A class will have to be created (FBReturnObject in this example) to receive and parse the json response.
@@ -232,7 +232,7 @@ if (sess->LoggedIn)
 }
 {% endhighlight %}
 
-##Upload a Photo
+## Upload a Photo
 The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id": "*id*"} if published successfully.
 You can find more details [here](https://developers.facebook.com/docs/graph-api/reference/user/photos/).
 
@@ -342,7 +342,7 @@ create_task(selectedPhoto->OpenReadAsync())
 });
 {% endhighlight %}
 
-##Upload a Video (non-resumable)
+## Upload a Video (non-resumable)
 The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id":"*id*"} if published successfully. Note that this is for uploading a small sized video all at once (non-resumable). The Facebook Graph API has said non-resumable upload supports videos up to 1GB and 20 minutes long.
 
 
@@ -392,7 +392,7 @@ public class FBReturnObject
 {% endhighlight %}
 
 
-##Like Action
+## Like Action
 The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id":"*id*"} if published successfully.
 
 Note that this is not the same as 'liking' a Facebook Page. If successful, the like action will be published onto the user's activity feed. You need extra permission to post it as an Open Graph object on the user's timeline/news feed. You can find more details [here](https://developers.facebook.com/docs/opengraph/guides/og.likes).

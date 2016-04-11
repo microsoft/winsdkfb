@@ -3,7 +3,7 @@ layout: default
 title: Sample Walkthrough
 ---
 
-##Introduction
+## Introduction
 This guide will go through the full steps to integrate the Windows SDK for Facebook into your Universal app through a 
 sample application that highlights the key feature set of the SDK. The app is a simple XAML/C# UWP app that utilizes buttons
 for each feature of the SDK. The app is called Windows SDK Test App and we will refer to it as "FBTestApp" in the rest of this tutorial.
@@ -11,7 +11,7 @@ for each feature of the SDK. The app is called Windows SDK Test App and we will 
 To complete the tutorial, you'll need some familiarity with Universal Windows app development. In particular, you will need
 Visual Studio 2015 and know how to create/debug UWP apps written in C# and XAML. 
 
-##Setting up your Facebook Application
+## Setting up your Facebook Application
 Before you can get started, you will have to go to the [Facebook Developer Portal](www.developers.facebook.com/apps) and
 get a Facebook AppId. Once you have created your application, create a Universal Windows blank app in C#. From there, you will
 need to get the Windows Store ID and Windows Phone SID for your application. The full steps to getting set up are [here](../index.html)
@@ -65,7 +65,7 @@ add a reference to the winsdkfb project from your app's project by right-clickin
 **Add reference**
 ![add reference](../img/addreference.PNG)
 
-##Configuring Facebook Login and Profile Picture control
+## Configuring Facebook Login and Profile Picture control
 Once you have everything set up as mentioned above, you are ready to go into your project and integrate the Facebook SDK features. The
 first and most important feature to integrate is Facebook Login/Authentication. You can follow the steps outlined [here](../auth), but we will go over the relevant code snippets and expected output. In our test app, we configure each XAML UI button to be tied to a specific feature. For login, you can create a custom XAML UI button or you can use the Login UI button provided by the SDK. Note that you have to have the **"xmlns:fbsdk="using:winsdfkb"** set in your XAML to get the UI controls. You can see the XAML UI for each of the buttons here:
 
@@ -121,7 +121,7 @@ This line paired with the earlier code snippet (ProfilePic.UserId = sess.User.Id
 ![full app](../img/fullapp.PNG)
 
 
-##Dialog Example - Feed Dialog
+## Dialog Example - Feed Dialog
 At this point, the user is authenticated and we want to allow the user to post to their feed through our application. For this purpose, we have the Feed Dialog which posts to the user's timeline. There are other dialogs as well, and if you want to see how they work in more detail you can check out the description [here](../dialogs). For now we will just cover the Feed Dialog. Once again, create any XAML button you want and then open up its function in the MainPage.cs file. Paste the following code snippet into the function:
 
 {% highlight csharp %}
@@ -151,7 +151,7 @@ In the area labeled "Say something about this..." is where the user can enter th
 
 And now any of the user's Facebook friends can interact with the post by liking/sharing/commenting on it as they would on any other post in their News Feed.
 
-##Using the Graph API to Upload a Photo
+## Using the Graph API to Upload a Photo
 Another big use case of the Windows SDK for Facebook is interacting with the Graph API. The Graph API is the primary way for apps to read and write to the Facebook social graph. There are numerous endpoints and scenarios but our SDK focuses on some of the key ones. If you want to read more on the Graph API, check out [this link](https://developers.facebook.com/docs/graph-api).
 
 The last example we will cover in this sample app is how to upload a photo to a user's Facebook Timeline. There are other features involving the Graph API that our SDK provides, and for the full list and code snippets you can check out the [graph API section](../graph) of the website. For now, referring back to the sample app, you can create another custom XAML button that will be tied to the photo upload action in the MainPage.xaml.cs file. In our app, this is the button labeled "Upload a Photo" and tied to the PhotoUpload_Click method. In this method, paste the following code snippet:
@@ -214,6 +214,6 @@ Once the photo has been selected, in our example the dialog box immediately clos
 
 You can see that the post has the text "Windows SDK Test App" to show that the image was uploaded through the app. In this way, as a developer creating your own UWP app, any action such as photo upload will register that it was done through your application so that there is more visibility overall for the app amongst the user's friends on Facebook.
 
-##Conclusion
+## Conclusion
 Now, you have successfully utilized the Windows SDK for Facebook to set up your app, allow user authentication and login, retrieve a user's profile picture, post to the user's timeline and use the Graph API to upload a photo. Feel free to check out the other features of the SDK listed here on the documentation site, or if you have questions/issues/feature requests (or just want to look at the source)
 you can view the files on [Github as well](https://github.com/Microsoft/winsdkfb).

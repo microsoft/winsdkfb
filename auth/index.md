@@ -3,7 +3,7 @@ layout: default
 title: Authentication
 ---
 
-##Initializing the Facebook Session
+## Initializing the Facebook Session
 Set the Facebook App ID and Windows Store ID values in active session:
 
 C#:
@@ -26,7 +26,7 @@ sess->WinAppId = "<Windows or Windows Phone Store ID depending on the target dev
 
 Note: During development, you can always use the PhoneProductID from the manifest to get the WinAppId instead of having one Windows Store ID and one Windows Phone Store ID.For a published app you would need the package SID.
 
-##Login
+## Login
 Use the following code snippet to login to Facebook.
 The sess.LoginAsync() or sess->LoginAsync() call launches the Facebook login dialog box for the user to enter his/her username and password.
 
@@ -91,7 +91,7 @@ create_task(sess->LoginAsync(permissions)).then([=](FBResult^ result)
 });
 {% endhighlight %}
 
-##Logout
+## Logout
 This is simply just calling the LogoutAsync() method.
 
 C#:
@@ -149,7 +149,7 @@ if(sess->LoggedIn)
 }
 {% endhighlight %}
 
-##User Information
+## User Information
 Some basic information about the logged in user can directly be accessed through FBSession.ActiveSession.User. 
 
 C#:
