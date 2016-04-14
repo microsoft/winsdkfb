@@ -906,6 +906,14 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
+    )
+{
+    return LoginAsync(
+        nullptr,
+        SessionLoginBehavior::DefaultOrdering);
+}
+
+IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions
     )
 {
@@ -919,15 +927,16 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 	SessionLoginBehavior behavior
     )
 {
+    if (!Permissions)
+    {
+        Permissions = ref new FBPermissions((ref new Vector<String^>())->GetView());
+    }
     _dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {
         PropertySet^ parameters = ref new PropertySet();
-        if (Permissions)
-        {
-            parameters->Insert(ScopeKey, Permissions->ToString());
-        }
+        parameters->Insert(ScopeKey, Permissions->ToString());
 
         if (LoggedIn)
         {
