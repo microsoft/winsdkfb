@@ -94,7 +94,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <PackageCertificateKeyFile>LoginCpp.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>..\..\..\..\winsdkfb\winsdkfb_testing_key.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
@@ -163,7 +163,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="LoginCpp.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.scale-100.png" />
@@ -192,6 +191,9 @@
     <ProjectReference Include="..\..\..\..\winsdkfb\winsdkfb\winsdkfb.Windows\winsdkfb.Windows.vcxproj">
       <Project>{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\winsdkfb\winsdkfb_testing_key.pfx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

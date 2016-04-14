@@ -15,7 +15,7 @@
     <FileAlignment>512</FileAlignment>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>LoginCs.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>..\..\..\..\winsdkfb\winsdkfb_testing_key.pfx</PackageCertificateKeyFile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <NuGetPackageImportStamp>
@@ -113,6 +113,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="..\..\..\..\winsdkfb\winsdkfb_testing_key.pfx">
+      <Link>winsdkfb_testing_key.pfx</Link>
+    </None>
     <None Include="..\LoginCs.Shared\FBCSObjectImplementation.ttinclude">
       <Link>FBCSObjectImplementation.ttinclude</Link>
     </None>
@@ -124,7 +127,6 @@
     <None Include="..\LoginCs.Shared\Utility.ttinclude">
       <Link>Utility.ttinclude</Link>
     </None>
-    <None Include="LoginCs.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

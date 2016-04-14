@@ -181,6 +181,15 @@ namespace winsdkfb
 
             /**
              * Login to Facebook. This method defaults to SessionLoginBehavior::DefaultOrdering
+             * for its login method. The permissions requested are public_profile, email,
+             * user_friends.
+             * @return FBResult indicating the result of the Login attempt.
+             */
+            Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
+                );
+
+            /**
+             * Login to Facebook. This method defaults to SessionLoginBehavior::DefaultOrdering
              * for its login method.
              * @param Permissions The Facebook permissions that the app is requesting.
              * @return FBResult indicating the result of the Login attempt.
