@@ -24,7 +24,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookError.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h">
-      <DependentUpon>$(MSBuildThisFileDirectory)FacebookLoginButton.xaml</DependentUpon>
+      <DependentUpon>$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaStream.h" />
@@ -66,7 +66,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookError.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp">
-      <DependentUpon>$(MSBuildThisFileDirectory)FacebookLoginButton.xaml</DependentUpon>
+      <DependentUpon>$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaStream.cpp" />
@@ -99,8 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml" />
-    <Page Include="$(MSBuildThisFileDirectory)FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml" />
   </ItemGroup>

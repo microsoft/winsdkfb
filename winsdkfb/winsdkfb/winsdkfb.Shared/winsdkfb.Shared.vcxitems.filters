@@ -279,9 +279,9 @@
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml" />
-    <Page Include="$(MSBuildThisFileDirectory)FacebookLoginButton.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
