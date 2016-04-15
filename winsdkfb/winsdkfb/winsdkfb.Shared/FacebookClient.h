@@ -134,5 +134,10 @@ namespace winsdkfb
             Windows::Foundation::Uri^ RequestUri,
             Windows::Foundation::Collections::PropertySet^ Streams
             );
+
+        static concurrency::task<Platform::String^> TryReceiveHttpResponse(
+            concurrency::task<Windows::Web::Http::HttpResponseMessage^> httpRequestTask,
+            concurrency::cancellation_token_source cancellationTokenSource
+        );
     };
 };
