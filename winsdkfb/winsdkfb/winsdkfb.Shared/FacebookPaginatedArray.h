@@ -18,7 +18,6 @@
 
 #include "JsonClassFactory.h"
 #include "FBPaging.h"
-#include "FacebookClient.h"
 #include "FacebookResult.h"
 
 namespace winsdkfb

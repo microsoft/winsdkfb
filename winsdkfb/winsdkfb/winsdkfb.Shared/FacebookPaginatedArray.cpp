@@ -19,6 +19,7 @@
 #include "FacebookPaginatedArray.h"
 #include "FacebookResult.h"
 #include "FacebookSession.h"
+#include "HttpManager.h"
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -48,7 +49,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
 {
     return create_async([this]() -> task<FBResult^>
     {
-        return create_task(FBClient::GetTaskAsync(_request, _parameters))
+        return create_task(HttpManager::Instance->GetTaskAsync(_request, _parameters))
             .then([this](String^ responseString)
         {
             return ConsumePagedResponse(responseString);

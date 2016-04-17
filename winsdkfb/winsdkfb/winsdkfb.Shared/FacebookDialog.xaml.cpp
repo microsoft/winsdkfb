@@ -25,7 +25,7 @@
 #include "FacebookFeedRequest.h"
 #include "FacebookAppRequest.h"
 #include "FacebookSendRequest.h"
-#include "FacebookClient.h"
+#include "HttpManager.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -343,7 +343,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
         L"&app_id=" + sess->FBAppId; 
-    String^ queryString = FBClient::ParametersToQueryString(Parameters);
+    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
     {
         dialogUriString += "&" + queryString;
@@ -368,7 +368,7 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
         L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
-    String^ queryString = FBClient::ParametersToQueryString(Parameters);
+    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
     {
         dialogUriString += "&" + queryString;
@@ -393,7 +393,7 @@ Uri^ FacebookDialog::BuildSendDialogUrl(
         L"&redirect_uri=" + GetRedirectUriString(L"send") +
         L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
-    String^ queryString = FBClient::ParametersToQueryString(Parameters);
+    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
     {
         dialogUriString += "&" + queryString;

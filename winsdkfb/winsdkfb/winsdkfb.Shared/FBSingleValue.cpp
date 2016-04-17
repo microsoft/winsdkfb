@@ -19,6 +19,7 @@
 #include "FacebookResult.h"
 #include "FacebookSession.h"
 #include "FBSingleValue.h"
+#include "HttpManager.h"
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -46,7 +47,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::GetAsync(
     {
         FBSession^ sess = FBSession::ActiveSession;
 
-        return create_task(FBClient::GetTaskAsync(_request, _parameters))
+        return create_task(HttpManager::Instance->GetTaskAsync(_request, _parameters))
             .then([this](String^ responseString) -> FBResult^
         {
             return ConsumeSingleValue(responseString);
@@ -61,7 +62,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::PostAsync(
     {
         FBSession^ sess = FBSession::ActiveSession;
 
-        return create_task(FBClient::PostTaskAsync(_request, _parameters))
+        return create_task(HttpManager::Instance->PostTaskAsync(_request, _parameters))
             .then([this](String^ responseString) -> FBResult^
         {
             return ConsumeSingleValue(responseString);
@@ -76,7 +77,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::DeleteAsync(
     {
         FBSession^ sess = FBSession::ActiveSession;
 
-        return create_task(FBClient::DeleteTaskAsync(_request, _parameters))
+        return create_task(HttpManager::Instance->DeleteTaskAsync(_request, _parameters))
             .then([this](String^ responseString) -> FBResult^
         {
             return ConsumeSingleValue(responseString);

@@ -17,7 +17,6 @@
 #pragma once
 
 #include "JsonClassFactory.h"
-#include "FacebookClient.h"
 #include "FacebookResult.h"
 
 namespace winsdkfb

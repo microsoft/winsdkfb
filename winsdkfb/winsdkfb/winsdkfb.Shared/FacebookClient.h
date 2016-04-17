@@ -19,61 +19,63 @@
 #include <ppltasks.h>
 #include "JsonClassFactory.h"
 #include "HttpMethod.h"
+#include "IHttpClient.h"
 
 namespace winsdkfb
 {
-    public ref class FBClient sealed
+    public ref class FBClient sealed : public IHttpClient
     {
     public:
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^ 
+        FBClient();
+
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ 
         GetTaskAsync(
             Platform::String^ path, 
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^ 
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ 
         PostTaskAsync(
             Platform::String^ path, 
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^ 
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ 
         DeleteTaskAsync(
             Platform::String^ path, 
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
-        static Platform::String^ FBClient::ParametersToQueryString(
+        virtual Platform::String^ ParametersToQueryString(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
     private:
-        FBClient();
         
-        static Windows::Foundation::Collections::PropertySet^ 
+        Windows::Foundation::Collections::PropertySet^ 
         GetStreamsToUpload(
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
-        static void FBClient::AddStreamsToForm(
+        void FBClient::AddStreamsToForm(
             Windows::Foundation::Collections::PropertySet^ Parameters,
             Windows::Web::Http::HttpMultipartFormDataContent^ Form
             );
 
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^
+        Windows::Foundation::IAsyncOperation<Platform::String^>^
         SimplePostAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^
+        Windows::Foundation::IAsyncOperation<Platform::String^>^
         MultipartPostAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters,
             Windows::Foundation::Collections::PropertySet^ streams
             );
 
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^  
+        Windows::Foundation::IAsyncOperation<Platform::String^>^  
         ApiAsync(
             HttpMethod httpMethod, 
             Platform::String^ path, 
@@ -83,24 +85,24 @@ namespace winsdkfb
             concurrency::cancellation_token cancellationToken
             );
 
-        static Windows::Foundation::Collections::PropertySet^ ToDictionary(
+        Windows::Foundation::Collections::PropertySet^ ToDictionary(
             Windows::Foundation::Collections::PropertySet^ parameters, 
             Windows::Foundation::Collections::PropertySet^ mediaObjects, 
             Windows::Foundation::Collections::PropertySet^ mediaStreams
             );
 
-        static Platform::String^ ParseUrlQueryString(
+        Platform::String^ ParseUrlQueryString(
             Platform::String^ path, 
             Windows::Foundation::Collections::PropertySet^ parameters, 
             bool forceParseAllUrls, 
             Windows::Foundation::Uri^ uriParam
             );
 
-        static Platform::String^ BuildHttpQuery(
+        Platform::String^ BuildHttpQuery(
             Object^ parameter
             );
 
-        static Windows::Foundation::Uri^ PrepareRequestUri(
+        Windows::Foundation::Uri^ PrepareRequestUri(
             winsdkfb::HttpMethod httpMethod,
             Platform::String^ path, 
             Windows::Foundation::Collections::PropertySet^ parameters, 
@@ -110,27 +112,27 @@ namespace winsdkfb
             Platform::Collections::Vector<int>^ batchEtags
             );
 
-        static void SerializeParameters(
+        void SerializeParameters(
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
-        static BOOL IsOAuthErrorResponse(
+        BOOL IsOAuthErrorResponse(
             Platform::String^ Response
             );
 
-        static concurrency::task<Platform::String^> GetTaskInternalAsync(
+        concurrency::task<Platform::String^> GetTaskInternalAsync(
             Windows::Foundation::Uri^ RequestUri
             );
 
-        static concurrency::task<Platform::String^> DeleteTaskInternalAsync(
+        concurrency::task<Platform::String^> DeleteTaskInternalAsync(
             Windows::Foundation::Uri^ RequestUri
             );
 
-        static concurrency::task<Platform::String^> SimplePostInternalAsync(
+        concurrency::task<Platform::String^> SimplePostInternalAsync(
             Windows::Foundation::Uri^ RequestUri
             );
 
-        static concurrency::task<Platform::String^> MultipartPostInternalAsync(
+        concurrency::task<Platform::String^> MultipartPostInternalAsync(
             Windows::Foundation::Uri^ RequestUri,
             Windows::Foundation::Collections::PropertySet^ Streams
             );
