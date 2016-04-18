@@ -51,9 +51,6 @@ namespace LoginCpp
             winsdkfb::FBResult^ result
             );
 
-        void NavigateToOptionsPage(
-            );
-
         void MainPage::TryRerequest(
             BOOL retry
             );
@@ -64,6 +61,31 @@ namespace LoginCpp
         void login_OnClicked(
             Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e
             );
-        void LoginButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
+        void LoginButton_Click(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        void UserInfoButton_Click(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        void DialogsPageButton_Click(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        winsdkfb::SessionLoginBehavior GetLoginBehavior(
+            );
+
+        void MainPage::UpdateXamlControls(
+            );
+
+        void LayoutRoot_Loaded(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
     };
 }

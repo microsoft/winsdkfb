@@ -142,8 +142,11 @@
     <ClInclude Include="MainPage.xaml.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="OptionsPage.xaml.h">
-      <DependentUpon>OptionsPage.xaml</DependentUpon>
+    <ClInclude Include="UserInfo.xaml.h">
+      <DependentUpon>UserInfo.xaml</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="UserLikes.xaml.h">
+      <DependentUpon>UserLikes.xaml</DependentUpon>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -153,9 +156,8 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OptionsPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
+    <Page Include="UserInfo.xaml" />
+    <Page Include="UserLikes.xaml" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -178,8 +180,11 @@
     <ClCompile Include="MainPage.xaml.cpp">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="OptionsPage.xaml.cpp">
-      <DependentUpon>OptionsPage.xaml</DependentUpon>
+    <ClCompile Include="UserInfo.xaml.cpp">
+      <DependentUpon>UserInfo.xaml</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="UserLikes.xaml.cpp">
+      <DependentUpon>UserLikes.xaml</DependentUpon>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

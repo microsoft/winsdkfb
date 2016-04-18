@@ -39,7 +39,6 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Dialogs.xaml.cpp" />
-    <ClCompile Include="OptionsPage.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainPage.xaml.h" />
@@ -53,14 +52,14 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Dialogs.xaml.h" />
-    <ClInclude Include="OptionsPage.xaml.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml" />
-    <Page Include="OptionsPage.xaml" />
     <Page Include="Dialogs.xaml" />
+    <Page Include="UserInfo.xaml" />
+    <Page Include="UserLikes.xaml" />
   </ItemGroup>
 </Project>

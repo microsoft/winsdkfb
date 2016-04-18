@@ -11,8 +11,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml" />
-    <Page Include="OptionsPage.xaml" />
     <Page Include="Dialogs.xaml" />
+    <Page Include="UserInfo.xaml" />
+    <Page Include="UserLikes.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainPage.xaml.cpp" />
@@ -26,7 +27,8 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Dialogs.xaml.cpp" />
-    <ClCompile Include="OptionsPage.xaml.cpp" />
+    <ClCompile Include="UserInfo.xaml.cpp" />
+    <ClCompile Include="UserLikes.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainPage.xaml.h" />
@@ -40,7 +42,8 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Dialogs.xaml.h" />
-    <ClInclude Include="OptionsPage.xaml.h" />
+    <ClInclude Include="UserInfo.xaml.h" />
+    <ClInclude Include="UserLikes.xaml.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
