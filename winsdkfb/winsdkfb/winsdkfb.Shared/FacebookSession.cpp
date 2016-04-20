@@ -827,6 +827,10 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
         Windows::UI::Core::CoreDispatcherPriority::Normal,
         ref new Windows::UI::Core::DispatchedHandler([=]()
     {
+// disable warning for WebAuthenticationBroker::AuthenticateAsync being marked
+// as deprecated on wp8.1
+#pragma warning(push)
+#pragma warning(disable: 4973)
         _loginTask = create_task(
             WebAuthenticationBroker::AuthenticateAsync(
             WebAuthenticationOptions::None, BuildLoginUri(Parameters),
@@ -836,6 +840,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
             return ProcessAuthResult(authResult);
         });
     })));
+#pragma warning(pop)
 
     return create_task([=](void)
     {
