@@ -192,31 +192,8 @@ task<String^> FBClient::GetTaskInternalAsync(
         cancellation_token_source();
 
     filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
-
-    return create_task(httpClient->GetAsync(RequestUri), 
-        cancellationTokenSource.get_token())
-    .then([=](HttpResponseMessage^ response)
-    {
-        return create_task(response->Content->ReadAsStringAsync(), 
-            cancellationTokenSource.get_token());
-    })
-    .then([=](task<String^> resultTask)
-    {
-        String^ result = nullptr;
-        try
-        {
-            result = resultTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-            throw ex;
-        }
-
-        return result;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->GetAsync(RequestUri), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 PropertySet^ FBClient::GetStreamsToUpload(
@@ -295,32 +272,8 @@ task<String^> FBClient::SimplePostInternalAsync(
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
-    return create_task(
-        httpClient->PostAsync(RequestUri, ref new HttpStringContent(L"")),
-        cancellationTokenSource.get_token())
-        .then([=](HttpResponseMessage^ response)
-    {
-        return create_task(response->Content->ReadAsStringAsync(),
-            cancellationTokenSource.get_token());
-    })
-        .then([=](task<String^> previousTask)
-    {
-        String^ response = nullptr;
-
-        try
-        {
-            // Check if any previous task threw an exception.
-            response = previousTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-        }
-
-        return response;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->PostAsync(RequestUri, ref new HttpStringContent(L"")), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 void FBClient::AddStreamsToForm(
@@ -400,36 +353,11 @@ task<String^> FBClient::MultipartPostInternalAsync(
         ref new HttpMultipartFormDataContent();
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
-    HttpResponseMessage^ msg = nullptr;
-    String^ response = L"";
 
     FBClient::AddStreamsToForm(Streams, form);
 
-    return create_task(httpClient->PostAsync(RequestUri, form),
-        cancellationTokenSource.get_token())
-        .then([=](HttpResponseMessage^ response) -> task<String^>
-    {
-        return create_task(response->Content->ReadAsStringAsync(),
-            cancellationTokenSource.get_token());
-    })
-        .then([=](task<String^> previousTask) -> String^
-    {
-        String^ response = nullptr;
-
-        try
-        {
-            // Check if any previous task threw an exception.
-            response = previousTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-        }
-
-        return response;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->PostAsync(RequestUri, form), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 IAsyncOperation<String^>^ FBClient::PostTaskAsync(
@@ -501,32 +429,8 @@ task<String^> FBClient::DeleteTaskInternalAsync(
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
-    return create_task(
-        httpClient->DeleteAsync(RequestUri),
-        cancellationTokenSource.get_token())
-        .then([=](HttpResponseMessage^ response)
-    {
-        return create_task(response->Content->ReadAsStringAsync(),
-            cancellationTokenSource.get_token());
-    })
-        .then([=](task<String^> previousTask)
-    {
-        String^ response = nullptr;
-
-        try
-        {
-            // Check if any previous task threw an exception.
-            response = previousTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-        }
-
-        return response;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->DeleteAsync(RequestUri), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 Uri^ FBClient::PrepareRequestUri(
@@ -855,3 +759,47 @@ BOOL FBClient::IsOAuthErrorResponse(
     return (err && err->Code == 190);
 }
 
+task<String^> FBClient::TryReceiveHttpResponse(
+    task<HttpResponseMessage^> httpRequestTask,
+    cancellation_token_source cancellationTokenSource
+    )
+{
+    task<String^> getHttpTask = create_task([=]()
+    {
+        task<String^> resultTask = create_task([]() -> String^ {return nullptr; });
+        try
+        {
+            HttpResponseMessage^ responseMessage = httpRequestTask.get();
+            if (responseMessage && responseMessage->IsSuccessStatusCode)
+            {
+                resultTask = create_task(responseMessage->Content->ReadAsStringAsync(), cancellationTokenSource.get_token());
+            }
+        }
+        catch (COMException^ e)
+        {
+            OutputDebugString(e->ToString()->Data());
+        }
+        catch (const task_canceled&)
+        {
+            OutputDebugString(L"http request task canceled");
+        }
+        return resultTask;
+    });
+    return create_task([=]()
+    {
+        String^ result = nullptr;
+        try
+        {
+            result = getHttpTask.get();
+        }
+        catch (COMException^ e)
+        {
+            OutputDebugString(e->ToString()->Data());
+        }
+        catch (const task_canceled&)
+        {
+            OutputDebugString(L"http request task canceled");
+        }
+        return result;
+    });
+}
