@@ -69,10 +69,6 @@ namespace winsdkfb
                 Platform::String^ JsonText
                 );
 
-            static FBError^ FromException(
-                Platform::Exception^ e
-                );
-
             FBError(
                 int Code,
                 Platform::String^ Type,
@@ -115,11 +111,6 @@ namespace winsdkfb
                 Platform::String^ get();
             }
 
-            property Platform::Exception^ Exception
-            {
-                Platform::Exception^ get();
-            }
-
         private:
             FBError(
                 );
@@ -130,6 +121,5 @@ namespace winsdkfb
             int     _subcode;
             Platform::String^ _errorUserTitle;
             Platform::String^ _errorUserMessage;
-            Platform::Exception^ _exception;
     };
 }

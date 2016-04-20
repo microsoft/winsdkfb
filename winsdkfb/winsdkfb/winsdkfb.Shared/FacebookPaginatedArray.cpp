@@ -46,33 +46,116 @@ FBPaginatedArray::FBPaginatedArray(
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
     )
 {
-    return GetPage(_request);
+    return create_async([this]() -> task<FBResult^>
+    {
+        return create_task(FBClient::GetTaskAsync(_request, _parameters))
+            .then([this](String^ responseString)
+        {
+            return ConsumePagedResponse(responseString);
+        });
+    });
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
     )
 {
-    if (!HasNext)
+    return create_async([this]() -> task < FBResult^ >
     {
-        return create_async([this]()
+        if (!HasNext)
         {
-            return ref new FBResult(FBError::FromException(ref new InvalidArgumentException(SDKMessageBadCall)));
+            throw ref new InvalidArgumentException(SDKMessageBadCall);
+        }
+
+        HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+        HttpClient^ httpClient = ref new HttpClient(filter);
+        cancellation_token_source cancellationTokenSource =
+            cancellation_token_source();
+        bool containsEtag = false;
+
+        filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
+
+        Uri^ uri = ref new Uri(_paging->Next);
+
+        return create_task(httpClient->GetAsync(uri),
+            cancellationTokenSource.get_token())
+            .then([=](HttpResponseMessage^ response)
+        {
+            return create_task(response->Content->ReadAsStringAsync(),
+                cancellationTokenSource.get_token());
+        })
+            .then([=](task<String^> resultTask)
+        {
+            String^ result = nullptr;
+            try
+            {
+                result = resultTask.get();
+            }
+            catch (const task_canceled&)
+            {
+            }
+            catch (Exception^ ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        })
+            .then([=](String^ JsonText)
+        {
+            return ConsumePagedResponse(JsonText);
         });
-    }
-    return GetPage(_paging->Next);
+    });
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::PreviousAsync(
     )
 {
-    if (!HasPrevious)
+    return create_async([this]() -> task < FBResult^ >
     {
-        return create_async([this]()
+        if (!HasPrevious)
         {
-            return ref new FBResult(FBError::FromException(ref new InvalidArgumentException(SDKMessageBadCall)));
+            throw ref new InvalidArgumentException(SDKMessageBadCall);
+        }
+
+        HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+        HttpClient^ httpClient = ref new HttpClient(filter);
+        cancellation_token_source cancellationTokenSource =
+            cancellation_token_source();
+        bool containsEtag = false;
+
+        filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
+
+        Uri^ uri = ref new Uri(_paging->Previous);
+
+        return create_task(httpClient->GetAsync(uri),
+            cancellationTokenSource.get_token())
+            .then([=](HttpResponseMessage^ response)
+        {
+            return create_task(response->Content->ReadAsStringAsync(),
+                cancellationTokenSource.get_token());
+        })
+            .then([=](task<String^> resultTask)
+        {
+            String^ result = nullptr;
+            try
+            {
+                result = resultTask.get();
+            }
+            catch (const task_canceled&)
+            {
+            }
+            catch (Exception^ ex)
+            {
+                throw ex;
+            }
+
+            return result;
+        })
+            .then([=](String^ JsonText)
+        {
+            return ConsumePagedResponse(JsonText);
         });
-    }
-    return GetPage(_paging->Previous);
+    });
 }
 
 IVectorView<Object^>^ FBPaginatedArray::Current::get()
@@ -221,25 +304,4 @@ IVectorView<Object^>^ FBPaginatedArray::ObjectArrayFromWebResponse(
     }
 
     return result;
-}
-
-Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
-    String^ path
-    )
-{
-    return create_async([this, path]() -> task<FBResult^>
-    {
-        return create_task(FBClient::GetTaskAsync(path, _parameters))
-            .then([this](String^ responseString)
-        {
-            if (responseString == nullptr)
-            {
-                return ref new FBResult(ref new FBError(0, L"HTTP request failed", "unable to receive response"));
-            }
-            else
-            {
-                return ConsumePagedResponse(responseString);
-            }
-        });
-    });
 }

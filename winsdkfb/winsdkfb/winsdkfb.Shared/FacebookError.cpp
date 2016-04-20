@@ -30,24 +30,7 @@ FBError::FBError(
     _code(0),
     _subcode(0),
     _errorUserTitle(nullptr),
-    _errorUserMessage(nullptr),
-    _exception(nullptr)
-{
-    ;
-}
-
-FBError::FBError(
-    int Code,
-    String^ Type,
-    String^ Message
-    ) :
-    _code(Code),
-    _errorUserMessage(nullptr),
-    _errorUserTitle(nullptr),
-    _message(Message),
-    _subcode(0),
-    _type(Type),
-    _exception(nullptr)
+    _errorUserMessage(nullptr)
 {
     ;
 }
@@ -82,10 +65,6 @@ String^ FBError::ErrorUserMessage::get()
     return _errorUserMessage;
 }
 
-Exception^ FBError::Exception::get()
-{
-    return _exception;
-}
 
 FBError^ FBError::FromUri(
     Uri^ ResponseUri
@@ -216,13 +195,17 @@ FBError^ FBError::FromJson(
     return result;
 }
 
-FBError^ FBError::FromException(
-    Platform::Exception^ e
-    )
+FBError::FBError(
+    int Code,
+    String^ Type,
+    String^ Message
+    ) :
+    _code(Code),
+    _errorUserMessage(nullptr),
+    _errorUserTitle(nullptr),
+    _message(Message),
+    _subcode(0),
+    _type(Type)
 {
-    FBError^ result = ref new FBError();
-    result->_exception = e;
-    result->_type = L"An exception occurred";
-    result->_message = e->ToString();
-    return result;
+    ;
 }
