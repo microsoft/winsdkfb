@@ -89,7 +89,8 @@ FBSession::FBSession() :
     _loggedIn(false),
     _FBAppId(nullptr),
     _WinAppId(nullptr),
-    _user(nullptr)
+    _user(nullptr),
+	_RedirectUrl(nullptr)
 {
     if (!login_evt)
     {
