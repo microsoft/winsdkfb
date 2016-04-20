@@ -63,7 +63,7 @@ extern const wchar_t* ErrorObjectJson;
 
 #define TICKS_PER_SECOND    10000000 
 #define SECONDS_PER_MINUTE  60
-#define _90_MINUTES_IN_TICKS (90 * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
+#define _90_MINUTES_IN_TICKS (90LL * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
 
 #define ScopeKey        L"scope"
 #define DisplayKey      L"display"
