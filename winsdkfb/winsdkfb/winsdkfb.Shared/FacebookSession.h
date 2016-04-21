@@ -126,12 +126,6 @@ namespace winsdkfb
                 winsdkfb::Graph::FBUser^ get();
             }
 
-			property Platform::String^ RedirectUrl
-			{
-				Platform::String^ get() { return _RedirectUrl; }
-				void set(Platform::String^ url) { _RedirectUrl = url; }
-			}
-
             /**
              * FBSession is a singleton object - ActiveSession is the way to
              * acquire a reference to the object.
@@ -357,6 +351,5 @@ namespace winsdkfb
             winsdkfb::FacebookDialog^ _dialog;
             int _APIMajorVersion;
             int _APIMinorVersion;
-			Platform::String^ _RedirectUrl;
     };
 }
