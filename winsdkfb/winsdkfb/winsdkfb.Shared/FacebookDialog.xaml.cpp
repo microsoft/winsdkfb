@@ -216,28 +216,20 @@ void FacebookDialog::DeleteCookies()
 }
 
 String^ FacebookDialog::GetRedirectUriString(
-	String^ FacebookDialogName
-)
+    String^ FacebookDialogName
+    )
 {
-	FBSession^ sess = FBSession::ActiveSession;
-	String^ result;
-	//
-	// This looks strange, but is correct.  One side or the other of this 
-	// conversation has a problem with all the other types of redirect
-	// protocol/URIs accepted for apps, so we're left with always redirecting
-	// to the login_success page on FB, then canceling the redirect in our
-	// NavigationStarted event handler, for all dialogs.
-	// 
+    FBSession^ sess = FBSession::ActiveSession;
 
-	String^ redirectUrl = sess->RedirectUrl;
-	if(redirectUrl)
-	{
-		result = redirectUrl + FACEBOOK_LOGIN_SUCCESS_PATH;
-	}
-	else 
-	{
-		result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
-	}
+    //
+    // This looks strange, but is correct.  One side or the other of this 
+    // conversation has a problem with all the other types of redirect
+    // protocol/URIs accepted for apps, so we're left with always redirecting
+    // to the login_success page on FB, then canceling the redirect in our
+    // NavigationStarted event handler, for all dialogs.
+    // 
+    String^ result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
+        
     result = Uri::EscapeComponent(result);
 
     DebugPrintLine(L"Redirect URI is " + result);
