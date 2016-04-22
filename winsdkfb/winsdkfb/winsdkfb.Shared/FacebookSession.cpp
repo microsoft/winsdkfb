@@ -61,7 +61,7 @@ extern const wchar_t* ErrorObjectJson;
 
 #define FBAccountProvider L"https://www.facebook.com"
 
-#define TICKS_PER_SECOND    10000000 
+#define TICKS_PER_SECOND    10000000
 #define SECONDS_PER_MINUTE  60
 #define _90_MINUTES_IN_TICKS (90LL * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
 
@@ -90,7 +90,8 @@ FBSession::FBSession() :
     _FBAppId(nullptr),
     _WinAppId(nullptr),
     _user(nullptr),
-	_RedirectUrl(nullptr)
+    _webViewRedirectDomain(nullptr),
+    _webViewRedirectPath(nullptr)
 {
     if (!login_evt)
     {
@@ -98,6 +99,14 @@ FBSession::FBSession() :
     }
     _APIMajorVersion = 2;
     _APIMinorVersion = 1;
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+    //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
+    _webViewRedirectDomain = FACEBOOK_DESKTOP_SERVER_NAME;
+#endif
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+    _webViewRedirectDomain = FACEBOOK_MOBILE_SERVER_NAME;
+#endif
+    _webViewRedirectPath = FACEBOOK_LOGIN_SUCCESS_PATH;
 }
 
 winsdkfb::FBSession::~FBSession()
@@ -163,6 +172,16 @@ FBUser^ FBSession::User::get()
     return _user;
 }
 
+String^ FBSession::WebViewRedirectDomain::get()
+{
+    return _webViewRedirectDomain;
+}
+
+String^ FBSession::WebViewRedirectPath::get()
+{
+    return _webViewRedirectPath;
+}
+
 IAsyncAction^ FBSession::LogoutAsync()
 {
     _user = nullptr;
@@ -214,7 +233,7 @@ IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
                 return nullptr;
             }
         });
-    }); 
+    });
 }
 
 task<FBResult^> FBSession::CheckForExistingToken(
@@ -229,11 +248,11 @@ task<FBResult^> FBSession::CheckForExistingToken(
             return authResult;
         });
     }
-    else 
+    else
     {
         StorageFolder^ folder = ApplicationData::Current->LocalFolder;
         result = create_task(MyTryGetItemAsync(folder, "FBSDKData"))
-        .then([=](IStorageItem^ item) 
+        .then([=](IStorageItem^ item)
         {
             task<IBuffer^> bufTask;
             StorageFile^ file = dynamic_cast<StorageFile^>(item);
@@ -257,7 +276,7 @@ task<FBResult^> FBSession::CheckForExistingToken(
 
             if (protectedBuffer)
             {
-                DataProtectionProvider^ provider = 
+                DataProtectionProvider^ provider =
                     ref new DataProtectionProvider();
 
                 decryptTask = create_task(provider->UnprotectAsync(
@@ -292,7 +311,7 @@ task<FBResult^> FBSession::CheckForExistingToken(
             {
                 String^ clearText = CryptographicBuffer::ConvertBinaryToString(
                     BinaryStringEncoding::Utf16LE, clearBuffer);
-                
+
                 if (clearText)
                 {
                     wstring vals(clearText->Data());
@@ -308,14 +327,14 @@ task<FBResult^> FBSession::CheckForExistingToken(
                         OutputDebugString(msg->Data());
 
                         expirationTime.UniversalTime = _wtoi64(expirationString->Data());
-                        winsdkfb::FBAccessTokenData^ cachedData = 
+                        winsdkfb::FBAccessTokenData^ cachedData =
                             ref new winsdkfb::FBAccessTokenData(
                                 accessToken, expirationTime, ref new String());
                         cachedResult = ref new FBResult(cachedData);
                     }
                 }
             }
-            
+
             return cachedResult;
         });
     }
@@ -333,14 +352,14 @@ void FBSession::TrySaveTokenData(
             wchar_t buffer[INT64_STRING_BUFSIZE];
             DataProtectionProvider^ provider = ref new DataProtectionProvider(L"LOCAL=user");
             _i64tow_s(
-                this->AccessTokenData->ExpirationDate.UniversalTime, 
+                this->AccessTokenData->ExpirationDate.UniversalTime,
                     buffer, INT64_STRING_BUFSIZE, 10);
-            String^ tokenData = this->AccessTokenData->AccessToken + 
+            String^ tokenData = this->AccessTokenData->AccessToken +
                 "," + ref new String(buffer);
-            IBuffer^ dataBuff = 
-                CryptographicBuffer::ConvertStringToBinary(tokenData, 
+            IBuffer^ dataBuff =
+                CryptographicBuffer::ConvertStringToBinary(tokenData,
                     BinaryStringEncoding::Utf16LE);
-    
+
             IAsyncOperation<IBuffer^>^ protectOp = provider->ProtectAsync(dataBuff);
             return create_task(protectOp);
         })
@@ -660,7 +679,7 @@ task<FBResult^> FBSession::GetAppPermissions(
     {
         if (result->Succeeded)
         {
-            IVectorView<Object^>^ perms = 
+            IVectorView<Object^>^ perms =
                 static_cast<IVectorView<Object^>^>(result->Object);
             _AccessTokenData->SetPermissions(perms);
         }
@@ -924,13 +943,13 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     )
 {
     return LoginAsync(
-        Permissions, 
+        Permissions,
         SessionLoginBehavior::DefaultOrdering);
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions,
-	SessionLoginBehavior behavior
+    SessionLoginBehavior behavior
     )
 {
     if (!Permissions)
@@ -1080,7 +1099,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 
         if (oauthResult && oauthResult->Succeeded)
         {
-            winsdkfb::FBAccessTokenData^ tokenData = 
+            winsdkfb::FBAccessTokenData^ tokenData =
                 static_cast<winsdkfb::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
@@ -1142,7 +1161,7 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
 
         if (oauthResult && oauthResult->Succeeded)
         {
-            winsdkfb::FBAccessTokenData^ tokenData = 
+            winsdkfb::FBAccessTokenData^ tokenData =
                 static_cast<winsdkfb::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
@@ -1287,7 +1306,7 @@ int FBSession::APIMinorVersion::get()
 void FBSession::SaveGrantedPermissions()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
     {
         localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
     }
@@ -1298,7 +1317,7 @@ void FBSession::SaveGrantedPermissions()
 String^ FBSession::GetGrantedPermissions()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
     {
         return ""; // TODO should this be an exception?
     }
@@ -1308,6 +1327,18 @@ String^ FBSession::GetGrantedPermissions()
         return ""; // TODO should this be an exception?
     }
     return safe_cast<String^>(values->Lookup(GRANTED_PERMISSIONS_KEY));
+}
+
+void FBSession::SetWebViewRedirectUrl(String^ domain, String^ path)
+{
+    if (domain)
+    {
+        _webViewRedirectDomain = domain;
+    }
+    if (path)
+    {
+        _webViewRedirectPath = path;
+    }
 }
 
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
@@ -1436,7 +1467,7 @@ task<FBResult^> FBSession::CallWebAccountProviderOnUiThread(
         catch (Exception^ ex)
         {
             throw ref new InvalidArgumentException(SDKMessageLoginFailed);
-        } 
+        }
         return result;
     });
 }
@@ -1452,9 +1483,9 @@ FBResult^ FBSession::ExtractAccessTokenDataFromResponseData(
     {
         WebTokenResponse^ response = it->Current;
         //
-        // Calculate a time 90 minutes from now.  This is the *earliest* time 
+        // Calculate a time 90 minutes from now.  This is the *earliest* time
         // at which our token will expire, so to be conservative we'll assume
-        // that's when it expires.  The token broker doesn't expose the 
+        // that's when it expires.  The token broker doesn't expose the
         // actual expiration time, so this is the best we can do.
         //
         Calendar^ cal = ref new Calendar();
@@ -1555,4 +1586,3 @@ FBResult^ FBSession::FBResultFromTokenRequestResult(
 }
 
 #endif // WIN_32_WINNT >= _WIN32_WINNT_WIN10
-

@@ -54,9 +54,6 @@ using namespace pplx;
 
 using namespace std;
 
-#define FACEBOOK_DESKTOP_SERVER_NAME L"https://www.facebook.com"
-#define FACEBOOK_MOBILE_SERVER_NAME  L"https://m.facebook.com"
-#define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
 #define FACEBOOK_LOGOUT_PATH  L"/logout.php"
 #define FACEBOOK_DIALOG_CLOSE_PATH   L"/dialog/close"
 
@@ -204,42 +201,23 @@ IAsyncOperation<FBResult^>^ FacebookDialog::ShowSendDialog(
 
 void FacebookDialog::DeleteCookies()
 {
-	// This allows on WP8.1 to logIn with other account from the webView
-	// and on W8.1 & W10 to logIn with other account when the 'Keep me logged in' option from webView was selected
-	HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-	HttpCookieManager^ cookieManager = filter->CookieManager;
-	HttpCookieCollection^ cookiesJar = cookieManager->GetCookies(ref new Uri(FacebookDialog::GetFBServerUrl()));
-	for (HttpCookie^ cookie : cookiesJar)
-	{
-		cookieManager->DeleteCookie(cookie);
-	}
+    // This allows on WP8.1 to logIn with other account from the webView
+    // and on W8.1 & W10 to logIn with other account when the 'Keep me logged in' option from webView was selected
+    HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+    HttpCookieManager^ cookieManager = filter->CookieManager;
+    HttpCookieCollection^ cookiesJar = cookieManager->GetCookies(ref new Uri(FacebookDialog::GetFBServerUrl()));
+    for (HttpCookie^ cookie : cookiesJar)
+    {
+        cookieManager->DeleteCookie(cookie);
+    }
 }
 
 String^ FacebookDialog::GetRedirectUriString(
-	String^ FacebookDialogName
+    String^ FacebookDialogName
 )
 {
-	FBSession^ sess = FBSession::ActiveSession;
-	String^ result;
-	//
-	// This looks strange, but is correct.  One side or the other of this 
-	// conversation has a problem with all the other types of redirect
-	// protocol/URIs accepted for apps, so we're left with always redirecting
-	// to the login_success page on FB, then canceling the redirect in our
-	// NavigationStarted event handler, for all dialogs.
-	// 
-
-	String^ redirectUrl = sess->RedirectUrl;
-	if(redirectUrl)
-	{
-		result = redirectUrl + FACEBOOK_LOGIN_SUCCESS_PATH;
-	}
-	else 
-	{
-		result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
-	}
-    result = Uri::EscapeComponent(result);
-
+    FBSession^ sess = FBSession::ActiveSession;
+    String^ result = sess->WebViewRedirectDomain + sess->WebViewRedirectPath;
     DebugPrintLine(L"Redirect URI is " + result);
     return result;
 }
@@ -260,18 +238,13 @@ BOOL FacebookDialog::IsMobilePlatform(
 String^ FacebookDialog::GetFBServerUrl(
     )
 {
-    String^ server = nullptr;
-
-    if (FacebookDialog::IsMobilePlatform())
-    {
-        server = FACEBOOK_MOBILE_SERVER_NAME;
-    }
-    else
-    {
-        server = FACEBOOK_DESKTOP_SERVER_NAME;
-    }
-
-    return server;
+#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+    //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
+    return FACEBOOK_DESKTOP_SERVER_NAME;
+#endif
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+    return FACEBOOK_MOBILE_SERVER_NAME;
+#endif
 }
 
 #define ScopeKey        L"scope"
@@ -346,7 +319,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         apiVersion = L"/v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
     }
     String^ dialogUriString =
-		FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/feed?access_token=" +
+        FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/feed?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
@@ -371,7 +344,7 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
         apiVersion = L"/v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
     }
     String^ dialogUriString =
-		FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/apprequests?access_token=" +
+        FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/apprequests?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
         L"&display=popup" +
@@ -414,7 +387,8 @@ bool FacebookDialog::IsLoginSuccessRedirect(
     Uri^ Response
     )
 {
-    return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
+    FBSession^ sess = FBSession::ActiveSession;
+    return (String::CompareOrdinal(Response->Path, sess->WebViewRedirectPath) == 0);
 }
 
 bool FacebookDialog::IsLogoutRedirect(
