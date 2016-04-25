@@ -238,13 +238,16 @@ BOOL FacebookDialog::IsMobilePlatform(
 String^ FacebookDialog::GetFBServerUrl(
     )
 {
-#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
-    //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
-    return FACEBOOK_DESKTOP_SERVER_NAME;
-#endif
-#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-    return FACEBOOK_MOBILE_SERVER_NAME;
-#endif
+    String^ server = nullptr;
+    if (FacebookDialog::IsMobilePlatform())
+    {
+        server = FACEBOOK_MOBILE_SERVER_NAME;
+    }
+    else
+    {
+        server = FACEBOOK_DESKTOP_SERVER_NAME;
+    }
+    return server;
 }
 
 #define ScopeKey        L"scope"
