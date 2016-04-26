@@ -99,10 +99,7 @@ FBSession::FBSession() :
     }
     _APIMajorVersion = 2;
     _APIMinorVersion = 1;
-#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
-    //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
     _webViewRedirectDomain = FACEBOOK_DESKTOP_SERVER_NAME;
-#endif
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
     _webViewRedirectDomain = FACEBOOK_MOBILE_SERVER_NAME;
 #endif

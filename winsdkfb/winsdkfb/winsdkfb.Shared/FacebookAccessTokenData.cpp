@@ -130,7 +130,6 @@ WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
     }
 
     WwwFormUrlDecoder^ parameters = Response->QueryParsed;
-    auto t = parameters->Size;
     if (!parameters->Size)
     {
         // Facebook sometimes returns access token, etc., in the Uri fragment
@@ -176,7 +175,6 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
     {
         IWwwFormUrlDecoderEntry^ entry = decoder->GetAt(i);
 
-        String^ temp = entry->Name;
         if (entry->Name->Equals(L"access_token"))
         {
             token = entry->Value;
