@@ -99,9 +99,10 @@ FBSession::FBSession() :
     }
     _APIMajorVersion = 2;
     _APIMinorVersion = 1;
-    _webViewRedirectDomain = FACEBOOK_DESKTOP_SERVER_NAME;
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
     _webViewRedirectDomain = FACEBOOK_MOBILE_SERVER_NAME;
+#else
+    _webViewRedirectDomain = FACEBOOK_DESKTOP_SERVER_NAME;
 #endif
     _webViewRedirectPath = FACEBOOK_LOGIN_SUCCESS_PATH;
 }

@@ -46,7 +46,7 @@ using namespace Windows::UI::Xaml::Navigation;
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
 
-#if (defined(_MSC_VER) && (_MSC_VER >= 1800)) 
+#if (defined(_MSC_VER) && (_MSC_VER >= 1800))
 using namespace concurrency;
 #else
 using namespace pplx;
@@ -109,7 +109,7 @@ void FacebookDialog::InitDialog()
     Height = wnd1->Bounds.Height;
     Width = wnd1->Bounds.Width;
 
-    sizeChangedEventRegistrationToken =  wnd1->SizeChanged += 
+    sizeChangedEventRegistrationToken =  wnd1->SizeChanged +=
         ref new TypedEventHandler<CoreWindow ^, WindowSizeChangedEventArgs ^>
             (this, &FacebookDialog::OnSizeChanged);
 
@@ -120,13 +120,13 @@ void FacebookDialog::UninitDialog()
 {
     dialogWebBrowser->Stop();
     dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
-    CoreApplication::MainView->CoreWindow->SizeChanged -= 
+    CoreApplication::MainView->CoreWindow->SizeChanged -=
         sizeChangedEventRegistrationToken;
 
     _popup->IsOpen = false;
 
     //
-    // This breaks the circular dependency between the popup and dialog 
+    // This breaks the circular dependency between the popup and dialog
     // class, and is essential in order for the dialog to be disposed of
     // properly.
     //
@@ -225,14 +225,11 @@ String^ FacebookDialog::GetRedirectUriString(
 BOOL FacebookDialog::IsMobilePlatform(
     )
 {
-    BOOL isMobile = FALSE;
-#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
-    //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
-#endif
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-    isMobile = TRUE;
+    return TRUE;
+#else
+    return FALSE;
 #endif
-    return isMobile;
 }
 
 String^ FacebookDialog::GetFBServerUrl(
@@ -326,7 +323,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
-        L"&app_id=" + sess->FBAppId; 
+        L"&app_id=" + sess->FBAppId;
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
     {
@@ -409,7 +406,7 @@ bool FacebookDialog::IsDialogCloseRedirect(
 }
 
 void FacebookDialog::dialogWebView_LoginNavStarting(
-    WebView^ sender, 
+    WebView^ sender,
     WebViewNavigationStartingEventArgs^ e
     )
 {
@@ -571,7 +568,7 @@ void FacebookDialog::dialogWebView_SendNavStarting(
 }
 
 void FacebookDialog::CloseDialogButton_OnClick(
-    Object^ sender, 
+    Object^ sender,
     RoutedEventArgs^ e
     )
 {
@@ -582,7 +579,7 @@ void FacebookDialog::CloseDialogButton_OnClick(
 }
 
 void FacebookDialog::OnSizeChanged(
-    CoreWindow ^sender, 
+    CoreWindow ^sender,
     WindowSizeChangedEventArgs ^args
     )
 {
@@ -596,4 +593,3 @@ void FacebookDialog::SetDialogResponse(
 {
     _dialogResponse.set(dialogResponse);
 }
-
