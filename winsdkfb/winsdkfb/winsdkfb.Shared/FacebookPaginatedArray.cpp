@@ -46,14 +46,7 @@ FBPaginatedArray::FBPaginatedArray(
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
     )
 {
-    return create_async([this]() -> task<FBResult^>
-    {
-        return create_task(FBClient::GetTaskAsync(_request, _parameters))
-            .then([this](String^ responseString)
-        {
-            return ConsumePagedResponse(responseString);
-        });
-    });
+    return GetPage(_request);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
@@ -61,16 +54,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
 {
     if (!HasNext)
     {
-        throw ref new InvalidArgumentException(SDKMessageBadCall);
-    }
-    return create_async([this]() -> task<FBResult^>
-    {
-        return create_task(FBClient::GetTaskAsync(_paging->Next, _parameters))
-            .then([this](String^ responseString)
+        return create_async([this]()
         {
-            return ConsumePagedResponse(responseString);
+            return ref new FBResult(ref new FBError(0, L"Invalid SDK call", L"No next page"));
         });
-    });
+    }
+    return GetPage(_paging->Next);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::PreviousAsync(
@@ -78,16 +67,12 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::PreviousAsync
 {
     if (!HasPrevious)
     {
-        throw ref new InvalidArgumentException(SDKMessageBadCall);
-    }
-    return create_async([this]() -> task<FBResult^>
-    {
-        return create_task(FBClient::GetTaskAsync(_paging->Previous, _parameters))
-            .then([this](String^ responseString)
+        return create_async([this]()
         {
-            return ConsumePagedResponse(responseString);
+            return ref new FBResult(ref new FBError(0, L"Invalid SDK call", L"No previous page"));
         });
-    });
+    }
+    return GetPage(_paging->Previous);
 }
 
 IVectorView<Object^>^ FBPaginatedArray::Current::get()
@@ -236,4 +221,25 @@ IVectorView<Object^>^ FBPaginatedArray::ObjectArrayFromWebResponse(
     }
 
     return result;
+}
+
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
+    String^ path
+    )
+{
+    return create_async([this, path]() -> task<FBResult^>
+    {
+        return create_task(FBClient::GetTaskAsync(path, _parameters))
+            .then([this](String^ responseString)
+        {
+            if (responseString == nullptr)
+            {
+                return ref new FBResult(ref new FBError(0, L"HTTP request failed", "unable to receive response"));
+            }
+            else
+            {
+                return ConsumePagedResponse(responseString);
+            }
+        });
+    });
 }
