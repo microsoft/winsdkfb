@@ -63,7 +63,7 @@ extern const wchar_t* ErrorObjectJson;
 
 #define TICKS_PER_SECOND    10000000 
 #define SECONDS_PER_MINUTE  60
-#define _90_MINUTES_IN_TICKS (90 * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
+#define _90_MINUTES_IN_TICKS (90LL * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
 
 #define ScopeKey        L"scope"
 #define DisplayKey      L"display"
@@ -89,7 +89,8 @@ FBSession::FBSession() :
     _loggedIn(false),
     _FBAppId(nullptr),
     _WinAppId(nullptr),
-    _user(nullptr)
+    _user(nullptr),
+	_RedirectUrl(nullptr)
 {
     if (!login_evt)
     {
@@ -827,6 +828,10 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
         Windows::UI::Core::CoreDispatcherPriority::Normal,
         ref new Windows::UI::Core::DispatchedHandler([=]()
     {
+// disable warning for WebAuthenticationBroker::AuthenticateAsync being marked
+// as deprecated on wp8.1
+#pragma warning(push)
+#pragma warning(disable: 4973)
         _loginTask = create_task(
             WebAuthenticationBroker::AuthenticateAsync(
             WebAuthenticationOptions::None, BuildLoginUri(Parameters),
@@ -836,6 +841,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
             return ProcessAuthResult(authResult);
         });
     })));
+#pragma warning(pop)
 
     return create_task([=](void)
     {
@@ -906,6 +912,14 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
+    )
+{
+    return LoginAsync(
+        nullptr,
+        SessionLoginBehavior::DefaultOrdering);
+}
+
+IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions
     )
 {
@@ -919,15 +933,16 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
 	SessionLoginBehavior behavior
     )
 {
+    if (!Permissions)
+    {
+        Permissions = ref new FBPermissions((ref new Vector<String^>())->GetView());
+    }
     _dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {
         PropertySet^ parameters = ref new PropertySet();
-        if (Permissions)
-        {
-            parameters->Insert(ScopeKey, Permissions->ToString());
-        }
+        parameters->Insert(ScopeKey, Permissions->ToString());
 
         if (LoggedIn)
         {

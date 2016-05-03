@@ -50,5 +50,7 @@ namespace LoginCpp
 #endif
 
 		void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);
-	};
+        void OnBackRequested(Platform::Object^ sender, Windows::UI::Core::BackRequestedEventArgs ^args);
+        void OnNavigated(Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationEventArgs^ args);
+    };
 }

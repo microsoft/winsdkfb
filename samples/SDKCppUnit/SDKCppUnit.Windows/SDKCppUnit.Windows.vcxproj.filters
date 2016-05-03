@@ -19,9 +19,6 @@
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SDKCppUnit.Windows_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Assets\Logo.scale-100.png">
       <Filter>Assets</Filter>
     </Image>
@@ -37,5 +34,8 @@
     <Image Include="Assets\animal-1409304111INq.jpg">
       <Filter>Assets</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\winsdkfb\winsdkfb_testing_key.pfx" />
   </ItemGroup>
 </Project>
