@@ -1315,7 +1315,7 @@ String^ FBSession::GetGrantedPermissions()
 String^ FBSession::GetWebAccountProviderRedirectUriString(
     )
 {
-    return L"msft - " + WinAppId + "://login_success";
+    return L"msft-" + WinAppId + "://login_success";
 }
 
 task<FBResult^> FBSession::CheckWebAccountProviderForExistingToken(
