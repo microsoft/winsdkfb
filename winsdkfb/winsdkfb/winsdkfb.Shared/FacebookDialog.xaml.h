@@ -28,7 +28,7 @@ namespace winsdkfb
 {
     delegate Windows::Foundation::Uri^ DialogUriBuilder(
         Windows::Foundation::Collections::PropertySet^ Parameters
-    );
+        );
 
     [Windows::Foundation::Metadata::WebHostHidden]
     public ref class FacebookDialog sealed
@@ -36,41 +36,41 @@ namespace winsdkfb
     public:
 
         FacebookDialog(
-        );
+            );
 
         virtual ~FacebookDialog(
-        );
+            );
 
         void InitDialog(
-        );
+            );
 
         void UninitDialog(
-        );
+            );
 
         static Platform::String^ GetFBServerUrl(
-        );
+            );
 
         Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowLoginDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowFeedDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowRequestsDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowSendDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         /*! discussion The current session in webview is required only if the access token is valid
          *  When the access token is removed the cookies must be clean up
          */
         static void DeleteCookies(
-        );
+            );
 
     private:
         Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowDialog(
@@ -78,92 +78,77 @@ namespace winsdkfb
             Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandlerStarting,
             Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^>^ EventHandlerCompleted,
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         Platform::String^ GetRedirectUriString(
             Platform::String^ DialogName
-        );
+            );
 
         static BOOL IsMobilePlatform(
-        );
+            );
 
         Windows::Foundation::Uri^ BuildLoginDialogUrl(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         Windows::Foundation::Uri^ BuildFeedDialogUrl(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         Windows::Foundation::Uri^ BuildRequestsDialogUrl(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         Windows::Foundation::Uri^ BuildSendDialogUrl(
             Windows::Foundation::Collections::PropertySet^ Parameters
-        );
+            );
 
         void dialogWebView_LoginNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
-        );
-
-        void dialogWebView_LoginNavCompleted(
-            Windows::UI::Xaml::Controls::WebView^ sender,
-            Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
-        );
+            );
 
         void dialogWebView_FeedNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
-        );
-
-        void dialogWebView_FeedNavCompleted(
-            Windows::UI::Xaml::Controls::WebView^ sender,
-            Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
-        );
+            );
 
         void dialogWebView_RequestNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
-        );
-
-        void dialogWebView_RequestNavCompleted(
-            Windows::UI::Xaml::Controls::WebView^ sender,
-            Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
-        );
+            );
 
         void dialogWebView_SendNavStarting(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
-        );
+            );
 
-        void dialogWebView_SendNavCompleted(
+        void dialogWebView_NavCompleted(
             Windows::UI::Xaml::Controls::WebView^ sender,
             Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
         );
 
         void CloseDialogButton_OnClick(
-            Platform::Object^ sender,
+            Platform::Object^ sender, 
             Windows::UI::Xaml::RoutedEventArgs^ e
-        );
+            );
 
         bool IsLoginSuccessRedirect(
             Windows::Foundation::Uri^ Response
-        );
+            );
 
         bool IsLogoutRedirect(
             Windows::Foundation::Uri^ Response
-        );
+            );
 
         bool IsDialogCloseRedirect(
             Windows::Foundation::Uri^ Response
-        );
-
+            );
+        
         void OnSizeChanged(
             Windows::UI::Core::CoreWindow ^sender,
             Windows::UI::Core::WindowSizeChangedEventArgs ^args
-        );
+            );
 
         void SetDialogResponse(winsdkfb::FBResult ^dialogResponse);
 
