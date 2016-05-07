@@ -618,7 +618,7 @@ void FacebookDialog::dialogWebView_SendNavStarting(
 void FacebookDialog::dialogWebView_NavCompleted(
     WebView^ sender,
     WebViewNavigationCompletedEventArgs^ e
-)
+    )
 {
     if (!e->IsSuccess)
     {
