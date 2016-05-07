@@ -30,7 +30,7 @@ namespace winsdkfb
         Windows::Foundation::Collections::PropertySet^ Parameters
         );
 
-	[Windows::Foundation::Metadata::WebHostHidden]
+    [Windows::Foundation::Metadata::WebHostHidden]
     public ref class FacebookDialog sealed
     {
     public:
@@ -75,7 +75,8 @@ namespace winsdkfb
     private:
         Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowDialog(
             DialogUriBuilder^ uriBuilder,
-            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandler,
+            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandlerStarting,
+            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^>^ EventHandlerCompleted,
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
@@ -122,6 +123,11 @@ namespace winsdkfb
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
 
+        void dialogWebView_NavCompleted(
+            Windows::UI::Xaml::Controls::WebView^ sender,
+            Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
+        );
+
         void CloseDialogButton_OnClick(
             Platform::Object^ sender, 
             Windows::UI::Xaml::RoutedEventArgs^ e
@@ -147,7 +153,9 @@ namespace winsdkfb
         void SetDialogResponse(winsdkfb::FBResult ^dialogResponse);
 
         Windows::Foundation::EventRegistrationToken
-            navigatingEventHandlerRegistrationToken;
+            navigatingStartingEventHandlerRegistrationToken;
+        Windows::Foundation::EventRegistrationToken
+            navigatingCompletedEventHandlerRegistrationToken;
         Windows::Foundation::EventRegistrationToken
             sizeChangedEventRegistrationToken;
         Windows::UI::Xaml::Controls::Grid^ _grid;
