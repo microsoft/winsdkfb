@@ -36,8 +36,8 @@ echo Could not find TextTransform, please add it to your PATH or have it availab
 :End
 exit /b 0
 
-REM call :GenFile GeneratedFileName TemplateFileName
 :GenFile
+REM call :GenFile GeneratedFileName TemplateFileName
 setlocal
 set CurrentGeneratedFile=%1
 set CurrentTemplateFile=%2

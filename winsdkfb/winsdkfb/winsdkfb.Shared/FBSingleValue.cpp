@@ -42,46 +42,19 @@ FBSingleValue::FBSingleValue(
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::GetAsync(
     )
 {
-    return create_async([this]() -> task<FBResult^>
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-
-        return create_task(FBClient::GetTaskAsync(_request, _parameters))
-            .then([this](String^ responseString) -> FBResult^
-        {
-            return ConsumeSingleValue(responseString);
-        });
-    });
+    return MakeHttpRequest(&FBClient::GetTaskAsync);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::PostAsync(
     )
 {
-    return create_async([this]() -> task<FBResult^>
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-
-        return create_task(FBClient::PostTaskAsync(_request, _parameters))
-            .then([this](String^ responseString) -> FBResult^
-        {
-            return ConsumeSingleValue(responseString);
-        });
-    });
+    return MakeHttpRequest(&FBClient::PostTaskAsync);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::DeleteAsync(
     )
 {
-    return create_async([this]() -> task<FBResult^>
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-
-        return create_task(FBClient::DeleteTaskAsync(_request, _parameters))
-            .then([this](String^ responseString) -> FBResult^
-        {
-            return ConsumeSingleValue(responseString);
-        });
-    });
+    return MakeHttpRequest(&FBClient::DeleteTaskAsync);
 }
 
 
@@ -156,4 +129,25 @@ FBResult^ FBSingleValue::ConsumeSingleValue(
     }
 
     return result;
+}
+
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
+    FBClientFunc func
+)
+{
+    return create_async([this, func]()->task<FBResult^>
+    {
+        return create_task(func(_request, _parameters))
+            .then([this](String^ responseString) -> FBResult^
+        {
+            if (responseString == nullptr)
+            {
+                return ref new FBResult(ref new FBError(0, L"HTTP request failed", "unable to receive response"));
+            }
+            else
+            {
+                return ConsumeSingleValue(responseString);
+            }
+        });
+    });
 }
