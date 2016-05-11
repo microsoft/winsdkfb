@@ -29,6 +29,7 @@
 #include "FBSingleValue.h"
 #include "FBUser.h"
 #include "SDKMessage.h"
+#include <regex>
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -1312,10 +1313,71 @@ String^ FBSession::GetGrantedPermissions()
 
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
 
+// returns string of the form "msft-" + WinAppId + "://login_success" or "" if
+// it can't get the correct value
 String^ FBSession::GetWebAccountProviderRedirectUriString(
     )
 {
-    return L"msft - " + WinAppId + "://login_success";
+    /*
+    // We should replace the code below with this commented out code once the
+    // ApplicationModel API is fixed
+    Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
+    Windows::ApplicationModel::PackageId^ packageId = package->Id;
+    auto phoneAppId = packageId->ProductId;
+    return L"msft-" + phoneAppId + L"://login_success";
+    */
+
+    static String^ redirectString = nullptr;
+    if (!redirectString)
+    {
+        StorageFolder^ folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+        task<String^> result;
+        result = create_task(MyTryGetItemAsync(folder, L"AppxManifest.xml")).then([=](IStorageItem^ item)
+        {
+            task<IBuffer^> bufTask;
+            StorageFile^ file = dynamic_cast<StorageFile^>(item);
+            if (file)
+            {
+                bufTask = create_task(FileIO::ReadBufferAsync(file));
+            }
+            else
+            {
+                bufTask = create_task([]() -> IBuffer^
+                {
+                    return nullptr;
+                });
+            }
+            return bufTask;
+        }).then([](IBuffer^ buffer) -> String^
+        {
+            if (buffer)
+            {
+                DataReader^ dataReader = DataReader::FromBuffer(buffer);
+                String^ textContents = dataReader->ReadString(buffer->Length);
+                std::wregex reg{ LR"__(PhoneProductId="([^"]+)")__" };
+                std::wsmatch match;
+                std::wstring wideText{ textContents->Data() };
+                bool searchFound = std::regex_search(wideText, match, reg);
+                if (searchFound)
+                {
+                    auto it = match.begin();
+                    ++it; // the capture group is the 2nd item, after the full match result
+                    std::wstring productId = *it;
+                    return L"msft-" + ref new String(productId.c_str()) + L"://login_success";
+                }
+                else
+                {
+                    return L"";
+                }
+            }
+            else
+            {
+                return L"";
+            }
+        });
+        redirectString = result.get();
+    }
+    return redirectString;
 }
 
 task<FBResult^> FBSession::CheckWebAccountProviderForExistingToken(
