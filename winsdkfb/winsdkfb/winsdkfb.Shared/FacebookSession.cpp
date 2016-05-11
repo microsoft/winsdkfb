@@ -310,7 +310,7 @@ task<FBResult^> FBSession::CheckForExistingToken(
                         expirationTime.UniversalTime = _wtoi64(expirationString->Data());
                         winsdkfb::FBAccessTokenData^ cachedData = 
                             ref new winsdkfb::FBAccessTokenData(
-                                accessToken, expirationTime, ref new String());
+                                accessToken, expirationTime);
                         cachedResult = ref new FBResult(cachedData);
                     }
                 }
@@ -1462,7 +1462,7 @@ FBResult^ FBSession::ExtractAccessTokenDataFromResponseData(
         long long minimumExpiryInTicks = now.UniversalTime + _90_MINUTES_IN_TICKS;
         DateTime expiration;
         expiration.UniversalTime = minimumExpiryInTicks;
-        FBAccessTokenData^ token = ref new FBAccessTokenData(response->Token, expiration, ref new String());
+        FBAccessTokenData^ token = ref new FBAccessTokenData(response->Token, expiration);
 
         result = ref new FBResult(token);
 
