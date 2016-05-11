@@ -29,6 +29,7 @@
 #include "FBSingleValue.h"
 #include "FBUser.h"
 #include "SDKMessage.h"
+#include <regex>
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -63,7 +64,7 @@ extern const wchar_t* ErrorObjectJson;
 
 #define TICKS_PER_SECOND    10000000 
 #define SECONDS_PER_MINUTE  60
-#define _90_MINUTES_IN_TICKS (90 * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
+#define _90_MINUTES_IN_TICKS (90LL * SECONDS_PER_MINUTE * TICKS_PER_SECOND)
 
 #define ScopeKey        L"scope"
 #define DisplayKey      L"display"
@@ -89,7 +90,8 @@ FBSession::FBSession() :
     _loggedIn(false),
     _FBAppId(nullptr),
     _WinAppId(nullptr),
-    _user(nullptr)
+    _user(nullptr),
+	_RedirectUrl(nullptr)
 {
     if (!login_evt)
     {
@@ -309,7 +311,7 @@ task<FBResult^> FBSession::CheckForExistingToken(
                         expirationTime.UniversalTime = _wtoi64(expirationString->Data());
                         winsdkfb::FBAccessTokenData^ cachedData = 
                             ref new winsdkfb::FBAccessTokenData(
-                                accessToken, expirationTime, ref new String());
+                                accessToken, expirationTime);
                         cachedResult = ref new FBResult(cachedData);
                     }
                 }
@@ -827,6 +829,10 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
         Windows::UI::Core::CoreDispatcherPriority::Normal,
         ref new Windows::UI::Core::DispatchedHandler([=]()
     {
+// disable warning for WebAuthenticationBroker::AuthenticateAsync being marked
+// as deprecated on wp8.1
+#pragma warning(push)
+#pragma warning(disable: 4973)
         _loginTask = create_task(
             WebAuthenticationBroker::AuthenticateAsync(
             WebAuthenticationOptions::None, BuildLoginUri(Parameters),
@@ -836,6 +842,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
             return ProcessAuthResult(authResult);
         });
     })));
+#pragma warning(pop)
 
     return create_task([=](void)
     {
@@ -1306,10 +1313,71 @@ String^ FBSession::GetGrantedPermissions()
 
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
 
+// returns string of the form "msft-" + WinAppId + "://login_success" or "" if
+// it can't get the correct value
 String^ FBSession::GetWebAccountProviderRedirectUriString(
     )
 {
-    return L"msft - " + WinAppId + "://login_success";
+    /*
+    // We should replace the code below with this commented out code once the
+    // ApplicationModel API is fixed
+    Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
+    Windows::ApplicationModel::PackageId^ packageId = package->Id;
+    auto phoneAppId = packageId->ProductId;
+    return L"msft-" + phoneAppId + L"://login_success";
+    */
+
+    static String^ redirectString = nullptr;
+    if (!redirectString)
+    {
+        StorageFolder^ folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+        task<String^> result;
+        result = create_task(MyTryGetItemAsync(folder, L"AppxManifest.xml")).then([=](IStorageItem^ item)
+        {
+            task<IBuffer^> bufTask;
+            StorageFile^ file = dynamic_cast<StorageFile^>(item);
+            if (file)
+            {
+                bufTask = create_task(FileIO::ReadBufferAsync(file));
+            }
+            else
+            {
+                bufTask = create_task([]() -> IBuffer^
+                {
+                    return nullptr;
+                });
+            }
+            return bufTask;
+        }).then([](IBuffer^ buffer) -> String^
+        {
+            if (buffer)
+            {
+                DataReader^ dataReader = DataReader::FromBuffer(buffer);
+                String^ textContents = dataReader->ReadString(buffer->Length);
+                std::wregex reg{ LR"__(PhoneProductId="([^"]+)")__" };
+                std::wsmatch match;
+                std::wstring wideText{ textContents->Data() };
+                bool searchFound = std::regex_search(wideText, match, reg);
+                if (searchFound)
+                {
+                    auto it = match.begin();
+                    ++it; // the capture group is the 2nd item, after the full match result
+                    std::wstring productId = *it;
+                    return L"msft-" + ref new String(productId.c_str()) + L"://login_success";
+                }
+                else
+                {
+                    return L"";
+                }
+            }
+            else
+            {
+                return L"";
+            }
+        });
+        redirectString = result.get();
+    }
+    return redirectString;
 }
 
 task<FBResult^> FBSession::CheckWebAccountProviderForExistingToken(
@@ -1456,7 +1524,7 @@ FBResult^ FBSession::ExtractAccessTokenDataFromResponseData(
         long long minimumExpiryInTicks = now.UniversalTime + _90_MINUTES_IN_TICKS;
         DateTime expiration;
         expiration.UniversalTime = minimumExpiryInTicks;
-        FBAccessTokenData^ token = ref new FBAccessTokenData(response->Token, expiration, ref new String());
+        FBAccessTokenData^ token = ref new FBAccessTokenData(response->Token, expiration);
 
         result = ref new FBResult(token);
 

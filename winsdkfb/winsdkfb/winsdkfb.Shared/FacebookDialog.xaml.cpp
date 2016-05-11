@@ -72,6 +72,12 @@ L"\"OAuthException\", \"code\": 4202, " \
 L"\"error_user_msg\": \"User logged out\"" \
 L"}}";
 
+const wchar_t* ErrorObjectJsonNoInternet = L"{\"error\": {\"message\": " \
+L"\"Operation Canceled\", \"type\": " \
+L"\"OAuthException\", \"code\": 4203, " \
+L"\"error_user_msg\": \"No Internet\"" \
+L"}}";
+
 #ifdef _DEBUG
 void DebugPrintLine(
     String^ msg
@@ -122,8 +128,9 @@ void FacebookDialog::InitDialog()
 void FacebookDialog::UninitDialog()
 {
     dialogWebBrowser->Stop();
-    dialogWebBrowser->NavigationStarting -= navigatingEventHandlerRegistrationToken;
-    CoreApplication::MainView->CoreWindow->SizeChanged -= 
+    dialogWebBrowser->NavigationStarting -= navigatingStartingEventHandlerRegistrationToken;
+    dialogWebBrowser->NavigationCompleted -= navigatingCompletedEventHandlerRegistrationToken;
+    CoreApplication::MainView->CoreWindow->SizeChanged -=
         sizeChangedEventRegistrationToken;
 
     _popup->IsOpen = false;
@@ -138,15 +145,18 @@ void FacebookDialog::UninitDialog()
 
 IAsyncOperation<FBResult^>^ FacebookDialog::ShowDialog(
     DialogUriBuilder^ uriBuilder,
-    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ EventHandler,
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ EventHandlerStarting,
+    TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>^ EventHandlerCompleted,
     PropertySet^ Parameters
     )
 {
     Uri^ dialogUrl = uriBuilder(Parameters);
 
-    navigatingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
-        EventHandler;
+    navigatingStartingEventHandlerRegistrationToken = dialogWebBrowser->NavigationStarting +=
+        EventHandlerStarting;
 
+    navigatingCompletedEventHandlerRegistrationToken = dialogWebBrowser->NavigationCompleted +=
+        EventHandlerCompleted;
     _popup->IsOpen = true;
 
     dialogWebBrowser->Navigate(dialogUrl);
@@ -162,65 +172,77 @@ IAsyncOperation<FBResult^>^ FacebookDialog::ShowLoginDialog(
     PropertySet^ Parameters
     )
 {
-    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handlerStarting =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_LoginNavStarting);
+    TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>^ handlerCompleted =
+        ref new TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>(
+            this, &FacebookDialog::dialogWebView_NavCompleted);
     return ShowDialog(ref new DialogUriBuilder(this,
-        &FacebookDialog::BuildLoginDialogUrl), handler, Parameters);
+        &FacebookDialog::BuildLoginDialogUrl), handlerStarting, handlerCompleted, Parameters);
 }
 
 IAsyncOperation<FBResult^>^ FacebookDialog::ShowFeedDialog(
     PropertySet^ Parameters
     )
 {
-    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handlerStarting =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_FeedNavStarting);
+    TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>^ handlerCompleted =
+        ref new TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>(
+            this, &FacebookDialog::dialogWebView_NavCompleted);
     return ShowDialog(ref new DialogUriBuilder(this,
-        &FacebookDialog::BuildFeedDialogUrl), handler, Parameters);
+        &FacebookDialog::BuildFeedDialogUrl), handlerStarting, handlerCompleted, Parameters);
 }
 
 IAsyncOperation<FBResult^>^ FacebookDialog::ShowRequestsDialog(
     PropertySet^ Parameters
     )
 {
-    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handlerStarting =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_RequestNavStarting);
+    TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>^ handlerCompleted =
+        ref new TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>(
+            this, &FacebookDialog::dialogWebView_NavCompleted);
     return ShowDialog(ref new DialogUriBuilder(this,
-        &FacebookDialog::BuildRequestsDialogUrl), handler, Parameters);
+        &FacebookDialog::BuildRequestsDialogUrl), handlerStarting, handlerCompleted, Parameters);
 }
 
 IAsyncOperation<FBResult^>^ FacebookDialog::ShowSendDialog(
     PropertySet^ Parameters
     )
 {
-    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handler =
+    TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>^ handlerStarting =
         ref new TypedEventHandler<WebView^, WebViewNavigationStartingEventArgs^>(
             this, &FacebookDialog::dialogWebView_SendNavStarting);
+    TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>^ handlerCompleted =
+        ref new TypedEventHandler<WebView^, WebViewNavigationCompletedEventArgs^>(
+            this, &FacebookDialog::dialogWebView_NavCompleted);
     return ShowDialog(ref new DialogUriBuilder(this,
-        &FacebookDialog::BuildSendDialogUrl), handler, Parameters);
+        &FacebookDialog::BuildSendDialogUrl), handlerStarting, handlerCompleted, Parameters);
 }
 
 void FacebookDialog::DeleteCookies()
 {
-	// This allows on WP8.1 to logIn with other account from the webView
-	// and on W8.1 & W10 to logIn with other account when the 'Keep me logged in' option from webView was selected
-	HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
-	HttpCookieManager^ cookieManager = filter->CookieManager;
-	HttpCookieCollection^ cookiesJar = cookieManager->GetCookies(ref new Uri(FacebookDialog::GetFBServerUrl()));
-	for (HttpCookie^ cookie : cookiesJar)
-	{
-		cookieManager->DeleteCookie(cookie);
-	}
+    // This allows on WP8.1 to logIn with other account from the webView
+    // and on W8.1 & W10 to logIn with other account when the 'Keep me logged in' option from webView was selected
+    HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
+    HttpCookieManager^ cookieManager = filter->CookieManager;
+    HttpCookieCollection^ cookiesJar = cookieManager->GetCookies(ref new Uri(FacebookDialog::GetFBServerUrl()));
+    for (HttpCookie^ cookie : cookiesJar)
+    {
+        cookieManager->DeleteCookie(cookie);
+    }
 }
 
 String^ FacebookDialog::GetRedirectUriString(
     String^ FacebookDialogName
-    )
+)
 {
     FBSession^ sess = FBSession::ActiveSession;
-
+    String^ result;
     //
     // This looks strange, but is correct.  One side or the other of this 
     // conversation has a problem with all the other types of redirect
@@ -228,8 +250,16 @@ String^ FacebookDialog::GetRedirectUriString(
     // to the login_success page on FB, then canceling the redirect in our
     // NavigationStarted event handler, for all dialogs.
     // 
-    String^ result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
-        
+
+    String^ redirectUrl = sess->RedirectUrl;
+    if (redirectUrl)
+    {
+        result = redirectUrl + FACEBOOK_LOGIN_SUCCESS_PATH;
+    }
+    else
+    {
+        result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
+    }
     result = Uri::EscapeComponent(result);
 
     DebugPrintLine(L"Redirect URI is " + result);
@@ -338,7 +368,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         apiVersion = L"/v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
     }
     String^ dialogUriString =
-		FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/feed?access_token=" +
+        FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/feed?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
@@ -363,7 +393,7 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
         apiVersion = L"/v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
     }
     String^ dialogUriString =
-		FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/apprequests?access_token=" +
+        FacebookDialog::GetFBServerUrl() + apiVersion + L"dialog/apprequests?access_token=" +
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
         L"&display=popup" +
@@ -581,6 +611,20 @@ void FacebookDialog::dialogWebView_SendNavStarting(
         UninitDialog();
 
         FBError^ err = FBError::FromJson(ref new String(ErrorObjectJson));
+        SetDialogResponse(ref new FBResult(err));
+    }
+}
+
+void FacebookDialog::dialogWebView_NavCompleted(
+    WebView^ sender,
+    WebViewNavigationCompletedEventArgs^ e
+    )
+{
+    if (!e->IsSuccess)
+    {
+        UninitDialog();
+
+        FBError^ err = FBError::FromJson(ref new String(ErrorObjectJsonNoInternet));
         SetDialogResponse(ref new FBResult(err));
     }
 }

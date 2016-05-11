@@ -36,14 +36,11 @@ using namespace std;
 
 FBAccessTokenData::FBAccessTokenData(
     String^ AccessToken,
-    String^ Expiration,
-    String^ State
+    String^ Expiration
     ) :
     _accessToken(AccessToken),
-    _appId(nullptr),
     _grantedPermissions(nullptr),
-    _declinedPermissions(nullptr),
-    _userId(nullptr)
+    _declinedPermissions(nullptr)
 {
     if (Expiration)
     {
@@ -56,30 +53,24 @@ FBAccessTokenData::FBAccessTokenData(
 
 FBAccessTokenData::FBAccessTokenData(
     String^ AccessToken,
-    DateTime Expiration,
-    String^ State
+    DateTime Expiration
     ) :
     _accessToken(AccessToken),
-    _appId(nullptr),
     _grantedPermissions(nullptr),
     _declinedPermissions(nullptr),
-    _userId(nullptr),
     _expirationDate(Expiration)
 {
 #ifdef _DEBUG
     DebugPrintExpirationTime();
 #endif
-    InitPermissions();
+    Vector<String^>^ v = ref new Vector<String^>(0);
+    _grantedPermissions  = ref new FBPermissions(v->GetView());
+    _declinedPermissions = ref new FBPermissions(v->GetView());
 }
 
 String^ FBAccessTokenData::AccessToken::get()
 {
     return _accessToken;
-}
-
-String^ FBAccessTokenData::AppID::get()
-{
-    return _appId;
 }
 
 DateTime FBAccessTokenData::ExpirationDate::get()
@@ -95,20 +86,6 @@ FBPermissions^ FBAccessTokenData::GrantedPermissions::get()
 FBPermissions^ FBAccessTokenData::DeclinedPermissions::get()
 {
     return _declinedPermissions;
-}
-
-String^ FBAccessTokenData::UserID::get()
-{
-    return _userId;
-}
-
-
-void FBAccessTokenData::InitPermissions()
-{
-    Vector<String^>^ v = ref new Vector<String^>(0);
-
-    _grantedPermissions  = ref new FBPermissions(v->GetView());
-    _declinedPermissions = ref new FBPermissions(v->GetView());
 }
 
 WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
@@ -148,11 +125,9 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
 {
     bool gotToken = false;
     bool gotExpiration = false;
-    bool gotState = false;
     bool gotBadField = false;
     String^ token;
     String^ expiration = nullptr;
-    String^ state = nullptr;
     FBAccessTokenData^ data = nullptr;
 
     WwwFormUrlDecoder^ decoder = FBAccessTokenData::ParametersFromResponse(
@@ -172,11 +147,6 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
             expiration = entry->Value;
             gotExpiration = true;
         }
-        else if (entry->Name->Equals(L"state"))
-        {
-            state = entry->Value;
-            gotState = true;
-        }
         else
         {
             gotBadField = true;
@@ -185,7 +155,7 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
 
     if (gotToken && gotExpiration && !gotBadField)
     {
-        data = ref new FBAccessTokenData(token, expiration, state);
+        data = ref new FBAccessTokenData(token, expiration);
     }
 
     return data;

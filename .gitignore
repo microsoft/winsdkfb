@@ -18,4 +18,4 @@ packages
 Packages.dgml
 Release
 sdk-build.log
-
+project.lock.json

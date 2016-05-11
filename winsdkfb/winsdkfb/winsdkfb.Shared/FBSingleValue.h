@@ -20,6 +20,10 @@
 #include "FacebookClient.h"
 #include "FacebookResult.h"
 
+typedef Windows::Foundation::IAsyncOperation<Platform::String^>^
+    (*FBClientFunc)
+    (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters);
+
 namespace winsdkfb
 {
     namespace Graph
@@ -87,6 +91,10 @@ namespace winsdkfb
              */
             FBResult^ ConsumeSingleValue(
                 Platform::String^ JsonText
+                );
+
+            Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
+                FBClientFunc func
                 );
 
             FBResult^ _result;

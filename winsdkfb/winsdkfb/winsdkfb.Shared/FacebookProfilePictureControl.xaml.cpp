@@ -49,7 +49,7 @@ using namespace Windows::UI::Xaml::Media::Imaging;
 
 
 #define ProfilePictureSillhouetteImage \
-    "ms-appx:///Facebook/Images/fb_blank_profile_portrait.png"
+    "ms-appx:///winsdkfb/Images/fb_blank_profile_portrait.png"
 
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -197,7 +197,7 @@ ProfilePictureControl::GetProfilePictureInfo(
     }
     else
     {
-        String^ path = L"/" + UserId + L"/picture";
+        String^ path = UserId + L"/picture";
 
         FBSingleValue^ value = ref new FBSingleValue(
             path,

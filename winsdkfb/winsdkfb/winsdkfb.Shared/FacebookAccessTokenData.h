@@ -20,53 +20,39 @@
 
 namespace winsdkfb
 {
-    /*!\brief How user was/will be logged in.  Preferred method should be app,
-     * with web as a backup in case the Facebook app isn't installed.
-     */
-    public enum class SessionLoginType
-    {
-        LoginTypeApp,
-        LoginTypeWeb
-    };
-
-    /*!\brief How to crop profile picture.  Facebook offers two settings,
-     * square crop or center entire image in a square.
-     */
-    public enum class ProfilePictureCropping
-    {
-        ProfilePictureCroppingSquare,
-        ProfilePictureCroppingOriginal
-    };
-
-    /*!\brief Represents an access token used for Facebook login, with
+    /**
+     * @brief Represents an access token used for Facebook login, with
      * associated data.
      */
     public ref class FBAccessTokenData sealed
     {
         public:
+            /**
+             * Attempts to create a FBAccessTokenData object from a URI.
+             * @param Response The URI to construct a FBAccessTokenData object from
+             * @return An FBAccessTokenData representation of the URI's data, or
+             * nullptr if the URI is invalid
+             */
             static FBAccessTokenData^ FromUri(
                 Windows::Foundation::Uri^ Response
                 );
 
-            FBAccessTokenData::FBAccessTokenData(
+            FBAccessTokenData(
                 Platform::String^ AccessToken,
-                Windows::Foundation::DateTime Expiration,
-                Platform::String^ State
+                Windows::Foundation::DateTime Expiration
                 );
 
-            //! Returns a string representation of the token
+            /**
+             * Access token provided by Facebook on successful login.
+             */
             property Platform::String^ AccessToken
             {
                 Platform::String^ get();
             }
 
-            //! Returns the app ID string
-            property Platform::String^ AppID
-            {
-                Platform::String^ get();
-            }
-
-            //! Returns token expiration date as Windows::Foundation::DateTime
+            /**
+             * Expiration date of the access token.
+             */
             property Windows::Foundation::DateTime ExpirationDate
             {
                 Windows::Foundation::DateTime get();
@@ -88,12 +74,10 @@ namespace winsdkfb
                 winsdkfb::FBPermissions^ get();
             }
 
-            //! Returns user ID for the token, if available.
-            property Platform::String^ UserID
-            {
-                Platform::String^ get();
-            }
-
+            /**
+             * Compares the expiration time of the access token to the current time.
+             * @return true if the access token is expired, false otherwise.
+             */
             bool IsExpired(
                 );
 
@@ -111,17 +95,14 @@ namespace winsdkfb
         private:
             FBAccessTokenData(
                 Platform::String^ AccessToken,
-                Platform::String^ Expiration,
-                Platform::String^ State
-                );
-
-            void InitPermissions(
+                Platform::String^ Expiration
                 );
 
             /**
              * Converts expiration string to DateTime object that indicates when
              * the access token will expire. This value may be accessed via
              * ExpirationDate.
+             * @param Expiration The date to convert.
              */
             void CalculateExpirationDateTime(
                 Platform::String^ Expiration
@@ -138,10 +119,8 @@ namespace winsdkfb
 #endif
 
             Platform::String^ _accessToken;
-            Platform::String^ _appId;
             Windows::Foundation::DateTime _expirationDate;
             FBPermissions^ _grantedPermissions;
             FBPermissions^ _declinedPermissions;
-            Platform::String^ _userId;
     };
 }
