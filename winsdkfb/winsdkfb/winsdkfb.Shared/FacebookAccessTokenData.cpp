@@ -92,6 +92,20 @@ WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
     Uri^ Response
     )
 {
+    // facebook sometimes returns the access token, etc., as a Uri fragment
+    // but in the query string, making it not parse correctly. Here we check
+    // if this is the case (look for "?#" pattern in the string and turn it
+    // into a normal Uri fragment that we can fix later
+    std::wstring responseString = std::wstring(Response->DisplayUri->Data());
+    std::string::size_type found = responseString.find(L"?#");
+    if (found != std::string::npos)
+    {
+        std::wstring uriFragment = responseString.substr(found + 1); // +1 to move past '?' char
+        std::wstring uriDomain = responseString.substr(0, found);
+        std::wstring joinedUri = uriDomain + uriFragment;
+        Response = ref new Uri(ref new String(joinedUri.data()));
+    }
+
     WwwFormUrlDecoder^ parameters = Response->QueryParsed;
     if (!parameters->Size)
     {
@@ -99,7 +113,7 @@ WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
         // rather than the query string.  WinRT only lets you parse a query
         // string from a full Uri, so we'll mock one up with the fragment from
         // the original response as the query string, then parse that.
-        // 
+        //
         // Note that the Uri::Fragment property includes the leading '#'
         // character, inconveniently, so we have to strip this character or
         // we'll just end up with a Uri with the same fragment and an empty
@@ -115,7 +129,6 @@ WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
 
         parameters = newResponse->QueryParsed;
     }
-
     return parameters;
 }
 
@@ -220,7 +233,7 @@ void FBAccessTokenData::CalculateExpirationDateTime(
     {
         ULONGLONG expirationTimeInTicks = 0;
         // Add ticks to current time
-        hr = ULongLongAdd(numTicks, cal->GetDateTime().UniversalTime, 
+        hr = ULongLongAdd(numTicks, cal->GetDateTime().UniversalTime,
             &expirationTimeInTicks);
         if (SUCCEEDED(hr))
         {

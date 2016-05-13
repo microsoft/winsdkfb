@@ -1,6 +1,6 @@
-﻿//******************************************************************************
+//******************************************************************************
 //
-// Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -14,18 +14,8 @@
 //
 //******************************************************************************
 
-/*!
- * \mainpage The Facebook SDK for WinRT 
- * A simple API to allow apps to integrate Facebook login, sharing, and ads 
- * into their app for Windows or Windows Phone 8.1.  The use of WinRT allows 
- * the API to be easily accessed from whatever your preferred development 
- * language is - C++/CX, C#, Javascript, ...
- */
 #pragma once
 
-#include <collection.h>
-#include <ppltasks.h>
-#include "FBConstants.h"
-#include "FacebookLoginButton.h"
-#include "ScaleConverter.h"
-#include "ColorLuminosityConverter.h"
+#define FACEBOOK_DESKTOP_SERVER_NAME L"https://www.facebook.com"
+#define FACEBOOK_MOBILE_SERVER_NAME  L"https://m.facebook.com"
+#define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"

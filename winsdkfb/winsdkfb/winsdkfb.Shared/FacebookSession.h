@@ -126,11 +126,24 @@ namespace winsdkfb
                 winsdkfb::Graph::FBUser^ get();
             }
 
-			property Platform::String^ RedirectUrl
-			{
-				Platform::String^ get() { return _RedirectUrl; }
-				void set(Platform::String^ url) { _RedirectUrl = url; }
-			}
+            /**
+             * Base domain to redirect to for webview dialog requests. Defaults to
+             * Facebook's website.
+             */
+            property Platform::String^ WebViewRedirectDomain
+            {
+                Platform::String^ get();
+            }
+
+            /**
+             * Redirect path for webview dialogs requests. Defaults
+             * to /connect/login_success.html. Must start with a '/'
+             * character.
+             */
+            property Platform::String^ WebViewRedirectPath
+            {
+                Platform::String^ get();
+            }
 
             /**
              * FBSession is a singleton object - ActiveSession is the way to
@@ -225,6 +238,18 @@ namespace winsdkfb
             void SetAPIVersion(
                 int MajorVersion,
                 int MinorVersion
+                );
+
+            /**
+             * Sets the redirect URL for webview dialog requests.
+             * Note that either parameter can be set to nullptr to avoid
+             * changing the default.
+             * @param domain The domain name for the the redirect. Must include the protocol (e.g. https)
+             * @param path The path of redirect. Must start with the '/' character.
+             */
+            void SetWebViewRedirectUrl(
+                Platform::String^ domain,
+                Platform::String^ path
                 );
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ TryRefreshAccessToken(
@@ -357,6 +382,7 @@ namespace winsdkfb
             winsdkfb::FacebookDialog^ _dialog;
             int _APIMajorVersion;
             int _APIMinorVersion;
-			Platform::String^ _RedirectUrl;
+            Platform::String^ _webViewRedirectDomain;
+            Platform::String^ _webViewRedirectPath;
     };
 }

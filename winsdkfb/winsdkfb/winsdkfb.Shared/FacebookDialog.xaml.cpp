@@ -46,7 +46,7 @@ using namespace Windows::UI::Xaml::Navigation;
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
 
-#if (defined(_MSC_VER) && (_MSC_VER >= 1800)) 
+#if (defined(_MSC_VER) && (_MSC_VER >= 1800))
 using namespace concurrency;
 #else
 using namespace pplx;
@@ -54,9 +54,6 @@ using namespace pplx;
 
 using namespace std;
 
-#define FACEBOOK_DESKTOP_SERVER_NAME L"https://www.facebook.com"
-#define FACEBOOK_MOBILE_SERVER_NAME  L"https://m.facebook.com"
-#define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
 #define FACEBOOK_LOGOUT_PATH  L"/logout.php"
 #define FACEBOOK_DIALOG_CLOSE_PATH   L"/dialog/close"
 
@@ -118,7 +115,7 @@ void FacebookDialog::InitDialog()
     Height = wnd1->Bounds.Height;
     Width = wnd1->Bounds.Width;
 
-    sizeChangedEventRegistrationToken =  wnd1->SizeChanged += 
+    sizeChangedEventRegistrationToken =  wnd1->SizeChanged +=
         ref new TypedEventHandler<CoreWindow ^, WindowSizeChangedEventArgs ^>
             (this, &FacebookDialog::OnSizeChanged);
 
@@ -136,7 +133,7 @@ void FacebookDialog::UninitDialog()
     _popup->IsOpen = false;
 
     //
-    // This breaks the circular dependency between the popup and dialog 
+    // This breaks the circular dependency between the popup and dialog
     // class, and is essential in order for the dialog to be disposed of
     // properly.
     //
@@ -242,26 +239,8 @@ String^ FacebookDialog::GetRedirectUriString(
 )
 {
     FBSession^ sess = FBSession::ActiveSession;
-    String^ result;
-    //
-    // This looks strange, but is correct.  One side or the other of this 
-    // conversation has a problem with all the other types of redirect
-    // protocol/URIs accepted for apps, so we're left with always redirecting
-    // to the login_success page on FB, then canceling the redirect in our
-    // NavigationStarted event handler, for all dialogs.
-    // 
-
-    String^ redirectUrl = sess->RedirectUrl;
-    if (redirectUrl)
-    {
-        result = redirectUrl + FACEBOOK_LOGIN_SUCCESS_PATH;
-    }
-    else
-    {
-        result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
-    }
+    String^ result = sess->WebViewRedirectDomain + sess->WebViewRedirectPath;
     result = Uri::EscapeComponent(result);
-
     DebugPrintLine(L"Redirect URI is " + result);
     return result;
 }
@@ -269,21 +248,17 @@ String^ FacebookDialog::GetRedirectUriString(
 BOOL FacebookDialog::IsMobilePlatform(
     )
 {
-    BOOL isMobile = FALSE;
-#if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
-    //TODO: Detect mobile/desktop on Win10.  Defaulting to desktop for now.
-#endif
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
-    isMobile = TRUE;
+    return TRUE;
+#else
+    return FALSE;
 #endif
-    return isMobile;
 }
 
 String^ FacebookDialog::GetFBServerUrl(
     )
 {
     String^ server = nullptr;
-
     if (FacebookDialog::IsMobilePlatform())
     {
         server = FACEBOOK_MOBILE_SERVER_NAME;
@@ -292,7 +267,6 @@ String^ FacebookDialog::GetFBServerUrl(
     {
         server = FACEBOOK_DESKTOP_SERVER_NAME;
     }
-
     return server;
 }
 
@@ -372,7 +346,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
-        L"&app_id=" + sess->FBAppId; 
+        L"&app_id=" + sess->FBAppId;
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
     {
@@ -436,7 +410,8 @@ bool FacebookDialog::IsLoginSuccessRedirect(
     Uri^ Response
     )
 {
-    return (String::CompareOrdinal(Response->Path, FACEBOOK_LOGIN_SUCCESS_PATH) == 0);
+    FBSession^ sess = FBSession::ActiveSession;
+    return (String::CompareOrdinal(Response->Path, sess->WebViewRedirectPath) == 0);
 }
 
 bool FacebookDialog::IsLogoutRedirect(
@@ -454,7 +429,7 @@ bool FacebookDialog::IsDialogCloseRedirect(
 }
 
 void FacebookDialog::dialogWebView_LoginNavStarting(
-    WebView^ sender, 
+    WebView^ sender,
     WebViewNavigationStartingEventArgs^ e
     )
 {
@@ -630,7 +605,7 @@ void FacebookDialog::dialogWebView_NavCompleted(
 }
 
 void FacebookDialog::CloseDialogButton_OnClick(
-    Object^ sender, 
+    Object^ sender,
     RoutedEventArgs^ e
     )
 {
@@ -641,7 +616,7 @@ void FacebookDialog::CloseDialogButton_OnClick(
 }
 
 void FacebookDialog::OnSizeChanged(
-    CoreWindow ^sender, 
+    CoreWindow ^sender,
     WindowSizeChangedEventArgs ^args
     )
 {
@@ -655,4 +630,3 @@ void FacebookDialog::SetDialogResponse(
 {
     _dialogResponse.set(dialogResponse);
 }
-
