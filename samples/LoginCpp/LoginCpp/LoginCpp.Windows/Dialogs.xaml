@@ -7,9 +7,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="FeedDialogButton" Content="Feed" HorizontalAlignment="Left" Height="105" Margin="24,40,0,0" VerticalAlignment="Top" Width="385" Click="FeedDialogButton_Click"/>
-        <Button x:Name="AppRequestsButton" Content="App Requests" HorizontalAlignment="Left" Height="105" Margin="24,163,0,0" VerticalAlignment="Top" Width="385" Click="AppRequestsButton_Click"/>
+    <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="Facebook Sample App" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="Show Dialogs" Margin="0,6,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Button Content="Feed Dialog" Width="{Binding ActualWidth, ElementName=ContentRoot}" HorizontalAlignment="Left" Height="73" VerticalAlignment="Top" MaxWidth="362" Margin="0,10,0,0" Click="FeedDialogButton_Click"/>
+            <Button Content="App Requests Dialog" Width="{Binding ActualWidth, ElementName=ContentRoot}" HorizontalAlignment="Left" Height="73" VerticalAlignment="Top" MaxWidth="362" Margin="0,10,0,0" Click="AppRequestsButton_Click"/>
+            <Button Content="Send Dialog" Width="{Binding ActualWidth, ElementName=ContentRoot}" x:Name="SendDialogButton" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="73" MaxWidth="362" Click="SendDialogButton_Click"/>
+            <Button Content="Back" x:Name="BackButton" Height="73" MaxWidth="362" Width="{Binding ActualWidth, ElementName=ContentRoot}" Margin="0,10,0,0" Click="BackButton_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

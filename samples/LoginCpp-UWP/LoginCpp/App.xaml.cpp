@@ -111,6 +111,9 @@ void App::OnLaunched(LaunchActivatedEventArgs^ e)
 
 		// Place the frame in the current Window
 		Window::Current->Content = rootFrame;
+
+        SystemNavigationManager::GetForCurrentView()->BackRequested += ref new Windows::Foundation::EventHandler<Windows::UI::Core::BackRequestedEventArgs ^>(this, &LoginCpp::App::OnBackRequested);
+        rootFrame->Navigated += ref new Windows::UI::Xaml::Navigation::NavigatedEventHandler(this, &LoginCpp::App::OnNavigated);
 	}
 
 	if (rootFrame->Content == nullptr)
@@ -240,4 +243,29 @@ void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 	(void)e;		// Unused parameter
 
 					// TODO: Save application state and stop any background activity
+}
+
+
+void LoginCpp::App::OnBackRequested(Platform::Object^ sender, Windows::UI::Core::BackRequestedEventArgs ^args)
+{
+    Frame^ rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
+    if (rootFrame->CanGoBack)
+    {
+        args->Handled = true;
+        rootFrame->GoBack();
+    }
+}
+
+void LoginCpp::App::OnNavigated(Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationEventArgs^ args)
+{
+
+    Frame^ rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
+    if (rootFrame->CanGoBack) 
+    {
+        SystemNavigationManager::GetForCurrentView()->AppViewBackButtonVisibility = AppViewBackButtonVisibility::Visible;
+    }
+    else
+    {
+        SystemNavigationManager::GetForCurrentView()->AppViewBackButtonVisibility = AppViewBackButtonVisibility::Collapsed;
+    }
 }

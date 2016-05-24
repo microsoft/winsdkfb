@@ -18,6 +18,7 @@
 
 #include "JsonClassFactory.h"
 #include "FacebookResult.h"
+#include "HttpMethod.h"
 
 namespace winsdkfb
 {
@@ -75,6 +76,10 @@ namespace winsdkfb
         private:
             FBResult^ ConsumeSingleValue(
                 Platform::String^ JsonText
+                );
+
+            Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
+                HttpMethod httpMethod
                 );
 
             FBResult^ _result;

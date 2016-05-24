@@ -23,7 +23,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookError.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h">
+      <DependentUpon>$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaStream.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.h" />
@@ -35,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookResult.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSession.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBCursors.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBGroup.h" />
@@ -64,7 +67,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookError.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp">
+      <DependentUpon>$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.cpp" />
@@ -96,9 +101,9 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml" />
   </ItemGroup>

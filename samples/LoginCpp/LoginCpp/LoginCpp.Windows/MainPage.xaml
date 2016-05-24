@@ -7,12 +7,33 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="LoginButton" Content="Login To FB" HorizontalAlignment="Left" Margin="39,48,0,0" VerticalAlignment="Top" Click="login_OnClicked"/>
-        <!--<fbsdk:ProfilePictureControl />-->
-        <TextBlock FontSize="14" HorizontalAlignment="Left" Margin="39,111,0,0" TextWrapping="Wrap" Text="Access Token:" VerticalAlignment="Top" Width="261" Height="18"/>
-        <TextBlock x:Name="ResponseText" FontSize="14" HorizontalAlignment="Left" Margin="39,135,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Height="94" Width="261"/>
-        <TextBlock FontSize="14" HorizontalAlignment="Left" Margin="39,263,0,0" TextWrapping="Wrap" Text="Expires" VerticalAlignment="Top" Height="24" Width="261"/>
-        <TextBlock x:Name="ExpirationDate" FontSize="14" HorizontalAlignment="Left" Margin="39,289,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="261" Height="24"/>
+    <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="LayoutRoot_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="Facebook Sample App" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="Login Information" Margin="0,6,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="19,0,19,0" x:Name="ContentRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <ComboBox x:Name="LoginMethodComboBox" SelectedIndex="0" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" MaxWidth="362" Width="{Binding ActualWidth, ElementName=ContentRoot}" VerticalContentAlignment="Center">
+                <ComboBoxItem Content="WebView" />
+                <ComboBoxItem Content="WebAuth" />
+                <ComboBoxItem Content="WebAccountProvider" />
+                <ComboBoxItem Content="DefaultOrdering" />
+                <ComboBoxItem Content="Silent" />
+            </ComboBox>
+            <Button x:Name="LoginButton" Content="Login To FB" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="login_OnClicked" Width="{Binding ActualWidth, ElementName=ContentRoot}" MaxWidth="362" Height="68"/>
+            <Button x:Name="UserInfoButton" Content="User Info" IsEnabled="False" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="UserInfoButton_Click" Width="{Binding ActualWidth, ElementName=ContentRoot}" MaxWidth="362" Height="68"/>
+            <Button x:Name="DialogsPageButton" Content="Dialogs" IsEnabled="False" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Click="DialogsPageButton_Click" Width="{Binding ActualWidth, ElementName=ContentRoot}" MaxWidth="362" Height="68"/>
+            <!--<fbsdk:ProfilePictureControl />-->
+            <TextBlock FontSize="14" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" Text="Access Token:" VerticalAlignment="Top" Width="261" Height="18"/>
+            <TextBlock x:Name="AccessTokenText" FontSize="14" HorizontalAlignment="Left" Margin="0,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" MaxHeight="120" MaxWidth="362" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+            <TextBlock FontSize="14" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" Text="Expires:" VerticalAlignment="Top" Height="24" Width="261"/>
+            <TextBlock x:Name="ExpirationDateText" FontSize="14" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" MaxWidth="261" Height="24" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+        </StackPanel>
     </Grid>
 </Page>

@@ -36,14 +36,11 @@ using namespace std;
 
 FBAccessTokenData::FBAccessTokenData(
     String^ AccessToken,
-    String^ Expiration,
-    String^ State
+    String^ Expiration
     ) :
     _accessToken(AccessToken),
-    _appId(nullptr),
     _grantedPermissions(nullptr),
-    _declinedPermissions(nullptr),
-    _userId(nullptr)
+    _declinedPermissions(nullptr)
 {
     if (Expiration)
     {
@@ -56,30 +53,24 @@ FBAccessTokenData::FBAccessTokenData(
 
 FBAccessTokenData::FBAccessTokenData(
     String^ AccessToken,
-    DateTime Expiration,
-    String^ State
+    DateTime Expiration
     ) :
     _accessToken(AccessToken),
-    _appId(nullptr),
     _grantedPermissions(nullptr),
     _declinedPermissions(nullptr),
-    _userId(nullptr),
     _expirationDate(Expiration)
 {
 #ifdef _DEBUG
     DebugPrintExpirationTime();
 #endif
-    InitPermissions();
+    Vector<String^>^ v = ref new Vector<String^>(0);
+    _grantedPermissions  = ref new FBPermissions(v->GetView());
+    _declinedPermissions = ref new FBPermissions(v->GetView());
 }
 
 String^ FBAccessTokenData::AccessToken::get()
 {
     return _accessToken;
-}
-
-String^ FBAccessTokenData::AppID::get()
-{
-    return _appId;
 }
 
 DateTime FBAccessTokenData::ExpirationDate::get()
@@ -97,24 +88,24 @@ FBPermissions^ FBAccessTokenData::DeclinedPermissions::get()
     return _declinedPermissions;
 }
 
-String^ FBAccessTokenData::UserID::get()
-{
-    return _userId;
-}
-
-
-void FBAccessTokenData::InitPermissions()
-{
-    Vector<String^>^ v = ref new Vector<String^>(0);
-
-    _grantedPermissions  = ref new FBPermissions(v->GetView());
-    _declinedPermissions = ref new FBPermissions(v->GetView());
-}
-
 WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
     Uri^ Response
     )
 {
+    // facebook sometimes returns the access token, etc., as a Uri fragment
+    // but in the query string, making it not parse correctly. Here we check
+    // if this is the case (look for "?#" pattern in the string and turn it
+    // into a normal Uri fragment that we can fix later
+    std::wstring responseString = std::wstring(Response->DisplayUri->Data());
+    std::string::size_type found = responseString.find(L"?#");
+    if (found != std::string::npos)
+    {
+        std::wstring uriFragment = responseString.substr(found + 1); // +1 to move past '?' char
+        std::wstring uriDomain = responseString.substr(0, found);
+        std::wstring joinedUri = uriDomain + uriFragment;
+        Response = ref new Uri(ref new String(joinedUri.data()));
+    }
+
     WwwFormUrlDecoder^ parameters = Response->QueryParsed;
     if (!parameters->Size)
     {
@@ -122,7 +113,7 @@ WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
         // rather than the query string.  WinRT only lets you parse a query
         // string from a full Uri, so we'll mock one up with the fragment from
         // the original response as the query string, then parse that.
-        // 
+        //
         // Note that the Uri::Fragment property includes the leading '#'
         // character, inconveniently, so we have to strip this character or
         // we'll just end up with a Uri with the same fragment and an empty
@@ -138,7 +129,6 @@ WwwFormUrlDecoder^ FBAccessTokenData::ParametersFromResponse(
 
         parameters = newResponse->QueryParsed;
     }
-
     return parameters;
 }
 
@@ -148,11 +138,9 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
 {
     bool gotToken = false;
     bool gotExpiration = false;
-    bool gotState = false;
     bool gotBadField = false;
     String^ token;
     String^ expiration = nullptr;
-    String^ state = nullptr;
     FBAccessTokenData^ data = nullptr;
 
     WwwFormUrlDecoder^ decoder = FBAccessTokenData::ParametersFromResponse(
@@ -172,11 +160,6 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
             expiration = entry->Value;
             gotExpiration = true;
         }
-        else if (entry->Name->Equals(L"state"))
-        {
-            state = entry->Value;
-            gotState = true;
-        }
         else
         {
             gotBadField = true;
@@ -185,7 +168,7 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
 
     if (gotToken && gotExpiration && !gotBadField)
     {
-        data = ref new FBAccessTokenData(token, expiration, state);
+        data = ref new FBAccessTokenData(token, expiration);
     }
 
     return data;
@@ -250,7 +233,7 @@ void FBAccessTokenData::CalculateExpirationDateTime(
     {
         ULONGLONG expirationTimeInTicks = 0;
         // Add ticks to current time
-        hr = ULongLongAdd(numTicks, cal->GetDateTime().UniversalTime, 
+        hr = ULongLongAdd(numTicks, cal->GetDateTime().UniversalTime,
             &expirationTimeInTicks);
         if (SUCCEEDED(hr))
         {

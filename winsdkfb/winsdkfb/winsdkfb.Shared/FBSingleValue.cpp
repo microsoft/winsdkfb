@@ -43,46 +43,19 @@ FBSingleValue::FBSingleValue(
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::GetAsync(
     )
 {
-    return create_async([this]() -> task<FBResult^>
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-
-        return create_task(HttpManager::Instance->GetTaskAsync(_request, _parameters))
-            .then([this](String^ responseString) -> FBResult^
-        {
-            return ConsumeSingleValue(responseString);
-        });
-    });
+    return MakeHttpRequest(HttpMethod::Get);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::PostAsync(
     )
 {
-    return create_async([this]() -> task<FBResult^>
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-
-        return create_task(HttpManager::Instance->PostTaskAsync(_request, _parameters))
-            .then([this](String^ responseString) -> FBResult^
-        {
-            return ConsumeSingleValue(responseString);
-        });
-    });
+    return MakeHttpRequest(HttpMethod::Post);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::DeleteAsync(
     )
 {
-    return create_async([this]() -> task<FBResult^>
-    {
-        FBSession^ sess = FBSession::ActiveSession;
-
-        return create_task(HttpManager::Instance->DeleteTaskAsync(_request, _parameters))
-            .then([this](String^ responseString) -> FBResult^
-        {
-            return ConsumeSingleValue(responseString);
-        });
-    });
+    return MakeHttpRequest(HttpMethod::Delete);
 }
 
 
@@ -157,4 +130,45 @@ FBResult^ FBSingleValue::ConsumeSingleValue(
     }
 
     return result;
+}
+
+Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
+    HttpMethod httpMethod
+)
+{
+    if (_parameters == nullptr)
+    {
+        _parameters = ref new PropertySet();
+    }
+    return create_async([=]()->task<FBResult^>
+    {
+        task<String^> innerTask;
+        switch (httpMethod)
+        {
+        case HttpMethod::Get:
+            innerTask = create_task(HttpManager::Instance->GetTaskAsync(_request, _parameters));
+            break;
+        case HttpMethod::Post:
+            innerTask = create_task(HttpManager::Instance->PostTaskAsync(_request, _parameters));
+            break;
+        case HttpMethod::Delete:
+            innerTask = create_task(HttpManager::Instance->DeleteTaskAsync(_request, _parameters));
+            break;
+        default:
+            OutputDebugString(L"FBSingleValue::MakeHttpRequest recieved unknown HttpMethod value\n");
+            innerTask = create_task([]() -> String^ { return nullptr; });
+            break;
+        }
+        return innerTask.then([this](String^ responseString) -> FBResult^
+        {
+            if (responseString == nullptr)
+            {
+                return ref new FBResult(ref new FBError(0, L"HTTP request failed", "unable to receive response"));
+            }
+            else
+            {
+                return ConsumeSingleValue(responseString);
+            }
+        });
+    });
 }

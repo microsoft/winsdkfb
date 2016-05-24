@@ -146,6 +146,10 @@ namespace winsdkfb
                 Platform::String^ JsonText
                 );
 
+            Windows::Foundation::IAsyncOperation<FBResult^>^ GetPage(
+                Platform::String^ path
+                );
+
             Windows::Foundation::Collections::IVectorView<Object^>^ _current;
             FBPaging^ _paging;
             Platform::String^ _request;

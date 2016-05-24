@@ -7,14 +7,41 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RenderTransformOrigin="0.473,0.499">
-        <ListView ItemsSource="{Binding Items}" Background="Black" HorizontalAlignment="Left" Height="563" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" SelectionChanged="ListView_SelectionChanged">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBox Text="{Binding Name}" Foreground="White" BorderThickness="0" Background="Black"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <TextBlock x:Name="ItemDescription" HorizontalAlignment="Left" Height="564" Margin="403,9,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Description}" VerticalAlignment="Top" Width="939"/>
-    </Grid>
+    <ScrollViewer>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideView">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ResultsStackPanel.Orientation" Value="Horizontal"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="19,0,0,0">
+                <TextBlock Text="Facebook Sample App" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                <TextBlock Text="User Likes Results" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical" x:Name="ResultsStackPanel" Margin="0,0,19,19">
+                <TextBlock Grid.Row="2" x:Name="BadResultsTextBlock" Margin="19,0,0,0" Text="" Visibility="Collapsed"/>
+                <ListView  x:Name="LikesListView" Visibility="Collapsed" ItemsSource="{Binding Items}" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="10,10,0,0" Width="362" SelectionMode="Single" IsItemClickEnabled="False" SelectionChanged="ListView_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Foreground="White" HorizontalAlignment="Stretch"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBlock x:Name="ItemDescription" HorizontalAlignment="Left" Padding="0,0,19,0" Margin="19,10,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Description}" VerticalAlignment="Top" MaxWidth="362" Width="{Binding ActualWidth, ElementName=ResultsStackPanel}"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

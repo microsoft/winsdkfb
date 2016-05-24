@@ -186,6 +186,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IHttpClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="$(MSBuildThisFileDirectory)Images\fb_blank_profile_portrait.png" />
