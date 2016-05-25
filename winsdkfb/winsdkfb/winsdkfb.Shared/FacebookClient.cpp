@@ -91,54 +91,6 @@ PropertySet^ FBClient::ToDictionary(PropertySet^ parameters, PropertySet^ mediaO
     return dictionary;
 }
 
-String^ FBClient::BuildHttpQuery(Object^ parameter)
-{
-    if (parameter == nullptr)
-    {
-        return "null";
-    }
-    if (dynamic_cast<String^>(parameter) != nullptr)
-    {
-        return dynamic_cast<String^>(parameter);
-    }
-
-    if (dynamic_cast<Uri^>(parameter) != nullptr)
-    {
-        return dynamic_cast<Uri^>(parameter)->ToString();
-    }
-
-    // TODO: Refactor string manipulation code here.  The usage of String^ is
-    // convoluted and not necessary, it can be a lot simpler.
-    String^ sb = ref new String();
-    if (dynamic_cast<PropertySet^>(parameter) != nullptr)
-    {
-        PropertySet^ mediaObjects = ref new PropertySet();
-        PropertySet^ mediaStreams = ref new PropertySet();
-        auto dict = ToDictionary(dynamic_cast<PropertySet^>(parameter), mediaObjects, mediaStreams);
-
-        if (mediaObjects->Size > 0 || mediaStreams->Size > 0)
-        {
-            throw ref new InvalidArgumentException("Parameter can contain attachements (FBMediaObject/FBMediaStream) only in the top most level.");
-        }
-
-        auto kvp = dict->First();
-        while (kvp->HasCurrent)
-        {
-            String::Concat(sb, BuildHttpQuery(kvp->Current->Value));
-
-            kvp->MoveNext();
-        }
-    }
-
-    if (sb->Length() > 0)
-    {
-        wstring sbstl(sb->Data());
-        sb = ref new String(sbstl.substr(0, sbstl.length() - 1).c_str());
-    }
-
-    return sb;
-}
-
 IAsyncOperation<String^>^ FBClient::GetTaskAsync(
     String^ path,
     PropertySet^ parameters
@@ -146,9 +98,8 @@ IAsyncOperation<String^>^ FBClient::GetTaskAsync(
 {
     IAsyncOperation<String^>^ myTask = create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Get, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::GetTaskInternalAsync(uri)
             .then([=](String^ Response)
@@ -230,9 +181,8 @@ IAsyncOperation<String^>^ FBClient::SimplePostAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::SimplePostInternalAsync(uri)
             .then([=](String^ Response)
@@ -310,9 +260,8 @@ IAsyncOperation<String^>^ FBClient::MultipartPostAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::MultipartPostInternalAsync(uri, streams)
             .then([=](String^ Response)
@@ -387,9 +336,8 @@ Windows::Foundation::IAsyncOperation<String^>^ FBClient::DeleteTaskAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Delete, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::DeleteTaskInternalAsync(uri)
             .then([=](String^ Response)
@@ -438,13 +386,9 @@ Uri^ FBClient::PrepareRequestUri(
     winsdkfb::HttpMethod httpMethod, 
     String^ path, 
     PropertySet^ parameters, 
-    Type^ resultType, 
-    Windows::Storage::Streams::IRandomAccessStream^ input,
-    bool& containsEtag,
-    Vector<int>^ batchEtags
+    Windows::Storage::Streams::IRandomAccessStream^ input
     )
 {
-    batchEtags = nullptr;
     FBSession^ sess = FBSession::ActiveSession;
 
     // Setup datawriter for the InMemoryRandomAccessStream
@@ -633,12 +577,6 @@ Uri^ FBClient::PrepareRequestUri(
     }
     else
     {
-        if (containsEtag && httpMethod != HttpMethod::Get)
-        {
-            String^ msg = ETagKey + L" is only supported for http get method.";
-            throw ref new InvalidArgumentException(msg);
-        }
-
         // for GET,DELETE
         if (mediaObjects->Size > 0 && mediaStreams->Size > 0)
         {
