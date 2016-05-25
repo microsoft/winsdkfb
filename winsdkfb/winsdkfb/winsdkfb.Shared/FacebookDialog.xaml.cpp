@@ -346,7 +346,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
-        L"&app_id=" + sess->FBAppId; 
+        L"&app_id=" + sess->FBAppId;
     String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
     {

@@ -31,7 +31,7 @@ namespace winsdkfb
     public:
         FBClient();
 
-        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ 
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^
         /**
          * Performs an HTTP GET request to path with parameters as the request
          * query string
@@ -53,7 +53,7 @@ namespace winsdkfb
          * @return The HTTP response content
          * @exception Exception thrown on any error in the request process.
          */
-        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ 
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^
         PostTaskAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters
@@ -67,7 +67,7 @@ namespace winsdkfb
          * @return The HTTP response content
          * @exception Exception thrown on any error in the request process.
          */
-        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ 
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^
         DeleteTaskAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters
@@ -91,7 +91,7 @@ namespace winsdkfb
          * @return PropertySet containing all FBMediaStream objects found. If
          * none are found, nullptr is instead returned.
          */
-        Windows::Foundation::Collections::PropertySet^ 
+        Windows::Foundation::Collections::PropertySet^
         GetStreamsToUpload(
             Windows::Foundation::Collections::PropertySet^ parameters
             );
@@ -136,16 +136,6 @@ namespace winsdkfb
             Windows::Foundation::Collections::PropertySet^ streams
             );
 
-        Windows::Foundation::IAsyncOperation<Platform::String^>^  
-        ApiAsync(
-            HttpMethod httpMethod, 
-            Platform::String^ path, 
-            Windows::Foundation::Collections::PropertySet^ parameters, 
-            Platform::Type^ resultType,
-            Platform::Object^ userState,
-            concurrency::cancellation_token cancellationToken
-            );
-
         /**
          * Sorts parameters into FBMediaStream, FBMediaObject, and everything else.
          * @param parameters The PropertySet to sort
@@ -156,20 +146,9 @@ namespace winsdkfb
          * Note that mediaObjects and mediaStreams are both altered by this function.
          */
         Windows::Foundation::Collections::PropertySet^ ToDictionary(
-            Windows::Foundation::Collections::PropertySet^ parameters, 
-            Windows::Foundation::Collections::PropertySet^ mediaObjects, 
+            Windows::Foundation::Collections::PropertySet^ parameters,
+            Windows::Foundation::Collections::PropertySet^ mediaObjects,
             Windows::Foundation::Collections::PropertySet^ mediaStreams
-            );
-
-        Platform::String^ ParseUrlQueryString(
-            Platform::String^ path, 
-            Windows::Foundation::Collections::PropertySet^ parameters, 
-            bool forceParseAllUrls, 
-            Windows::Foundation::Uri^ uriParam
-            );
-
-        Platform::String^ BuildHttpQuery(
-            Object^ parameter
             );
 
         /**
