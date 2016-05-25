@@ -32,8 +32,6 @@ using namespace winsdkfb::Graph;
 using namespace concurrency;
 using namespace std;
 
-#define SECS_TO_HNS   10000000
-
 FBAccessTokenData::FBAccessTokenData(
     String^ AccessToken,
     String^ Expiration
@@ -217,34 +215,10 @@ void FBAccessTokenData::CalculateExpirationDateTime(
     )
 {
     Calendar^ cal = ref new Calendar();
-    ULONGLONG numSecs = 0;
-    ULONGLONG numTicks = 0;
-    HRESULT hr = S_OK;
-
-    numSecs = (ULONGLONG)_wtoi64(Expiration->Data());
-
-    // Default to expiring 'now' if we can't convert to the proper time.  This
-    // may save us some trouble later.
+    int numSecs = _wtoi(Expiration->Data());
     cal->SetToNow();
+    cal->AddSeconds(numSecs);
     _expirationDate = cal->GetDateTime();
-    // Convert to ticks
-    hr = ULongLongMult(numSecs, SECS_TO_HNS, &numTicks);
-    if (SUCCEEDED(hr))
-    {
-        ULONGLONG expirationTimeInTicks = 0;
-        // Add ticks to current time
-        hr = ULongLongAdd(numTicks, cal->GetDateTime().UniversalTime,
-            &expirationTimeInTicks);
-        if (SUCCEEDED(hr))
-        {
-            // If we haven't overflowed a signed int64, it's safe to cast and
-            // we now have an accurate expiration DateTime.
-            if (expirationTimeInTicks < INT64_MAX)
-            {
-                _expirationDate.UniversalTime = (int64)expirationTimeInTicks;
-            }
-        }
-    }
 }
 
 #ifdef _DEBUG
