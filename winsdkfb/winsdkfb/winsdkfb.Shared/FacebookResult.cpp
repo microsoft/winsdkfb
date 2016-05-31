@@ -22,6 +22,10 @@ using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace winsdkfb;
 
+/*!
+This object is used to handle the response from making a request
+to a Facebook Dialog or the loginAsync function
+*/
 FBResult::FBResult(
     Platform::Object^ Object
     ) :
@@ -36,22 +40,26 @@ FBResult::FBResult(
     }
 }
 
+///Base FBResult object
 FBResult::~FBResult(
     )
 {
     OutputDebugString(L"FBResult destructor\n");
 }
 
+///function to determine successful response
 bool FBResult::Succeeded::get()
 {
     return (_Object != nullptr);
 }
 
+///getter object for FBResult
 Object^ FBResult::Object::get()
 {
     return _Object;
 }
 
+///retrieve the Error info upon an error in response
 FBError^ FBResult::ErrorInfo::get()
 {
     return _Error;

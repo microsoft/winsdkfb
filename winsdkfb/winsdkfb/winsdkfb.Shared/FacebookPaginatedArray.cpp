@@ -31,6 +31,14 @@ using namespace Windows::Foundation::Collections;
 using namespace Windows::Web::Http;
 using namespace Windows::Web::Http::Filters;
 
+/*!
+FBPaginated Array is used to return array/list values when making a Graph API request.
+Parameters:
+_request - API endpoint, for example /user/feed
+_parameters - any additional information attached to request, ex. title, description. Usually 
+              sent over as part of a PropertySet
+_objectFactory - object passed in to parse the response returned from Facebook
+*/
 FBPaginatedArray::FBPaginatedArray(
     Platform::String^ Request,
     PropertySet^ Parameters,
@@ -43,6 +51,7 @@ FBPaginatedArray::FBPaginatedArray(
 {
 }
 
+///function to get the first set of response objects from Facebook
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
     )
 {
@@ -56,6 +65,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
     });
 }
 
+///function used to get the next set of response objects from Facebook
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
     )
 {
@@ -107,6 +117,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::NextAsync(
     });
 }
 
+///function used to get the previous set of response objects from Facebook
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::PreviousAsync(
     )
 {

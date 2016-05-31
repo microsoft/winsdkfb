@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <ProjectGuid>{351701a8-12d1-45b3-8e6a-164d796b0297}</ProjectGuid>
@@ -219,7 +219,7 @@
     <PRIResource Include="Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\winsdkfb\winsdkfb_uwp\winsdkfb_uwp\winsdkfb_uwp.vcxproj">
+    <ProjectReference Include="..\..\..\..\..\winsdkfb-develop\winsdkfb-develop\winsdkfb\winsdkfb_uwp\winsdkfb_uwp\winsdkfb_uwp.vcxproj">
       <Project>{973a943b-ff77-4267-8f30-f5fe2b7f5583}</Project>
     </ProjectReference>
   </ItemGroup>

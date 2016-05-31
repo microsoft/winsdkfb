@@ -28,6 +28,14 @@ using namespace Windows::Data::Json;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 
+/*!
+FBSinglevalue class is the main way to send requests to Facebook's Graph API
+Parameters:
+_request - API endpoint, for example /user/feed
+_parameters - any additional information attached to request, ex. title, description. Usually 
+			  sent over as part of a PropertySet
+_objectFactory - object passed in to parse the response returned from Facebook
+*/
 FBSingleValue::FBSingleValue(
     Platform::String^ Request,
     ::PropertySet^ Parameters,
@@ -39,6 +47,7 @@ FBSingleValue::FBSingleValue(
 {
 }
 
+///function to make a Get request to Facebook's Graph API
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::GetAsync(
     )
 {
@@ -54,6 +63,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::GetAsync(
     });
 }
 
+/// function to make a Post request to Facebook's Graph API
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::PostAsync(
     )
 {
@@ -69,6 +79,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::PostAsync(
     });
 }
 
+///function to make a Delete request to Facebook's Graph API
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::DeleteAsync(
     )
 {

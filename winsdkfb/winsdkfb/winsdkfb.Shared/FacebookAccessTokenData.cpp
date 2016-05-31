@@ -34,6 +34,15 @@ using namespace std;
 
 #define SECS_TO_HNS   10000000
 
+/*!
+FBAccessTokenData object returned after successful user authentication with LoginAsync.
+Parameters:
+_accessToken - access token object with user access token
+_appID - app ID corresponding to app on Facebook Developer Dashboard
+_grantedPermissions - permissions user granted to the app
+_declinedPermissions - permissions user denied that the app requested
+_userId - user ID of the user who authenticated.
+*/
 FBAccessTokenData::FBAccessTokenData(
     String^ AccessToken,
     String^ Expiration,
@@ -82,21 +91,25 @@ String^ FBAccessTokenData::AppID::get()
     return _appId;
 }
 
+///expiration date for the FBAccessToken
 DateTime FBAccessTokenData::ExpirationDate::get()
 {
     return _expirationDate;
 }
 
+///granted permissions for the FBAccessToken
 FBPermissions^ FBAccessTokenData::GrantedPermissions::get()
 {
     return _grantedPermissions;
 }
 
+///declined permissions for the FBAccessToken
 FBPermissions^ FBAccessTokenData::DeclinedPermissions::get()
 {
     return _declinedPermissions;
 }
 
+///getter method for the user ID
 String^ FBAccessTokenData::UserID::get()
 {
     return _userId;
@@ -191,6 +204,7 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
     return data;
 }
 
+///checks to see if token is expired
 bool FBAccessTokenData::IsExpired(
     )
 {
@@ -202,6 +216,7 @@ bool FBAccessTokenData::IsExpired(
     return expired;
 }
 
+///set new permissions for the access token
 void FBAccessTokenData::SetPermissions(
     IVectorView<Object^>^ perms
     )
@@ -229,6 +244,7 @@ void FBAccessTokenData::SetPermissions(
     _declinedPermissions = ref new FBPermissions(declined->GetView());
 }
 
+///calculates the expiration date and time of the access token
 void FBAccessTokenData::CalculateExpirationDateTime(
     String^ Expiration
     )

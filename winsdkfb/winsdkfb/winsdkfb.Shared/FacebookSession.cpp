@@ -83,6 +83,17 @@ namespace winsdkfb
     HANDLE login_evt = NULL;
 }
 
+/*!
+Base properties for the FBSession object.
+Fields:
+_AccessTokenData - contains relevant data for the user access token retrieved upon login.
+_AppResponse - ?
+_loggedIn - boolean to detect whether user is logged in or not
+_FBAppId - the app ID assigned from Facebook for the app
+_WinAppId - the app ID from your app to register to Facebook
+_user - the user object created to retrieve user information
+_APIMajorVersion/_APIMinorVersion - format following Facebook's API versions (for ex. graph API v2.5)
+*/
 FBSession::FBSession() :
     _AccessTokenData(nullptr),
     _AppResponse(nullptr),
@@ -100,6 +111,7 @@ FBSession::FBSession() :
     _APIMinorVersion = 1;
 }
 
+///Base constructor for the FBSession object
 winsdkfb::FBSession::~FBSession()
 {
     if (login_evt)
@@ -143,6 +155,7 @@ String^ FBSession::AppResponse::get()
     return _AppResponse;
 }
 
+///boolean that detects whether user is logged in 
 bool FBSession::LoggedIn::get()
 {
     return _loggedIn;
@@ -158,11 +171,13 @@ void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
     _AccessTokenData = value;
 }
 
+///returns an FBUser object to view a user's profile information
 FBUser^ FBSession::User::get()
 {
     return _user;
 }
 
+///function that logs out but does not clear the cookies with WebView
 IAsyncAction^ FBSession::LogoutAsync()
 {
     _user = nullptr;
@@ -175,20 +190,45 @@ IAsyncAction^ FBSession::LogoutAsync()
     return TryDeleteTokenData();
 }
 
+/*!
+function that is automatically called when retrieving the User info from the FBSession object
+makes different URL get requests based on the API Version
+*/
 task<FBResult^> FBSession::GetUserInfo(
     winsdkfb::FBAccessTokenData^ TokenData
     )
 {
-    FBSingleValue^ value = ref new FBSingleValue(
-        "/me",
-        nullptr,
-        ref new FBJsonClassFactory([](String^ JsonText) -> Object^
-        {
-            return FBUser::FromJson(JsonText);
-        }));
+	FBSingleValue^ value;
+
+	/*
+	if (APIMajorVersion == 2 && APIMinorVersion >= 4)
+	{
+		value = ref new FBSingleValue(
+			"/me?fields=id,email,picture,location,age_range,first_name,gender,last_name,link,locale,name,timezone,updated_time,verified",
+			nullptr,
+			ref new FBJsonClassFactory([](String^ JsonText) -> Object^
+		{
+			return FBUser::FromJson(JsonText);
+		}));
+	}
+	
+	else
+	{
+	*/
+		PropertySet^ propSet = ref new PropertySet();
+		//propSet->Insert(L"fields", L"id,email,picture,location,age_range,first_name,gender,last_name,link,locale,name,timezone,updated_time,verified");
+		value = ref new FBSingleValue(
+			"/me",
+			propSet,
+			ref new FBJsonClassFactory([](String^ JsonText) -> Object^
+		{
+			return FBUser::FromJson(JsonText);
+		}));
+	//}
 
     return create_task(value->GetAsync());
 }
+
 
 IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
     StorageFolder^ folder,
@@ -215,6 +255,7 @@ IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
     }); 
 }
 
+///checks for existing Access token and creates encrypted token file if not present
 task<FBResult^> FBSession::CheckForExistingToken(
     )
 {
@@ -321,6 +362,7 @@ task<FBResult^> FBSession::CheckForExistingToken(
     return result;
 }
 
+///saves the token data to an encrypted file upon retrieval after user login
 void FBSession::TrySaveTokenData(
     )
 {
@@ -359,6 +401,7 @@ void FBSession::TrySaveTokenData(
     }
 }
 
+///function called on LogoutAsync that deletes the token information, reprompting the user to login
 IAsyncAction^ FBSession::TryDeleteTokenData(
     )
 {
@@ -404,6 +447,8 @@ IAsyncAction^ FBSession::TryDeleteTokenData(
     });
 }
 
+///function that pops up the Feed Dialog for sharing to a user's Facebook feed/timeline.
+///takes a PropertySet of parameters for a link, title, and description for the post
 IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     PropertySet^ Parameters
     )
@@ -461,6 +506,10 @@ IAsyncOperation<FBResult^>^ FBSession::ShowFeedDialogAsync(
     return task;
 }
 
+/*!
+function that pops up the Request Dialog for inviting a user to use the app.
+Note that this will only work for an app of type "Game" 
+*/
 IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
     PropertySet^ Parameters
     )
@@ -518,6 +567,8 @@ IAsyncOperation<FBResult^>^ FBSession::ShowRequestsDialogAsync(
     return task;
 }
 
+///function that pops up the Send Dialog to send a private message to a user's facebook friends
+///takes a PropertySet of parameters for a link, title, and description for the message
 IAsyncOperation<FBResult^>^ FBSession::ShowSendDialogAsync(
     PropertySet^ Parameters
     )
@@ -575,6 +626,7 @@ IAsyncOperation<FBResult^>^ FBSession::ShowSendDialogAsync(
     return task;
 }
 
+///function called by LoginAsync to show the login dialog for authentication
 task<FBResult^> FBSession::ShowLoginDialog(
     PropertySet^ Parameters
     )
@@ -708,7 +760,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSession::TryRefreshAccessToke
 
 #endif
 
-
+///returns the permissions requested by the app
 task<FBResult^> FBSession::GetAppPermissions(
     )
 {
@@ -734,6 +786,7 @@ task<FBResult^> FBSession::GetAppPermissions(
     });
 }
 
+///builds the login URL for the login dialog
 Uri^ FBSession::BuildLoginUri(
     PropertySet^ Parameters
     )
@@ -789,6 +842,10 @@ Uri^ FBSession::BuildLoginUri(
     return ref new Uri(uriString);
 }
 
+/*!
+returns a Success or Error message based on the result of the authentication flow.
+On success, returns the FBResult object with the associated metadata of a successful login.
+*/
 task<FBResult^> FBSession::ProcessAuthResult(
     WebAuthenticationResult^ authResult
     )
@@ -832,6 +889,7 @@ task<FBResult^> FBSession::ProcessAuthResult(
     });
 }
 
+///gets the Windows app ID needed for the FB Developer portal when registering the app.
 String^ FBSession::GetWebAuthRedirectUriString(
     )
 {
@@ -839,6 +897,7 @@ String^ FBSession::GetWebAuthRedirectUriString(
     return endURI->DisplayUri;
 }
 
+///gets the user info (name, gender, etc.) after the user has logged in
 task<FBResult^> FBSession::TryGetUserInfoAfterLogin(
     FBResult^ loginResult
     )
@@ -863,6 +922,7 @@ task<FBResult^> FBSession::TryGetUserInfoAfterLogin(
     return innerResult;
 }
 
+///gets the permissions requested by the app after the user has logged in
 task<FBResult^> FBSession::TryGetAppPermissionsAfterLogin(
     FBResult^ loginResult
     )
@@ -884,6 +944,7 @@ task<FBResult^> FBSession::TryGetAppPermissionsAfterLogin(
     return finalResult;
 }
 
+///goes through the authentication flow with WebAuthBroker
 task<FBResult^> FBSession::RunOAuthOnUiThread(
     PropertySet^ Parameters
     )
@@ -931,6 +992,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
     });
 }
 
+///goes through the authentication flow with WebView
 task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
     PropertySet^ Parameters
     )
@@ -971,6 +1033,7 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
     });
 }
 
+///default LoginAsync function that uses WebView and WebAuth as fallback for logging in
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions
     )
@@ -980,6 +1043,12 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
         SessionLoginBehavior::DefaultOrdering);
 }
 
+/*!
+main LoginAsync function that takes in a SessionLoginBehavior parameter to choose between the login methods:
+WebAccountProvider, WebAuthBroker, and WebView. Takes an FBPermissions object that selects the persmissions
+required from the user. Also takes an optional SessionLoginBehavior object that allows developer to specify which
+login method they want the user to go through for authentication.
+*/
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions,
 	SessionLoginBehavior behavior
@@ -1102,6 +1171,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     });
 }
 
+///main function to login through the WebView, called by LoginAsync
 task<FBResult^> FBSession::TryLoginViaWebView(
     PropertySet^ Parameters
     )
@@ -1162,6 +1232,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
     });
 }
 
+///main function to login through the WebAuthBroker, called by LoginAsync
 task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
     PropertySet^ Parameters
     )
@@ -1316,6 +1387,7 @@ BOOL FBSession::IsRerequest(
     return isRerequest;
 }
 
+///allows developer to set the API Version for all Facebook Graph requests.
 void FBSession::SetAPIVersion(
     int MajorVersion,
     int MinorVersion
@@ -1325,16 +1397,19 @@ void FBSession::SetAPIVersion(
     _APIMinorVersion = MinorVersion;
 }
 
+
 int FBSession::APIMajorVersion::get()
 {
     return _APIMajorVersion;
 }
+
 
 int FBSession::APIMinorVersion::get()
 {
     return _APIMinorVersion;
 }
 
+///once user has validated app's requested permissions, writes them to a file
 void FBSession::WriteGrantedPermissionsToFile()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
@@ -1346,6 +1421,7 @@ void FBSession::WriteGrantedPermissionsToFile()
     values->Insert(GRANTED_PERMISSIONS_KEY, AccessTokenData->GrantedPermissions->ToString());
 }
 
+///returns the user validated granted app permissions from the file
 String^ FBSession::GetGrantedPermissionsFromFile()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
@@ -1363,11 +1439,13 @@ String^ FBSession::GetGrantedPermissionsFromFile()
 
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
 
+//redirect URI for the WebAccountProvider
 String^ FBSession::GetWebAccountProviderRedirectUriString(
     )
 {
     return L"msft - " + WinAppId + "://login_success";
 }
+
 
 task<FBResult^> FBSession::CheckWebAccountProviderForExistingToken(
     FBPermissions^ Permissions
