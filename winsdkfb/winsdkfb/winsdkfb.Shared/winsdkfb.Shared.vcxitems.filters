@@ -36,9 +36,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,6 +85,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DialogUrlBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml.h" />
@@ -108,9 +106,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaObject.h">
@@ -189,6 +184,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DialogUrlBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -297,9 +293,9 @@
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml" />
-    <Page Include="$(MSBuildThisFileDirectory)FacebookLoginButton.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">

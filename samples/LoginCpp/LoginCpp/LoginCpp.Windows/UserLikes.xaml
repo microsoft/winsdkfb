@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="LoginCpp.UserLikes"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LoginCpp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <Grid x:Name="LayoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel x:Name="TitleStackPanel" Grid.Row="0" Margin="19,0,0,0">
+                <TextBlock Text="Facebook Sample App" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                <TextBlock Text="User Likes Results" Margin="0,6,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}"/>
+                <Button Content="Back" x:Name="BackButton" Height="73" MaxWidth="362" Width="{Binding ActualWidth, ElementName=TitleStackPanel}" Margin="0,10,0,0" Click="BackButton_Click"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" x:Name="ResultsStackPanel" Margin="0,0,19,19">
+                <TextBlock FontSize="14" Grid.Row="2" x:Name="BadResultsTextBlock" Margin="19,0,0,0" Text="" Visibility="Collapsed"/>
+                <ListView  x:Name="LikesListView" Visibility="Collapsed" ItemsSource="{Binding Items}" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="10,10,0,0" Width="362" SelectionMode="Single" IsItemClickEnabled="False" SelectionChanged="ListView_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Margin="5,5,0,0" Foreground="White" HorizontalAlignment="Stretch"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBlock x:Name="ItemDescription" FontSize="14" HorizontalAlignment="Left" Padding="0,0,19,0" Margin="19,10,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Description}" VerticalAlignment="Top" MaxWidth="362" Width="{Binding ActualWidth, ElementName=ResultsStackPanel}"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

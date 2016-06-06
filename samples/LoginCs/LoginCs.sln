@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoginCs", "LoginCs", "{F3A8EFF0-4471-4905-B279-756B1D864AAB}"
 EndProject
@@ -20,6 +20,7 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}*SharedItemsImports = 4
+		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{5c0b24d0-ba5f-490a-ab3e-71265d4a0a4b}*SharedItemsImports = 9
 		LoginCs\LoginCs.Shared\LoginCs.Shared.projitems*{a506e326-7a59-479e-8e80-65fb73ae94d8}*SharedItemsImports = 4
 		LoginCs\LoginCs.Shared\LoginCs.Shared.projitems*{5364ddc1-f2ca-4959-9292-546c26254cd2}*SharedItemsImports = 13
 		..\..\winsdkfb\winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4

@@ -30,6 +30,7 @@
 #include "FBUser.h"
 #include "SDKMessage.h"
 #include "FBWebAuthDialog.h"
+#include <regex>
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -72,7 +73,9 @@ FBSession::FBSession() :
     _FBAppId(nullptr),
     _WinAppId(nullptr),
     _user(nullptr),
-    _webAuthDialogRedirectUrl(nullptr)
+    _webAuthDialogRedirectUrl(nullptr),
+    _webViewRedirectDomain(nullptr),
+    _webViewRedirectPath(nullptr)
 {
     if (!login_evt)
     {
@@ -80,6 +83,12 @@ FBSession::FBSession() :
     }
     _APIMajorVersion = 2;
     _APIMinorVersion = 1;
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+    _webViewRedirectDomain = FACEBOOK_MOBILE_SERVER_NAME;
+#else
+    _webViewRedirectDomain = FACEBOOK_DESKTOP_SERVER_NAME;
+#endif
+    _webViewRedirectPath = FACEBOOK_LOGIN_SUCCESS_PATH;
 }
 
 winsdkfb::FBSession::~FBSession()
@@ -160,6 +169,16 @@ String^ FBSession::WebAuthDialogRedirectUrl::get()
     return _webAuthDialogRedirectUrl;
 }
 
+String^ FBSession::WebViewRedirectDomain::get()
+{
+    return _webViewRedirectDomain;
+}
+
+String^ FBSession::WebViewRedirectPath::get()
+{
+    return _webViewRedirectPath;
+}
+
 IAsyncAction^ FBSession::LogoutAsync()
 {
     _user = nullptr;
@@ -211,7 +230,7 @@ IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
                 return nullptr;
             }
         });
-    }); 
+    });
 }
 
 task<FBResult^> FBSession::CheckForExistingToken(
@@ -226,11 +245,11 @@ task<FBResult^> FBSession::CheckForExistingToken(
             return authResult;
         });
     }
-    else 
+    else
     {
         StorageFolder^ folder = ApplicationData::Current->LocalFolder;
         result = create_task(MyTryGetItemAsync(folder, "FBSDKData"))
-        .then([=](IStorageItem^ item) 
+        .then([=](IStorageItem^ item)
         {
             task<IBuffer^> bufTask;
             StorageFile^ file = dynamic_cast<StorageFile^>(item);
@@ -254,7 +273,7 @@ task<FBResult^> FBSession::CheckForExistingToken(
 
             if (protectedBuffer)
             {
-                DataProtectionProvider^ provider = 
+                DataProtectionProvider^ provider =
                     ref new DataProtectionProvider();
 
                 decryptTask = create_task(provider->UnprotectAsync(
@@ -289,7 +308,7 @@ task<FBResult^> FBSession::CheckForExistingToken(
             {
                 String^ clearText = CryptographicBuffer::ConvertBinaryToString(
                     BinaryStringEncoding::Utf16LE, clearBuffer);
-                
+
                 if (clearText)
                 {
                     wstring vals(clearText->Data());
@@ -305,14 +324,14 @@ task<FBResult^> FBSession::CheckForExistingToken(
                         OutputDebugString(msg->Data());
 
                         expirationTime.UniversalTime = _wtoi64(expirationString->Data());
-                        winsdkfb::FBAccessTokenData^ cachedData = 
+                        winsdkfb::FBAccessTokenData^ cachedData =
                             ref new winsdkfb::FBAccessTokenData(
-                                accessToken, expirationTime, ref new String());
+                                accessToken, expirationTime);
                         cachedResult = ref new FBResult(cachedData);
                     }
                 }
             }
-            
+
             return cachedResult;
         });
     }
@@ -330,14 +349,14 @@ void FBSession::TrySaveTokenData(
             wchar_t buffer[INT64_STRING_BUFSIZE];
             DataProtectionProvider^ provider = ref new DataProtectionProvider(L"LOCAL=user");
             _i64tow_s(
-                this->AccessTokenData->ExpirationDate.UniversalTime, 
+                this->AccessTokenData->ExpirationDate.UniversalTime,
                     buffer, INT64_STRING_BUFSIZE, 10);
-            String^ tokenData = this->AccessTokenData->AccessToken + 
+            String^ tokenData = this->AccessTokenData->AccessToken +
                 "," + ref new String(buffer);
-            IBuffer^ dataBuff = 
-                CryptographicBuffer::ConvertStringToBinary(tokenData, 
+            IBuffer^ dataBuff =
+                CryptographicBuffer::ConvertStringToBinary(tokenData,
                     BinaryStringEncoding::Utf16LE);
-    
+
             IAsyncOperation<IBuffer^>^ protectOp = provider->ProtectAsync(dataBuff);
             return create_task(protectOp);
         })
@@ -678,7 +697,7 @@ task<FBResult^> FBSession::GetAppPermissions(
     {
         if (result->Succeeded)
         {
-            IVectorView<Object^>^ perms = 
+            IVectorView<Object^>^ perms =
                 static_cast<IVectorView<Object^>^>(result->Object);
             _AccessTokenData->SetPermissions(perms);
         }
@@ -846,6 +865,10 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
         Windows::UI::Core::CoreDispatcherPriority::Normal,
         ref new Windows::UI::Core::DispatchedHandler([=]()
     {
+// disable warning for WebAuthenticationBroker::AuthenticateAsync being marked
+// as deprecated on wp8.1
+#pragma warning(push)
+#pragma warning(disable: 4973)
         _loginTask = create_task(
             WebAuthenticationBroker::AuthenticateAsync(
             WebAuthenticationOptions::None, BuildLoginUri(Parameters),
@@ -855,6 +878,7 @@ task<FBResult^> FBSession::RunOAuthOnUiThread(
             return ProcessAuthResult(authResult);
         });
     })));
+#pragma warning(pop)
 
     return create_task([=](void)
     {
@@ -925,19 +949,31 @@ task<FBResult^> FBSession::RunWebViewLoginOnUIThread(
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
+    )
+{
+    return LoginAsync(
+        nullptr,
+        SessionLoginBehavior::DefaultOrdering);
+}
+
+IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions
     )
 {
     return LoginAsync(
-        Permissions, 
+        Permissions,
         SessionLoginBehavior::DefaultOrdering);
 }
 
 IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     FBPermissions^ Permissions,
-	SessionLoginBehavior behavior
+    SessionLoginBehavior behavior
     )
 {
+    if (!Permissions)
+    {
+        Permissions = ref new FBPermissions((ref new Vector<String^>())->GetView());
+    }
     _dialog = ref new FacebookDialog();
     _lastSuccessfulDialogBasedLoginType = GetLastSuccessfulDialogBasedLoginType();
     if (behavior != SessionLoginBehavior::Silent && behavior != SessionLoginBehavior::DefaultOrdering)
@@ -947,10 +983,7 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     return create_async([=]()
     {
         PropertySet^ parameters = ref new PropertySet();
-        if (Permissions)
-        {
-            parameters->Insert(ScopeKey, Permissions->ToString());
-        }
+        parameters->Insert(ScopeKey, Permissions->ToString());
 
         if (LoggedIn)
         {
@@ -1095,7 +1128,7 @@ task<FBResult^> FBSession::TryLoginViaWebView(
 
         if (oauthResult && oauthResult->Succeeded)
         {
-            winsdkfb::FBAccessTokenData^ tokenData = 
+            winsdkfb::FBAccessTokenData^ tokenData =
                 static_cast<winsdkfb::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
@@ -1157,7 +1190,7 @@ task<FBResult^> FBSession::TryLoginViaWebAuthBroker(
 
         if (oauthResult && oauthResult->Succeeded)
         {
-            winsdkfb::FBAccessTokenData^ tokenData = 
+            winsdkfb::FBAccessTokenData^ tokenData =
                 static_cast<winsdkfb::FBAccessTokenData^>(oauthResult->Object);
             if (!tokenData->IsExpired())
             {
@@ -1302,7 +1335,7 @@ int FBSession::APIMinorVersion::get()
 void FBSession::SaveGrantedPermissions()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
     {
         localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
     }
@@ -1313,7 +1346,7 @@ void FBSession::SaveGrantedPermissions()
 String^ FBSession::GetGrantedPermissions()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
     {
         return ""; // TODO should this be an exception?
     }
@@ -1328,7 +1361,7 @@ String^ FBSession::GetGrantedPermissions()
 void FBSession::SaveLastSuccessfulDialogBasedLoginType()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
     {
         localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
     }
@@ -1340,7 +1373,7 @@ void FBSession::SaveLastSuccessfulDialogBasedLoginType()
 SessionLoginBehavior FBSession::GetLastSuccessfulDialogBasedLoginType()
 {
     ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER)) 
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
     {
         return SessionLoginBehavior::WebView; // TODO should this be an exception?
     }
@@ -1377,12 +1410,85 @@ SessionLoginBehavior FBSession::GetLastSuccessfulDialogBasedLoginType()
     }
 }
 
+void FBSession::SetWebViewRedirectUrl(String^ domain, String^ path)
+{
+    if (domain)
+    {
+        _webViewRedirectDomain = domain;
+    }
+    if (path)
+    {
+        _webViewRedirectPath = path;
+    }
+}
+
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
 
+// returns string of the form "msft-" + WinAppId + "://login_success" or "" if
+// it can't get the correct value
 String^ FBSession::GetWebAccountProviderRedirectUriString(
     )
 {
-    return L"msft - " + WinAppId + "://login_success";
+    /*
+    // We should replace the code below with this commented out code once the
+    // ApplicationModel API is fixed
+    Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
+    Windows::ApplicationModel::PackageId^ packageId = package->Id;
+    auto phoneAppId = packageId->ProductId;
+    return L"msft-" + phoneAppId + L"://login_success";
+    */
+
+    static String^ redirectString = nullptr;
+    if (!redirectString)
+    {
+        StorageFolder^ folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+        task<String^> result;
+        result = create_task(MyTryGetItemAsync(folder, L"AppxManifest.xml")).then([=](IStorageItem^ item)
+        {
+            task<IBuffer^> bufTask;
+            StorageFile^ file = dynamic_cast<StorageFile^>(item);
+            if (file)
+            {
+                bufTask = create_task(FileIO::ReadBufferAsync(file));
+            }
+            else
+            {
+                bufTask = create_task([]() -> IBuffer^
+                {
+                    return nullptr;
+                });
+            }
+            return bufTask;
+        }).then([](IBuffer^ buffer) -> String^
+        {
+            if (buffer)
+            {
+                DataReader^ dataReader = DataReader::FromBuffer(buffer);
+                String^ textContents = dataReader->ReadString(buffer->Length);
+                std::wregex reg{ LR"__(PhoneProductId="([^"]+)")__" };
+                std::wsmatch match;
+                std::wstring wideText{ textContents->Data() };
+                bool searchFound = std::regex_search(wideText, match, reg);
+                if (searchFound)
+                {
+                    auto it = match.begin();
+                    ++it; // the capture group is the 2nd item, after the full match result
+                    std::wstring productId = *it;
+                    return L"msft-" + ref new String(productId.c_str()) + L"://login_success";
+                }
+                else
+                {
+                    return L"";
+                }
+            }
+            else
+            {
+                return L"";
+            }
+        });
+        redirectString = result.get();
+    }
+    return redirectString;
 }
 
 task<FBResult^> FBSession::CheckWebAccountProviderForExistingToken(
@@ -1503,7 +1609,7 @@ task<FBResult^> FBSession::CallWebAccountProviderOnUiThread(
         catch (Exception^ ex)
         {
             throw ref new InvalidArgumentException(SDKMessageLoginFailed);
-        } 
+        }
         return result;
     });
 }
@@ -1519,9 +1625,9 @@ FBResult^ FBSession::ExtractAccessTokenDataFromResponseData(
     {
         WebTokenResponse^ response = it->Current;
         //
-        // Calculate a time 90 minutes from now.  This is the *earliest* time 
+        // Calculate a time 90 minutes from now.  This is the *earliest* time
         // at which our token will expire, so to be conservative we'll assume
-        // that's when it expires.  The token broker doesn't expose the 
+        // that's when it expires.  The token broker doesn't expose the
         // actual expiration time, so this is the best we can do.
         //
         Calendar^ cal = ref new Calendar();
@@ -1529,7 +1635,7 @@ FBResult^ FBSession::ExtractAccessTokenDataFromResponseData(
         long long minimumExpiryInTicks = now.UniversalTime + _90_MINUTES_IN_TICKS;
         DateTime expiration;
         expiration.UniversalTime = minimumExpiryInTicks;
-        FBAccessTokenData^ token = ref new FBAccessTokenData(response->Token, expiration, ref new String());
+        FBAccessTokenData^ token = ref new FBAccessTokenData(response->Token, expiration);
 
         result = ref new FBResult(token);
 
@@ -1622,4 +1728,3 @@ FBResult^ FBSession::FBResultFromTokenRequestResult(
 }
 
 #endif // WIN_32_WINNT >= _WIN32_WINNT_WIN10
-

@@ -27,11 +27,10 @@
             <TextBlock Text="Show Dialogs" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
-        <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <Button Content="Feed" HorizontalAlignment="Left" Height="73" VerticalAlignment="Top" Width="362" Margin="0,-10,0,0" Click="Feed_Click"/>
-            <Button Content="App Requests" HorizontalAlignment="Left" Height="73" VerticalAlignment="Top" Width="362" Margin="0,49,0,0" Click="AppRequests_Click"/>
-
-        </Grid>
+        <StackPanel Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Button Content="Feed Dialog" Width="{Binding ActualWidth, ElementName=ContentRoot}" HorizontalAlignment="Left" Height="73" VerticalAlignment="Top" MaxWidth="362" Margin="0,10,0,0" Click="FeedDialogButton_Click"/>
+            <Button Content="App Requests Dialog" Width="{Binding ActualWidth, ElementName=ContentRoot}" HorizontalAlignment="Left" Height="73" VerticalAlignment="Top" MaxWidth="362" Margin="0,10,0,0" Click="AppRequestsButton_Click"/>
+            <Button Content="Send Dialog" Width="{Binding ActualWidth, ElementName=ContentRoot}" x:Name="SendDialogButton" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Height="73" MaxWidth="362" Click="SendDialogButton_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

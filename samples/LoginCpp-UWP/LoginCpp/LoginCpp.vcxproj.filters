@@ -59,16 +59,15 @@
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="winsdkfb_testing_key.pfx" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="MainPage.xaml" />
     <Page Include="UserInfo.xaml" />
     <Page Include="UserLikes.xaml" />
-    <Page Include="OptionsPage.xaml" />
     <Page Include="Dialogs.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\winsdkfb\winsdkfb_testing_key.pfx" />
   </ItemGroup>
 </Project>

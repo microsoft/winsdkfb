@@ -15,13 +15,13 @@
 //******************************************************************************
 
 //
-// OptionsPage.xaml.h
-// Declaration of the OptionsPage class
+// UserInfo.xaml.h
+// Declaration of the UserInfo class
 //
 
 #pragma once
 
-#include "OptionsPage.g.h"
+#include "UserInfo.g.h"
 #include "Common\NavigationHelper.h"
 
 namespace LoginCpp
@@ -30,10 +30,10 @@ namespace LoginCpp
 	/// A basic page that provides characteristics common to most applications.
 	/// </summary>
 	[Windows::Foundation::Metadata::WebHostHidden]
-	public ref class OptionsPage sealed
+	public ref class UserInfo sealed
 	{
 	public:
-		OptionsPage();
+		UserInfo();
 
 		/// <summary>
 		/// Gets the view model for this <see cref="Page"/>. 
@@ -44,40 +44,28 @@ namespace LoginCpp
 			Windows::Foundation::Collections::IObservableMap<Platform::String^, Platform::Object^>^  get();
 		}
 
-		/// <summary>
-		/// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
-		/// </summary>
-		property Common::NavigationHelper^ NavigationHelper
-		{
-			Common::NavigationHelper^ get();
-		}
+        /// <summary>
+        /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
+        /// </summary>
+        property Common::NavigationHelper^ NavigationHelper
+        {
+            Common::NavigationHelper^ get();
+        }
 
 	protected:
-		virtual void OnNavigatedTo(
-            Windows::UI::Xaml::Navigation::NavigationEventArgs^ e
-            ) override;
-
-		virtual void OnNavigatedFrom(
-            Windows::UI::Xaml::Navigation::NavigationEventArgs^ e
-            ) override;
+		virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
+		virtual void OnNavigatedFrom(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
 
 	private:
-		void LoadState(Platform::Object^ sender, Common::LoadStateEventArgs^ e);
-		
+        void LoadState(Platform::Object^ sender, Common::LoadStateEventArgs^ e);
         void SaveState(Platform::Object^ sender, Common::SaveStateEventArgs^ e);
-
-		static Windows::UI::Xaml::DependencyProperty^ _defaultViewModelProperty;
-		
-        static Windows::UI::Xaml::DependencyProperty^ _navigationHelperProperty;
         
-        void UserInfo_Click(
-            Platform::Object^ sender, 
-            Windows::UI::Xaml::RoutedEventArgs^ e
-            );
-
-        void Dialogs_Click(
-            Platform::Object^ sender, 
-            Windows::UI::Xaml::RoutedEventArgs^ e
-            );
+        static Windows::UI::Xaml::DependencyProperty^ _defaultViewModelProperty;
+		static Windows::UI::Xaml::DependencyProperty^ _navigationHelperProperty;
+        void Button_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void UserLikesButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void UserGroupsButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void BackButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
+
 }

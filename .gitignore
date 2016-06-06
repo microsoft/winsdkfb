@@ -5,6 +5,7 @@
 *.opensdf
 *.sdf
 *.suo
+*.VC.db
 AppPackages
 bin
 Debug
@@ -17,4 +18,4 @@ packages
 Packages.dgml
 Release
 sdk-build.log
-
+project.lock.json

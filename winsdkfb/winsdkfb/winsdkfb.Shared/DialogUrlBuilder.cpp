@@ -40,7 +40,7 @@ Uri^ DialogUrlBuilder::BuildFeedDialogUrl(
         sess->AccessTokenData->AccessToken +
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
-        L"&app_id=" + sess->FBAppId; 
+        L"&app_id=" + sess->FBAppId;
     String^ queryString = FBClient::ParametersToQueryString(Parameters);
     if (queryString->Length() > 0)
     {
@@ -105,29 +105,23 @@ String^ DialogUrlBuilder::GetRedirectUriString(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
+    String^ result;
     if (sess->LastSuccessfulDialogBasedLoginType == SessionLoginBehavior::WebAuth)
     {
         if (sess->WebAuthDialogRedirectUrl == nullptr)
         {
-            return WebAuthenticationBroker::GetCurrentApplicationCallbackUri()->DisplayUri;
+            result = WebAuthenticationBroker::GetCurrentApplicationCallbackUri()->DisplayUri;
         }
         else
         {
-            return sess->WebAuthDialogRedirectUrl;
+            result = sess->WebAuthDialogRedirectUrl;
         }
     }
-
-    //
-    // This looks strange, but is correct.  One side or the other of this 
-    // conversation has a problem with all the other types of redirect
-    // protocol/URIs accepted for apps, so we're left with always redirecting
-    // to the login_success page on FB, then canceling the redirect in our
-    // NavigationStarted event handler, for all dialogs.
-    // 
-    String^ result = FacebookDialog::GetFBServerUrl() + FACEBOOK_LOGIN_SUCCESS_PATH;
-        
-    result = Uri::EscapeComponent(result);
-
-    //DebugPrintLine(L"Redirect URI is " + result);
+    else
+    {
+        result = sess->WebViewRedirectDomain + sess->WebViewRedirectPath;
+        result = Uri::EscapeComponent(result); // TODO should this be done for all possible return values?
+    }
+    OutputDebugString(String::Concat(String::Concat(L"Redirect URI is ", result), L"\n")->Data());
     return result;
 }

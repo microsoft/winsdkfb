@@ -20,12 +20,16 @@
 #include "FacebookClient.h"
 #include "FacebookResult.h"
 
+typedef Windows::Foundation::IAsyncOperation<Platform::String^>^
+    (*FBClientFunc)
+    (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters);
+
 namespace winsdkfb
 {
     namespace Graph
     {
         /**
-         * Used to interact with Facebook Graph API calls that return
+         * @brief Used to interact with Facebook Graph API calls that return
          * non-paginated values.
          */
         public ref class FBSingleValue sealed
@@ -74,8 +78,23 @@ namespace winsdkfb
                 );
 
         private:
+            /**
+             * Attempts to use ObjectFactory to create an object from values
+             * contained in JsonText.
+             * @param JsonText Serialized json text that contains values used to
+             * instantiate an object of the type created by ObjectFactory.
+             * @return FBResult that contains a new object created by
+             * ObjectFactory. On failure, the FBResult will instead contain an
+             * FBError object.
+             * @exception InvalidArgumentException if ObjectyFactory is unable
+             * to instantiate an object or if the JsonText is unparsable.
+             */
             FBResult^ ConsumeSingleValue(
                 Platform::String^ JsonText
+                );
+
+            Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
+                FBClientFunc func
                 );
 
             FBResult^ _result;

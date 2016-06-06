@@ -29,11 +29,12 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
 using winsdkfb;
 using Windows.Globalization;
 using Windows.ApplicationModel.Resources;
 using System.Threading.Tasks;
+using Windows.Globalization.DateTimeFormatting;
+using Windows.ApplicationModel.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -137,7 +138,7 @@ namespace LoginCs
             // is outside the task context.
             SetSessionAppIds();
 
-            FBResult result = await FBSession.ActiveSession.LoginAsync(BuildPermissions());
+            FBResult result = await FBSession.ActiveSession.LoginAsync(BuildPermissions(), GetLoginBehavior());
 
             if (result.Succeeded)
             {
@@ -147,8 +148,7 @@ namespace LoginCs
                 }
                 else
                 {
-                    //Navigate back to same page, to clear out logged in info.
-                    App.RootFrame.Navigate(typeof(UserInfo));
+                    UpdateXamlControls();
                 }
             }
         }
@@ -175,9 +175,9 @@ namespace LoginCs
                 Calendar cal = new Calendar();
                 cal.SetDateTime(sess.AccessTokenData.ExpirationDate);
 
-                ResponseText.Text = sess.AccessTokenData.AccessToken;
+                AccessTokenText.Text = sess.AccessTokenData.AccessToken;
 
-                ExpirationDate.Text = cal.DayOfWeekAsString() + "," +
+                ExpirationDateText.Text = cal.DayOfWeekAsString() + "," +
                     cal.YearAsString() + "/" + cal.MonthAsNumericString() +
                     "/" + cal.DayAsString() + ", " + cal.HourAsPaddedString(2) +
                     ":" + cal.MinuteAsPaddedString(2) + ":" +
@@ -202,7 +202,7 @@ namespace LoginCs
             else
             {
                 LoginButton.Content = "Logout";
-                FBResult result = await sess.LoginAsync(BuildPermissions());
+                FBResult result = await sess.LoginAsync(BuildPermissions(), GetLoginBehavior());
 
                 // There may be other cases where an a failed login request should
                 // prompt the app to retry login, but this one is common enough that
@@ -220,10 +220,88 @@ namespace LoginCs
                 }
                 else if (result.Succeeded)
                 {
-                    //Navigate back to same page, to clear out logged in info.
-                    App.RootFrame.Navigate(typeof(UserInfo));
+                    UpdateXamlControls();
                 }
             }
         }
+
+        private void LayoutRoot_Loaded(Object sender, Windows.UI.Xaml.RoutedEventArgs args)
+        {
+            UpdateXamlControls();
+        }
+        private void UpdateXamlControls()
+        {
+            FBSession sess = FBSession.ActiveSession;
+            if (sess.LoggedIn)
+            {
+                LoginButton.Content = "Logout";
+                AccessTokenText.Text = sess.AccessTokenData.AccessToken;
+                DateTimeFormatter dateFormatter = new DateTimeFormatter(
+                     "{year.full(4)}-{month.integer(2)}-{day.integer(2)} " +
+                     "{hour.integer(2)}:{minute.integer(2)}:{second.integer(2)}");
+                ExpirationDateText.Text = dateFormatter.Format(sess.AccessTokenData.ExpirationDate);
+                UserInfoButton.IsEnabled = true;
+                DialogsPageButton.IsEnabled = true;
+            }
+            else
+            {
+                LoginButton.Content = "Login To FB";
+                AccessTokenText.Text = "";
+                ExpirationDateText.Text = "";
+                UserInfoButton.IsEnabled = false;
+                DialogsPageButton.IsEnabled = false;
+            }
+
+        }
+
+
+        async void UserInfoButton_Click(Object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                Windows.UI.Core.CoreDispatcherPriority.Normal,
+                () =>
+            {
+                Frame.Navigate(typeof(UserInfo));
+            });
+        }
+
+
+        async void DialogsPageButton_Click(Object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                Windows.UI.Core.CoreDispatcherPriority.Normal,
+                () =>
+            {
+                Frame.Navigate(typeof(Dialogs));
+            });
+        }
+        SessionLoginBehavior GetLoginBehavior()
+        {
+            ComboBoxItem selectedLoginMethod = (ComboBoxItem)LoginMethodComboBox.SelectedItem;
+            String text = (String)selectedLoginMethod.Content;
+            if (String.CompareOrdinal(text, "WebView") == 0)
+            {
+                return SessionLoginBehavior.WebView;
+            }
+            if (String.CompareOrdinal(text, "WebAuth") == 0)
+            {
+                return SessionLoginBehavior.WebAuth;
+            }
+            if (String.CompareOrdinal(text, "WebAccountProvider") == 0)
+            {
+                return SessionLoginBehavior.WebAccountProvider;
+            }
+            if (String.CompareOrdinal(text, "DefaultOrdering") == 0)
+            {
+                return SessionLoginBehavior.DefaultOrdering;
+            }
+            if (String.CompareOrdinal(text, "Silent") == 0)
+            {
+                return SessionLoginBehavior.Silent;
+            }
+            throw new ArgumentException();
+        }
+
+
     }
 }
