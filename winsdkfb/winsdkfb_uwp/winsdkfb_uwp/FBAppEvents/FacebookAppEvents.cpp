@@ -1,29 +1,30 @@
 //******************************************************************************
 //
-// Copyright(c) 2016, Facebook, Inc.All rights reserved.
+// Copyright(c) 2016, Facebook, Inc. All rights reserved.
 //
-// You are hereby granted a non-exclusive, worldwide, royalty-free license to 
-// use, copy, modify, and distribute this software in source code or binary form 
+// You are hereby granted a non-exclusive, worldwide, royalty-free license to
+// use, copy, modify, and distribute this software in source code or binary form
 // for use in connection with the web services and APIs provided by Facebook.
 //
-// As with any software that integrates with the Facebook platform, your use of 
-// this software is subject to the Facebook Developer Principles and Policies 
-// [http://developers.facebook.com/policy/]. This copyright notice shall be 
-// included in all copies or substantial portions of the software. 
+// As with any software that integrates with the Facebook platform, your use of
+// this software is subject to the Facebook Developer Principles and Policies
+// [http://developers.facebook.com/policy/]. This copyright notice shall be
+// included in all copies or substantial portions of the software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
 //******************************************************************************
-
 #include "pch.h"
 
-#include "FBSDKAppEvents.h"
+#ifndef __NOFBAPPEVENTS__
+
+#include "FacebookAppEvents.h"
 #include "FacebookClient.h"
 
 using namespace concurrency;
@@ -40,32 +41,38 @@ using namespace Windows::Globalization;
 using namespace Windows::Storage;
 using namespace Windows::System::UserProfile;
 
-#define FBActivitiesPath L"/activities"
-#define FBMobileAppInstall L"MOBILE_APP_INSTALL"
-#define FBCustomAppEvent L"CUSTOM_APP_EVENTS"
-#define FBAppIDName L"FBApplicationId"
+// Constants
+#define FACEBOOK_ACTIVITIES_PATH L"/activities"
+#define FACEBOOK_MOBILE_APP_INSTALL L"MOBILE_APP_INSTALL"
+#define FACEBOOK_CUSTOM_APP_EVENTS L"CUSTOM_APP_EVENTS"
+#define FACEBOOK_APPID_NAME L"FBApplicationId"
+
+
 
 /*
-* To integrate install tracking for mobile app install ads,
-* call this method when the app is launched.
+ * To integrate install tracking for mobile app install ads,
+ * call this method when the app is launched.
 */
 void FBSDKAppEvents::ActivateApp()
 {
     // Try to grab the application id from resource file.
     String^ appId;
-    try {
+    try
+    {
         ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
-        appId = rl->GetString(FBAppIDName);
+        appId = rl->GetString(FACEBOOK_APPID_NAME);
     }
-    catch (Exception^ e) {
+    catch (Exception^ e)
+    {
         throw ref new NotImplementedException(
-            FBAppIDName + L" needs to be added to resource file."
+            FACEBOOK_APPID_NAME + L" needs to be added to resource file."
         );
     }
 
-    if (!appId) {
+    if (!appId)
+    {
         throw ref new NotImplementedException(
-            FBAppIDName + L" cannot contain empty value"
+            FACEBOOK_APPID_NAME + L" cannot contain empty value"
         );
     }
 
@@ -77,6 +84,7 @@ void FBSDKAppEvents::ActivateApp()
  * Publish an install event to the Facebook graph endpoint.
  * Write the timestamp to localSettings so we only trigger this once.
  */
+
 IAsyncAction^ FBSDKAppEvents::PublishInstall(
     String^ AppId
     )
@@ -127,9 +135,9 @@ IAsyncOperation<String^>^ FBSDKAppEvents::LogInstallEvent(
     String^ AppId
     )
 {
-    String^ path = AppId + FBActivitiesPath;
+    String^ path = AppId + FACEBOOK_ACTIVITIES_PATH;
     PropertySet^ parameters = ref new PropertySet();
-    parameters->Insert(L"event", FBMobileAppInstall);
+    parameters->Insert(L"event", FACEBOOK_MOBILE_APP_INSTALL);
     parameters->Insert(L"advertiser_id", AdvertisingManager::AdvertisingId);
     parameters->Insert(
         L"advertiser_tracking_enabled",
@@ -157,9 +165,9 @@ IAsyncAction^ FBSDKAppEvents::LogActivateEvent(
     String^ AppId
     )
 {
-    String^ path = AppId + FBActivitiesPath;
+    String^ path = AppId + FACEBOOK_ACTIVITIES_PATH;
     PropertySet^ parameters = ref new PropertySet();
-    parameters->Insert(L"event", FBCustomAppEvent);
+    parameters->Insert(L"event", FACEBOOK_CUSTOM_APP_EVENTS);
     parameters->Insert(L"custom_events", FBSDKAppEvents::GetActivateAppJson());
     parameters->Insert(L"advertiser_id", AdvertisingManager::AdvertisingId);
     parameters->Insert(
@@ -183,7 +191,8 @@ IAsyncAction^ FBSDKAppEvents::LogActivateEvent(
 /*
  * Creates a JSON array encapsulating the activate app event
  */
-String^ FBSDKAppEvents::GetActivateAppJson() {
+String^ FBSDKAppEvents::GetActivateAppJson()
+{
     JsonArray^ customEvents = ref new JsonArray();
     JsonObject^ activateJson = ref new JsonObject();
     activateJson->SetNamedValue(
@@ -193,3 +202,5 @@ String^ FBSDKAppEvents::GetActivateAppJson() {
     customEvents->Append(activateJson);
     return customEvents->ToString();
 }
+
+#endif //__NOFBAPPEVENTS__

@@ -27,10 +27,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FBSDKAppEvents.h" />
+    <ClInclude Include="FBAppEvents\FacebookAppEvents.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FBSDKAppEvents.cpp" />
+    <ClCompile Include="FBAppEvents\FacebookAppEvents.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{973a943b-ff77-4267-8f30-f5fe2b7f5583}</ProjectGuid>

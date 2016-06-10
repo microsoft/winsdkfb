@@ -11,15 +11,18 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{0c41c025-6e0c-405d-b80a-46adadface88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FBSDKAppEvents">
+      <UniqueIdentifier>{b3d7b624-4dcc-402e-9b67-9ffb472d03f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FBSDKAppEvents.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="FBAppEvents\FacebookAppEvents.h">
+      <Filter>FBSDKAppEvents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FBSDKAppEvents.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="FBAppEvents\FacebookAppEvents.cpp">
+      <Filter>FBSDKAppEvents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
