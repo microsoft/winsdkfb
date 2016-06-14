@@ -100,7 +100,7 @@ FBPermissions^ FBPermissions::Difference(
     }
     for (String^ otherPerm : Subtrahend->Values)
     {
-        for (int i = 0; i < remainingPermissions->Size; ++i)
+        for (unsigned int i = 0; i < remainingPermissions->Size; ++i)
         {
             String^ perm = remainingPermissions->GetAt(i);
             if (String::CompareOrdinal(perm, otherPerm) == 0)
