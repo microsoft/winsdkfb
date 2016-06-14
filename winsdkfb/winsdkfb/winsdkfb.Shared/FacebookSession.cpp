@@ -1199,22 +1199,26 @@ task<FBResult^> FBSession::TryLoginSilently(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
-
     IAsyncOperation<FBResult^>^ result = nullptr;
 
     return create_task([=]() -> task<FBResult^>
     {
-        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        // check if any new permissions are being ask for, can't use saved
+        // token if there is new ones
+        FBPermissions^ grantedPermissions = FBPermissions::FromString(GetGrantedPermissions());
+        FBPermissions^ requestingPermissions = FBPermissions::FromString(static_cast<String^>(Parameters->Lookup(L"scope")));
+        FBPermissions^ diffPermissions = FBPermissions::Difference(requestingPermissions, grantedPermissions);
+        if (diffPermissions->Values->Size != 0)
         {
-            return nullptr;
-        });
-
-        if (!IsRerequest(Parameters))
-        {
-            graphTask = CheckForExistingToken();
+            return create_task([]() -> FBResult^
+            {
+                return nullptr;
+            });
         }
-
-        return graphTask;
+        else
+        {
+            return CheckForExistingToken();
+        }
     })
         .then([=](FBResult^ oauthResult) -> task<FBResult^>
     {
