@@ -55,7 +55,7 @@ using namespace Windows::UI::Xaml::Interop;
 DependencyProperty^ ProfilePictureControl::_userIdProperty = DependencyProperty::Register(
     L"UserId",
     TypeName(String::typeid),
-    TypeName(String::typeid),
+    TypeName(ProfilePictureControl::typeid),
     ref new PropertyMetadata(
         nullptr,
         ref new PropertyChangedCallback(&ProfilePictureControl::UserIdPropertyChanged)));
