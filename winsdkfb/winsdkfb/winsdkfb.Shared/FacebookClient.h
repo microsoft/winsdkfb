@@ -19,15 +19,19 @@
 #include <ppltasks.h>
 #include "JsonClassFactory.h"
 #include "HttpMethod.h"
+#include "IHttpClient.h"
 
 namespace winsdkfb
 {
     /**
      * @brief static class used to perform HTTP requests.
      */
-    public ref class FBClient sealed
+    public ref class FBClient sealed : public IHttpClient
     {
     public:
+        FBClient();
+
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^
         /**
          * Performs an HTTP GET request to path with parameters as the request
          * query string
@@ -36,7 +40,6 @@ namespace winsdkfb
          * @return The HTTP response content
          * @exception Exception thrown on any error in the request process.
          */
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^
         GetTaskAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters
@@ -50,7 +53,7 @@ namespace winsdkfb
          * @return The HTTP response content
          * @exception Exception thrown on any error in the request process.
          */
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^
         PostTaskAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters
@@ -64,7 +67,7 @@ namespace winsdkfb
          * @return The HTTP response content
          * @exception Exception thrown on any error in the request process.
          */
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^
+        virtual Windows::Foundation::IAsyncOperation<Platform::String^>^
         DeleteTaskAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters
@@ -76,12 +79,11 @@ namespace winsdkfb
          * @return A query string of the form
          * "key1=value1&key2=value2&..." etc.
          */
-        static Platform::String^ FBClient::ParametersToQueryString(
+        virtual Platform::String^ ParametersToQueryString(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
     private:
-        FBClient();
 
         /**
          * Finds all FBMediaStream object in parameters.
@@ -89,7 +91,7 @@ namespace winsdkfb
          * @return PropertySet containing all FBMediaStream objects found. If
          * none are found, nullptr is instead returned.
          */
-        static Windows::Foundation::Collections::PropertySet^
+        Windows::Foundation::Collections::PropertySet^
         GetStreamsToUpload(
             Windows::Foundation::Collections::PropertySet^ parameters
             );
@@ -101,7 +103,7 @@ namespace winsdkfb
          * cast to FBMediaStream.
          * @param Form The form to attach FBMediaStream objects to.
          */
-        static void FBClient::AddStreamsToForm(
+        void FBClient::AddStreamsToForm(
             Windows::Foundation::Collections::PropertySet^ Parameters,
             Windows::Web::Http::HttpMultipartFormDataContent^ Form
             );
@@ -113,7 +115,7 @@ namespace winsdkfb
          * @return IAsyncOperation containing the response content
          * @exception Can throw any exception that is thrown by SimplePlostInternalAsync
          */
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^
+        Windows::Foundation::IAsyncOperation<Platform::String^>^
         SimplePostAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters
@@ -127,7 +129,7 @@ namespace winsdkfb
          * @return IASyncOperation containing the response content
          * @exception Can throw any exception that is thrown by MultipartPostInternalAsync
          */
-        static Windows::Foundation::IAsyncOperation<Platform::String^>^
+        Windows::Foundation::IAsyncOperation<Platform::String^>^
         MultipartPostAsync(
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters,
@@ -143,7 +145,7 @@ namespace winsdkfb
          * FBMediaObject. If parameters is nullptr, will instead return nullptr.
          * Note that mediaObjects and mediaStreams are both altered by this function.
          */
-        static Windows::Foundation::Collections::PropertySet^ ToDictionary(
+        Windows::Foundation::Collections::PropertySet^ ToDictionary(
             Windows::Foundation::Collections::PropertySet^ parameters,
             Windows::Foundation::Collections::PropertySet^ mediaObjects,
             Windows::Foundation::Collections::PropertySet^ mediaStreams
@@ -160,7 +162,7 @@ namespace winsdkfb
          * attempting to be attached on non-POST requests.
          * @exception InvalidArgumentException if httpMethod is POST and improperly formatted/empty media object is attached.
          */
-        static Windows::Foundation::Uri^ PrepareRequestUri(
+        Windows::Foundation::Uri^ PrepareRequestUri(
             winsdkfb::HttpMethod httpMethod,
             Platform::String^ path,
             Windows::Foundation::Collections::PropertySet^ parameters,
@@ -172,7 +174,7 @@ namespace winsdkfb
          * this function modifies parameters.
          * @param parameters The PropertySet to modify
          */
-        static void SerializeParameters(
+        void SerializeParameters(
             Windows::Foundation::Collections::PropertySet^ parameters
             );
 
@@ -181,7 +183,7 @@ namespace winsdkfb
          * @param Response response to check
          * @return true if Response does indicate an OAuth error, false otherwise.
          */
-        static BOOL IsOAuthErrorResponse(
+        BOOL IsOAuthErrorResponse(
             Platform::String^ Response
             );
 
@@ -191,7 +193,7 @@ namespace winsdkfb
          * @return The response content
          * @exception Exception Any exception that can occur during the request
          */
-        static concurrency::task<Platform::String^> GetTaskInternalAsync(
+        concurrency::task<Platform::String^> GetTaskInternalAsync(
             Windows::Foundation::Uri^ RequestUri
             );
 
@@ -201,7 +203,7 @@ namespace winsdkfb
          * @return The response content
          * @exception Exception Any exception that can occur during the request
          */
-        static concurrency::task<Platform::String^> DeleteTaskInternalAsync(
+        concurrency::task<Platform::String^> DeleteTaskInternalAsync(
             Windows::Foundation::Uri^ RequestUri
             );
 
@@ -211,7 +213,7 @@ namespace winsdkfb
          * @return The response content
          * @exception Exception Any exception that can occur during the request
          */
-        static concurrency::task<Platform::String^> SimplePostInternalAsync(
+        concurrency::task<Platform::String^> SimplePostInternalAsync(
             Windows::Foundation::Uri^ RequestUri
             );
 
@@ -221,12 +223,12 @@ namespace winsdkfb
          * @return The response content
          * @exception Exception Any exception that can occur during the request
          */
-        static concurrency::task<Platform::String^> MultipartPostInternalAsync(
+        concurrency::task<Platform::String^> MultipartPostInternalAsync(
             Windows::Foundation::Uri^ RequestUri,
             Windows::Foundation::Collections::PropertySet^ Streams
             );
 
-        static concurrency::task<Platform::String^> TryReceiveHttpResponse(
+        concurrency::task<Platform::String^> TryReceiveHttpResponse(
             concurrency::task<Windows::Web::Http::HttpResponseMessage^> httpRequestTask,
             concurrency::cancellation_token_source cancellationTokenSource
             );

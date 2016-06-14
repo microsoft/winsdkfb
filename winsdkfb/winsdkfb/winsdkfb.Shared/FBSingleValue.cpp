@@ -19,6 +19,7 @@
 #include "FacebookResult.h"
 #include "FacebookSession.h"
 #include "FBSingleValue.h"
+#include "HttpManager.h"
 
 using namespace concurrency;
 using namespace winsdkfb;
@@ -42,19 +43,19 @@ FBSingleValue::FBSingleValue(
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::GetAsync(
     )
 {
-    return MakeHttpRequest(&FBClient::GetTaskAsync);
+    return MakeHttpRequest(HttpMethod::Get);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::PostAsync(
     )
 {
-    return MakeHttpRequest(&FBClient::PostTaskAsync);
+    return MakeHttpRequest(HttpMethod::Post);
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::DeleteAsync(
     )
 {
-    return MakeHttpRequest(&FBClient::DeleteTaskAsync);
+    return MakeHttpRequest(HttpMethod::Delete);
 }
 
 
@@ -132,13 +133,33 @@ FBResult^ FBSingleValue::ConsumeSingleValue(
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
-    FBClientFunc func
+    HttpMethod httpMethod
 )
 {
-    return create_async([this, func]()->task<FBResult^>
+    if (_parameters == nullptr)
     {
-        return create_task(func(_request, _parameters))
-            .then([this](String^ responseString) -> FBResult^
+        _parameters = ref new PropertySet();
+    }
+    return create_async([=]()->task<FBResult^>
+    {
+        task<String^> innerTask;
+        switch (httpMethod)
+        {
+        case HttpMethod::Get:
+            innerTask = create_task(HttpManager::Instance->GetTaskAsync(_request, _parameters));
+            break;
+        case HttpMethod::Post:
+            innerTask = create_task(HttpManager::Instance->PostTaskAsync(_request, _parameters));
+            break;
+        case HttpMethod::Delete:
+            innerTask = create_task(HttpManager::Instance->DeleteTaskAsync(_request, _parameters));
+            break;
+        default:
+            OutputDebugString(L"FBSingleValue::MakeHttpRequest recieved unknown HttpMethod value\n");
+            innerTask = create_task([]() -> String^ { return nullptr; });
+            break;
+        }
+        return innerTask.then([this](String^ responseString) -> FBResult^
         {
             if (responseString == nullptr)
             {

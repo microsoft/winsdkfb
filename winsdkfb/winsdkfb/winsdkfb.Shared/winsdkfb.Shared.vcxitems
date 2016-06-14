@@ -49,6 +49,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBUser.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HlsColor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IHttpClient.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMethod.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonClassFactory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
@@ -89,6 +91,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBUser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HlsColor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HttpManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

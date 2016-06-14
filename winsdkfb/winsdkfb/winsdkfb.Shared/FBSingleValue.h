@@ -17,12 +17,8 @@
 #pragma once
 
 #include "JsonClassFactory.h"
-#include "FacebookClient.h"
 #include "FacebookResult.h"
-
-typedef Windows::Foundation::IAsyncOperation<Platform::String^>^
-    (*FBClientFunc)
-    (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters);
+#include "HttpMethod.h"
 
 namespace winsdkfb
 {
@@ -94,7 +90,7 @@ namespace winsdkfb
                 );
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
-                FBClientFunc func
+                HttpMethod httpMethod
                 );
 
             FBResult^ _result;
