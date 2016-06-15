@@ -121,11 +121,7 @@ String^ FBSession::FBAppId::get()
 {
     if (!_FBAppId)
     {
-        _FBAppId = ref new String(L"<INSERT YOUR APP ID HERE>");
-
-#ifdef _DEBUG
-        OutputDebugString(L"!!! Missing App ID.  Update your app to use a valid FB App ID in order for the FB API's to succeed");
-#endif
+        throw ref new InvalidArgumentException(SDKMessageMissingAppID);
     }
 
     return _FBAppId;
@@ -179,6 +175,16 @@ String^ FBSession::WebViewRedirectDomain::get()
 String^ FBSession::WebViewRedirectPath::get()
 {
     return _webViewRedirectPath;
+}
+
+ApplicationDataContainer^ FBSession::DataContainer::get()
+{
+    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
+    {
+        localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
+    }
+    return localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER);
 }
 
 IAsyncAction^ FBSession::LogoutAsync()
@@ -1306,25 +1312,17 @@ int FBSession::APIMinorVersion::get()
     return _APIMinorVersion;
 }
 
+
+
 void FBSession::SaveGrantedPermissions()
 {
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
-    {
-        localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
-    }
-    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    auto values =FBSession::DataContainer->Values;
     values->Insert(GRANTED_PERMISSIONS_KEY, AccessTokenData->GrantedPermissions->ToString());
 }
 
 String^ FBSession::GetGrantedPermissions()
 {
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
-    {
-        return ""; // TODO should this be an exception?
-    }
-    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    auto values = FBSession::DataContainer->Values;
     if (!values->HasKey(GRANTED_PERMISSIONS_KEY))
     {
         return ""; // TODO should this be an exception?

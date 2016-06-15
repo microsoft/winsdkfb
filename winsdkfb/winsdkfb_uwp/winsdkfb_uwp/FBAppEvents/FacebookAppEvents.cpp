@@ -25,7 +25,7 @@
 #ifndef __NOFBAPPEVENTS__
 
 #include "FacebookAppEvents.h"
-#include "FacebookClient.h"
+#include "FacebookSession.h"
 #include "HttpManager.h"
 
 using namespace concurrency;
@@ -46,8 +46,6 @@ using namespace Windows::System::UserProfile;
 #define FACEBOOK_ACTIVITIES_PATH L"/activities"
 #define FACEBOOK_MOBILE_APP_INSTALL L"MOBILE_APP_INSTALL"
 #define FACEBOOK_CUSTOM_APP_EVENTS L"CUSTOM_APP_EVENTS"
-#define FACEBOOK_APPID_NAME L"FBApplicationId"
-
 
 
 /*
@@ -56,26 +54,10 @@ using namespace Windows::System::UserProfile;
 */
 void FBSDKAppEvents::ActivateApp()
 {
-    // Try to grab the application id from resource file.
-    String^ appId;
-    try
-    {
-        ResourceLoader^ rl = ResourceLoader::GetForCurrentView();
-        appId = rl->GetString(FACEBOOK_APPID_NAME);
-    }
-    catch (Exception^ e)
-    {
-        throw ref new NotImplementedException(
-            FACEBOOK_APPID_NAME + L" needs to be added to resource file."
-        );
-    }
+    FBSession^ session = FBSession::ActiveSession;
 
-    if (!appId)
-    {
-        throw ref new NotImplementedException(
-            FACEBOOK_APPID_NAME + L" cannot contain empty value"
-        );
-    }
+    // Try to grab the application id from session.
+    String^ appId = session->FBAppId;
 
     create_task(FBSDKAppEvents::PublishInstall(appId));
     create_task(FBSDKAppEvents::LogActivateEvent(appId));
@@ -92,8 +74,8 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
 {
     String^ lastPingKey = L"LastAttributionPing" + AppId;
     String^ lastResponseKey = L"LastInstallResponse" + AppId;
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    String^ pingTime = safe_cast<String^>(localSettings->Values->Lookup(lastPingKey));
+    ApplicationDataContainer^ settings = FBSession::DataContainer;
+    String^ pingTime = safe_cast<String^>(settings->Values->Lookup(lastPingKey));
 
     return create_async([=]() -> void
     {
@@ -105,7 +87,7 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
                 Calendar^ calendar = ref new Calendar();
                 calendar->SetToNow();
                 INT64 universaltime = calendar->GetDateTime().UniversalTime;
-                localSettings->Values->Insert(
+                settings->Values->Insert(
                     lastPingKey,
                     dynamic_cast<PropertyValue^>(
                         PropertyValue::CreateString(universaltime.ToString())
@@ -113,7 +95,7 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
                 );
 
                 // Set last response
-                localSettings->Values->Insert(
+                settings->Values->Insert(
                     lastResponseKey,
                     dynamic_cast<PropertyValue^>(PropertyValue::CreateString(lastAttributionResponse))
                 );
