@@ -26,6 +26,7 @@
 
 #include "FacebookAppEvents.h"
 #include "FacebookClient.h"
+#include "HttpManager.h"
 
 using namespace concurrency;
 using namespace std;
@@ -152,7 +153,7 @@ IAsyncOperation<String^>^ FBSDKAppEvents::LogInstallEvent(
             parameters->Insert(L"windows_attribution_id", campaignID);
             return create_task([=]() -> IAsyncOperation<String^>^
             {
-                return FBClient::PostTaskAsync(path, parameters);
+                return HttpManager::Instance->PostTaskAsync(path, parameters);
             });
         });
     });
@@ -177,7 +178,7 @@ IAsyncAction^ FBSDKAppEvents::LogActivateEvent(
 
     return create_async([=]()
     {
-        return create_task(FBClient::PostTaskAsync(path, parameters))
+        return create_task(HttpManager::Instance->PostTaskAsync(path, parameters))
             .then([=](String^ response) -> void
         {
 #ifdef _DEBUG
