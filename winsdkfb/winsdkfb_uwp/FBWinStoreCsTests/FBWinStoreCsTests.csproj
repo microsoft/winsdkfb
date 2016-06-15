@@ -133,6 +133,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FBTestUser.tt</DependentUpon>
     </Compile>
+    <Compile Include="..\..\FBWinStoreCsTests\MockHttpClient.cs">
+      <Link>MockHttpClient.cs</Link>
+    </Compile>
     <Compile Include="..\..\FBWinStoreCsTests\UnitTest1.cs">
       <Link>UnitTest1.cs</Link>
     </Compile>
