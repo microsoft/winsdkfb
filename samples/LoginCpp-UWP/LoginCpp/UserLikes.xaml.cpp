@@ -37,8 +37,8 @@ using namespace Windows::UI::Xaml::Data;
 using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
-using namespace Facebook;
-using namespace Facebook::Graph;
+using namespace winsdkfb;
+using namespace winsdkfb::Graph;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -65,8 +65,7 @@ void UserLikes::AddLikes(
     IVectorView<Object^>^ NewLikes 
     )
 {
-    for (IIterator<Object^>^ it = NewLikes->First(); it->HasCurrent;
-        it->MoveNext())
+    for (IIterator<Object^>^ it = NewLikes->First(); it->HasCurrent; it->MoveNext())
     {
         FBPageBindable^ page = static_cast<FBPageBindable^>(it->Current);
         if (page)
@@ -76,21 +75,19 @@ void UserLikes::AddLikes(
             _listViewItems->Append(page);
         }
     }
-
+    // go through the paginated calls here so that we don't have to deal with task chaining
     if (_likes->HasNext)
     {
-        create_task(_likes->Next()).then([this](FBResult^ result)
+        create_task(_likes->NextAsync()).then([this](FBResult^ result)
         {
             if (result->Succeeded)
             {
-                IVectorView<Object^>^ items = 
-                    static_cast<IVectorView<Object^>^>(result->Object);
-                AddLikes(items);
-            }
-            else
-            {
-                // TODO: Handle FB errors...
-                ;
+                IVectorView<Object^>^ items = static_cast<IVectorView<Object^>^> (result->Object);
+                if (items->Size > 0)
+                {
+                    AddLikes(items);
+                }
+
             }
         });
     }
@@ -110,18 +107,29 @@ void UserLikes::GetUserLikes(
         });
 
         _likes = ref new FBPaginatedArray(graphPath, nullptr, fact);
-        create_task(_likes->First()).then([this](FBResult^ result)
+        create_task(_likes->FirstAsync()).then([this](FBResult^ result)
         {
             if (result->Succeeded)
             {
-                IVectorView<Object^>^ items = static_cast<IVectorView<Object^>^>
-                    (result->Object);
-                AddLikes(items);
+                BadResultsTextBlock->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+                LikesListView->Visibility = Windows::UI::Xaml::Visibility::Visible;
+                IVectorView<Object^>^ items = static_cast<IVectorView<Object^>^> (result->Object);
+                if (items->Size > 0)
+                {
+                    AddLikes(items);
+                }
+                else
+                {
+                    LikesListView->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+                    BadResultsTextBlock->Visibility = Windows::UI::Xaml::Visibility::Visible;
+                    BadResultsTextBlock->Text = L"No User likes found";
+                }
             }
             else
             {
-                // TODO: Handle FB errors...
-                ;
+                LikesListView->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+                BadResultsTextBlock->Visibility = Windows::UI::Xaml::Visibility::Visible;
+                BadResultsTextBlock->Text = result->ErrorInfo->Message;
             }
         });
     }
@@ -142,7 +150,7 @@ void UserLikes::ListView_SelectionChanged(
             return FBPageBindable::FromJson(JsonText);
         }));
 
-        create_task(val->Get())
+        create_task(val->GetAsync())
         .then([this](FBResult^ result)
         {
             if (result->Succeeded)

@@ -126,7 +126,7 @@
     <comment>Facebook "Windows Store ID" - the SID for the app (from a call to WebAuthenticationBroker::GetCurrentApplicationCallbackUri</comment>
   </data>
   <data name="FBWinPhoneAppId" xml:space="preserve">
-    <value>d73eeb5bc4da48a893031d7f1c1b4812</value>
+    <value>f9936651-80a3-478a-9170-cd1629c172ab</value>
     <comment>Facebook "Windows Phone Store ID" - not really a Windows Phone Store Id, but used by Facebook app as protocol to return access token to.</comment>
   </data>
 </root>

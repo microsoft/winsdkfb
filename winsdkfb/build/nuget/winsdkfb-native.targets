@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <winsdkfb-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UAP'">win10</winsdkfb-DeviceType>
+    <winsdkfb-DeviceType Condition="'$(TargetPlatformIdentifier)' == 'UWP'">win10</winsdkfb-DeviceType>
+    <winsdkfb-Platform Condition="'$(Platform)' == 'Win32'">x86</winsdkfb-Platform>
+    <winsdkfb-Platform Condition="'$(Platform)' != 'Win32'">$(Platform)</winsdkfb-Platform>
+
+    <!-- This directory may be overridden by other packages that provide
+         different binaries (eg for debugging winsdkfb itself). -->
+    <winsdkfb-BinDir Condition="'$(winsdkfb-BinDir)' == ''">$(MSBuildThisFileDirectory)..\..\Runtimes\</winsdkfb-BinDir>
+    <winsdkfb-LibDir Condition="'$(winsdkfb-LibDir)' == ''">$(MSBuildThisFileDirectory)..\..\Lib\</winsdkfb-LibDir>
+  </PropertyGroup>
+
+  <Target Name="winsdkfb-DeviceType-Check" BeforeTargets="ResolveAssemblyReferences">
+      <Error Condition="'$(winsdkfb-DeviceType)' == ''" Text="Unable to determine if Windows or Windows Phone app" />
+  </Target>
+  
+  <ItemGroup>
+      <Reference Include="$(winsdkfb-LibDir)$(winsdkfb-DeviceType)\winsdkfb.winmd">
+        <Implementation>winsdkfb.dll</Implementation>
+        <IsWinMD>True</IsWinMD>
+      </Reference>      
+      <ReferenceCopyLocalPaths Include="$(winsdkfb-BinDir)$(winsdkfb-DeviceType)-$(winsdkfb-Platform)\native\winsdkfb.dll" />
+      <ReferenceCopyLocalPaths Include="$(winsdkfb-BinDir)$(winsdkfb-DeviceType)-$(winsdkfb-Platform)\native\winsdkfb.pri" />
+  </ItemGroup>
+    
+</Project>

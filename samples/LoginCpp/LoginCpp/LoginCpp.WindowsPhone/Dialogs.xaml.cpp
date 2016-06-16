@@ -1,4 +1,5 @@
-﻿//******************************************************************************
+﻿
+//******************************************************************************
 //
 // Copyright (c) 2015 Microsoft Corporation. All rights reserved.
 //
@@ -14,18 +15,13 @@
 //
 //******************************************************************************
 
-//
-// Dialogs.xaml.cpp
-// Implementation of the Dialogs class
-//
-
 #include "pch.h"
 #include "Dialogs.xaml.h"
 
 using namespace LoginCpp;
 
 using namespace concurrency;
-using namespace Facebook;
+using namespace winsdkfb;
 using namespace Platform;
 using namespace Platform::Collections;
 using namespace Windows::Foundation;
@@ -40,33 +36,31 @@ using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
 
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
-
 Dialogs::Dialogs()
 {
-	InitializeComponent();
-	SetValue(_defaultViewModelProperty, ref new Platform::Collections::Map<String^, Object^>(std::less<String^>()));
-	auto navigationHelper = ref new Common::NavigationHelper(this);
-	SetValue(_navigationHelperProperty, navigationHelper);
-	navigationHelper->LoadState += ref new Common::LoadStateEventHandler(this, &Dialogs::LoadState);
-	navigationHelper->SaveState += ref new Common::SaveStateEventHandler(this, &Dialogs::SaveState);
+    InitializeComponent();
+    SetValue(_defaultViewModelProperty, ref new Platform::Collections::Map<String^, Object^>(std::less<String^>()));
+    auto navigationHelper = ref new Common::NavigationHelper(this);
+    SetValue(_navigationHelperProperty, navigationHelper);
+    navigationHelper->LoadState += ref new Common::LoadStateEventHandler(this, &Dialogs::LoadState);
+    navigationHelper->SaveState += ref new Common::SaveStateEventHandler(this, &Dialogs::SaveState);
 }
 
 DependencyProperty^ Dialogs::_defaultViewModelProperty =
 DependencyProperty::Register("DefaultViewModel",
-TypeName(IObservableMap<String^, Object^>::typeid), TypeName(Dialogs::typeid), nullptr);
+    TypeName(IObservableMap<String^, Object^>::typeid), TypeName(Dialogs::typeid), nullptr);
 
 /// <summary>
 /// Used as a trivial view model.
 /// </summary>
 IObservableMap<String^, Object^>^ Dialogs::DefaultViewModel::get()
 {
-	return safe_cast<IObservableMap<String^, Object^>^>(GetValue(_defaultViewModelProperty));
+    return safe_cast<IObservableMap<String^, Object^>^>(GetValue(_defaultViewModelProperty));
 }
 
 DependencyProperty^ Dialogs::_navigationHelperProperty =
 DependencyProperty::Register("NavigationHelper",
-TypeName(Common::NavigationHelper::typeid), TypeName(Dialogs::typeid), nullptr);
+    TypeName(Common::NavigationHelper::typeid), TypeName(Dialogs::typeid), nullptr);
 
 /// <summary>
 /// Gets an implementation of <see cref="NavigationHelper"/> designed to be
@@ -74,7 +68,7 @@ TypeName(Common::NavigationHelper::typeid), TypeName(Dialogs::typeid), nullptr);
 /// </summary>
 Common::NavigationHelper^ Dialogs::NavigationHelper::get()
 {
-	return safe_cast<Common::NavigationHelper^>(GetValue(_navigationHelperProperty));
+    return safe_cast<Common::NavigationHelper^>(GetValue(_navigationHelperProperty));
 }
 
 #pragma region Navigation support
@@ -90,12 +84,12 @@ Common::NavigationHelper^ Dialogs::NavigationHelper::get()
 
 void Dialogs::OnNavigatedTo(NavigationEventArgs^ e)
 {
-	NavigationHelper->OnNavigatedTo(e);
+    NavigationHelper->OnNavigatedTo(e);
 }
 
 void Dialogs::OnNavigatedFrom(NavigationEventArgs^ e)
 {
-	NavigationHelper->OnNavigatedFrom(e);
+    NavigationHelper->OnNavigatedFrom(e);
 }
 
 #pragma endregion
@@ -113,8 +107,8 @@ void Dialogs::OnNavigatedFrom(NavigationEventArgs^ e)
 /// session. The state will be null the first time a page is visited.</param>
 void Dialogs::LoadState(Object^ sender, Common::LoadStateEventArgs^ e)
 {
-	(void) sender;	// Unused parameter
-	(void) e;	// Unused parameter
+    (void)sender;   // Unused parameter
+    (void)e;        // Unused parameter
 }
 
 /// <summary>
@@ -125,45 +119,7 @@ void Dialogs::LoadState(Object^ sender, Common::LoadStateEventArgs^ e)
 /// <param name="sender">The source of the event; typically <see cref="NavigationHelper"/></param>
 /// <param name="e">Event data that provides an empty dictionary to be populated with
 /// serializable state.</param>
-void Dialogs::SaveState(Object^ sender, Common::SaveStateEventArgs^ e){
-	(void) sender;	// Unused parameter
-	(void) e; // Unused parameter
-}
-
-
-void Dialogs::Feed_Click(
-    Object^ sender, 
-    RoutedEventArgs^ e
-    )
-{
-    FBSession^ s = FBSession::ActiveSession;
-    PropertySet^ params = ref new PropertySet();
-    params->Insert(L"caption", L"I love Brussels Sprouts!");
-    params->Insert(L"link", L"https://en.wikipedia.org/wiki/Brussels_sprout");
-    params->Insert(L"description", L"Om Nom Nom!");
-
-    create_task(s->ShowFeedDialog(params))
-        .then([=](FBResult^ Response)
-    {
-        OutputDebugString(L"Showed 'Feed' dialog.\n");
-    });
-}
-
-
-void Dialogs::AppRequests_Click(
-    Object^ sender, 
-    RoutedEventArgs^ e
-    )
-{
-    FBSession^ s = FBSession::ActiveSession;
-    PropertySet^ params = ref new PropertySet();
-
-    params->Insert(L"title", L"I love Brussels Sprouts!");
-    params->Insert(L"message", L"Om Nom Nom!");
-
-    create_task(s->ShowRequestsDialog(params))
-        .then([=](FBResult^ Response)
-    {
-        OutputDebugString(L"Showed 'Requests' dialog.\n");
-    });
+void Dialogs::SaveState(Object^ sender, Common::SaveStateEventArgs^ e) {
+    (void)sender;   // Unused parameter
+    (void)e;        // Unused parameter
 }

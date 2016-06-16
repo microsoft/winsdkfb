@@ -20,8 +20,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Facebook;
-using Facebook.Graph;
+using winsdkfb;
+using winsdkfb.Graph;
 
 namespace LoginCs
 {
@@ -45,7 +45,7 @@ namespace LoginCs
             FBSingleValue val = new FBSingleValue("/" + ID, null,
                 new FBJsonClassFactory((JsonText) => 
                     MyFBPage.FromJson(JsonText)));
-            FBResult result = await val.Get();
+            FBResult result = await val.GetAsync();
             if (result.Succeeded)
             {
                 MyFBPage page = (MyFBPage)result.Object;

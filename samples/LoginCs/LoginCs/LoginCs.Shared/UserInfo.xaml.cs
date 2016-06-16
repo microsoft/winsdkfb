@@ -29,8 +29,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using Facebook;
-using Facebook.Graph;
+using winsdkfb;
+using winsdkfb.Graph;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -53,7 +54,9 @@ namespace LoginCs
                 if (FBSession.ActiveSession.User != null)
                 {
                     FBUser user = FBSession.ActiveSession.User;
-                    UserId.Text = user.Id;
+
+                    // Don't set the UserId, let DataBinding take care of it
+                    // UserId.Text = user.Id;
                     UserFirstName.Text = user.FirstName;
                     UserGender.Text = user.Gender;
                     UserLastName.Text = user.LastName;
@@ -67,6 +70,7 @@ namespace LoginCs
                 }
             }
         }
+
         private void UserLikesButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(UserLikes));

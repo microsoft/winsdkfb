@@ -21,7 +21,6 @@
 
 #include "pch.h"
 #include "MainPage.xaml.h"
-#include "UserInfo.xaml.h"
 
 using namespace LoginCpp;
 
@@ -42,7 +41,11 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
-using namespace Facebook;
+using namespace winsdkfb;
+
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+using namespace Windows::Phone::UI::Input;
+#endif
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -54,6 +57,9 @@ App::App()
 {
 	InitializeComponent();
 	Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+    HardwareButtons::BackPressed += ref new Windows::Foundation::EventHandler<BackPressedEventArgs^>(this, &LoginCpp::App::OnBackRequested);
+#endif
 }
 
 Frame^ App::CreateRootFrame()
@@ -180,3 +186,15 @@ void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 
 	// TODO: Save application state and stop any background activity
 }
+
+#if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
+void LoginCpp::App::OnBackRequested(Platform::Object^ sender, BackPressedEventArgs^ args)
+{
+    Frame^ rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
+    if (rootFrame->CanGoBack)
+    {
+        args->Handled = true;
+        rootFrame->GoBack();
+    }
+}
+#endif

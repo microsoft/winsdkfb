@@ -34,6 +34,53 @@ namespace LoginCpp
 		MainPage();
 
 	private:
-		void login_OnClicked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-	};
+        void MainPage::SetSessionAppIds(
+            );
+            
+        winsdkfb::FBPermissions^ BuildPermissions(
+            );
+            
+        BOOL DidGetAllRequestedPermissions(
+            );
+
+		BOOL MainPage::WasAppPermissionRemovedByUser(
+			winsdkfb::FBResult^ result
+			);
+
+		BOOL ShouldRerequest(
+			winsdkfb::FBResult^ result
+			);
+
+		void MainPage::TryRerequest(
+			BOOL retry
+			);
+
+		void MainPage::LogoutAndRetry(
+			);
+
+		void login_OnClicked(
+            Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        winsdkfb::SessionLoginBehavior GetLoginBehavior(
+            );
+
+        void MainPage::UpdateXamlControls(
+            );
+
+        void LayoutRoot_Loaded(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        void UserInfoButton_Click(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        void DialogsPageButton_Click (
+                Platform::Object^ sender,
+                Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+    };
 }

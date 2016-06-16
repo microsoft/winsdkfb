@@ -61,7 +61,7 @@ namespace LoginCpp
             Platform::String^ prop
             );
 
-        Facebook::Graph::FBPaginatedArray^ _likes;
+        winsdkfb::Graph::FBPaginatedArray^ _likes;
         FBPageBindable^ _selectedItem;
         Platform::Collections::Vector<FBPageBindable^>^ _listViewItems;
         void ListView_SelectionChanged(

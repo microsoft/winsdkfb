@@ -25,22 +25,41 @@
 
 namespace LoginCpp
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	public ref class MainPage sealed
-	{
-	public:
-		MainPage();
-
-    protected:
-        virtual void OnNavigatedTo(
-            Windows::UI::Xaml::Navigation::NavigationEventArgs^ e
-            ) override;
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public ref class MainPage sealed
+    {
+    public:
+        MainPage();
 
     private:
-        void StartLogin(
-            Facebook::FBSession^ Session
+        void MainPage::SetSessionAppIds(
+            );
+
+        winsdkfb::FBPermissions^ BuildPermissions(
+            );
+
+        BOOL DidGetAllRequestedPermissions(
+            );
+
+        BOOL MainPage::WasAppPermissionRemovedByUser(
+            winsdkfb::FBResult^ result
+            );
+
+        BOOL ShouldRerequest(
+            winsdkfb::FBResult^ result
+            );
+
+        void MainPage::TryRerequest(
+            BOOL retry
+            );
+
+        void MainPage::LogoutAndRetry(
+            );
+
+        void login_OnClicked(
+            Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e
             );
 
         void LoginButton_Click(
@@ -48,6 +67,25 @@ namespace LoginCpp
             Windows::UI::Xaml::RoutedEventArgs^ e
             );
 
-        Windows::Foundation::EventRegistrationToken m_cookie;
+        void UserInfoButton_Click(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        void DialogsPageButton_Click(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
+
+        winsdkfb::SessionLoginBehavior GetLoginBehavior(
+            );
+
+        void MainPage::UpdateXamlControls(
+            );
+
+        void LayoutRoot_Loaded(
+            Platform::Object^ sender,
+            Windows::UI::Xaml::RoutedEventArgs^ e
+            );
     };
 }
