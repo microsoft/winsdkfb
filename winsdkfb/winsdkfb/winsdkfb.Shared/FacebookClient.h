@@ -145,7 +145,7 @@ namespace winsdkfb
          * FBMediaObject. If parameters is nullptr, will instead return nullptr.
          * Note that mediaObjects and mediaStreams are both altered by this function.
          */
-        Windows::Foundation::Collections::PropertySet^ ToDictionary(
+        static Windows::Foundation::Collections::PropertySet^ ToDictionary(
             Windows::Foundation::Collections::PropertySet^ parameters,
             Windows::Foundation::Collections::PropertySet^ mediaObjects,
             Windows::Foundation::Collections::PropertySet^ mediaStreams

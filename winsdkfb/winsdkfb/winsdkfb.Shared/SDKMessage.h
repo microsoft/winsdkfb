@@ -26,7 +26,10 @@ currently available."
 
 #define SDKMessageLoginFailed L"An unknown error occurred during login"
 
-#define SDKMessageMissingSource L"An file upload request was missing the \
+#define SDKMessageMissingSource L"A file upload request was missing the \
 required parameter 'source'."
+
+#define SDKMessageMissingAppID L"The AppID for the current application is not set\
+on the FBSession."
 
 

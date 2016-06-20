@@ -48,6 +48,9 @@ using namespace Windows::Web::Http::Headers;
 #define MultiPartNewLine "\r\n"
 #define MultiPartContentType L"Content-Type: multipart/form-data; "
 #define MultiPartBoundary L"------------------------------fbsdk1234567890"
+#define UserAgent L"User-Agent"
+#define WinSDKFBUserAgent(version) L"winsdkfb." version
+#define WinSDKFBUserAgentString WinSDKFBUserAgent(WINSDKFB_VERSION)
 
 FBClient::FBClient()
 {
@@ -139,6 +142,7 @@ task<String^> FBClient::GetTaskInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
@@ -220,6 +224,7 @@ task<String^> FBClient::SimplePostInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
@@ -299,6 +304,7 @@ task<String^> FBClient::MultipartPostInternalAsync(
     )
 {
     HttpClient^ httpClient = ref new HttpClient();
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     HttpMultipartFormDataContent^ form =
         ref new HttpMultipartFormDataContent();
     cancellation_token_source cancellationTokenSource =
@@ -375,6 +381,7 @@ task<String^> FBClient::DeleteTaskInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 

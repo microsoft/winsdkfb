@@ -159,6 +159,15 @@ namespace winsdkfb
             }
 
             /**
+             * Get the Settings Container for the SDK
+             * @return ApplicationDataContainer
+             */
+            static property Windows::Storage::ApplicationDataContainer^ DataContainer
+            {
+                Windows::Storage::ApplicationDataContainer^ get();
+            }
+
+            /**
              * Clear all login information, e.g. user info, token string, etc.
              * Do note that this does not clear cookies.
              */

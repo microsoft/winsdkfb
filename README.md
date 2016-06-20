@@ -27,12 +27,15 @@ The Windows SDK for Facebook is geared towards app developers creating modern wi
   - Upload Photo
   - Like a Page/Object
 
+###AppInstalls
+ - Mobile App Installs (can be disabled by defining \_\_NOFBAPPEVENTS__)
+
 
 ## **Supported Platforms**
 
 Windows 8.1+
 Windows Phone 8.1+
-Windows 10 Technical Preview
+Windows 10
 
 ## **Documentation**
 
