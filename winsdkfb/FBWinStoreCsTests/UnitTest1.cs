@@ -15,6 +15,7 @@
 //******************************************************************************
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -699,6 +700,37 @@ namespace FBWinStoreCsTests
             Assert.IsFalse(likes.HasNext);
             Assert.IsFalse(likes.HasPrevious);
             // test with next but no previous
+        }
+
+        [TestMethod]
+        public async Task testJsonPropertySet()
+        {
+
+            StorageFolder installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            StorageFolder jsonFolder = await installedLocation.GetFolderAsync("TestData");
+            StorageFile jsonTestFile = await jsonFolder.GetFileAsync("testJsonPropertySet.json");
+            string text = await FileIO.ReadTextAsync(jsonTestFile);
+
+            FBUser testUser = (FBUser)FBUser.FromJson(text);
+            // member variable
+            Assert.AreEqual(testUser.Name, "test_user");
+            Assert.IsFalse(testUser.Fields.ContainsKey("name"));
+            // boolean field
+            Assert.IsTrue(testUser.Fields.ContainsKey("test_boolean"));
+            Assert.AreEqual(testUser.Fields["test_boolean"], "false");
+            // num field
+            Assert.IsTrue(testUser.Fields.ContainsKey("test_num"));
+            Assert.AreEqual(testUser.Fields["test_num"], "4");
+            // string field
+            Assert.IsTrue(testUser.Fields.ContainsKey("test_string"));
+            Assert.AreEqual(testUser.Fields["test_string"], "hello_world");
+            // array field
+            Assert.IsTrue(testUser.Fields.ContainsKey("test_array"));
+            Assert.AreEqual(testUser.Fields["test_array"], "[2,3,5,7,11]");
+            // object field
+            Assert.IsTrue(testUser.Fields.ContainsKey("test_object"));
+            Assert.AreEqual(testUser.Fields["test_object"], @"{""a"":""b"",""c"":""d""}");
+
         }
     }
 }

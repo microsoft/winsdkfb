@@ -114,13 +114,15 @@
     <None Include="..\winsdkfb_testing_key.pfx">
       <Link>winsdkfb_testing_key.pfx</Link>
     </None>
-    <None Include="data.json" />
     <None Include="FBCSObjectImplementation.ttinclude" />
     <None Include="FBPhoto.tt" />
     <None Include="FBObject.tt" />
     <None Include="FBSuccess.tt" />
     <None Include="FBTestUser.tt" />
     <None Include="packages.config" />
+    <Content Include="TestData\testJsonPropertySet.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Utility.ttinclude" />
   </ItemGroup>
   <ItemGroup>
