@@ -54,7 +54,9 @@ namespace LoginCs
                 if (FBSession.ActiveSession.User != null)
                 {
                     FBUser user = FBSession.ActiveSession.User;
-                    UserId.Text = user.Id;
+
+                    // Don't set the UserId, let DataBinding take care of it
+                    // UserId.Text = user.Id;
                     UserFirstName.Text = user.FirstName;
                     UserGender.Text = user.Gender;
                     UserLastName.Text = user.LastName;
@@ -65,32 +67,7 @@ namespace LoginCs
                     UserUpdatedTime.Text = user.UpdatedTime;
                     UserVerified.Text = user.Verified.ToString();
                     SquarePicture.UserId = user.Id;
-                    LoadRoundProfilePicture(user.Id);
                 }
-            }
-        }
-
-        private async void LoadRoundProfilePicture(
-            String UserId
-            )
-        {
-            PropertySet parameters = new PropertySet();
-            String path = "/" + UserId + "/picture";
-
-            parameters.Add(new KeyValuePair<String, Object>("redirect", "false"));
-
-            // Just picking a width and height for now
-            parameters.Add(new KeyValuePair<String, Object>("width", "200"));
-            parameters.Add(new KeyValuePair<String, Object>("height", "200"));
-
-            FBSingleValue value = new FBSingleValue(path, parameters, 
-                new FBJsonClassFactory(FBProfilePicture.FromJson));
-
-            FBResult result = await value.GetAsync();
-            if (result.Succeeded)
-            {
-                FBProfilePicture pic = (FBProfilePicture)result.Object;
-                ProfilePicBrush.ImageSource = new BitmapImage(new Uri(pic.Url));
             }
         }
 

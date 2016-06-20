@@ -5,11 +5,13 @@
 *.opensdf
 *.sdf
 *.suo
+*.VC.db
+*.vs
 AppPackages
 bin
 Debug
 Doxygen
-fbwinsdk.githash.txt
+*.githash.txt
 Generated
 Generated Files
 ipch
@@ -17,4 +19,4 @@ packages
 Packages.dgml
 Release
 sdk-build.log
-
+project.lock.json

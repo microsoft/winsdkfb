@@ -48,6 +48,9 @@ using namespace Windows::Web::Http::Headers;
 #define MultiPartNewLine "\r\n"
 #define MultiPartContentType L"Content-Type: multipart/form-data; "
 #define MultiPartBoundary L"------------------------------fbsdk1234567890"
+#define UserAgent L"User-Agent"
+#define WinSDKFBUserAgent(version) L"winsdkfb." version
+#define WinSDKFBUserAgentString WinSDKFBUserAgent(WINSDKFB_VERSION)
 
 FBClient::FBClient()
 {
@@ -91,54 +94,6 @@ PropertySet^ FBClient::ToDictionary(PropertySet^ parameters, PropertySet^ mediaO
     return dictionary;
 }
 
-String^ FBClient::BuildHttpQuery(Object^ parameter)
-{
-    if (parameter == nullptr)
-    {
-        return "null";
-    }
-    if (dynamic_cast<String^>(parameter) != nullptr)
-    {
-        return dynamic_cast<String^>(parameter);
-    }
-
-    if (dynamic_cast<Uri^>(parameter) != nullptr)
-    {
-        return dynamic_cast<Uri^>(parameter)->ToString();
-    }
-
-    // TODO: Refactor string manipulation code here.  The usage of String^ is
-    // convoluted and not necessary, it can be a lot simpler.
-    String^ sb = ref new String();
-    if (dynamic_cast<PropertySet^>(parameter) != nullptr)
-    {
-        PropertySet^ mediaObjects = ref new PropertySet();
-        PropertySet^ mediaStreams = ref new PropertySet();
-        auto dict = ToDictionary(dynamic_cast<PropertySet^>(parameter), mediaObjects, mediaStreams);
-
-        if (mediaObjects->Size > 0 || mediaStreams->Size > 0)
-        {
-            throw ref new InvalidArgumentException("Parameter can contain attachements (FBMediaObject/FBMediaStream) only in the top most level.");
-        }
-
-        auto kvp = dict->First();
-        while (kvp->HasCurrent)
-        {
-            String::Concat(sb, BuildHttpQuery(kvp->Current->Value));
-
-            kvp->MoveNext();
-        }
-    }
-
-    if (sb->Length() > 0)
-    {
-        wstring sbstl(sb->Data());
-        sb = ref new String(sbstl.substr(0, sbstl.length() - 1).c_str());
-    }
-
-    return sb;
-}
-
 IAsyncOperation<String^>^ FBClient::GetTaskAsync(
     String^ path,
     PropertySet^ parameters
@@ -146,9 +101,8 @@ IAsyncOperation<String^>^ FBClient::GetTaskAsync(
 {
     IAsyncOperation<String^>^ myTask = create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Get, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::GetTaskInternalAsync(uri)
             .then([=](String^ Response)
@@ -188,35 +142,14 @@ task<String^> FBClient::GetTaskInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
     filter->CacheControl->ReadBehavior = HttpCacheReadBehavior::Default;
 
-    return create_task(httpClient->GetAsync(RequestUri), 
-        cancellationTokenSource.get_token())
-    .then([=](HttpResponseMessage^ response)
-    {
-        return create_task(response->Content->ReadAsStringAsync(), 
-            cancellationTokenSource.get_token());
-    })
-    .then([=](task<String^> resultTask)
-    {
-        String^ result = nullptr;
-        try
-        {
-            result = resultTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-            throw ex;
-        }
-
-        return result;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->GetAsync(RequestUri), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 PropertySet^ FBClient::GetStreamsToUpload(
@@ -252,9 +185,8 @@ IAsyncOperation<String^>^ FBClient::SimplePostAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::SimplePostInternalAsync(uri)
             .then([=](String^ Response)
@@ -292,35 +224,12 @@ task<String^> FBClient::SimplePostInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
-    return create_task(
-        httpClient->PostAsync(RequestUri, ref new HttpStringContent(L"")),
-        cancellationTokenSource.get_token())
-        .then([=](HttpResponseMessage^ response)
-    {
-        return create_task(response->Content->ReadAsStringAsync(),
-            cancellationTokenSource.get_token());
-    })
-        .then([=](task<String^> previousTask)
-    {
-        String^ response = nullptr;
-
-        try
-        {
-            // Check if any previous task threw an exception.
-            response = previousTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-        }
-
-        return response;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->PostAsync(RequestUri, ref new HttpStringContent(L"")), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 void FBClient::AddStreamsToForm(
@@ -356,9 +265,8 @@ IAsyncOperation<String^>^ FBClient::MultipartPostAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::MultipartPostInternalAsync(uri, streams)
             .then([=](String^ Response)
@@ -396,40 +304,16 @@ task<String^> FBClient::MultipartPostInternalAsync(
     )
 {
     HttpClient^ httpClient = ref new HttpClient();
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     HttpMultipartFormDataContent^ form =
         ref new HttpMultipartFormDataContent();
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
-    HttpResponseMessage^ msg = nullptr;
-    String^ response = L"";
 
     FBClient::AddStreamsToForm(Streams, form);
 
-    return create_task(httpClient->PostAsync(RequestUri, form),
-        cancellationTokenSource.get_token())
-        .then([=](HttpResponseMessage^ response) -> task<String^>
-    {
-        return create_task(response->Content->ReadAsStringAsync(),
-            cancellationTokenSource.get_token());
-    })
-        .then([=](task<String^> previousTask) -> String^
-    {
-        String^ response = nullptr;
-
-        try
-        {
-            // Check if any previous task threw an exception.
-            response = previousTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-        }
-
-        return response;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->PostAsync(RequestUri, form), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 IAsyncOperation<String^>^ FBClient::PostTaskAsync(
@@ -458,9 +342,8 @@ Windows::Foundation::IAsyncOperation<String^>^ FBClient::DeleteTaskAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Delete, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters, nullptr);
 
         return FBClient::DeleteTaskInternalAsync(uri)
             .then([=](String^ Response)
@@ -498,48 +381,21 @@ task<String^> FBClient::DeleteTaskInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
-    return create_task(
-        httpClient->DeleteAsync(RequestUri),
-        cancellationTokenSource.get_token())
-        .then([=](HttpResponseMessage^ response)
-    {
-        return create_task(response->Content->ReadAsStringAsync(),
-            cancellationTokenSource.get_token());
-    })
-        .then([=](task<String^> previousTask)
-    {
-        String^ response = nullptr;
-
-        try
-        {
-            // Check if any previous task threw an exception.
-            response = previousTask.get();
-        }
-        catch (const task_canceled&)
-        {
-        }
-        catch (Exception^ ex)
-        {
-        }
-
-        return response;
-    });
+    task<HttpResponseMessage^> httpRequestTask = create_task(httpClient->DeleteAsync(RequestUri), cancellationTokenSource.get_token());
+    return TryReceiveHttpResponse(httpRequestTask, cancellationTokenSource);
 }
 
 Uri^ FBClient::PrepareRequestUri(
     winsdkfb::HttpMethod httpMethod, 
     String^ path, 
     PropertySet^ parameters, 
-    Type^ resultType, 
-    Windows::Storage::Streams::IRandomAccessStream^ input,
-    bool& containsEtag,
-    Vector<int>^ batchEtags
+    Windows::Storage::Streams::IRandomAccessStream^ input
     )
 {
-    batchEtags = nullptr;
     FBSession^ sess = FBSession::ActiveSession;
 
     // Setup datawriter for the InMemoryRandomAccessStream
@@ -728,12 +584,6 @@ Uri^ FBClient::PrepareRequestUri(
     }
     else
     {
-        if (containsEtag && httpMethod != HttpMethod::Get)
-        {
-            String^ msg = ETagKey + L" is only supported for http get method.";
-            throw ref new InvalidArgumentException(msg);
-        }
-
         // for GET,DELETE
         if (mediaObjects->Size > 0 && mediaStreams->Size > 0)
         {
@@ -765,7 +615,20 @@ Uri^ FBClient::PrepareRequestUri(
         }
     }
 
-    String^ uriString = L"https://" + host + L"/" + apiVersion + path + L"?" + queryString;
+    // Check the path for multiple id read requests and
+    // modify it accordingly
+    const std::wstring wStringPath(path->Data());
+    std::size_t found = wStringPath.find(L"?ids=");
+    if (found != std::string::npos)
+    {
+        path += L"&";
+    }
+    else
+    {
+        path += L"?";
+    }
+
+    String^ uriString = L"https://" + host + L"/" + apiVersion + path + queryString;
 
     return ref new Uri(uriString);
 }
@@ -842,3 +705,47 @@ BOOL FBClient::IsOAuthErrorResponse(
     return (err && err->Code == 190);
 }
 
+task<String^> FBClient::TryReceiveHttpResponse(
+    task<HttpResponseMessage^> httpRequestTask,
+    cancellation_token_source cancellationTokenSource
+    )
+{
+    task<String^> getHttpTask = create_task([=]()
+    {
+        task<String^> resultTask = create_task([]() -> String^ {return nullptr; });
+        try
+        {
+            HttpResponseMessage^ responseMessage = httpRequestTask.get();
+            if (responseMessage && responseMessage->IsSuccessStatusCode)
+            {
+                resultTask = create_task(responseMessage->Content->ReadAsStringAsync(), cancellationTokenSource.get_token());
+            }
+        }
+        catch (COMException^ e)
+        {
+            OutputDebugString(e->ToString()->Data());
+        }
+        catch (const task_canceled&)
+        {
+            OutputDebugString(L"http request task canceled");
+        }
+        return resultTask;
+    });
+    return create_task([=]()
+    {
+        String^ result = nullptr;
+        try
+        {
+            result = getHttpTask.get();
+        }
+        catch (COMException^ e)
+        {
+            OutputDebugString(e->ToString()->Data());
+        }
+        catch (const task_canceled&)
+        {
+            OutputDebugString(L"http request task canceled");
+        }
+        return result;
+    });
+}

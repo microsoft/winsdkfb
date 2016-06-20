@@ -18,7 +18,6 @@
 
 #include "JsonClassFactory.h"
 #include "FBPaging.h"
-#include "FacebookClient.h"
 #include "FacebookResult.h"
 
 namespace winsdkfb
@@ -145,6 +144,10 @@ namespace winsdkfb
 
             FBResult^ ConsumePagedResponse(
                 Platform::String^ JsonText
+                );
+
+            Windows::Foundation::IAsyncOperation<FBResult^>^ GetPage(
+                Platform::String^ path
                 );
 
             Windows::Foundation::Collections::IVectorView<Object^>^ _current;

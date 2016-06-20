@@ -127,6 +127,25 @@ namespace winsdkfb
             }
 
             /**
+             * Base domain to redirect to for webview dialog requests. Defaults to
+             * Facebook's website.
+             */
+            property Platform::String^ WebViewRedirectDomain
+            {
+                Platform::String^ get();
+            }
+
+            /**
+             * Redirect path for webview dialogs requests. Defaults
+             * to /connect/login_success.html. Must start with a '/'
+             * character.
+             */
+            property Platform::String^ WebViewRedirectPath
+            {
+                Platform::String^ get();
+            }
+
+            /**
              * FBSession is a singleton object - ActiveSession is the way to
              * acquire a reference to the object.
              */
@@ -137,6 +156,15 @@ namespace winsdkfb
                     static FBSession^ activeFBSession = ref new FBSession();
                     return activeFBSession;
                 }
+            }
+
+            /**
+             * Get the Settings Container for the SDK
+             * @return ApplicationDataContainer
+             */
+            static property Windows::Storage::ApplicationDataContainer^ DataContainer
+            {
+                Windows::Storage::ApplicationDataContainer^ get();
             }
 
             /**
@@ -181,6 +209,15 @@ namespace winsdkfb
 
             /**
              * Login to Facebook. This method defaults to SessionLoginBehavior::DefaultOrdering
+             * for its login method. The permissions requested are public_profile, email,
+             * user_friends.
+             * @return FBResult indicating the result of the Login attempt.
+             */
+            Windows::Foundation::IAsyncOperation<FBResult^>^ LoginAsync(
+                );
+
+            /**
+             * Login to Facebook. This method defaults to SessionLoginBehavior::DefaultOrdering
              * for its login method.
              * @param Permissions The Facebook permissions that the app is requesting.
              * @return FBResult indicating the result of the Login attempt.
@@ -210,6 +247,18 @@ namespace winsdkfb
             void SetAPIVersion(
                 int MajorVersion,
                 int MinorVersion
+                );
+
+            /**
+             * Sets the redirect URL for webview dialog requests.
+             * Note that either parameter can be set to nullptr to avoid
+             * changing the default.
+             * @param domain The domain name for the the redirect. Must include the protocol (e.g. https)
+             * @param path The path of redirect. Must start with the '/' character.
+             */
+            void SetWebViewRedirectUrl(
+                Platform::String^ domain,
+                Platform::String^ path
                 );
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ TryRefreshAccessToken(
@@ -290,10 +339,10 @@ namespace winsdkfb
                 Windows::Foundation::Collections::PropertySet^ Parameters
                 );
 
-            void WriteGrantedPermissionsToFile(
+            void SaveGrantedPermissions(
                 );
 
-            Platform::String^ GetGrantedPermissionsFromFile(
+            Platform::String^ GetGrantedPermissions(
                 );
 
 #if defined(_WIN32_WINNT_WIN10) && (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
@@ -340,8 +389,9 @@ namespace winsdkfb
             winsdkfb::Graph::FBUser^ _user;
             concurrency::task<winsdkfb::FBResult^> _loginTask;
             winsdkfb::FacebookDialog^ _dialog;
-            BOOL _showingDialog;
             int _APIMajorVersion;
             int _APIMinorVersion;
+            Platform::String^ _webViewRedirectDomain;
+            Platform::String^ _webViewRedirectPath;
     };
 }

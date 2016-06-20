@@ -68,5 +68,6 @@ namespace LoginCpp
             Platform::Object^ sender, 
             Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e
             );
+        void BackButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 }

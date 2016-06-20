@@ -62,8 +62,9 @@ namespace LoginCpp
 
 		static Windows::UI::Xaml::DependencyProperty^ _defaultViewModelProperty;
 		static Windows::UI::Xaml::DependencyProperty^ _navigationHelperProperty;
-        void Feed_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-        void AppRequests_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void FeedDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void AppRequestsButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+        void SendDialogButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
     };
 
 }

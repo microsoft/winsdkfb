@@ -679,5 +679,26 @@ namespace FBWinStoreCsTests
                     "expected type (FBObject).");
             }
         }
+
+        [TestMethod]
+        public async Task testFBPaginatedArray()
+        {
+            MockHttpClient mockHttpClient = new MockHttpClient();
+            HttpManager.Instance.SetHttpClient(mockHttpClient);
+            // test no values returned from request
+            mockHttpClient.ResponseData = @"{""data"":[]}";
+            String graphPath = @"/12345/likes";
+            Func<string, string> dumbFunc = (string a) => { return a; };
+
+            FBJsonClassFactory fact = new FBJsonClassFactory(
+                (JsonText) => dumbFunc(JsonText));
+
+            FBPaginatedArray likes = new FBPaginatedArray(graphPath, null, fact);
+            FBResult result = await likes.FirstAsync();
+            Assert.IsTrue(likes.HasCurrent);
+            Assert.IsFalse(likes.HasNext);
+            Assert.IsFalse(likes.HasPrevious);
+            // test with next but no previous
+        }
     }
 }

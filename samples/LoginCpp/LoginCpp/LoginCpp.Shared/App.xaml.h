@@ -43,6 +43,7 @@ namespace LoginCpp
 		Windows::Foundation::EventRegistrationToken _firstNavigatedToken;
 
 		void RootFrame_FirstNavigated(Platform::Object^ sender, Windows::UI::Xaml::Navigation::NavigationEventArgs^ e);
+        void OnBackRequested(Platform::Object^ sender, Windows::Phone::UI::Input::BackPressedEventArgs^ args);
 #endif
 
 		void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);
