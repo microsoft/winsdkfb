@@ -6,6 +6,7 @@
 *.sdf
 *.suo
 *.VC.db
+*.vs
 AppPackages
 bin
 Debug
