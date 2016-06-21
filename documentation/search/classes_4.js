@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['scaleconverter',['ScaleConverter',['../classwinsdkfb_1_1_scale_converter.html',1,'winsdkfb']]]
+  ['ihttpclient',['IHttpClient',['../interfacewinsdkfb_1_1_i_http_client.html',1,'winsdkfb']]]
 ];

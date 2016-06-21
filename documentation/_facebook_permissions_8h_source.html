@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>My Project: E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookPermissions.h Source File</title>
+<title>My Project: E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookPermissions.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,7 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">My Project
+   &#160;<span id="projectnumber">0.10.0</span>
    </div>
+   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -79,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_885cc87fac2d91e269af0a5a959fa5f6.html">E:</a></li><li class="navelem"><a class="el" href="dir_91d5a70a6e4356067456c81e5574c43d.html">tmp</a></li><li class="navelem"><a class="el" href="dir_736d56659231ca5ca84ca8cd5ff84aa6.html">main</a></li><li class="navelem"><a class="el" href="dir_af55864001fc65b0978e73f9f62267e2.html">winsdkfb</a></li><li class="navelem"><a class="el" href="dir_768400088ba01cbe0566257d1aa01b80.html">winsdkfb</a></li><li class="navelem"><a class="el" href="dir_26486739cdee4e420a2654b38082e18b.html">winsdkfb</a></li><li class="navelem"><a class="el" href="dir_1636346923bdbac1b2f85a1b395bd651.html">winsdkfb.Shared</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_885cc87fac2d91e269af0a5a959fa5f6.html">E:</a></li><li class="navelem"><a class="el" href="dir_91d5a70a6e4356067456c81e5574c43d.html">tmp</a></li><li class="navelem"><a class="el" href="dir_935f4391881aec10e88b6efd574dbcc7.html">documentation</a></li><li class="navelem"><a class="el" href="dir_ce19e6f800d5db106a5452bb6b4e0f91.html">winsdkfb</a></li><li class="navelem"><a class="el" href="dir_9ff26ab25d9d3d825748ba2f48ff3bb7.html">winsdkfb</a></li><li class="navelem"><a class="el" href="dir_6acb8901dfeccf82da810608e60a8c57.html">winsdkfb</a></li><li class="navelem"><a class="el" href="dir_e744c53cbea68ee6dbfd8aaefba4509f.html">winsdkfb.Shared</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -122,16 +125,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keyword">virtual</span> Platform::String^ <a class="code" href="classwinsdkfb_1_1_f_b_permissions.html#a7d8398c7620f07e90d09dde852c9e459">ToString</a>(</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                ) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            Windows::Foundation::Collections::IVectorView&lt;Platform::String^&gt;^ _values;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    };</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html_a7d8398c7620f07e90d09dde852c9e459"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html#a7d8398c7620f07e90d09dde852c9e459">winsdkfb::FBPermissions::ToString</a></div><div class="ttdeci">virtual Platform::String^ ToString() override</div><div class="ttdoc">Handy override that provides a string version of permissions in. </div><div class="ttdef"><b>Definition:</b> FacebookPermissions.cpp:37</div></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keyword">static</span> <a class="code" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^ <a class="code" href="classwinsdkfb_1_1_f_b_permissions.html#ae83e1a2609779d39f8d9dd5d3a04cee3">FromString</a>(</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                Platform::String^ Permissions</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                );</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keyword">static</span> <a class="code" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^ <a class="code" href="classwinsdkfb_1_1_f_b_permissions.html#a264fff74c6598e6b8d7296160a5b23ce">Difference</a>(<a class="code" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^ Minuend, <a class="code" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^ Subtrahend);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keyword">static</span> Windows::Foundation::Collections::IVectorView&lt;Platform::String^&gt;^ ParsePermissionsFromString(</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                Platform::String^ Permissions</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                );</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            Windows::Foundation::Collections::IVectorView&lt;Platform::String^&gt;^ _values;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    };</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
+<div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html_a7d8398c7620f07e90d09dde852c9e459"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html#a7d8398c7620f07e90d09dde852c9e459">winsdkfb::FBPermissions::ToString</a></div><div class="ttdeci">virtual Platform::String^ ToString() override</div><div class="ttdoc">Handy override that provides a string version of permissions in. </div><div class="ttdef"><b>Definition:</b> FacebookPermissions.cpp:47</div></div>
 <div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html_a31bd1ebd534ef70026456a1abd778e02"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html#a31bd1ebd534ef70026456a1abd778e02">winsdkfb::FBPermissions::Values</a></div><div class="ttdeci">Windows::Foundation::Collections::IVectorView&lt; Platform::String^ &gt;^ Values</div><div class="ttdoc">The list of permissions. </div><div class="ttdef"><b>Definition:</b> FacebookPermissions.h:31</div></div>
 <div class="ttc" id="namespacewinsdkfb_html"><div class="ttname"><a href="namespacewinsdkfb.html">winsdkfb</a></div><div class="ttdef"><b>Definition:</b> ColorLuminosityConverter.h:19</div></div>
+<div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html_a264fff74c6598e6b8d7296160a5b23ce"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html#a264fff74c6598e6b8d7296160a5b23ce">winsdkfb::FBPermissions::Difference</a></div><div class="ttdeci">static FBPermissions^ Difference(FBPermissions^ Minuend, FBPermissions^ Subtrahend)</div><div class="ttdef"><b>Definition:</b> FacebookPermissions.cpp:90</div></div>
+<div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html_ae83e1a2609779d39f8d9dd5d3a04cee3"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html#ae83e1a2609779d39f8d9dd5d3a04cee3">winsdkfb::FBPermissions::FromString</a></div><div class="ttdeci">static FBPermissions^ FromString(Platform::String^ Permissions)</div><div class="ttdef"><b>Definition:</b> FacebookPermissions.cpp:35</div></div>
 <div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html">winsdkfb::FBPermissions</a></div><div class="ttdoc">Simple class to contain a set of permissions for FB. </div><div class="ttdef"><b>Definition:</b> FacebookPermissions.h:22</div></div>
-<div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html_ada4b4b4ad133d8751738df6543bf0577"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html#ada4b4b4ad133d8751738df6543bf0577">winsdkfb::FBPermissions::FBPermissions</a></div><div class="ttdeci">FBPermissions(Windows::Foundation::Collections::IVectorView&lt; Platform::String^  &gt;^Permissions)</div><div class="ttdoc">Construct an instance with a given set of permissions. </div><div class="ttdef"><b>Definition:</b> FacebookPermissions.cpp:25</div></div>
+<div class="ttc" id="classwinsdkfb_1_1_f_b_permissions_html_ada4b4b4ad133d8751738df6543bf0577"><div class="ttname"><a href="classwinsdkfb_1_1_f_b_permissions.html#ada4b4b4ad133d8751738df6543bf0577">winsdkfb::FBPermissions::FBPermissions</a></div><div class="ttdeci">FBPermissions(Windows::Foundation::Collections::IVectorView&lt; Platform::String^  &gt;^Permissions)</div><div class="ttdoc">Construct an instance with a given set of permissions. </div><div class="ttdef"><b>Definition:</b> FacebookPermissions.cpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

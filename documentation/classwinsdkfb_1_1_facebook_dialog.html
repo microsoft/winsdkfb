@@ -24,7 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">My Project
+   &#160;<span id="projectnumber">0.10.0</span>
    </div>
+   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -88,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classwinsdkfb_1_1_facebook_dialog-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">winsdkfb::FacebookDialog Class Reference</div>  </div>
@@ -102,25 +106,55 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InitDialog</b> ()</td
 <tr class="memitem:a9a93c1cceaa07884e513ea49f27c0c40"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a93c1cceaa07884e513ea49f27c0c40"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>UninitDialog</b> ()</td></tr>
 <tr class="separator:a9a93c1cceaa07884e513ea49f27c0c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b4a600d02f5a461fdab7e4a0fb768fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b4a600d02f5a461fdab7e4a0fb768fa"></a>
-<a class="el" href="classwinsdkfb_1_1_f_b_result.html">winsdkfb::FBResult</a>^&#160;</td><td class="memItemRight" valign="bottom"><b>GetDialogResponse</b> ()</td></tr>
-<tr class="separator:a4b4a600d02f5a461fdab7e4a0fb768fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52183e68eb23487270b0cc924bb6b041"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a52183e68eb23487270b0cc924bb6b041"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ShowLoginDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
-<tr class="separator:a52183e68eb23487270b0cc924bb6b041"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad96f071c1e47cd92984d46759db6f614"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad96f071c1e47cd92984d46759db6f614"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ShowFeedDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
-<tr class="separator:ad96f071c1e47cd92984d46759db6f614"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7a55410f8fd12a0e92cde5d65d40ac8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7a55410f8fd12a0e92cde5d65d40ac8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ShowRequestsDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
-<tr class="separator:ae7a55410f8fd12a0e92cde5d65d40ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55e80fd663c8c4165429fc77496aaf3c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a55e80fd663c8c4165429fc77496aaf3c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>ShowSendDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
-<tr class="separator:a55e80fd663c8c4165429fc77496aaf3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf190105670fc819d5305af755a8ee0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1cf190105670fc819d5305af755a8ee0"></a>
+Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">winsdkfb::FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>ShowLoginDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
+<tr class="separator:a1cf190105670fc819d5305af755a8ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87aa0c97adaafddaa2f2c0b4e5c434f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a87aa0c97adaafddaa2f2c0b4e5c434f4"></a>
+Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">winsdkfb::FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>ShowFeedDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
+<tr class="separator:a87aa0c97adaafddaa2f2c0b4e5c434f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f12fd734703c690ba2fa1b324e6affb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7f12fd734703c690ba2fa1b324e6affb"></a>
+Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">winsdkfb::FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>ShowRequestsDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
+<tr class="separator:a7f12fd734703c690ba2fa1b324e6affb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03ccaf3eab142fa39c7c0f6ebab7690c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a03ccaf3eab142fa39c7c0f6ebab7690c"></a>
+Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">winsdkfb::FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>ShowSendDialog</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
+<tr class="separator:a03ccaf3eab142fa39c7c0f6ebab7690c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a67476c0a73e6bdb7f236273698111d2d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67476c0a73e6bdb7f236273698111d2d"></a>
+static Platform::String^&#160;</td><td class="memItemRight" valign="bottom"><b>GetFBServerUrl</b> ()</td></tr>
+<tr class="separator:a67476c0a73e6bdb7f236273698111d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abacb51364b8f5d8feb3350f0726e7e93"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_facebook_dialog.html#abacb51364b8f5d8feb3350f0726e7e93">DeleteCookies</a> ()</td></tr>
+<tr class="separator:abacb51364b8f5d8feb3350f0726e7e93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="abacb51364b8f5d8feb3350f0726e7e93"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FacebookDialog::DeleteCookies </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>discussion The current session in webview is required only if the access token is valid When the access token is removed the cookies must be clean up </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_dialog_8xaml_8h_source.html">FacebookDialog.xaml.h</a></li>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookDialog.xaml.cpp</li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_dialog_8xaml_8h_source.html">FacebookDialog.xaml.h</a></li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookDialog.xaml.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

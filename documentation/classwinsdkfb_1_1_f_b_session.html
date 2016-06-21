@@ -24,7 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">My Project
+   &#160;<span id="projectnumber">0.10.0</span>
    </div>
+   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -107,12 +110,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8cdf0f2149400b487e4e4ba56ac544fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a755f85b8566b01daaa59aa12e7566fdb"><td class="memItemLeft" align="right" valign="top">Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a755f85b8566b01daaa59aa12e7566fdb">ShowSendDialogAsync</a> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
 <tr class="separator:a755f85b8566b01daaa59aa12e7566fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5b46760926890694338dbed9724be4a"><td class="memItemLeft" align="right" valign="top">Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#ae5b46760926890694338dbed9724be4a">LoginAsync</a> ()</td></tr>
+<tr class="separator:ae5b46760926890694338dbed9724be4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01b5da0db347957e6e23ffb90b047b73"><td class="memItemLeft" align="right" valign="top">Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a01b5da0db347957e6e23ffb90b047b73">LoginAsync</a> (<a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">winsdkfb::FBPermissions</a>^ Permissions)</td></tr>
 <tr class="separator:a01b5da0db347957e6e23ffb90b047b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7250ee447fde563f6e0106edbe04269e"><td class="memItemLeft" align="right" valign="top">Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a7250ee447fde563f6e0106edbe04269e">LoginAsync</a> (<a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">winsdkfb::FBPermissions</a>^ Permissions, SessionLoginBehavior behavior)</td></tr>
 <tr class="separator:a7250ee447fde563f6e0106edbe04269e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa270e4c06658d0636f7ee0db86a9a24b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#aa270e4c06658d0636f7ee0db86a9a24b">SetAPIVersion</a> (int MajorVersion, int MinorVersion)</td></tr>
 <tr class="separator:aa270e4c06658d0636f7ee0db86a9a24b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b73fbd9882508bc78198b25ee60a1fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a9b73fbd9882508bc78198b25ee60a1fe">SetWebViewRedirectUrl</a> (Platform::String^ domain, Platform::String^ path)</td></tr>
+<tr class="separator:a9b73fbd9882508bc78198b25ee60a1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71208482566413c61258dc4a7ac9bec4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a71208482566413c61258dc4a7ac9bec4"></a>
 Windows::Foundation::IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">FBResult</a>^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>TryRefreshAccessToken</b> ()</td></tr>
 <tr class="separator:a71208482566413c61258dc4a7ac9bec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,12 +148,34 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 winsdkfb::Graph::FBUser^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#ac5f12c2b3dcda6f24f33e89b8185419b">User</a><code> [get]</code></td></tr>
 <tr class="memdesc:ac5f12c2b3dcda6f24f33e89b8185419b"><td class="mdescLeft">&#160;</td><td class="mdescRight">User info - valid after successful login. <br /></td></tr>
 <tr class="separator:ac5f12c2b3dcda6f24f33e89b8185419b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c636dd853be4d2135c39a0f12b2b60d"><td class="memItemLeft" align="right" valign="top">Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a0c636dd853be4d2135c39a0f12b2b60d">WebViewRedirectDomain</a><code> [get]</code></td></tr>
+<tr class="separator:a0c636dd853be4d2135c39a0f12b2b60d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35ef26fc24537f1f653aa93b6fd1cbc8"><td class="memItemLeft" align="right" valign="top">Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a35ef26fc24537f1f653aa93b6fd1cbc8">WebViewRedirectPath</a><code> [get]</code></td></tr>
+<tr class="separator:a35ef26fc24537f1f653aa93b6fd1cbc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b131ac721d2de6dda5696427a31b133"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwinsdkfb_1_1_f_b_session.html">FBSession</a>^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a1b131ac721d2de6dda5696427a31b133">ActiveSession</a><code> [get]</code></td></tr>
 <tr class="separator:a1b131ac721d2de6dda5696427a31b133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aeca4e58f2b6cec0605ef80c97a3960"><td class="memItemLeft" align="right" valign="top">static Windows::Storage::ApplicationDataContainer^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_session.html#a3aeca4e58f2b6cec0605ef80c97a3960">DataContainer</a><code> [get]</code></td></tr>
+<tr class="separator:a3aeca4e58f2b6cec0605ef80c97a3960"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main object for the SDK, repository for access token, etc. <a class="el" href="classwinsdkfb_1_1_f_b_session.html">FBSession</a> is a singleton class that is used to configure the sdk's interaction with Facebook. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ae5b46760926890694338dbed9724be4a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IAsyncOperation&lt; <a class="el" href="classwinsdkfb_1_1_f_b_result.html">FBResult</a>^ &gt; FBSession::LoginAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Login to Facebook. This method defaults to SessionLoginBehavior::DefaultOrdering for its login method. The permissions requested are public_profile, email, user_friends. </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="classwinsdkfb_1_1_f_b_result.html" title="Container class holding the result of a graph API call - either a JSON object of some type...">FBResult</a> indicating the result of the Login attempt. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a01b5da0db347957e6e23ffb90b047b73"></a>
 <div class="memitem">
 <div class="memproto">
@@ -253,6 +282,39 @@ winsdkfb::Graph::FBUser^ &#160;</td><td class="memItemRight" valign="bottom"><a 
 
 </div>
 </div>
+<a class="anchor" id="a9b73fbd9882508bc78198b25ee60a1fe"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FBSession::SetWebViewRedirectUrl </td>
+          <td>(</td>
+          <td class="paramtype">Platform::String^&#160;</td>
+          <td class="paramname"><em>domain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Platform::String^&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the redirect URL for webview dialog requests. Note that either parameter can be set to nullptr to avoid changing the default. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">domain</td><td>The domain name for the the redirect. Must include the protocol (e.g. https) </td></tr>
+    <tr><td class="paramname">path</td><td>The path of redirect. Must start with the '/' character. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a5d01ada9903bf6d30f91e21448bac78d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -340,7 +402,7 @@ winsdkfb::Graph::FBUser^ &#160;</td><td class="memItemRight" valign="bottom"><a 
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Access token data, only populated after <a class="el" href="classwinsdkfb_1_1_f_b_session.html#a01b5da0db347957e6e23ffb90b047b73">LoginAsync()</a> has been called. </p>
+<p>Access token data, only populated after <a class="el" href="classwinsdkfb_1_1_f_b_session.html#ae5b46760926890694338dbed9724be4a">LoginAsync()</a> has been called. </p>
 
 </div>
 </div>
@@ -407,6 +469,27 @@ winsdkfb::Graph::FBUser^ &#160;</td><td class="memItemRight" valign="bottom"><a 
 
 </div>
 </div>
+<a class="anchor" id="a3aeca4e58f2b6cec0605ef80c97a3960"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Windows:: Storage:: ApplicationDataContainer^ winsdkfb::FBSession::DataContainer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get the Settings Container for the SDK </p><dl class="section return"><dt>Returns</dt><dd>ApplicationDataContainer </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ae87860c30d0802b4f85a42b9dfc4a047"></a>
 <div class="memitem">
 <div class="memproto">
@@ -425,6 +508,48 @@ winsdkfb::Graph::FBUser^ &#160;</td><td class="memItemRight" valign="bottom"><a 
 </table>
 </div><div class="memdoc">
 <p>Facebook App ID that is provided by Facebook in their developer portal. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0c636dd853be4d2135c39a0f12b2b60d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Platform:: String^ winsdkfb::FBSession::WebViewRedirectDomain</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Base domain to redirect to for webview dialog requests. Defaults to Facebook's website. </p>
+
+</div>
+</div>
+<a class="anchor" id="a35ef26fc24537f1f653aa93b6fd1cbc8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Platform:: String^ winsdkfb::FBSession::WebViewRedirectPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Redirect path for webview dialogs requests. Defaults to /connect/login_success.html. Must start with a '/' character. </p>
 
 </div>
 </div>
@@ -450,8 +575,8 @@ winsdkfb::Graph::FBUser^ &#160;</td><td class="memItemRight" valign="bottom"><a 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_session_8h_source.html">FacebookSession.h</a></li>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookSession.cpp</li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_session_8h_source.html">FacebookSession.h</a></li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookSession.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

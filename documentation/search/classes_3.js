@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['profilepicture',['ProfilePicture',['../classwinsdkfb_1_1_profile_picture_custom_control_1_1_profile_picture.html',1,'winsdkfb::ProfilePictureCustomControl']]],
-  ['profilepicturecontrol',['ProfilePictureControl',['../classwinsdkfb_1_1_profile_picture_control.html',1,'winsdkfb']]]
+  ['hlscolor',['HlsColor',['../classwinsdkfb_1_1_hls_color.html',1,'winsdkfb']]],
+  ['httpmanager',['HttpManager',['../classwinsdkfb_1_1_http_manager.html',1,'winsdkfb']]]
 ];

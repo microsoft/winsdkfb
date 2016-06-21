@@ -24,7 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">My Project
+   &#160;<span id="projectnumber">0.10.0</span>
    </div>
+   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -88,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="classwinsdkfb_1_1_f_b_permissions-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -111,6 +115,13 @@ virtual Platform::String^&#160;</td><td class="memItemRight" valign="bottom"><a 
 <tr class="memdesc:a7d8398c7620f07e90d09dde852c9e459"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handy override that provides a string version of permissions in. <br /></td></tr>
 <tr class="separator:a7d8398c7620f07e90d09dde852c9e459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ae83e1a2609779d39f8d9dd5d3a04cee3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html#ae83e1a2609779d39f8d9dd5d3a04cee3">FromString</a> (Platform::String^ Permissions)</td></tr>
+<tr class="separator:ae83e1a2609779d39f8d9dd5d3a04cee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a264fff74c6598e6b8d7296160a5b23ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html#a264fff74c6598e6b8d7296160a5b23ce">Difference</a> (<a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^ Minuend, <a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^ Subtrahend)</td></tr>
+<tr class="separator:a264fff74c6598e6b8d7296160a5b23ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a31bd1ebd534ef70026456a1abd778e02"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a31bd1ebd534ef70026456a1abd778e02"></a>
@@ -120,9 +131,82 @@ Windows::Foundation::Collections::IVectorView&lt; Platform::String^ &gt;^&#160;<
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Simple class to contain a set of permissions for FB. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_permissions_8h_source.html">FacebookPermissions.h</a></li>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookPermissions.cpp</li>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a264fff74c6598e6b8d7296160a5b23ce"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a> FBPermissions::Difference </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^&#160;</td>
+          <td class="paramname"><em>Minuend</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a>^&#160;</td>
+          <td class="paramname"><em>Subtrahend</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the set difference of two <a class="el" href="classwinsdkfb_1_1_f_b_permissions.html" title="Simple class to contain a set of permissions for FB. ">FBPermissions</a>' permissions </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Minuend</td><td><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html" title="Simple class to contain a set of permissions for FB. ">FBPermissions</a> to subtract from </td></tr>
+    <tr><td class="paramname">Subtrahend</td><td><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html" title="Simple class to contain a set of permissions for FB. ">FBPermissions</a> to 'remove' from Minuend </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a new <a class="el" href="classwinsdkfb_1_1_f_b_permissions.html" title="Simple class to contain a set of permissions for FB. ">FBPermissions</a> object that contains the set of permissions that exist in Minuend and not in Subtrahend </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae83e1a2609779d39f8d9dd5d3a04cee3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">FBPermissions</a> FBPermissions::FromString </td>
+          <td>(</td>
+          <td class="paramtype">Platform::String^&#160;</td>
+          <td class="paramname"><em>Permissions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Constructs an instance of <a class="el" href="classwinsdkfb_1_1_f_b_permissions.html" title="Simple class to contain a set of permissions for FB. ">FBPermissions</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Permissions</td><td>A comma seperated list of permissions </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_permissions_8h_source.html">FacebookPermissions.h</a></li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookPermissions.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
