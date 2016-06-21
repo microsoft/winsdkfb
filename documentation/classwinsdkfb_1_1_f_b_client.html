@@ -24,7 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">My Project
+   &#160;<span id="projectnumber">0.10.0</span>
    </div>
+   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -87,31 +90,227 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classwinsdkfb_1_1_f_b_client-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">winsdkfb::FBClient Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>static class used to perform HTTP requests.  
+ <a href="classwinsdkfb_1_1_f_b_client.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_facebook_client_8h_source.html">FacebookClient.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for winsdkfb::FBClient:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classwinsdkfb_1_1_f_b_client.png" usemap="#winsdkfb::FBClient_map" alt=""/>
+  <map id="winsdkfb::FBClient_map" name="winsdkfb::FBClient_map">
+<area href="interfacewinsdkfb_1_1_i_http_client.html" alt="winsdkfb::IHttpClient" shape="rect" coords="0,0,124,24"/>
+</map>
+ </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad4f62b8d069ba7c51d9f3b761a4137c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4f62b8d069ba7c51d9f3b761a4137c9"></a>
-static Windows::Foundation::IAsyncOperation&lt; Platform::String^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>GetTaskAsync</b> (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters)</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ad4f62b8d069ba7c51d9f3b761a4137c9"><td class="memItemLeft" align="right" valign="top">virtual Windows::Foundation::IAsyncOperation&lt; Platform::String^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_client.html#ad4f62b8d069ba7c51d9f3b761a4137c9">GetTaskAsync</a> (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters)</td></tr>
 <tr class="separator:ad4f62b8d069ba7c51d9f3b761a4137c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13697b7212ddbf89df9969755db17de1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13697b7212ddbf89df9969755db17de1"></a>
-static Windows::Foundation::IAsyncOperation&lt; Platform::String^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>PostTaskAsync</b> (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters)</td></tr>
+<tr class="memitem:a13697b7212ddbf89df9969755db17de1"><td class="memItemLeft" align="right" valign="top">virtual Windows::Foundation::IAsyncOperation&lt; Platform::String^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_client.html#a13697b7212ddbf89df9969755db17de1">PostTaskAsync</a> (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters)</td></tr>
 <tr class="separator:a13697b7212ddbf89df9969755db17de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae36dc34c42ac8c9c17e67053e8487094"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae36dc34c42ac8c9c17e67053e8487094"></a>
-static Windows::Foundation::IAsyncOperation&lt; Platform::String^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><b>DeleteTaskAsync</b> (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters)</td></tr>
+<tr class="memitem:ae36dc34c42ac8c9c17e67053e8487094"><td class="memItemLeft" align="right" valign="top">virtual Windows::Foundation::IAsyncOperation&lt; Platform::String^ &gt;^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_client.html#ae36dc34c42ac8c9c17e67053e8487094">DeleteTaskAsync</a> (Platform::String^ path, Windows::Foundation::Collections::PropertySet^ parameters)</td></tr>
 <tr class="separator:ae36dc34c42ac8c9c17e67053e8487094"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a290340809b7e2f9b83f4ef07a0a26aa8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a290340809b7e2f9b83f4ef07a0a26aa8"></a>
-static Platform::String^&#160;</td><td class="memItemRight" valign="bottom"><b>FBClient::ParametersToQueryString</b> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
-<tr class="separator:a290340809b7e2f9b83f4ef07a0a26aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca168cb2723504ae089c4fcaf505a520"><td class="memItemLeft" align="right" valign="top">virtual Platform::String^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_client.html#aca168cb2723504ae089c4fcaf505a520">ParametersToQueryString</a> (Windows::Foundation::Collections::PropertySet^ Parameters)</td></tr>
+<tr class="separator:aca168cb2723504ae089c4fcaf505a520"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>static class used to perform HTTP requests. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ae36dc34c42ac8c9c17e67053e8487094"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Windows::Foundation::IAsyncOperation&lt; String^ &gt; FBClient::DeleteTaskAsync </td>
+          <td>(</td>
+          <td class="paramtype">Platform::String^&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Windows::Foundation::Collections::PropertySet^&#160;</td>
+          <td class="paramname"><em>parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Performs an HTTP DELETE request to path with parameters as the request query string </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The URL to send the request to. </td></tr>
+    <tr><td class="paramname">parameters</td><td>The query string parameters of the request. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The HTTP response content </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>thrown on any error in the request process. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="interfacewinsdkfb_1_1_i_http_client.html">winsdkfb::IHttpClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad4f62b8d069ba7c51d9f3b761a4137c9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">IAsyncOperation&lt; String^ &gt; FBClient::GetTaskAsync </td>
+          <td>(</td>
+          <td class="paramtype">Platform::String^&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Windows::Foundation::Collections::PropertySet^&#160;</td>
+          <td class="paramname"><em>parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Performs an HTTP GET request to path with parameters as the request query string </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The URL to send the request to. </td></tr>
+    <tr><td class="paramname">parameters</td><td>The query string parameters of the request. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The HTTP response content </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>thrown on any error in the request process. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="interfacewinsdkfb_1_1_i_http_client.html">winsdkfb::IHttpClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aca168cb2723504ae089c4fcaf505a520"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String FBClient::ParametersToQueryString </td>
+          <td>(</td>
+          <td class="paramtype">Windows::Foundation::Collections::PropertySet^&#160;</td>
+          <td class="paramname"><em>Parameters</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Transforms Parameters to a query string. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Parameters</td><td>The key-value pairs of the query string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A query string of the form "key1=value1&amp;key2=value2&amp;..." etc. </dd></dl>
+
+<p>Implements <a class="el" href="interfacewinsdkfb_1_1_i_http_client.html">winsdkfb::IHttpClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a13697b7212ddbf89df9969755db17de1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">IAsyncOperation&lt; String^ &gt; FBClient::PostTaskAsync </td>
+          <td>(</td>
+          <td class="paramtype">Platform::String^&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Windows::Foundation::Collections::PropertySet^&#160;</td>
+          <td class="paramname"><em>parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Performs an HTTP POST request to path with parameters as the request query string </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The URL to send the request to. </td></tr>
+    <tr><td class="paramname">parameters</td><td>The query string parameters of the request. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The HTTP response content </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td>thrown on any error in the request process. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="interfacewinsdkfb_1_1_i_http_client.html">winsdkfb::IHttpClient</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_client_8h_source.html">FacebookClient.h</a></li>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookClient.cpp</li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_client_8h_source.html">FacebookClient.h</a></li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookClient.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -24,7 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">My Project
+   &#160;<span id="projectnumber">0.10.0</span>
    </div>
+   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -95,15 +98,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Class that encapsulates the response from a successful use of the Facebook "App Requests" dialog.  
+<p>Class that encapsulates the response from a successful use of the Facebook "Feed" dialog.  
  <a href="classwinsdkfb_1_1_f_b_feed_request.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_facebook_feed_request_8h_source.html">FacebookFeedRequest.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ab74ba6005678ec742a7481484aa73026"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab74ba6005678ec742a7481484aa73026"></a>
-static <a class="el" href="classwinsdkfb_1_1_f_b_feed_request.html">FBFeedRequest</a>^&#160;</td><td class="memItemRight" valign="bottom"><b>FromFeedDialogResponse</b> (Windows::Foundation::Uri^ Response)</td></tr>
+<tr class="memitem:ab74ba6005678ec742a7481484aa73026"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwinsdkfb_1_1_f_b_feed_request.html">FBFeedRequest</a>^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_feed_request.html#ab74ba6005678ec742a7481484aa73026">FromFeedDialogResponse</a> (Windows::Foundation::Uri^ Response)</td></tr>
 <tr class="separator:ab74ba6005678ec742a7481484aa73026"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
@@ -112,8 +114,40 @@ Properties</h2></td></tr>
 <tr class="separator:ab780b2cf7a3a72532430394bbb7c1fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Class that encapsulates the response from a successful use of the Facebook "App Requests" dialog. </p>
-</div><h2 class="groupheader">Property Documentation</h2>
+<div class="textblock"><p>Class that encapsulates the response from a successful use of the Facebook "Feed" dialog. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ab74ba6005678ec742a7481484aa73026"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwinsdkfb_1_1_f_b_feed_request.html">FBFeedRequest</a> FBFeedRequest::FromFeedDialogResponse </td>
+          <td>(</td>
+          <td class="paramtype">Windows::Foundation::Uri^&#160;</td>
+          <td class="paramname"><em>Response</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Contruct a <a class="el" href="classwinsdkfb_1_1_f_b_feed_request.html" title="Class that encapsulates the response from a successful use of the Facebook &quot;Feed&quot; dialog...">FBFeedRequest</a> object from a URI. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Response</td><td>The URI to create a <a class="el" href="classwinsdkfb_1_1_f_b_feed_request.html" title="Class that encapsulates the response from a successful use of the Facebook &quot;Feed&quot; dialog...">FBFeedRequest</a> object from </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classwinsdkfb_1_1_f_b_feed_request.html" title="Class that encapsulates the response from a successful use of the Facebook &quot;Feed&quot; dialog...">FBFeedRequest</a> representation of the URI if it is valid, otherwise nullptr </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
 <a class="anchor" id="ab780b2cf7a3a72532430394bbb7c1fcb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -131,13 +165,13 @@ Properties</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Post ID - app can refer to this post in future, e.g. to delete or update it. </p>
+<p>ID of the post. Can be used to refer to this post in the future, e.g. to delete or update it. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_feed_request_8h_source.html">FacebookFeedRequest.h</a></li>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookFeedRequest.cpp</li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_feed_request_8h_source.html">FacebookFeedRequest.h</a></li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookFeedRequest.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

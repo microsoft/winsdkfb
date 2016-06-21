@@ -24,7 +24,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">My Project
+   &#160;<span id="projectnumber">0.10.0</span>
    </div>
+   <div id="projectbrief">Windows SDK for Facebook</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -103,47 +106,80 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af28dd091219f02892cde2fee26ef9019"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af28dd091219f02892cde2fee26ef9019"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FBAccessTokenData::FBAccessTokenData</b> (Platform::String^ <a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#ab229114479b4ca8b90ffe6a2f057a098">AccessToken</a>, Windows::Foundation::DateTime Expiration, Platform::String^ State)</td></tr>
-<tr class="separator:af28dd091219f02892cde2fee26ef9019"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47fba7ec36af5cd6614f26dfea8919e4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47fba7ec36af5cd6614f26dfea8919e4"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsExpired</b> ()</td></tr>
+<tr class="memitem:a74a6cdfb1574dfd7c058c353cfc85068"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74a6cdfb1574dfd7c058c353cfc85068"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>FBAccessTokenData</b> (Platform::String^ <a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#ab229114479b4ca8b90ffe6a2f057a098">AccessToken</a>, Windows::Foundation::DateTime Expiration)</td></tr>
+<tr class="separator:a74a6cdfb1574dfd7c058c353cfc85068"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47fba7ec36af5cd6614f26dfea8919e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#a47fba7ec36af5cd6614f26dfea8919e4">IsExpired</a> ()</td></tr>
 <tr class="separator:a47fba7ec36af5cd6614f26dfea8919e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22be7a0e6f2c53d89c74bfc87951e9e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#a22be7a0e6f2c53d89c74bfc87951e9e3">SetPermissions</a> (Windows::Foundation::Collections::IVectorView&lt; Object^  &gt;^perms)</td></tr>
 <tr class="separator:a22be7a0e6f2c53d89c74bfc87951e9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aa71498eb5b7c5923445fe0f524c675be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa71498eb5b7c5923445fe0f524c675be"></a>
-static <a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html">FBAccessTokenData</a>^&#160;</td><td class="memItemRight" valign="bottom"><b>FromUri</b> (Windows::Foundation::Uri^ Response)</td></tr>
+<tr class="memitem:aa71498eb5b7c5923445fe0f524c675be"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html">FBAccessTokenData</a>^&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#aa71498eb5b7c5923445fe0f524c675be">FromUri</a> (Windows::Foundation::Uri^ Response)</td></tr>
 <tr class="separator:aa71498eb5b7c5923445fe0f524c675be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:ab229114479b4ca8b90ffe6a2f057a098"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab229114479b4ca8b90ffe6a2f057a098"></a>
-Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#ab229114479b4ca8b90ffe6a2f057a098">AccessToken</a><code> [get]</code></td></tr>
-<tr class="memdesc:ab229114479b4ca8b90ffe6a2f057a098"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the token. <br /></td></tr>
+<tr class="memitem:ab229114479b4ca8b90ffe6a2f057a098"><td class="memItemLeft" align="right" valign="top">Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#ab229114479b4ca8b90ffe6a2f057a098">AccessToken</a><code> [get]</code></td></tr>
 <tr class="separator:ab229114479b4ca8b90ffe6a2f057a098"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ba8aee5f757301ca7de8dddf7ecd157"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ba8aee5f757301ca7de8dddf7ecd157"></a>
-Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#a4ba8aee5f757301ca7de8dddf7ecd157">AppID</a><code> [get]</code></td></tr>
-<tr class="memdesc:a4ba8aee5f757301ca7de8dddf7ecd157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the app ID string. <br /></td></tr>
-<tr class="separator:a4ba8aee5f757301ca7de8dddf7ecd157"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af86a6d5b8892f755db9cbd4ecdafcb35"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af86a6d5b8892f755db9cbd4ecdafcb35"></a>
-Windows::Foundation::DateTime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#af86a6d5b8892f755db9cbd4ecdafcb35">ExpirationDate</a><code> [get]</code></td></tr>
-<tr class="memdesc:af86a6d5b8892f755db9cbd4ecdafcb35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns token expiration date as Windows::Foundation::DateTime. <br /></td></tr>
+<tr class="memitem:af86a6d5b8892f755db9cbd4ecdafcb35"><td class="memItemLeft" align="right" valign="top">Windows::Foundation::DateTime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#af86a6d5b8892f755db9cbd4ecdafcb35">ExpirationDate</a><code> [get]</code></td></tr>
 <tr class="separator:af86a6d5b8892f755db9cbd4ecdafcb35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a302c744e34009d341be04a5eec628f3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">winsdkfb::FBPermissions</a>^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#a302c744e34009d341be04a5eec628f3e">GrantedPermissions</a><code> [get]</code></td></tr>
 <tr class="separator:a302c744e34009d341be04a5eec628f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6de3aad1a066b32193ca3e7ad9b055fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwinsdkfb_1_1_f_b_permissions.html">winsdkfb::FBPermissions</a>^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#a6de3aad1a066b32193ca3e7ad9b055fe">DeclinedPermissions</a><code> [get]</code></td></tr>
 <tr class="separator:a6de3aad1a066b32193ca3e7ad9b055fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a436aa0c58165dea46bea4f9304457d64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a436aa0c58165dea46bea4f9304457d64"></a>
-Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html#a436aa0c58165dea46bea4f9304457d64">UserID</a><code> [get]</code></td></tr>
-<tr class="memdesc:a436aa0c58165dea46bea4f9304457d64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns user ID for the token, if available. <br /></td></tr>
-<tr class="separator:a436aa0c58165dea46bea4f9304457d64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an access token used for Facebook login, with associated data. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa71498eb5b7c5923445fe0f524c675be"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html">FBAccessTokenData</a> FBAccessTokenData::FromUri </td>
+          <td>(</td>
+          <td class="paramtype">Windows::Foundation::Uri^&#160;</td>
+          <td class="paramname"><em>Response</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Attempts to create a <a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html" title="Represents an access token used for Facebook login, with associated data. ">FBAccessTokenData</a> object from a URI. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Response</td><td>The URI to construct a <a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html" title="Represents an access token used for Facebook login, with associated data. ">FBAccessTokenData</a> object from </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="classwinsdkfb_1_1_f_b_access_token_data.html" title="Represents an access token used for Facebook login, with associated data. ">FBAccessTokenData</a> representation of the URI's data, or nullptr if the URI is invalid </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a47fba7ec36af5cd6614f26dfea8919e4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FBAccessTokenData::IsExpired </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Compares the expiration time of the access token to the current time. </p><dl class="section return"><dt>Returns</dt><dd>true if the access token is expired, false otherwise. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a22be7a0e6f2c53d89c74bfc87951e9e3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -167,6 +203,27 @@ Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="ab229114479b4ca8b90ffe6a2f057a098"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Platform:: String^ winsdkfb::FBAccessTokenData::AccessToken</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Access token provided by Facebook on successful login. </p>
+
+</div>
+</div>
 <a class="anchor" id="a6de3aad1a066b32193ca3e7ad9b055fe"></a>
 <div class="memitem">
 <div class="memproto">
@@ -185,6 +242,27 @@ Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="
 </table>
 </div><div class="memdoc">
 <p>The permissions that were declined by the user. </p>
+
+</div>
+</div>
+<a class="anchor" id="af86a6d5b8892f755db9cbd4ecdafcb35"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Windows:: Foundation:: DateTime winsdkfb::FBAccessTokenData::ExpirationDate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Expiration date of the access token. </p>
 
 </div>
 </div>
@@ -210,8 +288,8 @@ Platform::String^ &#160;</td><td class="memItemRight" valign="bottom"><a class="
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a></li>
-<li>E:/tmp/main/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookAccessTokenData.cpp</li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/<a class="el" href="_facebook_access_token_data_8h_source.html">FacebookAccessTokenData.h</a></li>
+<li>E:/tmp/documentation/winsdkfb/winsdkfb/winsdkfb/winsdkfb.Shared/FacebookAccessTokenData.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
