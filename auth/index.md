@@ -28,7 +28,7 @@ Note: During development, you can always use the PhoneProductID from the manifes
 
 ## Login
 Use the following code snippet to login to Facebook.
-The sess.LoginAsync() or sess->LoginAsync() call launches the Facebook login dialog box for the user to enter his/her username and password.
+The `sess.LoginAsync()` or `sess->LoginAsync()` call launches the Facebook login dialog box for the user to enter his/her username and password.
 
 C#:
 {% highlight csharp %}
@@ -63,7 +63,7 @@ C++:
 {% highlight c++ %}
 // Get active session
 FBSession^ sess = FBSession::ActiveSession;
- 
+
 // Add permissions required by the app
 Vector<String^>^ permissionList = ref new Vector<String^>(); ("public_profile");
 permissionList->Append(L"public_profile");
@@ -74,7 +74,7 @@ permissionList->Append(L"user_location");
 permissionList->Append(L"user_photos");
 permissionList->Append(L"publish_actions");
 FBPermissions^ permissions = ref new FBPermissions(permissionList->GetView());
- 
+
 // Login to Facebook
 create_task(sess->LoginAsync(permissions)).then([=](FBResult^ result)
 {
@@ -92,7 +92,7 @@ create_task(sess->LoginAsync(permissions)).then([=](FBResult^ result)
 {% endhighlight %}
 
 ## Logout
-This is simply just calling the LogoutAsync() method.
+This is simply just calling the `LogoutAsync()` method.
 
 C#:
 {% highlight csharp %}
@@ -125,7 +125,7 @@ C#:
 {% highlight csharp %}
 // Get active session
 FBSession sess = FBSession.ActiveSession;
- 
+
 if(sess.LoggedIn)
 {
 	// Get current user
@@ -139,7 +139,7 @@ C++:
 {% highlight c++ %}
 // Get active session
 FBSession^ sess = FBSession::ActiveSession;
- 
+
 if(sess->LoggedIn)
 {
 	// Get current user
@@ -150,7 +150,7 @@ if(sess->LoggedIn)
 {% endhighlight %}
 
 ## User Information
-Some basic information about the logged in user can directly be accessed through FBSession.ActiveSession.User. 
+Some basic information about the logged in user can directly be accessed through `FBSession.ActiveSession.User`.
 
 C#:
 {% highlight csharp %}
@@ -181,3 +181,4 @@ if (sess->LoggedIn)
 	}
 }
 {% endhighlight %}
+<br />

@@ -5,7 +5,7 @@ title: Graph API
 
 ## Post to Feed
 The app should have publish_actions permission granted by the user.
-A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id": "*id*"} if published successfully.
+A class will have to be created (`FBReturnObject` in this example) to receive and parse the json response. The response will be an id of type string `{"id": "<id here>"}` if published successfully.
 You can find more details [here](https://developers.facebook.com/docs/graph-api/reference/v2.3/user/feed).
 
 C#:
@@ -14,7 +14,7 @@ C#:
 using winsdkfb;
 using winsdkfb.Graph;
 …
- 
+
 // Get active session
 FBSession sess = FBSession.ActiveSession;
 // If the user is logged in
@@ -22,7 +22,7 @@ if(sess.LoggedIn)
 {
 	// Get current user
 	FBUser user = sess.User;
-	 
+
 	// Set caption, link and description parameters
 	PropertySet parameters = new PropertySet();
 	parameters.Add("title", "Microsoft");
@@ -30,10 +30,10 @@ if(sess.LoggedIn)
 	parameters.Add("description", "Microsoft home page");
 	// Add post message
 	parameters.Add("message", "Posting from my Universal Windows app.");
-	 
+
 	// Set Graph api path
 	string path = "/" + user.Id + "/feed";
-	 
+
 	var factory = new FBJsonClassFactory(s => {
         return JsonConvert.DeserializeObject<FBReturnObject>(s);
     });
@@ -102,22 +102,22 @@ if (sess->LoggedIn)
          }
      });
 
-}       
+}
 {% endhighlight %}
 
 ## Custom Stories
 Follow the steps [here](https://developers.facebook.com/docs/sharing/opengraph/custom) to configure custom stories in your app on developers.facebook.com
 The app should have publish_actions permission granted by the user.
-A class will have to be created (FBReturnObject in this example) to receive and parse the json response.
-The response will be an id of type string {"id":"*id*"} if published successfully.
+A class will have to be created (`FBReturnObject` in this example) to receive and parse the json response.
+The response will be an id of type string `{"id":"<id here>"}` if published successfully.
 
 For the snippet below,
 
-App namespace: fbsdk_sample_app
+App namespace: `fbsdk_sample_app`
 
 A custom story was created with action type *try* and object type *scenario*.
 
-We define a custom json object parameter {"title": "Custom Story"} and set the Graph API path to userId/fbsdk_sample_app:try.
+We define a custom json object parameter `{"title": "Custom Story"}` and set the Graph API path to `userId/fbsdk_sample_app:try`.
 
 This will be published as "*user* tried *scenario* from Sample Application".
 
@@ -127,16 +127,16 @@ C#:
 using winsdkfb;
 using winsdkfb.Graph;
  ...
- 
+
 // Get active session
 FBSession sess = FBSession.ActiveSession;
- 
+
 if(sess.LoggedIn)
-{             
+{
 	// Create custom story with action:try and object:scenario
 	// This will be published to Facebook as:
 	// <user> tried <a scenario> from Sample Application
-	                               
+
 	// Set parameters for custom story
 	PropertySet parameters = new PropertySet();
 	// Set object type parameter
@@ -146,17 +146,17 @@ if(sess.LoggedIn)
     "}";
 
 	 parameters.Add("scenario", customObjectInstance);
-	 
+
 	// Get current user
 	 FBUser user = sess.User;
-	 
+
 	// Set Graph api path for custom story (action:try)
 	string path = user.Id + "/fbsdk_sample_app:try";
 
 	var factory = new FBJsonClassFactory(s => {
         return JsonConvert.DeserializeObject<FBReturnObject>(s);
     });
-	 
+
 	var singleValue = new FBSingleValue(path, parameters, factory);
     var result = await singleValue.PostAsync();
     if (result.Succeeded)
@@ -182,7 +182,7 @@ C++
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
  ...
- 
+
 // Get active session
 FBSession^ sess = FBSession::ActiveSession;
 if (sess->LoggedIn)
@@ -190,7 +190,7 @@ if (sess->LoggedIn)
        // Create custom story with action:try and object:scenario
        // This will be published to Facebook as :
 	   // <user> tried <a scenario> from Sample Application
- 
+
        // Set parameters for custom story
        PropertySet^ parameters = ref new PropertySet();
        // Set object type parameter
@@ -200,13 +200,13 @@ if (sess->LoggedIn)
 	    "}";
 
        parameters->Insert("scenario", customObjectInstance);
- 
+
        // Get current user
        FBUser^ user = sess->User;
- 
+
        // Set Graph api path for custom story (action:try)
        String^ path = user->Id + L"/fbsdk_sample_app:try";
- 
+
        // Create a json class factory with a class (FBReturnObject class)
        // that can receive and parse the json response returned
        FBJsonClassFactory^ fact = ref new FBJsonClassFactory([](String^ JsonText) ->
@@ -233,7 +233,7 @@ if (sess->LoggedIn)
 {% endhighlight %}
 
 ## Upload a Photo
-The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id": "*id*"} if published successfully.
+The app should have publish_actions permission granted by the user. A class will have to be created (`FBReturnObject` in this example) to receive and parse the json response. The response will be an id of type string `{"id": "<id here>"}` if published successfully.
 You can find more details [here](https://developers.facebook.com/docs/graph-api/reference/user/photos/).
 
 C#:
@@ -242,15 +242,15 @@ C#:
 using winsdkfb;
 using winsdkfb.Graph;
  ...
- 
+
 StorageFile selectedPhoto;
 // Read image file into selectedPhoto
 …
- 
+
 // Create media stream
 IRandomAccessStreamWithContentType stream = await selectedPhoto.OpenReadAsync();
 FBMediaStream fbStream = new FBMediaStream(selectedPhoto.Name, stream);
- 
+
 // Get current session
 FBSession sess = FBSession.ActiveSession;
 if(sess.LoggedIn)
@@ -258,7 +258,7 @@ if(sess.LoggedIn)
     // Get current user
     FBUser user = sess.User;
 
-    PropertySet parameters = new PropertySet();               
+    PropertySet parameters = new PropertySet();
     // Set media stream
     parameters.Add("source", fbStream);
 
@@ -268,7 +268,7 @@ if(sess.LoggedIn)
 	var factory = new FBJsonClassFactory(s => {
         return JsonConvert.DeserializeObject<FBReturnObject>(s);
     });
-	 
+
 	var singleValue = new FBSingleValue(path, parameters, factory);
     var result = await singleValue.PostAsync();
     if (result.Succeeded)
@@ -297,25 +297,25 @@ using namespace winsdkfb::Graph;
 StorageFile^ selectedPhoto;
 // Read image file into selectedPhoto
 …
- 
+
 // Create media stream
 create_task(selectedPhoto->OpenReadAsync())
 .then([this, selectedPhoto](IRandomAccessStreamWithContentType^ stream)
 {
        FBMediaStream^ fbStream = ref new FBMediaStream(selectedPhoto->Name, stream);
- 
+
        // Get active session
        FBSession^ sess = FBSession::ActiveSession;
        if (sess->LoggedIn)
        {
-             
+
               PropertySet^ parameters = ref new PropertySet();
               // Set media stream
               parameters->Insert("source", fbStream);
- 
+
               // Create Graph API path
               String^ graphPath = sess->User->Id + L"/photos";
- 
+
               // Create a json class factory with a class (FBReturnObject class) that
 			       // can receive and parse the json response returned
             FBJsonClassFactory^ fact = ref new FBJsonClassFactory([](String^ JsonText) ->
@@ -343,7 +343,7 @@ create_task(selectedPhoto->OpenReadAsync())
 {% endhighlight %}
 
 ## Upload a Video (non-resumable)
-The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id":"*id*"} if published successfully. Note that this is for uploading a small sized video all at once (non-resumable). The Facebook Graph API has said non-resumable upload supports videos up to 1GB and 20 minutes long.
+The app should have publish_actions permission granted by the user. A class will have to be created (`FBReturnObject` in this example) to receive and parse the json response. The response will be an id of type string `{"id":"<id here>"}` if published successfully. Note that this is for uploading a small sized video all at once (non-resumable). The Facebook Graph API has said non-resumable upload supports videos up to 1GB and 20 minutes long.
 
 
 C#:
@@ -393,7 +393,7 @@ public class FBReturnObject
 
 
 ## Like Action
-The app should have publish_actions permission granted by the user. A class will have to be created (FBReturnObject in this example) to receive and parse the json response. The response will be an id of type string {"id":"*id*"} if published successfully.
+The app should have publish_actions permission granted by the user. A class will have to be created (`FBReturnObject` in this example) to receive and parse the json response. The response will be an id of type string `{"id":"<id here>"}` if published successfully.
 
 Note that this is not the same as 'liking' a Facebook Page. If successful, the like action will be published onto the user's activity feed. You need extra permission to post it as an Open Graph object on the user's timeline/news feed. You can find more details [here](https://developers.facebook.com/docs/opengraph/guides/og.likes).
 
@@ -403,26 +403,26 @@ C#:
 using winsdkfb;
 using winsdkfb.Graph;
  ...
- 
+
 // Get active session
 FBSession sess = FBSession.ActiveSession;
 if(sess.LoggedIn)
 {
 	//Get current user
 	FBUser user = sess.User;
-	 
+
 	// Set parameters
 	PropertySet parameters = new PropertySet();
-	// Set Uri to like               
+	// Set Uri to like
 	parameters.Add("object", "https://www.microsoft.com/en-us/default.aspx");
-	 
+
 	// Set Graph api path
 	string path = user.Id + "/og.likes";
-	
+
 	var factory = new FBJsonClassFactory(s => {
         return JsonConvert.DeserializeObject<FBReturnObject>(s);
     });
-	 
+
 	var singleValue = new FBSingleValue(path, parameters, factory);
     var result = await singleValue.PostAsync();
     if (result.Succeeded)
@@ -448,19 +448,19 @@ C++:
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
 ...
- 
+
 // Get active session
 FBSession^ sess = FBSession::ActiveSession;
 if (sess->LoggedIn)
 {
     // Set parameters
     PropertySet^ parameters = ref new PropertySet();
-	// Set Uri to like               
+	// Set Uri to like
     parameters->Insert("object", L"https://www.microsoft.com/en-us/default.aspx");
- 
+
     // Create Graph API path
     String^ graphPath = sess->User->Id + L"/og.likes";
- 
+
     // Create a json class factory with a class (FBReturnObject class)
     // that can receive and parse the json response returned
          FBJsonClassFactory^ fact = ref new FBJsonClassFactory([](String^ JsonText) ->
@@ -485,3 +485,4 @@ if (sess->LoggedIn)
      });
 }
 {% endhighlight %}
+<br />

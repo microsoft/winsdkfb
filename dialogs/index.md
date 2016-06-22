@@ -10,7 +10,7 @@ C#:
 {% highlight csharp %}
 // Get active session
 FBSession sess = FBSession.ActiveSession;
- 
+
 if (sess.LoggedIn)
 {
 	// Set caption, link and description parameters
@@ -64,7 +64,7 @@ C#:
 {% highlight csharp %}
 // Get active session
 FBSession sess = FBSession.ActiveSession;
- 
+
 if (sess.LoggedIn)
 {
 	// Set parameters
@@ -141,7 +141,7 @@ FBSession^ sess = FBSession::ActiveSession;
 if(sess->LoggedIn)
 {
 	PropertySet^ parameters = ref new PropertySet();
-	parameters->Insert(L"link",L"https://www.microsoft.com/en-us/default.aspx");
+	parameters->Insert(L"link", L"https://www.microsoft.com/en-us/default.aspx");
 	//Display send dialog
 	create_task(sess->ShowSendDialog(parameters)).then([=](FBResult^ result))
 	{
@@ -156,3 +156,4 @@ if(sess->LoggedIn)
 	});
 }
 {% endhighlight %}
+<br />
