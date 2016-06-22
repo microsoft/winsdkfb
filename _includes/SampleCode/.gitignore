@@ -1,0 +1,9 @@
+
+.vs/*
+Debug/*
+Release/*
+ipch/*
+packages/*
+*.VC.*
+**/*.vcxproj.user
+**/project.lock.json

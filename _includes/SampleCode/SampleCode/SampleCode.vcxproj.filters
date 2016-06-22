@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>ef9565c3-edd3-4f15-ac36-5fd28241fca2</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>dc2bb108-c58c-401f-9095-62e99c2393a4</UniqueIdentifier>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
+    </Filter>
+    <Filter Include="Samples">
+      <UniqueIdentifier>{def066d7-50b0-49d9-9957-91324129699d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Samples\Graph">
+      <UniqueIdentifier>{16d3eac5-32e8-4541-b756-e4e7547b4ca8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Samples\Dialogs">
+      <UniqueIdentifier>{554d8509-8b78-4d86-a74b-58fb6d2b755a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Samples\Auth">
+      <UniqueIdentifier>{ea027026-c600-4cb5-b0d0-45d4f7503de5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="App.xaml.cpp" />
+    <ClCompile Include="MainPage.xaml.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Samples\Dialogs\FeedDialog.cpp">
+      <Filter>Samples\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Dialogs\RequestDialog.cpp">
+      <Filter>Samples\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Dialogs\SendDialog.cpp">
+      <Filter>Samples\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Graph\CustomStories.cpp">
+      <Filter>Samples\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Graph\FeedPost.cpp">
+      <Filter>Samples\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Graph\LikeAction.cpp">
+      <Filter>Samples\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Graph\PhotoUpload.cpp">
+      <Filter>Samples\Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Auth\Initialization.cpp">
+      <Filter>Samples\Auth</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Auth\Login.cpp">
+      <Filter>Samples\Auth</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Auth\Logout.cpp">
+      <Filter>Samples\Auth</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Auth\UserInformation.cpp">
+      <Filter>Samples\Auth</Filter>
+    </ClCompile>
+    <ClCompile Include="Samples\Auth\ProfilePictureControl.cpp">
+      <Filter>Samples\Auth</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="App.xaml.h" />
+    <ClInclude Include="MainPage.xaml.h" />
+    <ClInclude Include="Samples\FBReturnObject.h">
+      <Filter>Samples</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SampleCode_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainPage.xaml" />
+  </ItemGroup>
+</Project>
