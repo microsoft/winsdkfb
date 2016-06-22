@@ -1,23 +1,37 @@
 #include "pch.h"
-// Get active session
-FBSession^ sess = FBSession::ActiveSession;
-if (sess->LoggedIn)
+#include "FBReturnObject.h"
+
+using namespace Windows::Foundation::Collections;
+using namespace Platform;
+using namespace concurrency;
+using namespace winsdkfb;
+using namespace winsdkfb::Graph;
+
+namespace SampleCode
 {
-    // Set caption, link and description parameters
-    PropertySet^ parameters = ref new PropertySet();
-    parameters->Insert(L"caption", L"Microsoft");
-    parameters->Insert(L"link", L"https://www.microsoft.com/en-us/default.aspx");
-    parameters->Insert(L"description", L"Microsoft home page");
-    // Display feed dialog
-    create_task(sess->ShowFeedDialog(parameters)).then([=](FBResult^ result)
+    void ShowFeedDialog()
     {
-        if (result->Succeeded)
+        // Get active session
+        FBSession^ sess = FBSession::ActiveSession;
+        if (sess->LoggedIn)
         {
-            // Posting succeeded
+            // Set caption, link and description parameters
+            PropertySet^ parameters = ref new PropertySet();
+            parameters->Insert(L"caption", L"Microsoft");
+            parameters->Insert(L"link", L"https://www.microsoft.com/en-us/default.aspx");
+            parameters->Insert(L"description", L"Microsoft home page");
+            // Display feed dialog
+            create_task(sess->ShowFeedDialogAsync(parameters)).then([=](FBResult^ result)
+            {
+                if (result->Succeeded)
+                {
+                    // Posting succeeded
+                }
+                else
+                {
+                    // Posting failed
+                }
+            });
         }
-        else
-        {
-            // Posting failed
-        }
-    });
+    }
 }

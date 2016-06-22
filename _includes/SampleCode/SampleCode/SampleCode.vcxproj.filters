@@ -61,9 +61,6 @@
     <ClCompile Include="Samples\Auth\UserInformation.cpp">
       <Filter>Samples\Auth</Filter>
     </ClCompile>
-    <ClCompile Include="Samples\Auth\ProfilePictureControl.cpp">
-      <Filter>Samples\Auth</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -105,5 +102,8 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml" />
+    <Page Include="Samples\Auth\ProfilePictureControlSample.xaml">
+      <Filter>Samples\Auth</Filter>
+    </Page>
   </ItemGroup>
 </Project>

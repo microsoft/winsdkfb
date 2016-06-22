@@ -115,6 +115,7 @@
     <ClCompile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(ProjectDir)Samples\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -143,6 +144,9 @@
     <ClInclude Include="MainPage.xaml.h">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="Samples\Auth\ProfilePictureControlSample.xaml.h">
+      <DependentUpon>Samples\Auth\ProfilePictureControlSample.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="Samples\FBReturnObject.h" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +154,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Auth\ProfilePictureControlSample.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
@@ -187,7 +194,9 @@
     <ClCompile Include="Samples\Auth\Initialization.cpp" />
     <ClCompile Include="Samples\Auth\Login.cpp" />
     <ClCompile Include="Samples\Auth\Logout.cpp" />
-    <ClCompile Include="Samples\Auth\ProfilePictureControl.cpp" />
+    <ClCompile Include="Samples\Auth\ProfilePictureControlSample.xaml.cpp">
+      <DependentUpon>Samples\Auth\ProfilePictureControlSample.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="Samples\Auth\UserInformation.cpp" />
     <ClCompile Include="Samples\Dialogs\FeedDialog.cpp" />
     <ClCompile Include="Samples\Dialogs\RequestDialog.cpp" />

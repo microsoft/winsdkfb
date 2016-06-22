@@ -1,13 +1,27 @@
 #include "pch.h"
-// Get active session
-FBSession^ sess = FBSession::ActiveSession;
-if (sess->LoggedIn)
+#include "FBReturnObject.h"
+
+using namespace Windows::Foundation::Collections;
+using namespace Platform;
+using namespace concurrency;
+using namespace winsdkfb;
+using namespace winsdkfb::Graph;
+
+namespace SampleCode
 {
-    FBUser^ user = sess->User;
-    if (user)
+    void UserInformation()
     {
-        String^ userId = L"Id : " + user->Id;
-        String^ username = L"Name : " + user->Name;
-        String^ locale = L"Locale : " + user->Locale;
+        // Get active session
+        FBSession^ sess = FBSession::ActiveSession;
+        if (sess->LoggedIn)
+        {
+            FBUser^ user = sess->User;
+            if (user)
+            {
+                String^ userId = L"Id : " + user->Id;
+                String^ username = L"Name : " + user->Name;
+                String^ locale = L"Locale : " + user->Locale;
+            }
+        }
     }
 }
