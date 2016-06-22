@@ -3,10 +3,31 @@ layout: default
 title: Authentication
 ---
 
+<script type="text/javascript" src="../js/language_toggle.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        var radios = document.language_select_form.lang_select;
+        for (var i = 0; i < radios.length; ++i) {
+            radios[i].onclick = function() {
+                run_language_pref_update(this.value);
+            };
+        }
+        run_default_for_page_load();
+    };
+</script>
+
+<form name="language_select_form">
+    <label>Show documentation for language:</label>
+    <br />
+    <label>C++</label>
+    <input type="radio" name="lang_select" value="cpp" checked="checked" />
+    <label>C#</label>
+    <input type="radio" name="lang_select" value="c_sharp" />
+</form>
+
 ## Initializing the Facebook Session
 Set the Facebook App ID and Windows Store ID values in active session:
 
-C#:
 {% highlight csharp %}
 using winsdkfb;
 ...
@@ -15,7 +36,6 @@ sess.FBAppID = "<Facebook App ID>";
 sess.WinAppId = "Windows or Windows Phone Store ID depending on target device";
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 using namespace winsdkfb;
 ...
@@ -30,7 +50,6 @@ Note: During development, you can always use the PhoneProductID from the manifes
 Use the following code snippet to login to Facebook.
 The sess.LoginAsync() or sess->LoginAsync() call launches the Facebook login dialog box for the user to enter his/her username and password.
 
-C#:
 {% highlight csharp %}
 // Get active session
 FBSession sess = FBSession.ActiveSession;
@@ -59,11 +78,10 @@ else
 }
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 // Get active session
 FBSession^ sess = FBSession::ActiveSession;
- 
+
 // Add permissions required by the app
 Vector<String^>^ permissionList = ref new Vector<String^>(); ("public_profile");
 permissionList->Append(L"public_profile");
@@ -74,13 +92,13 @@ permissionList->Append(L"user_location");
 permissionList->Append(L"user_photos");
 permissionList->Append(L"publish_actions");
 FBPermissions^ permissions = ref new FBPermissions(permissionList->GetView());
- 
+
 // Login to Facebook
 create_task(sess->LoginAsync(permissions)).then([=](FBResult^ result)
 {
        if (result->Succeeded)
        {
-              // Login succeeded
+       // Login succeeded
 …
        }
        else
@@ -94,19 +112,17 @@ create_task(sess->LoginAsync(permissions)).then([=](FBResult^ result)
 ## Logout
 This is simply just calling the LogoutAsync() method.
 
-C#:
 {% highlight csharp %}
 FBSession sess = FBSession.ActiveSession;
 await sess.LogoutAsync();
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 FBSession^ sess = FBSession::ActiveSession;
 sess->LogoutAsync();
 {% endhighlight %}
 
-##Profile Picture Control
+## Profile Picture Control
 The SDK provides a ProfilePictureControl that can be populated with the logged in user's profile picture.
 
 XAML:
@@ -121,11 +137,12 @@ XAML:
 
 {% endhighlight %}
 
-C#:
+<br />
+
 {% highlight csharp %}
 // Get active session
 FBSession sess = FBSession.ActiveSession;
- 
+
 if(sess.LoggedIn)
 {
 	// Get current user
@@ -135,11 +152,10 @@ if(sess.LoggedIn)
 }
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 // Get active session
 FBSession^ sess = FBSession::ActiveSession;
- 
+
 if(sess->LoggedIn)
 {
 	// Get current user
@@ -150,9 +166,8 @@ if(sess->LoggedIn)
 {% endhighlight %}
 
 ## User Information
-Some basic information about the logged in user can directly be accessed through FBSession.ActiveSession.User. 
+Some basic information about the logged in user can directly be accessed through FBSession.ActiveSession.User.
 
-C#:
 {% highlight csharp %}
 // Get active session
 FBSession sess = FBSession.ActiveSession;
@@ -166,7 +181,6 @@ if(sess.LoggedIn)
 }
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 // Get active session
 FBSession^ sess = FBSession::ActiveSession;
