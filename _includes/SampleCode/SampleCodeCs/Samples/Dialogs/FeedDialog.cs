@@ -1,21 +1,34 @@
-﻿// Get active session
-FBSession sess = FBSession.ActiveSession;
+﻿using System;
+using Windows.Foundation.Collections;
+using winsdkfb;
 
-if (sess.LoggedIn)
+namespace SampleCode
 {
-	// Set caption, link and description parameters
-	PropertySet parameters = new PropertySet();
-parameters.Add("title", "Microsoft");
-	parameters.Add("link", "https://www.microsoft.com/en-us/default.aspx");
-	parameters.Add("description", "Microsoft home page");
-	//Display feed dialog
-	FBResult fbresult = await sess.ShowFeedDialogAsync(parameters);
-	if (fbresult.Succeeded)
-	{
-		//Posting succeeded
-	}
-	else
-	{
-		//Posting failed
-	}
+    public static partial class SampleFunc
+    {
+        static async void ShowFeedDialog()
+        {
+            // Get active session
+            FBSession sess = FBSession.ActiveSession;
+
+            if (sess.LoggedIn)
+            {
+                // Set caption, link and description parameters
+                PropertySet parameters = new PropertySet();
+                parameters.Add("title", "Microsoft");
+                parameters.Add("link", "https://www.microsoft.com/en-us/default.aspx");
+                parameters.Add("description", "Microsoft home page");
+                //Display feed dialog
+                FBResult fbresult = await sess.ShowFeedDialogAsync(parameters);
+                if (fbresult.Succeeded)
+                {
+                    //Posting succeeded
+                }
+                else
+                {
+                    //Posting failed
+                }
+            }
+        }
+    }
 }

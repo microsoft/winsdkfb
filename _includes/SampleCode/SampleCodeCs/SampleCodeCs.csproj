@@ -102,11 +102,14 @@
     <Compile Include="Samples\Auth\Initialization.cs" />
     <Compile Include="Samples\Auth\Login.cs" />
     <Compile Include="Samples\Auth\Logout.cs" />
-    <Compile Include="Samples\Auth\ProfilePictureControl.cs" />
+    <Compile Include="Samples\Auth\ProfilePictureControlSample.xaml.cs">
+      <DependentUpon>ProfilePictureControlSample.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Auth\UserInformation.cs" />
     <Compile Include="Samples\Dialogs\FeedDialog.cs" />
     <Compile Include="Samples\Dialogs\RequestDialog.cs" />
     <Compile Include="Samples\Dialogs\SendDialog.cs" />
+    <Compile Include="Samples\FBReturnObject.cs" />
     <Compile Include="Samples\Graph\FeedPost.cs" />
     <Compile Include="Samples\Graph\LikeAction.cs" />
     <Compile Include="Samples\Graph\PhotoUpload.cs" />
@@ -137,6 +140,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Auth\ProfilePictureControlSample.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />

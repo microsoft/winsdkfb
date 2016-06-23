@@ -2,7 +2,6 @@
 #include "ProfilePictureControlSample.xaml.h"
 
 using namespace SampleCode;
-
 using namespace Windows::Foundation::Collections;
 using namespace Platform;
 using namespace concurrency;
@@ -14,7 +13,6 @@ ProfilePictureControlSample::ProfilePictureControlSample()
 	InitializeComponent();
     // Get active session
     FBSession^ sess = FBSession::ActiveSession;
-
     if (sess->LoggedIn)
     {
         // Get current user

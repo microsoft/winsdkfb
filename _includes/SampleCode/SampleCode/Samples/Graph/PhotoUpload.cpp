@@ -4,6 +4,7 @@
 using namespace Windows::Foundation::Collections;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Streams;
+using namespace Windows::Storage::Pickers;
 using namespace Platform;
 using namespace concurrency;
 using namespace winsdkfb;
@@ -15,11 +16,18 @@ namespace SampleCode
     {
         StorageFile^ selectedPhoto;
         // Read image file into selectedPhoto
-
-        // Create media stream
-        create_task(selectedPhoto->OpenReadAsync())
-        .then([=, &selectedPhoto](IRandomAccessStreamWithContentType^ stream)
+        FileOpenPicker^ fop = ref new FileOpenPicker();
+        fop->ViewMode = PickerViewMode::Thumbnail;
+        fop->SuggestedStartLocation = PickerLocationId::PicturesLibrary;
+        fop->FileTypeFilter->Append(L".jpg");
+        fop->FileTypeFilter->Append(L".png");
+        create_task(fop->PickSingleFileAsync()).then([&](StorageFile^ storageFile)
         {
+            selectedPhoto = storageFile;
+            return storageFile->OpenReadAsync();
+        }).then([=, &selectedPhoto](IRandomAccessStreamWithContentType^ stream)
+        {
+            // Create media stream
             FBMediaStream^ fbStream = ref new FBMediaStream(selectedPhoto->Name, stream);
 
             // Get active session

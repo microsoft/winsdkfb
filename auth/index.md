@@ -50,24 +50,17 @@ The SDK provides a ProfilePictureControl that can be populated with the logged i
 
 XAML:
 {% highlight xml %}
-<Page
-    …
-    xmlns:fbsdk="using:winsdkfb"
-    … >
-<fbsdk:ProfilePictureControl x:Name="ProfilePic" Width="120" Height="120"Margin="659,270,661,570" />
-...
-</Page>
-
+{% include SampleCode/SampleCode/Samples/Auth/ProfilePictureControlSample.xaml %}
 {% endhighlight %}
 
 C#:
 {% highlight csharp %}
-{% include SampleCode/SampleCodeCs/Samples/Auth/ProfilePictureControl.cs %}
+{% include SampleCode/SampleCodeCs/Samples/Auth/ProfilePictureControlSample.xaml.cs %}
 {% endhighlight %}
 
 C++:
 {% highlight c++ %}
-{% include SampleCode/SampleCode/Samples/Auth/ProfilePictureControl.cpp %}
+{% include SampleCode/SampleCode/Samples/Auth/ProfilePictureControlSample.xaml.cpp %}
 {% endhighlight %}
 
 ## User Information
