@@ -15,9 +15,7 @@ namespace SampleCode
             {
                 _id = value;
             }
-
         }
-
     private:
         Platform::String^ _id;
     };
