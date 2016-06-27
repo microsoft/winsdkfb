@@ -3,17 +3,35 @@ layout: default
 title: Graph API
 ---
 
+<script type="text/javascript" src="../js/language_toggle.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        var radios = document.language_select_form.lang_select;
+        for (var i = 0; i < radios.length; ++i) {
+            radios[i].onclick = function() {
+                run_language_pref_update(this.value);
+            };
+        }
+        run_default_for_page_load();
+    };
+</script>
+
+<form name="language_select_form">
+    <label>Show documentation for language:</label>
+    <br />
+    <label>C++</label>
+    <input type="radio" name="lang_select" value="cpp" checked="checked" />
+    <label>C#</label>
+    <input type="radio" name="lang_select" value="c_sharp" />
+</form>
+
 ## A Helper Class
 
 The examples on this page use a helper class, `FBReturnObject`, to represent the data returned by a Graph API call.
 
-C#
-
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/FBReturnObject.cs %}
 {% endhighlight %}
-
-C++:
 
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/FBReturnObject.h %}
@@ -24,13 +42,9 @@ The app should have publish_actions permission granted by the user.
 The response will be an id of type string `{"id": "<id here>"}` if published successfully.
 You can find more details [here](https://developers.facebook.com/docs/graph-api/reference/v2.3/user/feed).
 
-C#:
-
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Graph/FeedPost.cs %}
 {% endhighlight %}
-
-C++:
 
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Graph/FeedPost.cpp %}
@@ -51,13 +65,9 @@ We define a custom json object parameter `{"title": "Custom Story"}` and set the
 
 This will be published as "*user* tried *scenario* from Sample Application".
 
-C#:
-
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Graph/CustomStories.cs %}
 {% endhighlight %}
-
-C++
 
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Graph/CustomStories.cpp %}
@@ -67,13 +77,9 @@ C++
 The app should have publish_actions permission granted by the user. The response will be an id of type string `{"id": "<id here>"}` if published successfully.
 You can find more details [here](https://developers.facebook.com/docs/graph-api/reference/user/photos/).
 
-C#:
-
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Graph/PhotoUpload.cs %}
 {% endhighlight %}
-
-C++:
 
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Graph/PhotoUpload.cpp %}
@@ -83,25 +89,22 @@ C++:
 The app should have publish_actions permission granted by the user. The response will be an id of type string `{"id":"<id here>"}` if published successfully. Note that this is for uploading a small sized video all at once (non-resumable). The Facebook Graph API has said non-resumable upload supports videos up to 1GB and 20 minutes long.
 
 
-C#:
-
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Graph/VideoUpload.cs %}
 {% endhighlight %}
 
+{% highlight c++ %}
+{% include SampleCode/SampleCode/Samples/Graph/VideoUpload.cpp %}
+{% endhighlight %}
 
 ## Like Action
 The app should have publish_actions permission granted by the user. The response will be an id of type string `{"id":"<id here>"}` if published successfully.
 
 Note that this is not the same as 'liking' a Facebook Page. If successful, the like action will be published onto the user's activity feed. You need extra permission to post it as an Open Graph object on the user's timeline/news feed. You can find more details [here](https://developers.facebook.com/docs/opengraph/guides/og.likes).
 
-C#:
-
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Graph/LikeAction.cs %}
 {% endhighlight %}
-
-C++:
 
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Graph/LikeAction.cpp %}

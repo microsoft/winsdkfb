@@ -3,15 +3,35 @@ layout: default
 title: Authentication
 ---
 
+<script type="text/javascript" src="../js/language_toggle.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        var radios = document.language_select_form.lang_select;
+        for (var i = 0; i < radios.length; ++i) {
+            radios[i].onclick = function() {
+                run_language_pref_update(this.value);
+            };
+        }
+        run_default_for_page_load();
+    };
+</script>
+
+<form name="language_select_form">
+    <label>Show documentation for language:</label>
+    <br />
+    <label>C++</label>
+    <input type="radio" name="lang_select" value="cpp" checked="checked" />
+    <label>C#</label>
+    <input type="radio" name="lang_select" value="c_sharp" />
+</form>
+
 ## Initializing the Facebook Session
 Set the Facebook App ID and Windows Store ID values in active session:
 
-C#:
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Auth/Initialization.cs %}
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Auth/Initialization.cpp %}
 {% endhighlight %}
@@ -22,12 +42,10 @@ Note: During development, you can always use the PhoneProductID from the manifes
 Use the following code snippet to login to Facebook.
 The `sess.LoginAsync()` or `sess->LoginAsync()` call launches the Facebook login dialog box for the user to enter his/her username and password.
 
-C#:
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Auth/Login.cs %}
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Auth/Login.cpp %}
 {% endhighlight %}
@@ -35,12 +53,10 @@ C++:
 ## Logout
 This is simply just calling the `LogoutAsync()` method.
 
-C#:
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Auth/Logout.cs %}
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Auth/Logout.cpp %}
 {% endhighlight %}
@@ -53,12 +69,12 @@ XAML:
 {% include SampleCode/SampleCode/Samples/Auth/ProfilePictureControlSample.xaml %}
 {% endhighlight %}
 
-C#:
+<br />
+
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Auth/ProfilePictureControlSample.xaml.cs %}
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Auth/ProfilePictureControlSample.xaml.cpp %}
 {% endhighlight %}
@@ -66,12 +82,10 @@ C++:
 ## User Information
 Some basic information about the logged in user can directly be accessed through `FBSession.ActiveSession.User`.
 
-C#:
 {% highlight csharp %}
 {% include SampleCode/SampleCodeCs/Samples/Auth/UserInformation.cs %}
 {% endhighlight %}
 
-C++:
 {% highlight c++ %}
 {% include SampleCode/SampleCode/Samples/Auth/UserInformation.cpp %}
 {% endhighlight %}

@@ -37,7 +37,7 @@ namespace SampleCode
                 var result = await singleValue.PostAsync();
                 if (result.Succeeded)
                 {
-                    var photoResponse = result.Object as FBReturnObject;
+                    var response = result.Object as FBReturnObject;
                 }
             }
         }

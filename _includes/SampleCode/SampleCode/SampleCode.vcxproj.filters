@@ -61,6 +61,10 @@
     <ClCompile Include="Samples\Auth\UserInformation.cpp">
       <Filter>Samples\Auth</Filter>
     </ClCompile>
+    <ClCompile Include="Samples\Auth\ProfilePictureControlSample.xaml.cpp" />
+    <ClCompile Include="Samples\Graph\VideoUpload.cpp">
+      <Filter>Samples\Graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -69,6 +73,7 @@
     <ClInclude Include="Samples\FBReturnObject.h">
       <Filter>Samples</Filter>
     </ClInclude>
+    <ClInclude Include="Samples\Auth\ProfilePictureControlSample.xaml.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\LockScreenLogo.scale-200.png">
