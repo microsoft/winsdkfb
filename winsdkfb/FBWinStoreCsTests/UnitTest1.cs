@@ -732,5 +732,18 @@ namespace FBWinStoreCsTests
             Assert.AreEqual(testUser.Fields["test_object"], @"{""a"":""b"",""c"":""d""}");
 
         }
+
+        [TestMethod]
+        public async Task testJsonPropertySetNoBuiltInFields()
+        {
+            StorageFolder installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            StorageFolder jsonFolder = await installedLocation.GetFolderAsync("TestData");
+            StorageFile jsonTestFile = await jsonFolder.GetFileAsync("testJsonPropertySetNoBuiltInFields.json");
+            string text = await FileIO.ReadTextAsync(jsonTestFile);
+
+            FBUser testUser = (FBUser)FBUser.FromJson(text);
+            Assert.AreNotEqual(testUser, null);
+        }
+
     }
 }
