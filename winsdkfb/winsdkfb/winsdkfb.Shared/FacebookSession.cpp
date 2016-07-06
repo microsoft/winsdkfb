@@ -99,7 +99,7 @@ FBSession::FBSession() :
         login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
     }
     _APIMajorVersion = 2;
-    _APIMinorVersion = 1;
+    _APIMinorVersion = 6;
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
     _webViewRedirectDomain = FACEBOOK_MOBILE_SERVER_NAME;
 #else
@@ -205,9 +205,12 @@ task<FBResult^> FBSession::GetUserInfo(
     winsdkfb::FBAccessTokenData^ TokenData
     )
 {
+    PropertySet^ parameters = ref new PropertySet();
+    parameters->Insert(L"fields",
+        L"gender,link,first_name,last_name,locale,timezone,email,updated_time,verified,name,id");
     FBSingleValue^ value = ref new FBSingleValue(
         "/me",
-        nullptr,
+        parameters,
         ref new FBJsonClassFactory([](String^ JsonText) -> Object^
         {
             return FBUser::FromJson(JsonText);
