@@ -15,7 +15,7 @@ namespace SampleCode
         FBSession^ sess = FBSession::ActiveSession;
 
         // Add permissions required by the app
-        Vector<String^>^ permissionList = ref new Vector<String^>(); ("public_profile");
+        Vector<String^>^ permissionList = ref new Vector<String^>();
         permissionList->Append(L"public_profile");
         permissionList->Append(L"user_friends");
         permissionList->Append(L"user_likes");
