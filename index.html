@@ -9,6 +9,18 @@
     <link rel="stylesheet" type="text/css" media="screen" href="./css/stylesheet.css">
     <link rel="stylesheet" type="text/css" media="screen" href="./css/syntax.css">
     <script src="./js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="./js/language_toggle.js"></script>
+    <script type="text/javascript">
+      window.onload = function() {
+            var radios = document.language_select_form.lang_select;
+            for (var i = 0; i < radios.length; ++i) {
+                radios[i].onclick = function() {
+                    run_language_pref_update(this.value);
+                };
+            }
+            run_default_for_page_load();
+      };
+    </script>
     <!--
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/default.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
@@ -38,13 +50,21 @@
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
-  
+
       <section id="main_content" class="inner">
     <br>
       <center style="font-size:24px;">
         <a href="auth">Auth</a> | <a href="dialogs">Dialogs</a> |<a href="graph">Graph API</a>
       </center>
     <br>
+    <form name="language_select_form">
+        <label>Show documentation for language:</label>
+        <br />
+        <label>C++</label>
+        <input type="radio" name="lang_select" value="cpp" checked="checked" />
+        <label>C#</label>
+        <input type="radio" name="lang_select" value="c_sharp" />
+    </form>
         <h2>Getting Started</h2>
         <p>
         1. Create a new Universal Windows app or open an existing Universal Windows app.
@@ -55,21 +75,18 @@
         </p>
 
         To get an SID during development, use the following:
-        <h4>C#</h4>
-        <pre>
-        <code>
-        using Windows.Security.Authentication.Web;
-        ...
-        string SID = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
+        <pre><code class="language-csharp">
+using Windows.Security.Authentication.Web;
+...
+string SID = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
         </code></pre>
 
         <br>
 
-        <h4>C++</h4>
-        <pre><code>
-          using namespace Windows::Security::Authentication::Web;
-          ...
-          String^ SID = WebAuthenticationBroker::GetCurrentApplicationCallbackUri()->DisplayUri;
+        <pre><code class="language-c--">
+using namespace Windows::Security::Authentication::Web;
+...
+String^ SID = WebAuthenticationBroker::GetCurrentApplicationCallbackUri()->DisplayUri;
         </code></pre>
 
         <br>
@@ -125,10 +142,10 @@
           <li>winsdkfb\winsdkfb\winsdkfb.Windows\winsdkfb.Windows.vcxproj</li>
           <li>winsdkfb\winsdkfb\winsdkfb.WindowsPhone\winsdkfb.WindowsPhone.vcxproj</li>
           </ul>
-        
+
         <p>
           Once you've added the projects to your solution, add a reference to them in your application references. Note that if you are using the following code snippets in C# functions, that the functions have to be marked with 'async' in order to compile and be used correctly.
-        </p> 
+        </p>
 
         <p>You can view the MSDN docs on the await/async keywords <a href = "https://msdn.microsoft.com/en-us/library/hh156528.aspx">here.</a>There is also a blog post on how <a href= "http://blogs.msdn.com/b/cdndevs/archive/2013/12/18/c-async-and-await-why-do-we-need-them-part-1.aspx">await/async is necessary</a> with UI dialog boxes, similar to the Facebook auth dialog.</p>
 
@@ -142,8 +159,7 @@
         <p class="copyright">Windows SDK for Facebook maintained by <a href="https://github.com/Microsoft">Microsoft</a></p>
       </footer>
     </div>
-   
+
   </body>
 
 </html>
-
