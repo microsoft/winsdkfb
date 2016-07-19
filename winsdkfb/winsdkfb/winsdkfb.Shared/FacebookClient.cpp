@@ -49,7 +49,7 @@ using namespace Windows::Web::Http::Headers;
 #define MultiPartContentType L"Content-Type: multipart/form-data; "
 #define MultiPartBoundary L"------------------------------fbsdk1234567890"
 #define UserAgent L"User-Agent"
-#define WinSDKFBUserAgent(version) L"winsdkfb." version
+#define WinSDKFBUserAgent(version) L"FBWinSDK." version
 #define WinSDKFBUserAgentString WinSDKFBUserAgent(WINSDKFB_VERSION)
 
 FBClient::FBClient()

@@ -35,15 +35,11 @@ namespace winsdkfb
          * call this method when the app is launched.
          */
         static void ActivateApp();
-		static property bool UseSimulator {
-			bool get() { return useSimulator; }
-			void set(bool value)
-			{
-				useSimulator = value;
-			}
-		}
 
-		
+        static property bool UseSimulator {
+            bool get();
+            void set(bool value);
+        }
 
     private:
         /**
@@ -65,7 +61,7 @@ namespace winsdkfb
             Platform::String^ AppId
             );
 
-        /*
+        /**
          * Logs an install event to the Facebook graph endpoint.
          * The user will be looked up using idfa or windows_attribution_id
          * @param The Application Id for the request
@@ -75,12 +71,13 @@ namespace winsdkfb
             Platform::String^ AppId
             );
 
-        /*
+        /**
          * Creates a JSON array encapsulating the activate app event
          * @return The JSON string for the event
          */
         static Platform::String^ GetActivateAppJson();
-		static bool useSimulator; 
+
+        static bool _useSimulator;
     };
 }
 
