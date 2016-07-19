@@ -22,11 +22,16 @@
 //******************************************************************************
 #include "pch.h"
 
+#ifdef DEBUG 
+#define ALWAYSLOGINSTALLS 1 
+#endif 
+
 #ifndef __NOFBAPPEVENTS__
 
 #include "FacebookAppEvents.h"
 #include "FacebookSession.h"
 #include "HttpManager.h"
+#include "SDKMessage.h"
 
 using namespace concurrency;
 using namespace std;
@@ -54,15 +59,33 @@ using namespace Windows::System::UserProfile;
 */
 void FBSDKAppEvents::ActivateApp()
 {
-    FBSession^ session = FBSession::ActiveSession;
+	FBSession^ session = FBSession::ActiveSession;	 
+	// Try to grab the application id from session.
+	String^ appId = session->FBAppId;
 
-    // Try to grab the application id from session.
-    String^ appId = session->FBAppId;
-
-    create_task(FBSDKAppEvents::PublishInstall(appId));
-    create_task(FBSDKAppEvents::LogActivateEvent(appId));
+	if ( appId == nullptr || appId->IsEmpty() )
+		throw ref new Platform::InvalidArgumentException(SDKMessageMissingAppID); 
+	/* 
+		Install tracking should not fail or throw so here we catch 
+		and silently ignore most errors.. 
+	 */  
+	try
+	{
+		create_task(FBSDKAppEvents::PublishInstall(appId));
+		create_task(FBSDKAppEvents::LogActivateEvent(appId));
+	}
+	catch ( Platform::Exception^  ex ) 
+	{
+#if DEBUG 
+		throw ex; 
+#endif 
+	}
+	catch (...)
+	{
+	} 
 }
 
+bool FBSDKAppEvents::useSimulator = false; 
 /*
  * Publish an install event to the Facebook graph endpoint.
  * Write the timestamp to localSettings so we only trigger this once.
@@ -79,7 +102,11 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
 
     return create_async([=]() -> void
     {
-        if (!pingTime) {
+#if defined (DEBUG) && defined(ALWAYSLOGINSTALLS ) 
+		if (!pingTime || true) { 
+#else 
+        if (!pingTime ) {
+#endif 
             create_task(FBSDKAppEvents::LogInstallEvent(AppId))
                 .then([=](String^ lastAttributionResponse) -> void
             {
@@ -115,30 +142,56 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
  * The user will be looked up using idfa or windows_attribution_id
  */
 IAsyncOperation<String^>^ FBSDKAppEvents::LogInstallEvent(
-    String^ AppId
-    )
+	String^ AppId
+)
 {
-    String^ path = AppId + FACEBOOK_ACTIVITIES_PATH;
-    PropertySet^ parameters = ref new PropertySet();
-    parameters->Insert(L"event", FACEBOOK_MOBILE_APP_INSTALL);
-    parameters->Insert(L"advertiser_id", AdvertisingManager::AdvertisingId);
-    parameters->Insert(
-        L"advertiser_tracking_enabled",
-        AdvertisingManager::AdvertisingId->IsEmpty() ? "0" : "1"
-    );
+	String^ path = AppId + FACEBOOK_ACTIVITIES_PATH;
+	PropertySet^ parameters = ref new PropertySet();
+	parameters->Insert(L"event", FACEBOOK_MOBILE_APP_INSTALL);
+	parameters->Insert(L"advertiser_id", AdvertisingManager::AdvertisingId);
+	parameters->Insert(
+		L"advertiser_tracking_enabled",
+		AdvertisingManager::AdvertisingId->IsEmpty() ? "0" : "1"
+	);
 
-    return create_async([=]() -> task<String^>
-    {
-        return create_task(CurrentApp::GetAppPurchaseCampaignIdAsync())
-            .then([=](String^ campaignID) -> task<String^>
-        {
-            parameters->Insert(L"windows_attribution_id", campaignID);
-            return create_task([=]() -> IAsyncOperation<String^>^
-            {
-                return HttpManager::Instance->PostTaskAsync(path, parameters);
-            });
-        });
-    });
+	return create_async([=]() -> task<String^>
+	{
+		return create_task([=]()  
+		{
+			if (FBSDKAppEvents::UseSimulator)
+			{
+				return CurrentAppSimulator::GetAppPurchaseCampaignIdAsync();
+			} 
+			else
+			{  
+				return CurrentApp::GetAppPurchaseCampaignIdAsync(); 
+			}
+		}).then([=](task<String^> getCampaignIdTask) -> task<String^>
+		{
+			try
+			{
+				String^ campaignID = getCampaignIdTask.get();
+				parameters->Insert(L"windows_attribution_id", campaignID);
+				return create_task([=]() -> IAsyncOperation<String^>^
+				{
+					return HttpManager::Instance->PostTaskAsync(path, parameters);
+				});
+			}
+			catch (Platform::Exception^ ex)
+			{
+				OutputDebugString(L"This happens when app is not yet published");
+				OutputDebugString(ex->Message->Data());
+			}
+			 
+			///Passing default value since we did not make network call 
+			return create_task([]() -> String^
+			{
+				OutputDebugString(L"This value must be replaced");
+				//TODO: what is right default value? 				
+				return ref new String(L"");				 
+			});
+		});
+	});
 }
 
 /*

@@ -35,6 +35,15 @@ namespace winsdkfb
          * call this method when the app is launched.
          */
         static void ActivateApp();
+		static property bool UseSimulator {
+			bool get() { return useSimulator; }
+			void set(bool value)
+			{
+				useSimulator = value;
+			}
+		}
+
+		
 
     private:
         /**
@@ -71,6 +80,7 @@ namespace winsdkfb
          * @return The JSON string for the event
          */
         static Platform::String^ GetActivateAppJson();
+		static bool useSimulator; 
     };
 }
 
