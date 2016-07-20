@@ -654,8 +654,12 @@ void FBClient::SerializeParameters(
     auto item = keysThatAreNotString->First();
     while (item->HasCurrent)
     {
-        // TODO: Jsonize the object value
-        String^ newValue = dynamic_cast<String^>(parameters->Lookup(item->Current));
+        Object^ val = parameters->Lookup(item->Current);
+        String^ newValue = dynamic_cast<String^>(val);
+        if (!newValue)
+        {
+            newValue = val->ToString();
+        }
 
         // Replace the existing object with the new Jsonized value
         parameters->Remove(item->Current);
