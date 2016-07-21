@@ -81,8 +81,19 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSendRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSendRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FBVideoUploader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBVideo.cpp">
+      <Filter>Generated code</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FBVideoContentStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,7 +190,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -187,6 +197,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBVideoUploader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBVideo.h">
+      <Filter>Generated code</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBVideoContentStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -290,6 +312,12 @@
     <None Include="$(MSBuildThisFileDirectory)FBPage.xml">
       <Filter>Object Templates</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)FBVideo.h.tt">
+      <Filter>Object Templates</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)FBVideo.cpp.tt">
+      <Filter>Object Templates</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
@@ -311,5 +339,10 @@
     <Filter Include="Object Templates">
       <UniqueIdentifier>{aa3295ea-aec9-432a-92b9-a5cfba6e5fc7}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(MSBuildThisFileDirectory)FBVideo.xml">
+      <Filter>Object Templates</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
