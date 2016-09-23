@@ -21,6 +21,8 @@
 #include "FacebookSession.h"
 #include "HttpManager.h"
 
+#include <regex>
+
 using namespace concurrency;
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
@@ -128,7 +130,8 @@ IVectorView<Object^>^ FBPaginatedArray::ObjectArrayFromJsonArray(
 }
 
 FBResult^ FBPaginatedArray::ConsumePagedResponse(
-    String^ JsonText
+    String^ JsonText,
+    String^ OriginalPath
     )
 {
     FBResult^ result = nullptr;
@@ -160,6 +163,7 @@ FBResult^ FBPaginatedArray::ConsumePagedResponse(
                     if (_paging)
                     {
                         foundPaging = true;
+                        FormatPagingPaths(_paging, OriginalPath);
                     }
                 }
                 else if (!String::CompareOrdinal(it->Current->Key, L"data"))
@@ -231,7 +235,7 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
     return create_async([this, path]() -> task<FBResult^>
     {
         return create_task(HttpManager::Instance->GetTaskAsync(path, _parameters))
-            .then([this](String^ responseString)
+            .then([this, path](String^ responseString)
         {
             if (responseString == nullptr)
             {
@@ -239,8 +243,39 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
             }
             else
             {
-                return ConsumePagedResponse(responseString);
+                return ConsumePagedResponse(responseString, path);
             }
         });
     });
+}
+
+void FBPaginatedArray::FormatPagingPaths(
+    FBPaging^ paging,
+    String^ path
+)
+{
+    String^ regexString = L"(?:.*?)(" + path + L".*)";
+    std::wstring stdRegexString = std::wstring{ regexString->Data() };
+    std::wregex relativePathRegex{ stdRegexString };
+    std::wsmatch match;
+    if (paging->Next)
+    {
+        std::wstring nextUrl = std::wstring{ paging->Next->Data() };
+        std::regex_match(nextUrl, match, relativePathRegex);
+        if (match.size() >= 2)
+        {
+            std::wstring matchText = match[1].str();
+            paging->Next = ref new String(matchText.c_str());
+        }
+    }
+    if (paging->Previous)
+    {
+        std::wstring previousUrl = std::wstring{ paging->Previous->Data() };
+        std::regex_match(previousUrl, match, relativePathRegex);
+        if (match.size() >= 2)
+        {
+            std::wstring matchText = match[1].str();
+            paging->Next = ref new String(matchText.c_str());
+        }
+    }
 }

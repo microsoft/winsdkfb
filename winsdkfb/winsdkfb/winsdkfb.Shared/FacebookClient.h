@@ -228,6 +228,11 @@ namespace winsdkfb
             Windows::Foundation::Collections::PropertySet^ Streams
             );
 
+        Platform::String^ FBClient::MovePathQueryStringToParameters(
+            Platform::String^ path,
+            Windows::Foundation::Collections::PropertySet^ parameters
+            );
+
         concurrency::task<Platform::String^> TryReceiveHttpResponse(
             concurrency::task<Windows::Web::Http::HttpResponseMessage^> httpRequestTask,
             concurrency::cancellation_token_source cancellationTokenSource

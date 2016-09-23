@@ -403,6 +403,13 @@ Uri^ FBClient::PrepareRequestUri(
     dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
     dataWriter->ByteOrder = ByteOrder::LittleEndian;
 
+    if (parameters == nullptr)
+    {
+        parameters = ref new PropertySet();
+    }
+    // remove any query string parameters from path and put them in parameters
+    path = MovePathQueryStringToParameters(path, parameters);
+
     PropertySet^ mediaObjects = ref new PropertySet();
     PropertySet^ mediaStreams = ref new PropertySet();
     PropertySet^ parametersWithoutMediaObjects = ToDictionary(parameters, mediaObjects, mediaStreams);
@@ -748,4 +755,22 @@ task<String^> FBClient::TryReceiveHttpResponse(
         }
         return result;
     });
+}
+
+String^ FBClient::MovePathQueryStringToParameters(String^ path, PropertySet^ parameters)
+{
+    Uri^ uri = ref new Uri(L"http://blah.com/" + path);
+    WwwFormUrlDecoder^ query = uri->QueryParsed;
+    if (query->Size > 0)
+    {
+        IIterator<IWwwFormUrlDecoderEntry^>^ it = query->First();
+        while (it->HasCurrent)
+        {
+            IWwwFormUrlDecoderEntry^ current = it->Current;
+            parameters->Insert(current->Name, current->Value);
+            it->MoveNext();
+        }
+    }
+    return uri->Path;
+
 }
