@@ -17,7 +17,7 @@
 
 namespace winsdkfb
 {
-    /*!\brief Simple class to contain a set of permissions for FB.  
+    /*!\brief Simple class to contain a set of permissions for FB.
     */
     public ref class FBPermissions sealed
 	{
@@ -38,8 +38,28 @@ namespace winsdkfb
 			virtual Platform::String^ ToString(
 				) override;
 
+            /**
+             * Constructs an instance of FBPermissions
+             * @param Permissions A comma seperated list of permissions
+             */
+            static FBPermissions^ FromString(
+                Platform::String^ Permissions
+                );
+
+            /**
+             * Returns the set difference of two FBPermissions' permissions
+             * @param Minuend FBPermissions to subtract from
+             * @param Subtrahend FBPermissions to 'remove' from Minuend
+             * @return a new FBPermissions object that contains the set of
+             * permissions that exist in Minuend and not in Subtrahend
+             */
+            static FBPermissions^ Difference(FBPermissions^ Minuend, FBPermissions^ Subtrahend);
+
 		private:
+            static Windows::Foundation::Collections::IVectorView<Platform::String^>^ ParsePermissionsFromString(
+                Platform::String^ Permissions
+                );
+
 			Windows::Foundation::Collections::IVectorView<Platform::String^>^ _values;
 	};
 }
-

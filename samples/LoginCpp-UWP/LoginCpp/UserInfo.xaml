@@ -9,57 +9,78 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <ScrollViewer>
+        <Grid x:Name="LayoutRoot">
 
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
+            <Grid.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </Grid.ChildrenTransitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="FB Login Tester" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="User Info" Margin="0,-6.5,-0.167,26.5" Style="{ThemeResource HeaderTextBlockStyle}" />
-        </StackPanel>
+            <!-- Title Panel -->
+            <StackPanel Grid.Row="0" Margin="19,0,0,0">
+                <TextBlock Text="Facebook Sample App" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+                <TextBlock Text="User Info" Margin="0,-6.5,-0.167,26.5" Style="{ThemeResource HeaderTextBlockStyle}" />
+            </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="19,0,0,0">
-            <fbsdk:ProfilePictureControl Grid.Column="0" CropMode="Square" x:Name="SquarePicture" Width="100" Height="100" />
-            <Button x:Name="UserLikesButton" Content="Show Likes..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="UserLikesButton_Click"/>
-        </StackPanel>
-        
-        <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="2" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Grid.Row="0">
-                    <TextBlock Text="ID:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserId" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="First Name:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserFirstName" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="Gender:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserGender" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="Last Name" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserLastName" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="Link:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserLink" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="Locale:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserLocale" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,-0.5,0"/>
-                    <TextBlock Text="Name:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserName" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="Timezone (from GMT):" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserTimezone" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="Updated Time:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserUpdatedTime" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock Text="Verified:" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-                    <TextBlock x:Name="UserVerified" Text="&lt;not set&gt;" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <StackPanel Grid.Row="1" x:Name="StackPanel2" Orientation="Vertical" Margin="19,0,19,0">
+                <StackPanel MaxWidth="362" HorizontalAlignment="Left" Width="{Binding ActualWidth, ElementName=StackPanel2}" Margin="0,0,0,12">
+                    <fbsdk:ProfilePictureControl Grid.Column="0" CropMode="Square" x:Name="SquarePicture" Width="100" Height="100" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Button x:Name="UserLikesButton" Content="Show Likes..." HorizontalAlignment="Left" VerticalAlignment="Stretch" Click="UserLikesButton_Click" MaxWidth="362" Height="68" Width="{Binding ActualWidth, ElementName=StackPanel2}"/>
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="2" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Visible">
+                <StackPanel Grid.Row="2" x:Name="ContentRoot" Orientation="Vertical" Margin="19,0,19,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ID:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserId" Text="{Binding UserId, ElementName=SquarePicture}" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="First Name:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserFirstName" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Gender:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserGender" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Last Name" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserLastName" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Link:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserLink" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Locale:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserLocale" Text="&lt;not set&gt;" Margin="0,12,-0.5,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Name:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserName" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Timezone (from GMT):" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserTimezone" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Updated Time:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserUpdatedTime" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Verified:" Margin="0,12,6,0" FontWeight="Bold"/>
+                        <TextBlock x:Name="UserVerified" Text="&lt;not set&gt;" Margin="0,12,0,0" IsRightTapEnabled="True" IsTextSelectionEnabled="True"/>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </Page>

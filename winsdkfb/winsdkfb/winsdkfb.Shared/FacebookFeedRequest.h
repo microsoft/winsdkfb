@@ -18,20 +18,29 @@
 
 namespace winsdkfb
 {
-    /*!\brief Class that encapsulates the response from a successful use of the
-     * Facebook "App Requests" dialog.
+    /**
+     * @brief Class that encapsulates the response from a successful use of the
+     * Facebook "Feed" dialog.
      */
     public ref class FBFeedRequest sealed
     {
     public:
 
-        //! Post ID - app can refer to this post in future, e.g. to delete or
-        //! update it.
+        /**
+         * ID of the post. Can be used to refer to this post in the future,
+         * e.g. to delete or update it.
+         */
         property Platform::String^ PostId
         {
             Platform::String^ get();
         }
         
+        /**
+         * Contruct a FBFeedRequest object from a URI.
+         * @param Response The URI to create a FBFeedRequest object from
+         * @return FBFeedRequest representation of the URI if it is valid,
+         * otherwise nullptr
+         */
         static FBFeedRequest^ FromFeedDialogResponse(
             Windows::Foundation::Uri^ Response
             );

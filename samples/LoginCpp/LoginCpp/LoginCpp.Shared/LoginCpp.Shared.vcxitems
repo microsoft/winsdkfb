@@ -19,13 +19,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)App.xaml.cpp">
       <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Dialogs.Shared.xaml.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FBPageBindable.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UserInfo.xaml.cpp">
-      <DependentUpon>$(MSBuildThisFileDirectory)UserInfo.xaml</DependentUpon>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)UserLikes.xaml.cpp">
-      <DependentUpon>$(MSBuildThisFileDirectory)UserLikes.xaml</DependentUpon>
-    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainPage.Shared.xaml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UserInfo.Shared.xaml.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UserLikes.Shared.xaml.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)App.xaml.h">
       <DependentUpon>$(MSBuildThisFileDirectory)App.xaml</DependentUpon>
     </ClInclude>
@@ -34,19 +32,9 @@
     </ClCompile>
     <ClInclude Include="$(MSBuildThisFileDirectory)FBPageBindable.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UserInfo.xaml.h">
-      <DependentUpon>$(MSBuildThisFileDirectory)UserInfo.xaml</DependentUpon>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UserLikes.xaml.h">
-      <DependentUpon>$(MSBuildThisFileDirectory)UserLikes.xaml</DependentUpon>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)UserInfo.xaml" />
-    <Page Include="$(MSBuildThisFileDirectory)UserLikes.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="$(MSBuildThisFileDirectory)Resources.resw" />

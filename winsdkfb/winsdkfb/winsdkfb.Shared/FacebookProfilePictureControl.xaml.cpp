@@ -42,6 +42,7 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
 using namespace Windows::UI::Xaml::Media::Imaging;
+using namespace Windows::UI::Xaml::Interop;
 
 // At least enough characters to hold a string representation of 32-bit int,
 // in decimal.  Used for width and height of profile picture.
@@ -49,32 +50,38 @@ using namespace Windows::UI::Xaml::Media::Imaging;
 
 
 #define ProfilePictureSillhouetteImage \
-    "ms-appx:///Facebook/Images/fb_blank_profile_portrait.png"
+    "ms-appx:///winsdkfb/Images/fb_blank_profile_portrait.png"
 
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+DependencyProperty^ ProfilePictureControl::_userIdProperty = DependencyProperty::Register(
+    L"UserId",
+    TypeName(String::typeid),
+    TypeName(ProfilePictureControl::typeid),
+    ref new PropertyMetadata(
+        nullptr,
+        ref new PropertyChangedCallback(&ProfilePictureControl::UserIdPropertyChanged)));
 
 ProfilePictureControl::ProfilePictureControl() :
-    _userIdValid(false),
-    _UserId(nullptr),
     _CropMode(CroppingType::Square)
 {
 	InitializeComponent();
+    Update();
+}
+
+void ProfilePictureControl::UserIdPropertyChanged(DependencyObject^ d, DependencyPropertyChangedEventArgs^ e)
+{
+    ProfilePictureControl^ instance = static_cast<ProfilePictureControl^>(d);
+    instance->UserId = static_cast<String^>(e->NewValue);
 }
 
 String^ ProfilePictureControl::UserId::get()
 {
-    return _UserId;
+    return safe_cast<String^>(GetValue(_userIdProperty));
 }
 
 void ProfilePictureControl::UserId::set(String^ value)
 {
-    _userIdValid = true;
-    if (!_UserId || (String::CompareOrdinal(value, _UserId) == 0))
-    {
-        _UserId = value;
-        Update();
-    }
+    SetValue(_userIdProperty, value);
+    Update();
 }
 
 CroppingType ProfilePictureControl::CropMode::get()
@@ -151,7 +158,7 @@ void ProfilePictureControl::SetImageSourceFromResource()
 
 void ProfilePictureControl::Update()
 {
-    if (UserId && (String::CompareOrdinal(UserId, L"-1") != 0))
+    if (UserId)
     {
         SetImageSourceFromUserId();
     }
@@ -189,15 +196,9 @@ ProfilePictureControl::GetProfilePictureInfo(
             parameters->Insert(L"height", Value);
         }
     }
-
-    if (String::CompareOrdinal(UserId, L"-1") == 0)
+    if (UserId)
     {
-        // Don't have an ID yet, so we're not logged in.  Display a generic
-        // silhouette a la Facebook.
-    }
-    else
-    {
-        String^ path = L"/" + UserId + L"/picture";
+        String^ path = UserId + L"/picture";
 
         FBSingleValue^ value = ref new FBSingleValue(
             path,

@@ -1,13 +1,9 @@
 # **Windows SDK for Facebook**
 
-The Windows SDK for Facebook is geared towards app developers creating modern windows applications on both desktop and phone. Easily integrate Facebook Auth, Like and other Facebook Graph functionality using this SDK.
+The Windows SDK for Facebook is geared towards app developers creating modern windows applications on both desktop and phone. Easily integrate Facebook Auth, Like and other Facebook Graph functionality using this SDK. Nuget package for Windows 10 available at: https://www.nuget.org/packages/winsdkfb
 
 
 ## **Features**
-
-
-----------
-
 
 ###Auth
 
@@ -27,12 +23,15 @@ The Windows SDK for Facebook is geared towards app developers creating modern wi
   - Upload Photo
   - Like a Page/Object
 
+###AppInstalls
+ - Mobile App Installs (can be disabled by defining \_\_NOFBAPPEVENTS__)
+
 
 ## **Supported Platforms**
 
 Windows 8.1+
 Windows Phone 8.1+
-Windows 10 Technical Preview
+Windows 10
 
 ## **Documentation**
 

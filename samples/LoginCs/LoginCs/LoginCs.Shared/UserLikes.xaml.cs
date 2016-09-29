@@ -44,6 +44,7 @@ namespace LoginCs
     public sealed partial class UserLikes : Page
     {
         public ObservableCollection<MyFBPage> Items { get; private set; }
+        private FBPaginatedArray _likes;
 
         public UserLikes()
         {
@@ -103,18 +104,42 @@ namespace LoginCs
                 FBResult result = await _likes.FirstAsync();
                 if (result.Succeeded)
                 {
-                    IReadOnlyList<object> pages = 
-                        (IReadOnlyList<object>)result.Object;
-                    AddLikes(pages);
+                    BadResultsTextBlock.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    LikesListView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    if (_likes.Current.Count > 0)
+                    {
+                        AddLikes(_likes.Current);
+                    }
+                    else
+                    {
+                        LikesListView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        BadResultsTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                        BadResultsTextBlock.Text = "No User likes found";
+                    }
+
+                }
+                else
+                {
+                    LikesListView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    BadResultsTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    BadResultsTextBlock.Text = result.ErrorInfo.Message;
                 }
             }
         }
 
-        private FBPaginatedArray _likes;
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.GoBack();
         }
+
+        void ListView_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        {
+            //FBPageBindable ^ selected = static_cast < FBPageBindable ^> (e->AddedItems->GetAt(0));
+            MyFBPage selected = (MyFBPage) e.AddedItems.First();
+            ItemDescription.Text = "hello";
+        }
+
     }
+
 }

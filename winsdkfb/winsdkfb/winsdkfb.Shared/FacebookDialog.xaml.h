@@ -30,7 +30,7 @@ namespace winsdkfb
         Windows::Foundation::Collections::PropertySet^ Parameters
         );
 
-	[Windows::Foundation::Metadata::WebHostHidden]
+    [Windows::Foundation::Metadata::WebHostHidden]
     public ref class FacebookDialog sealed
     {
     public:
@@ -47,29 +47,36 @@ namespace winsdkfb
         void UninitDialog(
             );
 
-        winsdkfb::FBResult^ GetDialogResponse(
+        static Platform::String^ GetFBServerUrl(
             );
 
-        void ShowLoginDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowLoginDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        void ShowFeedDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowFeedDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        void ShowRequestsDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowRequestsDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
-        void ShowSendDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowSendDialog(
             Windows::Foundation::Collections::PropertySet^ Parameters
+            );
+
+        /*! discussion The current session in webview is required only if the access token is valid
+         *  When the access token is removed the cookies must be clean up
+         */
+        static void DeleteCookies(
             );
 
     private:
-        void ShowDialog(
+        Windows::Foundation::IAsyncOperation<winsdkfb::FBResult^>^ ShowDialog(
             DialogUriBuilder^ uriBuilder,
-            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandler,
+            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^>^ EventHandlerStarting,
+            Windows::Foundation::TypedEventHandler<Windows::UI::Xaml::Controls::WebView^, Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^>^ EventHandlerCompleted,
             Windows::Foundation::Collections::PropertySet^ Parameters
             );
 
@@ -77,10 +84,7 @@ namespace winsdkfb
             Platform::String^ DialogName
             );
 
-        BOOL IsMobilePlatform(
-            );
-
-        Platform::String^ GetFBServer(
+        static BOOL IsMobilePlatform(
             );
 
         Windows::Foundation::Uri^ BuildLoginDialogUrl(
@@ -119,6 +123,11 @@ namespace winsdkfb
             Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ e
             );
 
+        void dialogWebView_NavCompleted(
+            Windows::UI::Xaml::Controls::WebView^ sender,
+            Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
+        );
+
         void CloseDialogButton_OnClick(
             Platform::Object^ sender, 
             Windows::UI::Xaml::RoutedEventArgs^ e
@@ -141,12 +150,16 @@ namespace winsdkfb
             Windows::UI::Core::WindowSizeChangedEventArgs ^args
             );
 
+        void SetDialogResponse(winsdkfb::FBResult ^dialogResponse);
+
         Windows::Foundation::EventRegistrationToken
-            navigatingEventHandlerRegistrationToken;
+            navigatingStartingEventHandlerRegistrationToken;
+        Windows::Foundation::EventRegistrationToken
+            navigatingCompletedEventHandlerRegistrationToken;
         Windows::Foundation::EventRegistrationToken
             sizeChangedEventRegistrationToken;
         Windows::UI::Xaml::Controls::Grid^ _grid;
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
-        winsdkfb::FBResult^ _dialogResponse;
+        concurrency::task_completion_event<winsdkfb::FBResult^> _dialogResponse;
     };
 }
