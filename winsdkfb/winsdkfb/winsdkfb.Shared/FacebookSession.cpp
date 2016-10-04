@@ -964,7 +964,6 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     {
         Permissions = ref new FBPermissions((ref new Vector<String^>())->GetView());
     }
-    _dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {
