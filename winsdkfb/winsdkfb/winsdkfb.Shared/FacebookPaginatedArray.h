@@ -143,8 +143,7 @@ namespace winsdkfb
                 );
 
             FBResult^ ConsumePagedResponse(
-                Platform::String^ JsonText,
-                Platform::String^ OriginalPath
+                Platform::String^ JsonText
                 );
 
             Windows::Foundation::IAsyncOperation<FBResult^>^ GetPage(
@@ -152,8 +151,7 @@ namespace winsdkfb
                 );
 
             void FormatPagingPaths(
-                FBPaging^ paging,
-                Platform::String^ path
+                FBPaging^ paging
                 );
 
             Windows::Foundation::Collections::IVectorView<Object^>^ _current;

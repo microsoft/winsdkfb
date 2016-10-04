@@ -34,21 +34,21 @@ namespace winsdkfb
 
         virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ GetTaskAsync(
             Platform::String^ path,
-            Windows::Foundation::Collections::PropertySet^ parameters
+            Windows::Foundation::Collections::IMapView<Platform::String^, Platform::Object^>^ parameters
             );
 
         virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ PostTaskAsync(
             Platform::String^ path,
-            Windows::Foundation::Collections::PropertySet^ parameters
+            Windows::Foundation::Collections::IMapView<Platform::String^, Platform::Object^>^ parameters
             );
 
         virtual Windows::Foundation::IAsyncOperation<Platform::String^>^ DeleteTaskAsync(
             Platform::String^ path,
-            Windows::Foundation::Collections::PropertySet^ parameters
+            Windows::Foundation::Collections::IMapView<Platform::String^, Platform::Object^>^ parameters
             );
         
         virtual Platform::String^ ParametersToQueryString(
-            Windows::Foundation::Collections::PropertySet^ Parameters
+            Windows::Foundation::Collections::IMapView<Platform::String^, Platform::Object^>^ parameters
             );
 
     private:

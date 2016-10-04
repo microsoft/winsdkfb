@@ -44,6 +44,10 @@ FBPaginatedArray::FBPaginatedArray(
     _parameters(Parameters),
     _objectFactory(ObjectFactory)
 {
+    if (_parameters == nullptr)
+    {
+        _parameters = ref new PropertySet();
+    }
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
@@ -130,8 +134,7 @@ IVectorView<Object^>^ FBPaginatedArray::ObjectArrayFromJsonArray(
 }
 
 FBResult^ FBPaginatedArray::ConsumePagedResponse(
-    String^ JsonText,
-    String^ OriginalPath
+    String^ JsonText
     )
 {
     FBResult^ result = nullptr;
@@ -163,7 +166,7 @@ FBResult^ FBPaginatedArray::ConsumePagedResponse(
                     if (_paging)
                     {
                         foundPaging = true;
-                        FormatPagingPaths(_paging, OriginalPath);
+                        FormatPagingPaths(_paging);
                     }
                 }
                 else if (!String::CompareOrdinal(it->Current->Key, L"data"))
@@ -232,10 +235,10 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
     String^ path
     )
 {
-    return create_async([this, path]() -> task<FBResult^>
+    return create_async([=]() -> task<FBResult^>
     {
-        return create_task(HttpManager::Instance->GetTaskAsync(path, _parameters))
-            .then([this, path](String^ responseString)
+        return create_task(HttpManager::Instance->GetTaskAsync(path, _parameters->GetView()))
+            .then([this](String^ responseString)
         {
             if (responseString == nullptr)
             {
@@ -243,18 +246,17 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
             }
             else
             {
-                return ConsumePagedResponse(responseString, path);
+                return ConsumePagedResponse(responseString);
             }
         });
     });
 }
 
 void FBPaginatedArray::FormatPagingPaths(
-    FBPaging^ paging,
-    String^ path
+    FBPaging^ paging
 )
 {
-    String^ regexString = L"(?:.*?)(" + path + L".*)";
+    String^ regexString = L"(?:.*?)(" + _request + L".*)";
     std::wstring stdRegexString = std::wstring{ regexString->Data() };
     std::wregex relativePathRegex{ stdRegexString };
     std::wsmatch match;
@@ -275,7 +277,7 @@ void FBPaginatedArray::FormatPagingPaths(
         if (match.size() >= 2)
         {
             std::wstring matchText = match[1].str();
-            paging->Next = ref new String(matchText.c_str());
+            paging->Previous = ref new String(matchText.c_str());
         }
     }
 }

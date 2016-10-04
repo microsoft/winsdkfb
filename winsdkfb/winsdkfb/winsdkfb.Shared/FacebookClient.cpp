@@ -96,13 +96,14 @@ PropertySet^ FBClient::ToDictionary(PropertySet^ parameters, PropertySet^ mediaO
 
 IAsyncOperation<String^>^ FBClient::GetTaskAsync(
     String^ path,
-    PropertySet^ parameters
+    IMapView<String^, Object^>^ parameters
     )
 {
+    PropertySet^ modifiableParams = MapViewToPropertySet(parameters);
     IAsyncOperation<String^>^ myTask = create_async([=]()
     {
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Get, path,
-            parameters, nullptr);
+            modifiableParams, nullptr);
 
         return FBClient::GetTaskInternalAsync(uri)
             .then([=](String^ Response)
@@ -318,32 +319,33 @@ task<String^> FBClient::MultipartPostInternalAsync(
 
 IAsyncOperation<String^>^ FBClient::PostTaskAsync(
     String^ path,
-    PropertySet^ parameters
+    IMapView<String^, Object^>^ parameters
     )
 {
+    PropertySet^ modifiableParams = MapViewToPropertySet(parameters);
     IAsyncOperation<String^>^ result = nullptr;
-    PropertySet^ streams = GetStreamsToUpload(parameters);
+    PropertySet^ streams = GetStreamsToUpload(modifiableParams);
     if (streams)
     {
-        result = FBClient::MultipartPostAsync(path, parameters, streams);
+        result = FBClient::MultipartPostAsync(path, modifiableParams, streams);
     }
     else
     {
-        result = FBClient::SimplePostAsync(path, parameters);
+        result = FBClient::SimplePostAsync(path, modifiableParams);
     }
-
     return result;
 }
 
 Windows::Foundation::IAsyncOperation<String^>^ FBClient::DeleteTaskAsync(
     String^ path, 
-    PropertySet^ parameters
+    IMapView<String^, Object^>^ parameters
     )
 {
+    PropertySet^ modifiableParams = MapViewToPropertySet(parameters);
     return create_async([=]()
     {
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Delete, path,
-            parameters, nullptr);
+            modifiableParams, nullptr);
 
         return FBClient::DeleteTaskInternalAsync(uri)
             .then([=](String^ Response)
@@ -602,7 +604,7 @@ Uri^ FBClient::PrepareRequestUri(
             queryString += L"method=delete&";
         }
     #endif
-        queryString += ParametersToQueryString(parametersWithoutMediaObjects);
+        queryString += ParametersToQueryString(parametersWithoutMediaObjects->GetView());
     }
 
     String^ host;
@@ -674,7 +676,7 @@ void FBClient::SerializeParameters(
 }
 
 String^ FBClient::ParametersToQueryString(
-    PropertySet^ Parameters
+    IMapView<String^, Object^>^ parameters
     )
 {
     String^ queryString = L"";
@@ -683,7 +685,7 @@ String^ FBClient::ParametersToQueryString(
     // do not need to be uploaded as multipart, i.e. any which is are not 
     // binary data, are required to be in the query string, even for POST 
     // requests!
-    IIterator<IKeyValuePair<String^, Object^>^>^ kvp = Parameters->First();
+    IIterator<IKeyValuePair<String^, Object^>^>^ kvp = parameters->First();
     while (kvp->HasCurrent)
     {
         String^ key = Uri::EscapeComponent(kvp->Current->Key);
@@ -767,10 +769,26 @@ String^ FBClient::MovePathQueryStringToParameters(String^ path, PropertySet^ par
         while (it->HasCurrent)
         {
             IWwwFormUrlDecoderEntry^ current = it->Current;
-            parameters->Insert(current->Name, current->Value);
+            // we don't want to overwrite an explicitly specified value from the user
+            if (!parameters->HasKey(current->Name))
+            {
+                parameters->Insert(current->Name, current->Value);
+            }
             it->MoveNext();
         }
     }
     return uri->Path;
+}
 
+PropertySet^ FBClient::MapViewToPropertySet(IMapView<String^, Object^>^ mapView)
+{
+    PropertySet^ propertySet = ref new PropertySet();
+    IIterator<IKeyValuePair<String^, Object^>^>^ it = mapView->First();
+    while (it->HasCurrent)
+    {
+        IKeyValuePair<String^, Object^>^ current = it->Current;
+        propertySet->Insert(current->Key, current->Value);
+        it->MoveNext();
+    }
+    return propertySet;
 }
