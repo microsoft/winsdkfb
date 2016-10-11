@@ -160,6 +160,9 @@ FBAccessTokenData^ FBSession::AccessTokenData::get()
 void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
 {
     _AccessTokenData = value;
+
+    // If token have been updated, make sure to save updated token
+    TrySaveTokenData();
 }
 
 FBUser^ FBSession::User::get()
@@ -964,7 +967,6 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     {
         Permissions = ref new FBPermissions((ref new Vector<String^>())->GetView());
     }
-    _dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {
