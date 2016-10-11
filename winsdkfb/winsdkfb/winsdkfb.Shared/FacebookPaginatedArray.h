@@ -150,10 +150,6 @@ namespace winsdkfb
                 Platform::String^ path
                 );
 
-            void FormatPagingPaths(
-                FBPaging^ paging
-                );
-
             Windows::Foundation::Collections::IVectorView<Object^>^ _current;
             FBPaging^ _paging;
             Platform::String^ _request;

@@ -156,7 +156,6 @@ namespace winsdkfb
          * @param httpMethod Type of HTTP request to build URI for
          * @param path Request path
          * @param parameters Query parameters for the request
-         * @param input TODO
          * @return Request URI
          * @exception FailureExecption if FBMediaObject or FBMediaStream are
          * attempting to be attached on non-POST requests.
@@ -165,8 +164,7 @@ namespace winsdkfb
         Windows::Foundation::Uri^ PrepareRequestUri(
             winsdkfb::HttpMethod httpMethod,
             Platform::String^ path,
-            Windows::Foundation::Collections::PropertySet^ parameters,
-            Windows::Storage::Streams::IRandomAccessStream^ input
+            Windows::Foundation::Collections::PropertySet^ parameters
             );
 
         /**
@@ -228,11 +226,6 @@ namespace winsdkfb
             Windows::Foundation::Collections::PropertySet^ Streams
             );
 
-        Platform::String^ FBClient::MovePathQueryStringToParameters(
-            Platform::String^ path,
-            Windows::Foundation::Collections::PropertySet^ parameters
-            );
-
         concurrency::task<Platform::String^> TryReceiveHttpResponse(
             concurrency::task<Windows::Web::Http::HttpResponseMessage^> httpRequestTask,
             concurrency::cancellation_token_source cancellationTokenSource
@@ -240,6 +233,14 @@ namespace winsdkfb
 
         Windows::Foundation::Collections::PropertySet^ MapViewToPropertySet(
             Windows::Foundation::Collections::IMapView<Platform::String^, Platform::Object^>^ mapView
+            );
+
+        void ValidateMediaStreams(
+            Windows::Foundation::Collections::PropertySet^ mediaStreams
+            );
+
+        void ValidateMediaObjects(
+            Windows::Foundation::Collections::PropertySet^ mediaObjects
             );
     };
 };

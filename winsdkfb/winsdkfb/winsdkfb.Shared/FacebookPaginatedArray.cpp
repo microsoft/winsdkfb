@@ -166,7 +166,6 @@ FBResult^ FBPaginatedArray::ConsumePagedResponse(
                     if (_paging)
                     {
                         foundPaging = true;
-                        FormatPagingPaths(_paging);
                     }
                 }
                 else if (!String::CompareOrdinal(it->Current->Key, L"data"))
@@ -250,34 +249,4 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
             }
         });
     });
-}
-
-void FBPaginatedArray::FormatPagingPaths(
-    FBPaging^ paging
-)
-{
-    String^ regexString = L"(?:.*?)(" + _request + L".*)";
-    std::wstring stdRegexString = std::wstring{ regexString->Data() };
-    std::wregex relativePathRegex{ stdRegexString };
-    std::wsmatch match;
-    if (paging->Next)
-    {
-        std::wstring nextUrl = std::wstring{ paging->Next->Data() };
-        std::regex_match(nextUrl, match, relativePathRegex);
-        if (match.size() >= 2)
-        {
-            std::wstring matchText = match[1].str();
-            paging->Next = ref new String(matchText.c_str());
-        }
-    }
-    if (paging->Previous)
-    {
-        std::wstring previousUrl = std::wstring{ paging->Previous->Data() };
-        std::regex_match(previousUrl, match, relativePathRegex);
-        if (match.size() >= 2)
-        {
-            std::wstring matchText = match[1].str();
-            paging->Previous = ref new String(matchText.c_str());
-        }
-    }
 }
