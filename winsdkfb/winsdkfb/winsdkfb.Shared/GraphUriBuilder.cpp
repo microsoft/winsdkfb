@@ -73,17 +73,17 @@ Windows::Foundation::Uri^ GraphUriBuilder::MakeUri()
         _host = static_cast<String^>(_queryParams->Lookup(L"request_host"));
     }
     String^ fullPath = _scheme + L"://" + _host + L"/" + _apiVersion + _path;
+
     if (_queryParams->Size > 0)
     {
-        fullPath += L"?";
-        while (_queryParams->Size > 1)
-        {
-            auto it = _queryParams->First();
-            fullPath += Uri::EscapeComponent(it->Current->Key) + L"=" + Uri::EscapeComponent(static_cast<String^>(it->Current->Value)) + L"&";
-            _queryParams->Remove(it->Current->Key);
-        }
+        String^ separator = L"?";
         auto it = _queryParams->First();
-        fullPath += Uri::EscapeComponent(it->Current->Key) + L"=" + Uri::EscapeComponent(static_cast<String^>(it->Current->Value));
+        while (it->HasCurrent)
+        {
+            fullPath += separator + Uri::EscapeComponent(it->Current->Key) + L"=" + Uri::EscapeComponent(static_cast<String^>(it->Current->Value));
+            separator = L"&";
+            it->MoveNext();
+        }
     }
     return ref new Uri(fullPath);
 }
