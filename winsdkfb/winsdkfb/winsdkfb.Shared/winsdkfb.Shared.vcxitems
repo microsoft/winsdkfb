@@ -56,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ScaleConverter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SDKMessage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphUriBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ColorLuminosityConverter.cpp" />
@@ -96,6 +97,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ScaleConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphUriBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />

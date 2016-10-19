@@ -170,7 +170,7 @@ IAsyncOperation<String^>^ FBSDKAppEvents::LogInstallEvent(
                 parameters->Insert(L"windows_attribution_id", campaignID);
                 return create_task([=]() -> IAsyncOperation<String^>^
                 {
-                    return HttpManager::Instance->PostTaskAsync(path, parameters);
+                    return HttpManager::Instance->PostTaskAsync(path, parameters->GetView());
                 });
             }
             catch (Platform::Exception^ ex)
@@ -206,7 +206,7 @@ IAsyncAction^ FBSDKAppEvents::LogActivateEvent(
 
     return create_async([=]()
     {
-        return create_task(HttpManager::Instance->PostTaskAsync(path, parameters))
+        return create_task(HttpManager::Instance->PostTaskAsync(path, parameters->GetView()))
             .then([=](String^ response) -> void
         {
 #ifdef _DEBUG
