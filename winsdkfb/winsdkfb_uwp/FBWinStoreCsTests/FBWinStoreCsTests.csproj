@@ -98,10 +98,6 @@
     <None Include="..\..\FBWinStoreCsTests\FBCSObjectImplementation.ttinclude">
       <Link>FBCSObjectImplementation.ttinclude</Link>
     </None>
-    <Content Include="..\..\FBWinStoreCsTests\TestData\testJsonPropertySet.json">
-      <Link>TestData\testJsonPropertySet.json</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="..\..\FBWinStoreCsTests\Utility.ttinclude">
       <Link>Utility.ttinclude</Link>
     </None>
