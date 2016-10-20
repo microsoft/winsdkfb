@@ -38,7 +38,7 @@ using namespace winsdkfb::Graph;
 using namespace Platform;
 using namespace Windows::Data::Json;
 using namespace Windows::Foundation::Collections;
-<#
+<#  
     if (bindable)
     {
 #>
@@ -86,13 +86,9 @@ using namespace Windows::UI::Xaml::Data;
     }
 #>
 {
-    _fields = ref new PropertySet();
+    ;
 }
 
-    PropertySet^ <#= className #>::Fields::get()
-    {
-        return _fields;
-    }
 <#
     for (int i = 0; i < props.Count; i++)
     {
@@ -122,7 +118,7 @@ void <#= className #>::<#= propName #>::set(<#= rtType #> value)
     }
 #>
 Object^ <#= className #>::FromJson(
-    String^ JsonText
+    String^ JsonText 
     )
 {
     <#= className #>^ result = ref new <#= className #>;
@@ -182,38 +178,11 @@ Object^ <#= className #>::FromJson(
 <#
     }
 #>
-                else
-                {
-                    String^ value = nullptr;
-
-                    switch (it->Current->Value->ValueType)
-                    {
-                        case JsonValueType::Boolean:
-                            value = it->Current->Value->GetBoolean().ToString();
-                            break;
-                        case JsonValueType::Number:
-                            value = it->Current->Value->GetNumber().ToString();
-                            break;
-                        case JsonValueType::String:
-                            value = it->Current->Value->GetString();
-                            break;
-                        case JsonValueType::Array:
-                        case JsonValueType::Object:
-                            value = it->Current->Value->Stringify();
-                            break;
-                    }
-
-                    if (value)
-                    {
-                        result->_fields->Insert(key, value);
-                        found++;
-                    }
-                }
             }
 
             if (!found)
             {
-                // No field names matched any known properties for this class.
+                // No field names matched any known properties for this class.  
                 // Even if it *is* an object of our type, it's not useful.
                 result = nullptr;
             }
@@ -221,7 +190,7 @@ Object^ <#= className #>::FromJson(
     }
     return result;
 }
-<#
+<# 
     if (bindable)
     {
 #>
@@ -231,7 +200,7 @@ void <#= className #>::NotifyPropertyChanged(
     )
 {
     CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
-        Windows::UI::Core::CoreDispatcherPriority::Normal,
+        Windows::UI::Core::CoreDispatcherPriority::Normal, 
         ref new Windows::UI::Core::DispatchedHandler([this, prop]()
     {
         PropertyChangedEventArgs^ args = ref new PropertyChangedEventArgs(prop);

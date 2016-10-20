@@ -89,10 +89,6 @@ namespace winsdkfb
                     Platform::String^ JsonText 
                     );
 
-                property Windows::Foundation::Collections::PropertySet^ Fields
-                {
-                    Windows::Foundation::Collections::PropertySet^ get();
-                }
 <#
 
     foreach (XmlNode child in rootNode.SelectNodes("property"))
@@ -133,7 +129,6 @@ namespace winsdkfb
 <#
     }
 #>
-                Windows::Foundation::Collections::PropertySet^ _fields;
         };
     }
 }
