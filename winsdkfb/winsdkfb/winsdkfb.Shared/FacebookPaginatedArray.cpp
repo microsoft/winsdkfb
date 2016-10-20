@@ -21,6 +21,8 @@
 #include "FacebookSession.h"
 #include "HttpManager.h"
 
+#include <regex>
+
 using namespace concurrency;
 using namespace winsdkfb;
 using namespace winsdkfb::Graph;
@@ -42,6 +44,10 @@ FBPaginatedArray::FBPaginatedArray(
     _parameters(Parameters),
     _objectFactory(ObjectFactory)
 {
+    if (_parameters == nullptr)
+    {
+        _parameters = ref new PropertySet();
+    }
 }
 
 Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::FirstAsync(
@@ -228,9 +234,9 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBPaginatedArray::GetPage(
     String^ path
     )
 {
-    return create_async([this, path]() -> task<FBResult^>
+    return create_async([=]() -> task<FBResult^>
     {
-        return create_task(HttpManager::Instance->GetTaskAsync(path, _parameters))
+        return create_task(HttpManager::Instance->GetTaskAsync(path, _parameters->GetView()))
             .then([this](String^ responseString)
         {
             if (responseString == nullptr)

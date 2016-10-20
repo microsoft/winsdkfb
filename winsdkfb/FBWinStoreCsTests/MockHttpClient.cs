@@ -29,7 +29,7 @@ namespace FBWinStoreCsTests
     {
         public String ResponseData;
 
-        public IAsyncOperation<string> DeleteTaskAsync(string path, PropertySet parameters)
+        public IAsyncOperation<string> DeleteTaskAsync(string path, IReadOnlyDictionary<String, Object> parameters)
         {
             return Task.Run(() =>
             {
@@ -37,7 +37,7 @@ namespace FBWinStoreCsTests
             }).AsAsyncOperation<string>();
         }
 
-        public IAsyncOperation<string> GetTaskAsync(string path, PropertySet parameters)
+        public IAsyncOperation<string> GetTaskAsync(string path, IReadOnlyDictionary<String, Object> parameters)
         {
             return Task.Run(() =>
             {
@@ -45,12 +45,12 @@ namespace FBWinStoreCsTests
             }).AsAsyncOperation<string>();
         }
 
-        public string ParametersToQueryString(PropertySet Parameters)
+        public string ParametersToQueryString(IReadOnlyDictionary<String, Object> Parameters)
         {
             throw new NotImplementedException();
         }
 
-        public IAsyncOperation<string> PostTaskAsync(string path, PropertySet parameters)
+        public IAsyncOperation<string> PostTaskAsync(string path, IReadOnlyDictionary<String, Object> parameters)
         {
             return Task.Run(() =>
             {
