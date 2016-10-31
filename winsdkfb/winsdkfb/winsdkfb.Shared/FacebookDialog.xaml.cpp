@@ -347,7 +347,7 @@ Uri^ FacebookDialog::BuildFeedDialogUrl(
         L"&redirect_uri=" + GetRedirectUriString(L"feed") +
         L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
-    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters);
+    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters->GetView());
     if (queryString->Length() > 0)
     {
         dialogUriString += "&" + queryString;
@@ -372,7 +372,7 @@ Uri^ FacebookDialog::BuildRequestsDialogUrl(
         L"&redirect_uri=" + GetRedirectUriString(L"requests") +
         L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
-    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters);
+    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters->GetView());
     if (queryString->Length() > 0)
     {
         dialogUriString += "&" + queryString;
@@ -397,7 +397,7 @@ Uri^ FacebookDialog::BuildSendDialogUrl(
         L"&redirect_uri=" + GetRedirectUriString(L"send") +
         L"&display=popup" +
         L"&app_id=" + sess->FBAppId;
-    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters);
+    String^ queryString = HttpManager::Instance->ParametersToQueryString(Parameters->GetView());
     if (queryString->Length() > 0)
     {
         dialogUriString += "&" + queryString;

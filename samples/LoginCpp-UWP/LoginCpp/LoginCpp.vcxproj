@@ -211,12 +211,12 @@
     <PRIResource Include="Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\winsdkfb\winsdkfb_testing_key.pfx" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\winsdkfb\winsdkfb_uwp\winsdkfb_uwp\winsdkfb_uwp.vcxproj">
       <Project>{973a943b-ff77-4267-8f30-f5fe2b7f5583}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\winsdkfb\winsdkfb_testing_key.pfx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

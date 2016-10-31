@@ -1,6 +1,6 @@
 //******************************************************************************
 //
-// Copyright (c) 2016 Microsoft Corporation. All rights reserved.
+// Copyright (c) 2015 Microsoft Corporation. All rights reserved.
 //
 // This code is licensed under the MIT License (MIT).
 //
@@ -16,10 +16,27 @@
 
 #pragma once
 
-#define FACEBOOK_DESKTOP_SERVER_NAME L"https://www.facebook.com"
-#define FACEBOOK_MOBILE_SERVER_NAME  L"https://m.facebook.com"
-#define FACEBOOK_LOGIN_SUCCESS_PATH  L"/connect/login_success.html"
+#include <ppltasks.h>
 
-// Define the base version of the SDK.
-// Keep in sync with winsdkfb\build\nuget\VERSION
-#define WINSDKFB_VERSION L"0.12.0"
+namespace winsdkfb
+{
+    public ref class GraphUriBuilder sealed
+    {
+    public:
+        GraphUriBuilder(Platform::String^ path);
+
+        Windows::Foundation::Uri^ MakeUri();
+        void AddQueryParam(Platform::String^ query, Platform::String^ param);
+
+    private:
+        void BuildApiVersionString();
+        void FixPathDelimiters();
+        void DecodeQueryParams(Windows::Foundation::Uri^ uri);
+
+        Platform::String^ _host;
+        Platform::String^ _path;
+        Platform::String^ _scheme;
+        Platform::String^ _apiVersion;
+        Windows::Foundation::Collections::PropertySet^ _queryParams;
+    };
+}
