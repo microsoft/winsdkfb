@@ -55,6 +55,13 @@ namespace winsdkfb
         }
 
     private:
+        static Windows::UI::Xaml::DependencyProperty^ _userIdProperty;
+
+        static void UserIdPropertyChanged(
+            Windows::UI::Xaml::DependencyObject^ d,
+            Windows::UI::Xaml::DependencyPropertyChangedEventArgs^ e
+            );
+
         void SetImageSourceFromUserId(
             );
 
@@ -70,8 +77,6 @@ namespace winsdkfb
             int height
             );
 
-        bool _userIdValid;
-        String^ _UserId;
         CroppingType _CropMode;
 	};
 }

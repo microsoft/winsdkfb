@@ -34,7 +34,6 @@
     <ClCompile Include="FBPageBindable.cpp" />
     <ClCompile Include="UserInfo.xaml.cpp" />
     <ClCompile Include="UserLikes.xaml.cpp" />
-    <ClCompile Include="OptionsPage.xaml.cpp" />
     <ClCompile Include="Dialogs.xaml.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -47,7 +46,6 @@
     <ClInclude Include="FBPageBindable.h" />
     <ClInclude Include="UserInfo.xaml.h" />
     <ClInclude Include="UserLikes.xaml.h" />
-    <ClInclude Include="OptionsPage.xaml.h" />
     <ClInclude Include="Dialogs.xaml.h" />
   </ItemGroup>
   <ItemGroup>
