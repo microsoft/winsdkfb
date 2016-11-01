@@ -60,7 +60,8 @@ void UserInfo::OnNavigatedTo(NavigationEventArgs^ e)
         FBUser^ user = sess->User;
         if (user)
         {
-            UserId->Text = user->Id;
+            // Don't set the UserId, let DataBinding take care of it
+            // UserId->Text = user->Id;
             UserFirstName->Text = user->FirstName;
             UserGender->Text = user->Gender;
             UserLastName->Text = user->LastName;

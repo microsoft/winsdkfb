@@ -99,7 +99,7 @@ FBSession::FBSession() :
         login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
     }
     _APIMajorVersion = 2;
-    _APIMinorVersion = 1;
+    _APIMinorVersion = 6;
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
     _webViewRedirectDomain = FACEBOOK_MOBILE_SERVER_NAME;
 #else
@@ -121,11 +121,7 @@ String^ FBSession::FBAppId::get()
 {
     if (!_FBAppId)
     {
-        _FBAppId = ref new String(L"<INSERT YOUR APP ID HERE>");
-
-#ifdef _DEBUG
-        OutputDebugString(L"!!! Missing App ID.  Update your app to use a valid FB App ID in order for the FB API's to succeed");
-#endif
+        throw ref new InvalidArgumentException(SDKMessageMissingAppID);
     }
 
     return _FBAppId;
@@ -164,6 +160,9 @@ FBAccessTokenData^ FBSession::AccessTokenData::get()
 void FBSession::AccessTokenData::set(FBAccessTokenData^ value)
 {
     _AccessTokenData = value;
+
+    // If token have been updated, make sure to save updated token
+    TrySaveTokenData();
 }
 
 FBUser^ FBSession::User::get()
@@ -179,6 +178,16 @@ String^ FBSession::WebViewRedirectDomain::get()
 String^ FBSession::WebViewRedirectPath::get()
 {
     return _webViewRedirectPath;
+}
+
+ApplicationDataContainer^ FBSession::DataContainer::get()
+{
+    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
+    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
+    {
+        localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
+    }
+    return localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER);
 }
 
 IAsyncAction^ FBSession::LogoutAsync()
@@ -199,9 +208,12 @@ task<FBResult^> FBSession::GetUserInfo(
     winsdkfb::FBAccessTokenData^ TokenData
     )
 {
+    PropertySet^ parameters = ref new PropertySet();
+    parameters->Insert(L"fields",
+        L"gender,link,first_name,last_name,locale,timezone,email,updated_time,verified,name,id");
     FBSingleValue^ value = ref new FBSingleValue(
         "/me",
-        nullptr,
+        parameters,
         ref new FBJsonClassFactory([](String^ JsonText) -> Object^
         {
             return FBUser::FromJson(JsonText);
@@ -955,7 +967,6 @@ IAsyncOperation<FBResult^>^ FBSession::LoginAsync(
     {
         Permissions = ref new FBPermissions((ref new Vector<String^>())->GetView());
     }
-    _dialog = ref new FacebookDialog();
 
     return create_async([=]()
     {
@@ -1199,22 +1210,26 @@ task<FBResult^> FBSession::TryLoginSilently(
     )
 {
     FBSession^ sess = FBSession::ActiveSession;
-
     IAsyncOperation<FBResult^>^ result = nullptr;
 
     return create_task([=]() -> task<FBResult^>
     {
-        task<FBResult^> graphTask = create_task([]() -> FBResult^
+        // check if any new permissions are being ask for, can't use saved
+        // token if there is new ones
+        FBPermissions^ grantedPermissions = FBPermissions::FromString(GetGrantedPermissions());
+        FBPermissions^ requestingPermissions = FBPermissions::FromString(static_cast<String^>(Parameters->Lookup(L"scope")));
+        FBPermissions^ diffPermissions = FBPermissions::Difference(requestingPermissions, grantedPermissions);
+        if (diffPermissions->Values->Size != 0)
         {
-            return nullptr;
-        });
-
-        if (!IsRerequest(Parameters))
-        {
-            graphTask = CheckForExistingToken();
+            return create_task([]() -> FBResult^
+            {
+                return nullptr;
+            });
         }
-
-        return graphTask;
+        else
+        {
+            return CheckForExistingToken();
+        }
     })
         .then([=](FBResult^ oauthResult) -> task<FBResult^>
     {
@@ -1302,25 +1317,17 @@ int FBSession::APIMinorVersion::get()
     return _APIMinorVersion;
 }
 
+
+
 void FBSession::SaveGrantedPermissions()
 {
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
-    {
-        localSettings->CreateContainer(SDK_APP_DATA_CONTAINER, ApplicationDataCreateDisposition::Always);
-    }
-    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    auto values =FBSession::DataContainer->Values;
     values->Insert(GRANTED_PERMISSIONS_KEY, AccessTokenData->GrantedPermissions->ToString());
 }
 
 String^ FBSession::GetGrantedPermissions()
 {
-    ApplicationDataContainer^ localSettings = ApplicationData::Current->LocalSettings;
-    if (!localSettings->Containers->HasKey(SDK_APP_DATA_CONTAINER))
-    {
-        return ""; // TODO should this be an exception?
-    }
-    auto values = localSettings->Containers->Lookup(SDK_APP_DATA_CONTAINER)->Values;
+    auto values = FBSession::DataContainer->Values;
     if (!values->HasKey(GRANTED_PERMISSIONS_KEY))
     {
         return ""; // TODO should this be an exception?

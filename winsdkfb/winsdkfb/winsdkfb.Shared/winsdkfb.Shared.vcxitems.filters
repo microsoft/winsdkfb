@@ -36,6 +36,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookMediaStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -79,7 +82,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSendRequest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FacebookLoginButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HttpManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphUriBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml.h" />
@@ -100,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookFeedRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookMediaObject.h">
@@ -172,8 +183,16 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FacebookLoginButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IHttpClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphUriBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -279,9 +298,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)FacebookProfilePictureControl.xaml" />
-    <Page Include="$(MSBuildThisFileDirectory)Controls\FacebookLoginButton.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)Themes\Styles.xaml" />
   </ItemGroup>

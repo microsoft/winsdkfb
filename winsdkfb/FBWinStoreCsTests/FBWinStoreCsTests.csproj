@@ -99,6 +99,7 @@
     <SDKReference Include="TestPlatform, Version=11.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MockHttpClient.cs" />
     <Compile Include="Generated\FBObject.cs" />
     <Compile Include="Generated\FBPhoto.cs" />
     <Compile Include="Generated\FBSuccess.cs" />
@@ -113,6 +114,7 @@
     <None Include="..\winsdkfb_testing_key.pfx">
       <Link>winsdkfb_testing_key.pfx</Link>
     </None>
+    <None Include="data.json" />
     <None Include="FBCSObjectImplementation.ttinclude" />
     <None Include="FBPhoto.tt" />
     <None Include="FBObject.tt" />
@@ -160,6 +162,7 @@
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
+  <PropertyGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>pushd $(ProjectDir)

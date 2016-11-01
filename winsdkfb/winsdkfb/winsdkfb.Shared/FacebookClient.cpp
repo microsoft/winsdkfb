@@ -23,6 +23,7 @@
 #include "HttpMethod.h"
 #include "JsonClassFactory.h"
 #include "SDKMessage.h"
+#include "GraphUriBuilder.h"
 
 using namespace concurrency;
 using namespace Platform;
@@ -48,6 +49,9 @@ using namespace Windows::Web::Http::Headers;
 #define MultiPartNewLine "\r\n"
 #define MultiPartContentType L"Content-Type: multipart/form-data; "
 #define MultiPartBoundary L"------------------------------fbsdk1234567890"
+#define UserAgent L"User-Agent"
+#define WinSDKFBUserAgent(version) L"FBWinSDK." version
+#define WinSDKFBUserAgentString WinSDKFBUserAgent(WINSDKFB_VERSION)
 
 FBClient::FBClient()
 {
@@ -91,76 +95,28 @@ PropertySet^ FBClient::ToDictionary(PropertySet^ parameters, PropertySet^ mediaO
     return dictionary;
 }
 
-String^ FBClient::BuildHttpQuery(Object^ parameter)
-{
-    if (parameter == nullptr)
-    {
-        return "null";
-    }
-    if (dynamic_cast<String^>(parameter) != nullptr)
-    {
-        return dynamic_cast<String^>(parameter);
-    }
-
-    if (dynamic_cast<Uri^>(parameter) != nullptr)
-    {
-        return dynamic_cast<Uri^>(parameter)->ToString();
-    }
-
-    // TODO: Refactor string manipulation code here.  The usage of String^ is
-    // convoluted and not necessary, it can be a lot simpler.
-    String^ sb = ref new String();
-    if (dynamic_cast<PropertySet^>(parameter) != nullptr)
-    {
-        PropertySet^ mediaObjects = ref new PropertySet();
-        PropertySet^ mediaStreams = ref new PropertySet();
-        auto dict = ToDictionary(dynamic_cast<PropertySet^>(parameter), mediaObjects, mediaStreams);
-
-        if (mediaObjects->Size > 0 || mediaStreams->Size > 0)
-        {
-            throw ref new InvalidArgumentException("Parameter can contain attachements (FBMediaObject/FBMediaStream) only in the top most level.");
-        }
-
-        auto kvp = dict->First();
-        while (kvp->HasCurrent)
-        {
-            String::Concat(sb, BuildHttpQuery(kvp->Current->Value));
-
-            kvp->MoveNext();
-        }
-    }
-
-    if (sb->Length() > 0)
-    {
-        wstring sbstl(sb->Data());
-        sb = ref new String(sbstl.substr(0, sbstl.length() - 1).c_str());
-    }
-
-    return sb;
-}
-
 IAsyncOperation<String^>^ FBClient::GetTaskAsync(
     String^ path,
-    PropertySet^ parameters
+    IMapView<String^, Object^>^ parameters
     )
 {
+    PropertySet^ modifiableParams = MapViewToPropertySet(parameters);
     IAsyncOperation<String^>^ myTask = create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Get, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            modifiableParams);
 
         return FBClient::GetTaskInternalAsync(uri)
             .then([=](String^ Response)
         {
             task<String^> result;
 
-            if (FBClient::IsOAuthErrorResponse(Response)) 
+            if (FBClient::IsOAuthErrorResponse(Response))
             {
                 result = create_task([=]()
                 {
                     FBSession^ sess = FBSession::ActiveSession;
-                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                    return FBSession::ActiveSession->TryRefreshAccessToken();
                 })
                 .then([=](FBResult^ Result)
                 {
@@ -188,6 +144,7 @@ task<String^> FBClient::GetTaskInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
@@ -230,9 +187,8 @@ IAsyncOperation<String^>^ FBClient::SimplePostAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters);
 
         return FBClient::SimplePostInternalAsync(uri)
             .then([=](String^ Response)
@@ -244,7 +200,7 @@ IAsyncOperation<String^>^ FBClient::SimplePostAsync(
                 result = create_task([=]()
                 {
                     FBSession^ sess = FBSession::ActiveSession;
-                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                    return FBSession::ActiveSession->TryRefreshAccessToken();
                 })
                     .then([=](FBResult^ Result)
                 {
@@ -270,6 +226,7 @@ task<String^> FBClient::SimplePostInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
@@ -310,9 +267,8 @@ IAsyncOperation<String^>^ FBClient::MultipartPostAsync(
 {
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Post, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            parameters);
 
         return FBClient::MultipartPostInternalAsync(uri, streams)
             .then([=](String^ Response)
@@ -324,7 +280,7 @@ IAsyncOperation<String^>^ FBClient::MultipartPostAsync(
                 result = create_task([=]()
                 {
                     FBSession^ sess = FBSession::ActiveSession;
-                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                    return FBSession::ActiveSession->TryRefreshAccessToken();
                 })
                     .then([=](FBResult^ Result)
                 {
@@ -350,6 +306,7 @@ task<String^> FBClient::MultipartPostInternalAsync(
     )
 {
     HttpClient^ httpClient = ref new HttpClient();
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     HttpMultipartFormDataContent^ form =
         ref new HttpMultipartFormDataContent();
     cancellation_token_source cancellationTokenSource =
@@ -363,33 +320,33 @@ task<String^> FBClient::MultipartPostInternalAsync(
 
 IAsyncOperation<String^>^ FBClient::PostTaskAsync(
     String^ path,
-    PropertySet^ parameters
+    IMapView<String^, Object^>^ parameters
     )
 {
+    PropertySet^ modifiableParams = MapViewToPropertySet(parameters);
     IAsyncOperation<String^>^ result = nullptr;
-    PropertySet^ streams = GetStreamsToUpload(parameters);
+    PropertySet^ streams = GetStreamsToUpload(modifiableParams);
     if (streams)
     {
-        result = FBClient::MultipartPostAsync(path, parameters, streams);
+        result = FBClient::MultipartPostAsync(path, modifiableParams, streams);
     }
     else
     {
-        result = FBClient::SimplePostAsync(path, parameters);
+        result = FBClient::SimplePostAsync(path, modifiableParams);
     }
-
     return result;
 }
 
 Windows::Foundation::IAsyncOperation<String^>^ FBClient::DeleteTaskAsync(
-    String^ path, 
-    PropertySet^ parameters
+    String^ path,
+    IMapView<String^, Object^>^ parameters
     )
 {
+    PropertySet^ modifiableParams = MapViewToPropertySet(parameters);
     return create_async([=]()
     {
-        bool containsEtag = false;
         Uri^ uri = FBClient::PrepareRequestUri(HttpMethod::Delete, path,
-            parameters, nullptr, nullptr, containsEtag, nullptr);
+            modifiableParams);
 
         return FBClient::DeleteTaskInternalAsync(uri)
             .then([=](String^ Response)
@@ -401,7 +358,7 @@ Windows::Foundation::IAsyncOperation<String^>^ FBClient::DeleteTaskAsync(
                 result = create_task([=]()
                 {
                     FBSession^ sess = FBSession::ActiveSession;
-                    return FBSession::ActiveSession->TryRefreshAccessToken(); 
+                    return FBSession::ActiveSession->TryRefreshAccessToken();
                 })
                     .then([=](FBResult^ Result)
                 {
@@ -427,6 +384,7 @@ task<String^> FBClient::DeleteTaskInternalAsync(
 {
     HttpBaseProtocolFilter^ filter = ref new HttpBaseProtocolFilter();
     HttpClient^ httpClient = ref new HttpClient(filter);
+    httpClient->DefaultRequestHeaders->Append(UserAgent, WinSDKFBUserAgentString);
     cancellation_token_source cancellationTokenSource =
         cancellation_token_source();
 
@@ -435,38 +393,37 @@ task<String^> FBClient::DeleteTaskInternalAsync(
 }
 
 Uri^ FBClient::PrepareRequestUri(
-    winsdkfb::HttpMethod httpMethod, 
-    String^ path, 
-    PropertySet^ parameters, 
-    Type^ resultType, 
-    Windows::Storage::Streams::IRandomAccessStream^ input,
-    bool& containsEtag,
-    Vector<int>^ batchEtags
+    winsdkfb::HttpMethod httpMethod,
+    String^ path,
+    PropertySet^ parameters
     )
 {
-    batchEtags = nullptr;
     FBSession^ sess = FBSession::ActiveSession;
+    GraphUriBuilder^ uriBuilder = ref new GraphUriBuilder(path);
 
-    // Setup datawriter for the InMemoryRandomAccessStream
-    DataWriter^ dataWriter = ref new DataWriter(input);
-    dataWriter->UnicodeEncoding = UnicodeEncoding::Utf8;
-    dataWriter->ByteOrder = ByteOrder::LittleEndian;
+    if (parameters == nullptr)
+    {
+        parameters = ref new PropertySet();
+    }
 
     PropertySet^ mediaObjects = ref new PropertySet();
     PropertySet^ mediaStreams = ref new PropertySet();
     PropertySet^ parametersWithoutMediaObjects = ToDictionary(parameters, mediaObjects, mediaStreams);
+    // ensure that media items are in valid states
+    ValidateMediaStreams(mediaStreams);
+    ValidateMediaObjects(mediaObjects);
 
     if (parametersWithoutMediaObjects == nullptr)
     {
         parametersWithoutMediaObjects = ref new PropertySet();
     }
 
-    if (!parametersWithoutMediaObjects->HasKey("access_token") && 
+    if (!parametersWithoutMediaObjects->HasKey("access_token") &&
         (sess->AccessTokenData != nullptr) &&
         (sess->AccessTokenData->AccessToken->Data() != nullptr) &&
         (sess->AccessTokenData->AccessToken->Length() > 0))
     {
-        parametersWithoutMediaObjects->Insert("access_token", 
+        parametersWithoutMediaObjects->Insert("access_token",
             sess->AccessTokenData->AccessToken);
     }
 
@@ -475,217 +432,71 @@ Uri^ FBClient::PrepareRequestUri(
         parametersWithoutMediaObjects->Insert("format", "json-strings");
     }
 
-    String^ contentTypeHeader = MultiPartContentType;
-    String^ boundary = ref new String(MultiPartBoundary);
-    contentTypeHeader += "boundary=" + boundary + MultiPartNewLine;
-    long contentLength = -1;
-    String^ queryString = ref new String();
-
-    OutputDebugString(contentTypeHeader->Data());
-
     SerializeParameters(parametersWithoutMediaObjects);
 
-    if (parametersWithoutMediaObjects->HasKey("access_token"))
+    // Add remaining parameters to query string.  Note that parameters that
+    // do not need to be uploaded as multipart, i.e. any which is are not
+    // binary data, are required to be in the query string, even for POST
+    // requests!
+    auto kvp = parametersWithoutMediaObjects->First();
+    while (kvp->HasCurrent)
     {
-        // Add access_token to query string as the first parameter, for our own
-        // convenience.  We could as easily add it in the while loop below, but
-        // putting at the beginning of the query string is helpful for 
-        // debugging, etc.
-        auto accessToken = dynamic_cast<String^>(
-            parametersWithoutMediaObjects->Lookup("access_token"));
-        if ((accessToken != nullptr) && (accessToken->Length() > 0) && 
-            (accessToken != "null"))
-        {
-            queryString += "access_token=" +  Uri::EscapeComponent(accessToken);
-        }
+        uriBuilder->AddQueryParam(kvp->Current->Key, static_cast<String^>(kvp->Current->Value));
+        kvp->MoveNext();
+    }
 
-        // Remove the token before we loop through and add general parameters
-        parametersWithoutMediaObjects->Remove("access_token");
-       
-        // Add remaining parameters to query string.  Note that parameters that 
-        // do not need to be uploaded as multipart, i.e. any which is are not 
-        // binary data, are required to be in the query string, even for POST 
-        // requests!
-        auto kvp = parametersWithoutMediaObjects->First();
-        while (kvp->HasCurrent)
-        {
-            String^ key = Uri::EscapeComponent(kvp->Current->Key);
-            String^ value = Uri::EscapeComponent(
-                dynamic_cast<String^>(kvp->Current->Value));
+    return uriBuilder->MakeUri();
+}
 
-            if (queryString->Length() > 0)
+void FBClient::ValidateMediaStreams(PropertySet^ mediaStreams)
+{
+    if (mediaStreams->Size > 0)
+    {
+        IIterator<IKeyValuePair<String^, Object^>^>^ facebookMediaStream = mediaStreams->First();
+        while(facebookMediaStream->HasCurrent)
+        {
+            FBMediaStream^ mediaStream = dynamic_cast<FBMediaStream^>(facebookMediaStream->Current->Value);
+            if ((mediaStream->Stream == nullptr) ||
+                (mediaStream->Stream->ContentType == nullptr) ||
+                (mediaStream->FileName == nullptr) ||
+                (mediaStream->FileName->Length() == 0))
             {
-                queryString += "&";
+                throw ref new InvalidArgumentException(AttachmentMustHavePropertiesSetError);
             }
 
-            queryString += key + L"=" + value;
-
-            kvp->MoveNext();
-        }
-
-        if (mediaStreams->Size > 0)
-        {
-            IIterator<IKeyValuePair<String^, Object^>^>^ facebookMediaStream = 
-                mediaStreams->First();
-            while(facebookMediaStream->HasCurrent)
+            IRandomAccessStream^ stream = mediaStream->Stream;
+            if (stream == nullptr)
             {
-                String^ sbMediaStream = ref new String();
-                FBMediaStream^ mediaStream = 
-                    dynamic_cast<FBMediaStream^>(
-                        facebookMediaStream->Current->Value);
+                throw ref new InvalidArgumentException(AttachmentValueIsNull);
+            }
+            facebookMediaStream->MoveNext();
+        }
+    }
+}
 
-                if ((mediaStream->Stream == nullptr) ||
-                    (mediaStream->Stream->ContentType == nullptr) || 
-                    (mediaStream->FileName == nullptr) ||
-                    (mediaStream->FileName->Length() == 0))
-                {
-                    throw ref new InvalidArgumentException(AttachmentMustHavePropertiesSetError);
-                }
-
-                sbMediaStream = MultiPartFormPrefix + boundary + 
-                    MultiPartNewLine + 
-                    "Content-Disposition: form-data; name=\"" +
-                    facebookMediaStream->Current->Key + "\"; filename=\"" +
-                    mediaStream->FileName + "\"" + MultiPartNewLine +
-                    "Content-Type: " + mediaStream->Stream->ContentType +
-                    MultiPartNewLine + MultiPartNewLine;
-                OutputDebugString(sbMediaStream->Data());
-                OutputDebugString(L"\n");
-
-                dataWriter->WriteString(sbMediaStream);
-
-                IRandomAccessStream^ stream = mediaStream->Stream;
-                if (stream == nullptr)
-                {
-                    throw ref new InvalidArgumentException(AttachmentValueIsNull);
-                }
-
-                IInputStream^ inputStream = stream->GetInputStreamAt(0);
-                DataReader^ dataReader = ref new DataReader(inputStream);
-                dataReader->UnicodeEncoding = UnicodeEncoding::Utf8;
-                dataReader->ByteOrder = ByteOrder::LittleEndian;
-
-                dataWriter->WriteBuffer(dataReader->ReadBuffer(dataReader->UnconsumedBufferLength));
-
-                dataWriter->WriteString(MultiPartNewLine);
-                facebookMediaStream->MoveNext();
+void FBClient::ValidateMediaObjects(PropertySet^ mediaObjects)
+{
+    if (mediaObjects->Size > 0)
+    {
+        IIterator<IKeyValuePair<String^, Object^>^>^ facebookMediaObject = mediaObjects->First();
+        while (facebookMediaObject->HasCurrent)
+        {
+            FBMediaObject^ mediaObject = dynamic_cast<FBMediaObject^>(facebookMediaObject->Current->Value);
+            if ((mediaObject->GetValue()== nullptr) ||
+                (mediaObject->ContentType == nullptr) ||
+                (mediaObject->FileName == nullptr) ||
+                (mediaObject->FileName->Length() == 0))
+            {
+                throw ref new InvalidArgumentException(AttachmentMustHavePropertiesSetError);
             }
 
-            String^ str = ref new String();
-            str = MultiPartNewLine + MultiPartFormPrefix + boundary +
-                MultiPartFormPrefix + MultiPartNewLine;
-
-            dataWriter->WriteString(str);
-        }
-
-        if (mediaObjects->Size > 0)
-        {
-            IIterator<IKeyValuePair<String^, Object^>^>^ facebookMediaObject =
-                mediaObjects->First();
-            while (facebookMediaObject->HasCurrent)
+            if (mediaObject->GetValue() == nullptr)
             {
-                String^ sbMediaObject = ref new String();
-                FBMediaObject^ mediaObject =
-                    dynamic_cast<FBMediaObject^>(
-                        facebookMediaObject->Current->Value);
-
-                if ((mediaObject->GetValue()== nullptr) ||
-                    (mediaObject->ContentType == nullptr) ||
-                    (mediaObject->FileName == nullptr) ||
-                    (mediaObject->FileName->Length() == 0))
-                {
-                    throw ref new InvalidArgumentException(AttachmentMustHavePropertiesSetError);
-                }
-
-                sbMediaObject = MultiPartFormPrefix + boundary +
-                    MultiPartNewLine +
-                    "Content-Disposition: form-data; name=\"" +
-                    facebookMediaObject->Current->Key + "\"; filename=\"" +
-                    mediaObject->FileName + "\"" + MultiPartNewLine +
-                    "Content-Type: " + mediaObject->ContentType +
-                    MultiPartNewLine + MultiPartNewLine;
-                OutputDebugString(sbMediaObject->Data());
-                OutputDebugString(L"\n");
-
-                dataWriter->WriteString(sbMediaObject);
-
-                if (mediaObject->GetValue() == nullptr)
-                {
-                    throw ref new InvalidArgumentException(AttachmentValueIsNull);
-                }
-
-                dataWriter->WriteBytes(mediaObject->GetValue());
-
-                dataWriter->WriteString(MultiPartNewLine);
-                facebookMediaObject->MoveNext();
+                throw ref new InvalidArgumentException(AttachmentValueIsNull);
             }
-
-            String^ str = ref new String();
-            str = MultiPartNewLine + MultiPartFormPrefix + boundary +
-                MultiPartFormPrefix + MultiPartNewLine;
-
-            dataWriter->WriteString(str);
-        }
-
-        // TODO: Figure out where to get the right value for this.  input 
-        //doesn't appear to have a length at this point in the code when debugging,
-        contentLength = input == nullptr ? 0 : (long)input->Size;
-    }
-    else
-    {
-        if (containsEtag && httpMethod != HttpMethod::Get)
-        {
-            String^ msg = ETagKey + L" is only supported for http get method.";
-            throw ref new InvalidArgumentException(msg);
-        }
-
-        // for GET,DELETE
-        if (mediaObjects->Size > 0 && mediaStreams->Size > 0)
-        {
-            throw ref new FailureException("Attachments (FBMediaObject/FBMediaStream) are valid only in POST requests.");
-        }
-    #if !WP8
-        if (httpMethod == HttpMethod::Delete)
-        {
-            queryString += L"method=delete&";
-        }
-    #endif
-        queryString += ParametersToQueryString(parametersWithoutMediaObjects);
-    }
-
-    String^ host;
-    String^ apiVersion = L"";
-
-    if (parametersWithoutMediaObjects->HasKey("request_host"))
-    {
-        host = static_cast<String^>(
-            parametersWithoutMediaObjects->Lookup("request_host"));
-    }
-    else
-    {
-        host = L"graph.facebook.com";
-        if (sess->APIMajorVersion)
-        {
-            apiVersion = L"v" + sess->APIMajorVersion.ToString() + L"." + sess->APIMinorVersion.ToString() + L"/";
+            facebookMediaObject->MoveNext();
         }
     }
-
-    // Check the path for multiple id read requests and
-    // modify it accordingly
-    const std::wstring wStringPath(path->Data());
-    std::size_t found = wStringPath.find(L"?ids=");
-    if (found != std::string::npos)
-    {
-        path += L"&";
-    }
-    else
-    {
-        path += L"?";
-    }
-
-    String^ uriString = L"https://" + host + L"/" + apiVersion + path + queryString;
-
-    return ref new Uri(uriString);
 }
 
 void FBClient::SerializeParameters(
@@ -709,8 +520,12 @@ void FBClient::SerializeParameters(
     auto item = keysThatAreNotString->First();
     while (item->HasCurrent)
     {
-        // TODO: Jsonize the object value
-        String^ newValue = dynamic_cast<String^>(parameters->Lookup(item->Current));
+        Object^ val = parameters->Lookup(item->Current);
+        String^ newValue = dynamic_cast<String^>(val);
+        if (!newValue)
+        {
+            newValue = val->ToString();
+        }
 
         // Replace the existing object with the new Jsonized value
         parameters->Remove(item->Current);
@@ -722,16 +537,16 @@ void FBClient::SerializeParameters(
 }
 
 String^ FBClient::ParametersToQueryString(
-    PropertySet^ Parameters
+    IMapView<String^, Object^>^ parameters
     )
 {
     String^ queryString = L"";
 
-    // Add remaining parameters to query string.  Note that parameters that 
-    // do not need to be uploaded as multipart, i.e. any which is are not 
-    // binary data, are required to be in the query string, even for POST 
+    // Add remaining parameters to query string.  Note that parameters that
+    // do not need to be uploaded as multipart, i.e. any which is are not
+    // binary data, are required to be in the query string, even for POST
     // requests!
-    IIterator<IKeyValuePair<String^, Object^>^>^ kvp = Parameters->First();
+    IIterator<IKeyValuePair<String^, Object^>^>^ kvp = parameters->First();
     while (kvp->HasCurrent)
     {
         String^ key = Uri::EscapeComponent(kvp->Current->Key);
@@ -803,4 +618,17 @@ task<String^> FBClient::TryReceiveHttpResponse(
         }
         return result;
     });
+}
+
+PropertySet^ FBClient::MapViewToPropertySet(IMapView<String^, Object^>^ mapView)
+{
+    PropertySet^ propertySet = ref new PropertySet();
+    IIterator<IKeyValuePair<String^, Object^>^>^ it = mapView->First();
+    while (it->HasCurrent)
+    {
+        IKeyValuePair<String^, Object^>^ current = it->Current;
+        propertySet->Insert(current->Key, current->Value);
+        it->MoveNext();
+    }
+    return propertySet;
 }
