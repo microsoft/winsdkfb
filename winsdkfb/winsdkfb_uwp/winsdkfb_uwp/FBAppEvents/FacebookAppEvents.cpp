@@ -52,6 +52,85 @@ using namespace Windows::System::UserProfile;
 #define FACEBOOK_MOBILE_APP_INSTALL L"MOBILE_APP_INSTALL"
 #define FACEBOOK_CUSTOM_APP_EVENTS L"CUSTOM_APP_EVENTS"
 
+
+//
+#pragma region GetCampaignIdHelpers 
+using namespace Windows::ApplicationModel::Store;
+using namespace concurrency;
+using namespace Windows::Services::Store;
+using namespace Windows::Data::Json;
+
+
+String^ GetCampaignId(bool useSimulator)
+{
+	String ^campaignIdField = "customPolicyField1";
+	if (Windows::Foundation::Metadata::ApiInformation::IsTypePresent("Windows.Services.Store.StoreContext"))
+	{
+		auto ctx = StoreContext::GetDefault();
+		StoreProductResult^ productResult = create_task(ctx->GetStoreProductForCurrentAppAsync()).get();
+		if (productResult != nullptr && productResult->Product != nullptr)
+		{
+			for each (StoreSku^ sku in productResult->Product->Skus)
+			{
+				if (sku->IsInUserCollection)
+				{
+					return sku->CollectionData->CampaignId;
+				}
+			}
+			// Yes, it is OK to return "" without checking license when the user collection is present. 
+			// the Applicense fallback below won't apply. 
+			return "";
+		}
+		StoreAppLicense^ appLicense = concurrency::create_task(ctx->GetAppLicenseAsync()).get();
+
+		//This backup method is use for purchases that did not have an MSA; there was no user. 
+		if (appLicense != nullptr && appLicense->ExtendedJsonData != nullptr)
+		{
+			JsonObject^ json = nullptr;
+			if (JsonObject::TryParse(appLicense->ExtendedJsonData, &json))
+			{
+				if (json->HasKey(campaignIdField))
+				{
+					return json->GetNamedString(campaignIdField);
+				}
+			}
+		}
+		return "";
+	}
+	else
+	{
+		if (useSimulator)
+		{
+			return create_task(CurrentAppSimulator::GetAppPurchaseCampaignIdAsync()).get();
+		}
+		else
+		{
+			concurrency::create_task(CurrentApp::GetAppPurchaseCampaignIdAsync()).get();
+		}
+	}
+
+	return "";
+}
+
+
+task<String^> GetCampaignIdTask(bool useSimulator)
+{
+	return concurrency::create_task([=]()-> String^
+	{
+		return GetCampaignId(useSimulator);
+	});
+}
+
+IAsyncOperation<String^>^ GetCampaignIdAsync(bool useSimulator)
+{
+	return concurrency::create_async([=]
+	{
+		return GetCampaignIdTask(useSimulator);
+	});
+}
+
+#pragma endregion GetCampaignIdHelpers 
+
 bool FBSDKAppEvents::_useSimulator = false;
 
 bool FBSDKAppEvents::UseSimulator::get()
@@ -152,40 +231,25 @@ IAsyncOperation<String^>^ FBSDKAppEvents::LogInstallEvent(
 
     return create_async([=]() -> task<String^>
     {
-        return create_task([=]()
-        {
-            if (FBSDKAppEvents::UseSimulator)
-            {
-                return CurrentAppSimulator::GetAppPurchaseCampaignIdAsync();
-            }
-            else
-            {
-                return CurrentApp::GetAppPurchaseCampaignIdAsync();
-            }
-        }).then([=](task<String^> getCampaignIdTask) -> task<String^>
-        {
+        return create_task([=]() -> String ^
+        {			
             try
             {
-                String^ campaignID = getCampaignIdTask.get();
+				String ^campaignID = GetCampaignIdTask(FBSDKAppEvents::UseSimulator).get();
                 parameters->Insert(L"windows_attribution_id", campaignID);
-                return create_task([=]() -> IAsyncOperation<String^>^
-                {
-                    return HttpManager::Instance->PostTaskAsync(path, parameters->GetView());
-                });
+				String ^postResult = create_task(HttpManager::Instance->PostTaskAsync(path, parameters->GetView())).get(); 
+				return postResult; 
             }
             catch (Platform::Exception^ ex)
             {
-                OutputDebugString(L"This happens when app is not yet published");
+                OutputDebugString(L"This can happen when app is not yet published. If that is case, ignore.");
                 OutputDebugString(ex->Message->Data());
             }
-
-            // Passing default value since we did not make network call
-            return create_task([]() -> String^
-            {
-                OutputDebugString(L"This value must be replaced");
-                //TODO: what is right default value?
-                return ref new String(L"");
-            });
+			 
+            OutputDebugString(L"This value must be replaced");
+            //TODO: what is right default value?
+            return ref new String(L"");
+             
         });
     });
 }
