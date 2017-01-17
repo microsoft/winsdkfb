@@ -27,6 +27,7 @@
 #include "FacebookAppEvents.h"
 #include "FacebookSession.h"
 #include "HttpManager.h"
+#include "SDKMessage.h"
 
 using namespace concurrency;
 using namespace std;
@@ -39,8 +40,13 @@ using namespace Windows::Data::Json;
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
 using namespace Windows::Globalization;
+using namespace Windows::Services::Store;
 using namespace Windows::Storage;
 using namespace Windows::System::UserProfile;
+
+#ifdef DEBUG
+#define ALWAYS_LOG_INSTALLS
+#endif
 
 // Constants
 #define FACEBOOK_ACTIVITIES_PATH L"/activities"
@@ -48,25 +54,118 @@ using namespace Windows::System::UserProfile;
 #define FACEBOOK_CUSTOM_APP_EVENTS L"CUSTOM_APP_EVENTS"
 
 
-/*
- * To integrate install tracking for mobile app install ads,
- * call this method when the app is launched.
-*/
+#pragma region GetCampaignIdHelpers
+
+String^ GetCampaignId(bool useSimulator)
+{
+    String^ campaignIdField = "customPolicyField1";
+    if (Windows::Foundation::Metadata::ApiInformation::IsTypePresent("Windows.Services.Store.StoreContext"))
+    {
+        auto ctx = StoreContext::GetDefault();
+        StoreProductResult^ productResult = create_task(ctx->GetStoreProductForCurrentAppAsync()).get();
+        if (productResult != nullptr && productResult->Product != nullptr)
+        {
+            for each (StoreSku^ sku in productResult->Product->Skus)
+            {
+                if (sku->IsInUserCollection)
+                {
+                    return sku->CollectionData->CampaignId;
+                }
+            }
+            // Yes, it is OK to return "" without checking the license when the user collection is present.
+            // the AppLicense fallback below won't apply.
+            return "";
+        }
+
+        StoreAppLicense^ appLicense = concurrency::create_task(ctx->GetAppLicenseAsync()).get();
+
+        //This backup method is used for purchases that did not have an MSA; there was no user.
+        if (appLicense != nullptr && appLicense->ExtendedJsonData != nullptr)
+        {
+            JsonObject^ json = nullptr;
+            if (JsonObject::TryParse(appLicense->ExtendedJsonData, &json))
+            {
+                if (json->HasKey(campaignIdField))
+                {
+                    return json->GetNamedString(campaignIdField);
+                }
+            }
+        }
+        return "";
+    }
+    else
+    {
+        if (useSimulator)
+        {
+            return create_task(CurrentAppSimulator::GetAppPurchaseCampaignIdAsync()).get();
+        }
+        else
+        {
+            return create_task(CurrentApp::GetAppPurchaseCampaignIdAsync()).get();
+        }
+    }
+
+    return "";
+}
+
+
+task<String^> GetCampaignIdTask(bool useSimulator)
+{
+    return concurrency::create_task([=]()-> String^
+    {
+        return GetCampaignId(useSimulator);
+    });
+}
+
+IAsyncOperation<String^>^ GetCampaignIdAsync(bool useSimulator)
+{
+    return concurrency::create_async([=]
+    {
+        return GetCampaignIdTask(useSimulator);
+    });
+}
+
+#pragma endregion GetCampaignIdHelpers
+
+bool FBSDKAppEvents::_useSimulator = false;
+
+bool FBSDKAppEvents::UseSimulator::get()
+{
+    return _useSimulator;
+}
+
+void FBSDKAppEvents::UseSimulator::set(bool value)
+{
+    _useSimulator = value;
+}
+
 void FBSDKAppEvents::ActivateApp()
 {
     FBSession^ session = FBSession::ActiveSession;
-
     // Try to grab the application id from session.
     String^ appId = session->FBAppId;
 
-    create_task(FBSDKAppEvents::PublishInstall(appId));
-    create_task(FBSDKAppEvents::LogActivateEvent(appId));
+    if (appId == nullptr || appId->IsEmpty())
+    {
+        throw ref new Platform::InvalidArgumentException(SDKMessageMissingAppID);
+    }
+    //Install tracking should not fail or throw so here we catch
+    //and silently ignore most errors..
+    try
+    {
+        create_task(FBSDKAppEvents::PublishInstall(appId));
+        create_task(FBSDKAppEvents::LogActivateEvent(appId));
+    }
+    catch (Platform::Exception^  ex)
+    {
+#if DEBUG
+        throw;
+#endif
+    }
+    catch (...)
+    {
+    }
 }
-
-/*
- * Publish an install event to the Facebook graph endpoint.
- * Write the timestamp to localSettings so we only trigger this once.
- */
 
 IAsyncAction^ FBSDKAppEvents::PublishInstall(
     String^ AppId
@@ -79,7 +178,10 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
 
     return create_async([=]() -> void
     {
-        if (!pingTime) {
+#ifndef ALWAYS_LOG_INSTALLS
+        if (!pingTime )
+#endif
+        {
             create_task(FBSDKAppEvents::LogInstallEvent(AppId))
                 .then([=](String^ lastAttributionResponse) -> void
             {
@@ -100,7 +202,7 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
                     dynamic_cast<PropertyValue^>(PropertyValue::CreateString(lastAttributionResponse))
                 );
 
-#ifdef _DEBUG
+#ifdef DEBUG
                 String^ msg = L"Mobile App Install Response: " + lastAttributionResponse + L"\n"
                     L"Mobile App Install Ping Time: " + calendar->GetDateTime() + L"\n";
                 OutputDebugString(msg->Data());
@@ -110,13 +212,9 @@ IAsyncAction^ FBSDKAppEvents::PublishInstall(
     });
 }
 
-/*
- * Logs an install event to the Facebook graph endpoint.
- * The user will be looked up using idfa or windows_attribution_id
- */
 IAsyncOperation<String^>^ FBSDKAppEvents::LogInstallEvent(
     String^ AppId
-    )
+)
 {
     String^ path = AppId + FACEBOOK_ACTIVITIES_PATH;
     PropertySet^ parameters = ref new PropertySet();
@@ -129,21 +227,28 @@ IAsyncOperation<String^>^ FBSDKAppEvents::LogInstallEvent(
 
     return create_async([=]() -> task<String^>
     {
-        return create_task(CurrentApp::GetAppPurchaseCampaignIdAsync())
-            .then([=](String^ campaignID) -> task<String^>
+        return create_task([=]() -> String^
         {
-            parameters->Insert(L"windows_attribution_id", campaignID);
-            return create_task([=]() -> IAsyncOperation<String^>^
+            try
             {
-                return HttpManager::Instance->PostTaskAsync(path, parameters);
-            });
+                String^ campaignID = GetCampaignIdTask(FBSDKAppEvents::UseSimulator).get();
+                parameters->Insert(L"windows_attribution_id", campaignID);
+                String ^postResult = create_task(HttpManager::Instance->PostTaskAsync(path, parameters->GetView())).get();
+                return postResult;
+            }
+            catch (Platform::Exception^ ex)
+            {
+                OutputDebugString(L"This can happen when the app is not yet published. If that is the case, ignore it.");
+                OutputDebugString(ex->Message->Data());
+            }
+
+            OutputDebugString(L"This value must be replaced");
+            //TODO: what is right default value?
+            return ref new String(L"");
         });
     });
 }
 
-/*
- * Logs a custom app event to the Facebook graph endpoint.
- */
 IAsyncAction^ FBSDKAppEvents::LogActivateEvent(
     String^ AppId
     )
@@ -160,7 +265,7 @@ IAsyncAction^ FBSDKAppEvents::LogActivateEvent(
 
     return create_async([=]()
     {
-        return create_task(HttpManager::Instance->PostTaskAsync(path, parameters))
+        return create_task(HttpManager::Instance->PostTaskAsync(path, parameters->GetView()))
             .then([=](String^ response) -> void
         {
 #ifdef _DEBUG
@@ -171,9 +276,6 @@ IAsyncAction^ FBSDKAppEvents::LogActivateEvent(
     });
 }
 
-/*
- * Creates a JSON array encapsulating the activate app event
- */
 String^ FBSDKAppEvents::GetActivateAppJson()
 {
     JsonArray^ customEvents = ref new JsonArray();

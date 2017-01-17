@@ -34,23 +34,23 @@ void HttpManager::SetHttpClient(IHttpClient^ httpClient)
     _httpClient = httpClient;
 }
 
-IAsyncOperation<String^>^ HttpManager::GetTaskAsync(String^ path, PropertySet^ parameters)
+IAsyncOperation<String^>^ HttpManager::GetTaskAsync(String^ path, IMapView<String^, Object^>^ parameters)
 {
     return _httpClient->GetTaskAsync(path, parameters);
 }
 
-IAsyncOperation<String^>^ HttpManager::PostTaskAsync(String^ path, PropertySet^ parameters)
+IAsyncOperation<String^>^ HttpManager::PostTaskAsync(String^ path, IMapView<String^, Object^>^ parameters)
 {
     return _httpClient->PostTaskAsync(path, parameters);
 }
 
-IAsyncOperation<String^>^ HttpManager::DeleteTaskAsync(String^ path, PropertySet^ parameters)
+IAsyncOperation<String^>^ HttpManager::DeleteTaskAsync(String^ path, IMapView<String^, Object^>^ parameters)
 {
     return _httpClient->DeleteTaskAsync(path, parameters);
 }
 
 String^ HttpManager::ParametersToQueryString(
-    PropertySet^ Parameters
+    IMapView<String^, Object^>^ Parameters
     )
 {
     return _httpClient->ParametersToQueryString(Parameters);

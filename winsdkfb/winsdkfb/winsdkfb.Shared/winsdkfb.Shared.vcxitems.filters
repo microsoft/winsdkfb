@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookDialog.xaml.cpp" />
@@ -94,6 +94,9 @@
       <Filter>Generated code</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FBVideoContentStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GraphUriBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,6 +212,9 @@
       <Filter>Generated code</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FBVideoContentStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GraphUriBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

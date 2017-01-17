@@ -146,13 +146,13 @@ Windows::Foundation::IAsyncOperation<FBResult^>^ FBSingleValue::MakeHttpRequest(
         switch (httpMethod)
         {
         case HttpMethod::Get:
-            innerTask = create_task(HttpManager::Instance->GetTaskAsync(_request, _parameters));
+            innerTask = create_task(HttpManager::Instance->GetTaskAsync(_request, _parameters->GetView()));
             break;
         case HttpMethod::Post:
-            innerTask = create_task(HttpManager::Instance->PostTaskAsync(_request, _parameters));
+            innerTask = create_task(HttpManager::Instance->PostTaskAsync(_request, _parameters->GetView()));
             break;
         case HttpMethod::Delete:
-            innerTask = create_task(HttpManager::Instance->DeleteTaskAsync(_request, _parameters));
+            innerTask = create_task(HttpManager::Instance->DeleteTaskAsync(_request, _parameters->GetView()));
             break;
         default:
             OutputDebugString(L"FBSingleValue::MakeHttpRequest recieved unknown HttpMethod value\n");
