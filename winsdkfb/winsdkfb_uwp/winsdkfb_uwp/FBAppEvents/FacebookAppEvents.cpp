@@ -61,7 +61,7 @@ String^ GetCampaignId(bool useSimulator)
     String^ campaignIdField = "customPolicyField1";
     if (Windows::Foundation::Metadata::ApiInformation::IsTypePresent("Windows.Services.Store.StoreContext"))
     {
-        auto ctx = StoreContext::GetDefault();
+        StoreContext^ ctx = StoreContext::GetDefault();
         StoreProductResult^ productResult = create_task(ctx->GetStoreProductForCurrentAppAsync()).get();
         if (productResult != nullptr && productResult->Product != nullptr)
         {
@@ -79,7 +79,7 @@ String^ GetCampaignId(bool useSimulator)
 
         StoreAppLicense^ appLicense = concurrency::create_task(ctx->GetAppLicenseAsync()).get();
 
-        //This backup method is used for purchases that did not have an MSA; there was no user.
+        // This backup method is used for purchases that did not have an MSA; there was no user.
         if (appLicense != nullptr && appLicense->ExtendedJsonData != nullptr)
         {
             JsonObject^ json = nullptr;
@@ -104,14 +104,12 @@ String^ GetCampaignId(bool useSimulator)
             return create_task(CurrentApp::GetAppPurchaseCampaignIdAsync()).get();
         }
     }
-
-    return "";
 }
 
 
 task<String^> GetCampaignIdTask(bool useSimulator)
 {
-    return concurrency::create_task([=]()-> String^
+    return concurrency::create_task([=]() -> String^
     {
         return GetCampaignId(useSimulator);
     });
