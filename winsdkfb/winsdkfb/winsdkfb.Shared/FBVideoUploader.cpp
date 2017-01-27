@@ -43,7 +43,30 @@ using namespace Windows::Security::Cryptography::DataProtection;
 
 namespace winsdkfb
 {
+
     IAsyncOperation<FBResult^>^ FBVideoUploader::UploadVideoAsync(StorageFile^ videoFile)
+    {
+        task<FBResult^> workTask = create_task(videoFile->GetBasicPropertiesAsync()).then([=](BasicProperties^ properties)
+        {
+            unsigned long long fileSize = properties->Size;
+            // Facebook expects a file size of < 1 GB for small video upload and between 1 GB and 1.5 GB for large
+            // video upload. We are only validating the file size portion before upload.
+            if (fileSize < VIDEO_THRESHOLD_SIZE)
+            {
+                return UploadVideoAsync(videoFile, VideoUploadBehavior::SingleRequest);
+            }
+            else
+            {
+                return UploadVideoAsync(videoFile, VideoUploadBehavior::MultiRequest);
+            }
+        });
+        return create_async([=]()
+        {
+            return workTask;
+        });
+    }
+
+    IAsyncOperation<FBResult^>^ FBVideoUploader::UploadVideoAsync(StorageFile^ videoFile, VideoUploadBehavior uploadBehavior)
     {
         task<FBResult^> workTask = create_task(videoFile->GetBasicPropertiesAsync()).then([=](BasicProperties^ properties)
         {
@@ -51,9 +74,7 @@ namespace winsdkfb
             FBSession^ sess = FBSession::ActiveSession;
             if (sess->LoggedIn)
             {
-                // Facebook expects a file size of < 1 GB for small video upload and between 1 GB and 1.5 GB for large
-                // video upload. We are only validating the file size portion before upload.
-                if (fileSize < VIDEO_THRESHOLD_SIZE)
+                if (uploadBehavior ==  VideoUploadBehavior::SingleRequest)
                 {
                     return UploadSmallVideo(videoFile);
                 }

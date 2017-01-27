@@ -22,6 +22,13 @@
 
 namespace winsdkfb
 {
+    //! Specifies which graph api method to use to upload the video.
+    public enum class VideoUploadBehavior
+    {
+        SingleRequest, // one http request is made
+        MultiRequest // video is uploaded in chunks
+    };
+
     /**
      * @brief Provides video uploading from a local file to Facebook.
      */
@@ -37,6 +44,19 @@ namespace winsdkfb
          */
         static Windows::Foundation::IAsyncOperation<FBResult^>^ UploadVideoAsync(
             Windows::Storage::StorageFile^ videoFile
+            );
+
+        /**
+         * Uploads a video from a local file to Facebook.
+         * @param videoFile The video file to upload
+         * @param uploadBehavior The way the video should be uploaded
+         * @return FBResult indicating the result of the operation. On success,
+         * it will contain an FBVideo object and on failure it will contain an
+         * FBError object.
+         */
+        static Windows::Foundation::IAsyncOperation<FBResult^>^ UploadVideoAsync(
+            Windows::Storage::StorageFile^ videoFile,
+            VideoUploadBehavior uploadBehavior
             );
 
     private:
