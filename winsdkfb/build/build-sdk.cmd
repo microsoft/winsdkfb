@@ -95,6 +95,9 @@ rem Subroutine to build for one solution, platform, and configuration
 rem ---------------------------------------------------------------------------
 :build_one_flavor
 @echo Starting build for solution %1, platform %2, configuration %3 >>%logfile%
+
+%script_dir%nuget\nuget.exe restore %1
+
 msbuild %1 /p:Platform=%2;Configuration=%3
 if errorlevel 1 (
     @echo Error building solution %1, platform %2, configuration %3 >>%logfile%
