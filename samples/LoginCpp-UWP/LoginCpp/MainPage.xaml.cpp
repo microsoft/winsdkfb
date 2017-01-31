@@ -57,7 +57,6 @@ const wchar_t* requested_permissions[] =
     L"public_profile",
     L"user_friends",
     L"user_likes",
-    L"user_groups",
     L"user_location"
 };
 
