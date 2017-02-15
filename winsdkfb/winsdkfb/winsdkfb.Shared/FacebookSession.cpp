@@ -231,7 +231,11 @@ IAsyncOperation<IStorageItem^>^ FBSession::MyTryGetItemAsync(
     {
         return create_task([=]() -> task<IStorageItem^>
         {
+#if defined(_WIN32_WINNT_WIN10)
+            return create_task(folder->TryGetItemAsync(itemName));
+#else
             return create_task(folder->GetItemAsync(itemName));
+#endif
         })
         .then([=](task<IStorageItem^> folderTask) -> IStorageItem^
         {
