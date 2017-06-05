@@ -5,25 +5,25 @@ The Windows SDK for Facebook is geared towards app developers creating modern wi
 
 ## **Features**
 
-###Auth
+### Auth
 
  - Login
  - Logout
  - Login Button
  - Profile Picture control
 
-###Dialogs
+### Dialogs
   - Feed dialog
   - Request dialog
   - Send dialog
 
-###Graph
+### Graph
   - Custom Stories
   - Post to user’s feed
   - Upload Photo
   - Like a Page/Object
 
-###AppInstalls
+### AppInstalls
  - Mobile App Installs (can be disabled by defining \_\_NOFBAPPEVENTS__)
 
 
