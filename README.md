@@ -1,46 +1,47 @@
-# **Windows SDK for Facebook**
+# Windows SDK for Facebook
 
-The Windows SDK for Facebook is geared towards app developers creating modern windows applications on both desktop and phone. Easily integrate Facebook Auth, Like and other Facebook Graph functionality using this SDK. Nuget package for Windows 10 available at: https://www.nuget.org/packages/winsdkfb
-
+The Windows SDK for Facebook is geared towards app developers creating modern windows applications on both desktop and phone. 
+Easily integrate Facebook Auth, Like and other Facebook Graph functionality using this SDK. Nuget package for Windows 10 
+available at: https://www.nuget.org/packages/winsdkfb
 
 ## **Features**
 
-###Auth
+### Auth
 
  - Login
  - Logout
  - Login Button
  - Profile Picture control
 
-###Dialogs
+### Dialogs
   - Feed dialog
   - Request dialog
   - Send dialog
 
-###Graph
+### Graph API
   - Custom Stories
   - Post to user’s feed
   - Upload Photo
   - Like a Page/Object
 
-###AppInstalls
+### AppInstalls
  - Mobile App Installs (can be disabled by defining \_\_NOFBAPPEVENTS__)
 
 
-## **Supported Platforms**
+## Supported Platforms
 
-Windows 8.1+
-Windows Phone 8.1+
-Windows 10
+- [x] Windows 8.1+
+- [x] Windows Phone 8.1+
+- [x] Windows 10
 
-## **Documentation**
+## Documentation
 
   - http://microsoft.github.io/winsdkfb
 
-## **License**
+## License
 See the LICENSE file for licensing information.
 
-## **Contributing**
+## Contributing
 
 All pull requests should be made to the `develop` branch.
 
