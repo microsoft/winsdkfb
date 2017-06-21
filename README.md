@@ -18,15 +18,15 @@ available at: https://www.nuget.org/packages/winsdkfb
   - Request dialog
   - Send dialog
 
-### Graph API
-  - Custom Stories
+### Graph
+
+ - Custom Stories
   - Post to user’s feed
   - Upload Photo
   - Like a Page/Object
 
 ### AppInstalls
  - Mobile App Installs (can be disabled by defining \_\_NOFBAPPEVENTS__)
-
 
 ## Supported Platforms
 
