@@ -22,4 +22,4 @@
 
 // Define the base version of the SDK.
 // Keep in sync with winsdkfb\build\nuget\VERSION
-#define WINSDKFB_VERSION L"0.13.0"
+#define WINSDKFB_VERSION L"0.14.0"
