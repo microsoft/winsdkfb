@@ -210,7 +210,7 @@ task<FBResult^> FBSession::GetUserInfo(
 {
     PropertySet^ parameters = ref new PropertySet();
     parameters->Insert(L"fields",
-        L"gender,link,first_name,last_name,locale,timezone,email,updated_time,verified,name,id");
+        L"gender,link,first_name,last_name,locale,timezone,email,updated_time,verified,name,id,picture");
     FBSingleValue^ value = ref new FBSingleValue(
         "/me",
         parameters,
