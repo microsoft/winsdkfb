@@ -1627,11 +1627,17 @@ FBResult^ FBSession::FBResultFromTokenRequestResult(
             result = ExtractAccessTokenDataFromResponseData(RequestResult->ResponseData);
             break;
 
+        case WebTokenRequestStatus::ProviderError:
+            //
+            //  This is returned on a Windows10 platform on first login. We simply return provider not found so it can be handled.
+            //
+            result = ref new FBResult(ref new FBError((int)ErrorCode::ErrorCodeWebAccountProviderNotFound, L"WebAccountProvider Error", L"No appropriate WebAccountProvider was found"));
+            break;
+
         case WebTokenRequestStatus::UserCancel:
         case WebTokenRequestStatus::UserInteractionRequired:
         case WebTokenRequestStatus::AccountProviderNotAvailable:
         case WebTokenRequestStatus::AccountSwitch:
-        case WebTokenRequestStatus::ProviderError:
             expectedError = true;
         default:
 #ifdef DEBUG
