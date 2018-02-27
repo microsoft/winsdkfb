@@ -99,7 +99,7 @@ FBSession::FBSession() :
         login_evt = CreateEventEx(NULL, NULL, 0, DELETE | SYNCHRONIZE);
     }
     _APIMajorVersion = 2;
-    _APIMinorVersion = 6;
+    _APIMinorVersion = 10;
 #if WINAPI_FAMILY==WINAPI_FAMILY_PHONE_APP
     _webViewRedirectDomain = FACEBOOK_MOBILE_SERVER_NAME;
 #else
