@@ -40,6 +40,7 @@ FBPaginatedArray::FBPaginatedArray(
     winsdkfb::FBJsonClassFactory^ ObjectFactory
     ) :
     _current(nullptr),
+    _currentDataString(nullptr),
     _request(Request),
     _parameters(Parameters),
     _objectFactory(ObjectFactory)
@@ -92,6 +93,18 @@ IVectorView<Object^>^ FBPaginatedArray::Current::get()
     }
 
     return _current;
+}
+
+String^ FBPaginatedArray::CurrentDataString::get()
+{
+    IVectorView<Object^>^ result = nullptr;
+
+    if (!HasCurrent)
+    {
+        throw ref new InvalidArgumentException(SDKMessageBadCall);
+    }
+
+    return _currentDataString;
 }
 
 bool FBPaginatedArray::HasCurrent::get()
@@ -176,6 +189,7 @@ FBResult^ FBPaginatedArray::ConsumePagedResponse(
                             SDKMessageBadObject);
                     }
 
+                    _currentDataString = it->Current->Value->ToString();
                     _current = ObjectArrayFromJsonArray(
                         it->Current->Value->GetArray(), _objectFactory);
                     if (_current)

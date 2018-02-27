@@ -111,6 +111,23 @@ namespace winsdkfb
             }
 
             /**
+            * The current collection of objects that were returned by a call
+            * to FirstAsync, NextAsync, or PreviousAsync. This is the raw string
+            * of the "data" value.
+            */
+            property Platform::String^
+                CurrentDataString
+            {
+                /**
+                * Gets the current collection of objects from the most recently
+                * queried page, in the raw string format.
+                * @exception InvalidArgumentException if no page is the current page.
+                * @returnPlatform::String^ of the data
+                */
+                Platform::String^ get();
+            }
+
+            /**
              * Indicates if the Graph call successfully returned a page of data
              * that was successfully converted by ObjectFactory.
              */
@@ -150,6 +167,7 @@ namespace winsdkfb
                 Platform::String^ path
                 );
 
+            Platform::String^ _currentDataString;
             Windows::Foundation::Collections::IVectorView<Object^>^ _current;
             FBPaging^ _paging;
             Platform::String^ _request;
