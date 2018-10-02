@@ -1,6 +1,22 @@
 @echo off
 setlocal
 
+if NOT "%ProgramFiles(x86)%"=="" (
+set _vswhere="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+) else (
+set _vswhere="%ProgramFiles%\Microsoft Visual Studio\Installer\vswhere.exe"
+)
+
+for /f "delims=" %%i in ('%_vswhere% -latest -property installationPath') do (
+set _TT=%%i\Common7\IDE
+)
+set PATH=%_TT%;%PATH%;
+
+REM Verify that we can find TextTransform
+where /q TextTransform.exe
+if "%ErrorLevel%" == "0" goto :Found
+
+
 REM Add TextTransform to our path based on the default location for VS2015
 set _TT=%CommonProgramFiles(x86)%\Microsoft Shared\TextTemplating\14.0
 set PATH=%_TT%;%PATH%;
