@@ -136,7 +136,6 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
 {
     bool gotToken = false;
     bool gotExpiration = false;
-    bool gotBadField = false;
     String^ token;
     String^ expiration = nullptr;
     FBAccessTokenData^ data = nullptr;
@@ -158,13 +157,9 @@ FBAccessTokenData^ FBAccessTokenData::FromUri(
             expiration = entry->Value;
             gotExpiration = true;
         }
-        else
-        {
-            gotBadField = true;
-        }
     }
 
-    if (gotToken && gotExpiration && !gotBadField)
+    if (gotToken && gotExpiration)
     {
         data = ref new FBAccessTokenData(token, expiration);
     }
