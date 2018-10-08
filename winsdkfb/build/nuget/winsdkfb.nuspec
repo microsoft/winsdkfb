@@ -10,7 +10,7 @@
         <projectUrl>https://github.com/Microsoft/winsdkfb</projectUrl>
         <licenseUrl>https://github.com/Microsoft/winsdkfb/blob/master/LICENSE</licenseUrl>
         <requireLicenseAcceptance>$RequireLicenseAcceptance$</requireLicenseAcceptance>
-        <copyright>Copyright (c) Microsoft Corporation. All rights reserved.</copyright>
+        <copyright>© Microsoft Corporation. All rights reserved.</copyright>
         <tags>Facebook SDK WinRT C# C++ Windows winsdkfb FB</tags>
 
         <!-- 
