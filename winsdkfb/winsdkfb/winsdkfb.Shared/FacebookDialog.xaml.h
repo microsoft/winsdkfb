@@ -128,6 +128,11 @@ namespace winsdkfb
             Windows::UI::Xaml::Controls::WebViewNavigationCompletedEventArgs^ e
         );
 
+		void dialogWebBrowser_CancelClosedRedirects(
+			Windows::UI::Xaml::Controls::WebView^ sender,
+			Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ args
+		);
+
         void CloseDialogButton_OnClick(
             Platform::Object^ sender, 
             Windows::UI::Xaml::RoutedEventArgs^ e
@@ -161,5 +166,5 @@ namespace winsdkfb
         Windows::UI::Xaml::Controls::Grid^ _grid;
         Windows::UI::Xaml::Controls::Primitives::Popup^ _popup;
         concurrency::task_completion_event<winsdkfb::FBResult^> _dialogResponse;
-    };
+};
 }

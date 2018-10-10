@@ -28,7 +28,7 @@
                     MinWidth="0" MinHeight="0" Width="30" Height="30" 
                     Style="{StaticResource CircleWithCrossButtonKey}" Click="CloseDialogButton_OnClick" FontFamily="Segoe UI Symbol" 
                     Margin="0,0,0,5" Foreground="White" />
-            <WebView x:Name="dialogWebBrowser" Grid.Row="1" />
+            <WebView x:Name="dialogWebBrowser" Grid.Row="1" NavigationStarting="dialogWebBrowser_CancelClosedRedirects" />
         </Grid>
     </Grid>
 </UserControl>

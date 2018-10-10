@@ -604,6 +604,17 @@ void FacebookDialog::dialogWebView_NavCompleted(
     }
 }
 
+void winsdkfb::FacebookDialog::dialogWebBrowser_CancelClosedRedirects(
+	Windows::UI::Xaml::Controls::WebView^ sender,
+	Windows::UI::Xaml::Controls::WebViewNavigationStartingEventArgs^ args
+	)
+{
+	if (!_popup || !_popup->IsOpen) { // ignore if Facebook tries to redirect webview after we have been closed
+		args->Cancel = true;
+	}
+}
+
+
 void FacebookDialog::CloseDialogButton_OnClick(
     Object^ sender,
     RoutedEventArgs^ e
