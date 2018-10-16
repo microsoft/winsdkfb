@@ -38,6 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSendRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FacebookSession.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FBConstants.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBVideoUploader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBCursors.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBGroup.h" />
@@ -48,11 +49,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePicture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBUser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Generated\FBVideo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HlsColor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IHttpClient.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMethod.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonClassFactory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FBVideoContentStream.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ScaleConverter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SDKMessage.h" />
@@ -76,6 +79,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPaginatedArray.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookPermissions.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FacebookSendRequest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FBVideoUploader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBAppRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBCursors.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBGroup.cpp" />
@@ -91,8 +95,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePicture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBProfilePictureData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBUser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Generated\FBVideo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HlsColor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FBVideoContentStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -131,6 +137,8 @@
     <None Include="$(MSBuildThisFileDirectory)FBProfilePictureData.h.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBUser.cpp.tt" />
     <None Include="$(MSBuildThisFileDirectory)FBUser.h.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBVideo.cpp.tt" />
+    <None Include="$(MSBuildThisFileDirectory)FBVideo.h.tt" />
     <None Include="$(MSBuildThisFileDirectory)Utility.ttinclude" />
   </ItemGroup>
   <ItemGroup>
@@ -149,5 +157,8 @@
     <Image Include="$(MSBuildThisFileDirectory)Images\fb_blank_profile_portrait.png">
       <ExcludedFromBuild>false</ExcludedFromBuild>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(MSBuildThisFileDirectory)FBVideo.xml" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class name="FBVideo" bindable="no">
+    <property name="id" type="string" />
+    <property name="post_id" type="string" />
+    <property name="upload_session_id" type="string" />
+    <property name="video_id" type="string" />
+    <property name="start_offset" type="string" />
+    <property name="end_offset" type="string" />
+    <property name="success" type="bool" />
+</class>

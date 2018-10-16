@@ -31,6 +31,7 @@ call :GenFile FBProfilePicture.cpp FBProfilePicture.cpp.tt
 call :GenFile FBProfilePictureData.cpp FBProfilePictureData.cpp.tt
 call :GenFile FBAppRequest.cpp FBAppRequest.cpp.tt
 call :GenFile FBObject.cpp FBObject.cpp.tt
+call :GenFile FBVideo.cpp FBVideo.cpp.tt
 REM header files
 call :GenFile FBCursors.h FBCursors.h.tt
 call :GenFile FBGroup.h FBGroup.h.tt
@@ -43,6 +44,7 @@ call :GenFile FBProfilePicture.h FBProfilePicture.h.tt
 call :GenFile FBProfilePictureData.h FBProfilePictureData.h.tt
 call :GenFile FBAppRequest.h FBAppRequest.h.tt
 call :GenFile FBObject.h FBObject.h.tt
+call :GenFile FBVideo.h FBVideo.h.tt
 
 goto End
 
