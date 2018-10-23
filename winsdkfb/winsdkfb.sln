@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "winsdkfb", "winsdkfb", "{A5BE3147-4D21-457F-A11E-0D0B0C5A5ED8}"
 EndProject
@@ -25,14 +25,21 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDKCppUnit.Windows", "..\sa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDKCppUnit.WindowsPhone", "..\samples\SDKCppUnit\SDKCppUnit.WindowsPhone\SDKCppUnit.WindowsPhone.vcxproj", "{BA94BFB2-5F5D-4693-88F3-F866DA55EFD0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winsdkfb_wpf", "winsdkfb_wpf\winsdkfb_wpf.vcxproj", "{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6} = {418FC79B-AA0F-4951-A7D9-7DA89BDF8FB6}
+		{F833B1E6-2866-4A47-89E2-C474983FE70F} = {F833B1E6-2866-4A47-89E2-C474983FE70F}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\samples\SDKCppUnit\SDKCppUnit.Shared\SDKCppUnit.Shared.vcxitems*{19e70697-aa80-43af-b1e4-c49c5b402d48}*SharedItemsImports = 9
+		winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{364f0bd6-4a53-44dd-83e2-d8c8d99913dc}*SharedItemsImports = 4
+		..\samples\SDKCppUnit\SDKCppUnit.Shared\SDKCppUnit.Shared.vcxitems*{382dc0b6-f27d-476b-888b-d4b40fe3490b}*SharedItemsImports = 4
 		winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{418fc79b-aa0f-4951-a7d9-7da89bdf8fb6}*SharedItemsImports = 4
 		winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{5c0b24d0-ba5f-490a-ab3e-71265d4a0a4b}*SharedItemsImports = 9
-		winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4
 		..\samples\SDKCppUnit\SDKCppUnit.Shared\SDKCppUnit.Shared.vcxitems*{ba94bfb2-5f5d-4693-88f3-f866da55efd0}*SharedItemsImports = 4
-		..\samples\SDKCppUnit\SDKCppUnit.Shared\SDKCppUnit.Shared.vcxitems*{382dc0b6-f27d-476b-888b-d4b40fe3490b}*SharedItemsImports = 4
-		..\samples\SDKCppUnit\SDKCppUnit.Shared\SDKCppUnit.Shared.vcxitems*{19e70697-aa80-43af-b1e4-c49c5b402d48}*SharedItemsImports = 9
+		winsdkfb\winsdkfb.Shared\winsdkfb.Shared.vcxitems*{f833b1e6-2866-4a47-89e2-c474983fe70f}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -147,6 +154,16 @@ Global
 		{BA94BFB2-5F5D-4693-88F3-F866DA55EFD0}.Release|Win32.Build.0 = Release|Win32
 		{BA94BFB2-5F5D-4693-88F3-F866DA55EFD0}.Release|Win32.Deploy.0 = Release|Win32
 		{BA94BFB2-5F5D-4693-88F3-F866DA55EFD0}.Release|x64.ActiveCfg = Release|Win32
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Debug|ARM.ActiveCfg = Debug|Win32
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Debug|Win32.Build.0 = Debug|Win32
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Debug|x64.ActiveCfg = Debug|x64
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Debug|x64.Build.0 = Debug|x64
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Release|ARM.ActiveCfg = Release|Win32
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Release|Win32.ActiveCfg = Release|Win32
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Release|Win32.Build.0 = Release|Win32
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Release|x64.ActiveCfg = Release|x64
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -159,5 +176,6 @@ Global
 		{19E70697-AA80-43AF-B1E4-C49C5B402D48} = {2FA47F0B-3633-430A-8717-B94CBFBD40FF}
 		{382DC0B6-F27D-476B-888B-D4B40FE3490B} = {2FA47F0B-3633-430A-8717-B94CBFBD40FF}
 		{BA94BFB2-5F5D-4693-88F3-F866DA55EFD0} = {2FA47F0B-3633-430A-8717-B94CBFBD40FF}
+		{364F0BD6-4A53-44DD-83E2-D8C8D99913DC} = {A5BE3147-4D21-457F-A11E-0D0B0C5A5ED8}
 	EndGlobalSection
 EndGlobal

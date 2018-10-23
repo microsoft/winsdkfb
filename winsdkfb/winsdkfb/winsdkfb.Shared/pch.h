@@ -23,7 +23,9 @@
  */
 #pragma once
 
+#ifdef _WINRT_DLL
 #include <collection.h>
+#endif
 #include <ppltasks.h>
 #include "FBConstants.h"
 #include "FacebookLoginButton.h"
