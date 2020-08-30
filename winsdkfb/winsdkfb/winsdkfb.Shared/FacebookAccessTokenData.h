@@ -50,6 +50,14 @@ namespace winsdkfb
                 Platform::String^ get();
             }
 
+			/**
+			* Graph domain should be used for current access token.
+			*/
+			property Platform::String^ GraphDomain
+			{
+				Platform::String^ get();
+			}
+
             /**
              * Expiration date of the access token.
              */
@@ -119,6 +127,7 @@ namespace winsdkfb
 #endif
 
             Platform::String^ _accessToken;
+			Platform::String^ _graphDomain;
             Windows::Foundation::DateTime _expirationDate;
             FBPermissions^ _grantedPermissions;
             FBPermissions^ _declinedPermissions;

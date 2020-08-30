@@ -47,6 +47,9 @@ FBAccessTokenData::FBAccessTokenData(
 #ifdef _DEBUG
     DebugPrintExpirationTime();
 #endif
+
+	std::wstring wsAccessToken(AccessToken->Data());
+	_graphDomain = (wsAccessToken.substr(0, 2) == L"GG") ? L"gaming" : L"facebook";
 }
 
 FBAccessTokenData::FBAccessTokenData(
@@ -64,11 +67,19 @@ FBAccessTokenData::FBAccessTokenData(
     Vector<String^>^ v = ref new Vector<String^>(0);
     _grantedPermissions  = ref new FBPermissions(v->GetView());
     _declinedPermissions = ref new FBPermissions(v->GetView());
+
+	std::wstring wsAccessToken(AccessToken->Data());
+	_graphDomain = (wsAccessToken.substr(0, 2) == L"GG") ? L"gaming" : L"facebook";
 }
 
 String^ FBAccessTokenData::AccessToken::get()
 {
     return _accessToken;
+}
+
+String^ FBAccessTokenData::GraphDomain::get()
+{
+	return _graphDomain;
 }
 
 DateTime FBAccessTokenData::ExpirationDate::get()
