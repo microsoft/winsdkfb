@@ -105,7 +105,7 @@ BOOL MainPage::DidGetAllRequestedPermissions(
     BOOL success = FALSE;
     FBAccessTokenData^ data = FBSession::ActiveSession->AccessTokenData;
 
-    if (data)
+    if (data && data->DeclinedPermissions)
     {
         success = !data->DeclinedPermissions->Values->Size;
     }

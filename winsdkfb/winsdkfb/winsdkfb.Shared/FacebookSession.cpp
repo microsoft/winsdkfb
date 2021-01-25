@@ -1334,7 +1334,9 @@ int FBSession::APIMinorVersion::get()
 void FBSession::SaveGrantedPermissions()
 {
     auto values =FBSession::DataContainer->Values;
-    values->Insert(GRANTED_PERMISSIONS_KEY, AccessTokenData->GrantedPermissions->ToString());
+	if (AccessTokenData->GrantedPermissions != nullptr) {
+		values->Insert(GRANTED_PERMISSIONS_KEY, this->_AccessTokenData->GrantedPermissions->ToString());
+	}
 }
 
 String^ FBSession::GetGrantedPermissions()
