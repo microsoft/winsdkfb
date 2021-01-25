@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FBApplicationId" xml:space="preserve">
-    <value>1606735379540755</value>
+    <value>519296541448237</value>
     <comment>Facebook Application ID</comment>
   </data>
   <data name="FBWindowsAppId" xml:space="preserve">

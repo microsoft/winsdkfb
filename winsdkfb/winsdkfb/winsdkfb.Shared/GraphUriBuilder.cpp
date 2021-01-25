@@ -27,7 +27,7 @@ using namespace Windows::Foundation::Collections;
 using namespace winsdkfb;
 
 
-GraphUriBuilder::GraphUriBuilder(String^ path)
+GraphUriBuilder::GraphUriBuilder(String^ path, String^ graphDomain)
     :
     _queryParams { ref new PropertySet() }
 {
@@ -45,6 +45,10 @@ GraphUriBuilder::GraphUriBuilder(String^ path)
     if (buildDomain)
     {
         String^ domain = L"https://graph.facebook.com/";
+		if (graphDomain == L"gaming")
+		{
+			domain = L"https://graph.fb.gg/";
+		}
         testUri = ref new Uri(domain + path);
     }
     _host = testUri->Host;

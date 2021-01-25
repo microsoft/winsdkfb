@@ -23,7 +23,7 @@ namespace winsdkfb
     public ref class GraphUriBuilder sealed
     {
     public:
-        GraphUriBuilder(Platform::String^ path);
+		GraphUriBuilder(Platform::String^ path, Platform::String^ graphDomain);
 
         Windows::Foundation::Uri^ MakeUri();
         void AddQueryParam(Platform::String^ query, Platform::String^ param);

@@ -398,8 +398,8 @@ Uri^ FBClient::PrepareRequestUri(
     PropertySet^ parameters
     )
 {
+	String^ graphDomain = L"facebook";
     FBSession^ sess = FBSession::ActiveSession;
-    GraphUriBuilder^ uriBuilder = ref new GraphUriBuilder(path);
 
     if (parameters == nullptr)
     {
@@ -427,11 +427,24 @@ Uri^ FBClient::PrepareRequestUri(
             sess->AccessTokenData->AccessToken);
     }
 
+	// For applications using Facebook Login for Gaming, graph API requests
+	// should be sent to different graph domain: graph.fb.gg
+	if (parametersWithoutMediaObjects->HasKey("access_token"))
+	{
+		String^ accessToken = safe_cast<String^>(parametersWithoutMediaObjects->Lookup("access_token"));
+		std::wstring wsAccessToken(accessToken->Data());
+		if ((wsAccessToken.substr(0, 2) == L"GG"))
+		{
+			graphDomain = L"gaming";
+		}
+	}
+
     if (parametersWithoutMediaObjects->HasKey("format"))
     {
         parametersWithoutMediaObjects->Insert("format", "json-strings");
     }
 
+	GraphUriBuilder^ uriBuilder = ref new GraphUriBuilder(path, graphDomain);
     SerializeParameters(parametersWithoutMediaObjects);
 
     // Add remaining parameters to query string.  Note that parameters that
